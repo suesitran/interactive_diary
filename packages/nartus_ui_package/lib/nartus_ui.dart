@@ -1,3 +1,3 @@
 library nartusUi;
 
-export 'designs.dart';
+export 'platform_screens.dart';

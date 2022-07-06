@@ -1,4 +1,4 @@
-import 'package:nartus_ui_package/designs.dart';
+import 'package:nartus_ui_package/platform_screens.dart';
 
 class HomePlannerMainScreen extends TabScreen {
   const HomePlannerMainScreen({Key? key}) : super(key: key);
