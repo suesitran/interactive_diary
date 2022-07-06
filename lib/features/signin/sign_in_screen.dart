@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:home_planner/platforms/designs.dart';
-import 'package:home_planner/route/map_route.dart' as Routes;
+import 'package:nartus_ui_package/designs.dart';
+import 'package:home_planner/route/map_route.dart' as routes;
 
 class SignInScreen extends Screen {
   const SignInScreen({Key? key}) : super(key: key);
@@ -13,11 +12,18 @@ class SignInScreen extends Screen {
         children: [
           const Text('Anonymous Sign In for now'),
           TextButton(
-              onPressed: () => Navigator.of(context)
-                  .pushReplacementNamed(Routes.mainRoute),
+              onPressed: () =>
+                  Navigator.of(context).pushReplacementNamed(routes.mainRoute),
               child: const Text('Go to Main'))
         ],
       ),
     );
   }
+
+  @override
+  FloatingActionButtonConfig floatingActionButtonConfig(BuildContext context) => FloatingActionButtonConfig(button: FloatingActionButton(
+    child: const Icon(Icons.plus_one),
+    onPressed: () => print('press on floating button'),
+  ),
+  location: FloatingActionButtonLocation.endTop);
 }
