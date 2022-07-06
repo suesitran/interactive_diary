@@ -1,4 +1,4 @@
-part of 'designs.dart';
+part of '../platform_screens.dart';
 
 abstract class Screen extends _PlatformScreen {
   const Screen({Key? key}) : super(key: key);

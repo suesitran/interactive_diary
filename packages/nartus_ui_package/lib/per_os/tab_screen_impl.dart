@@ -1,4 +1,4 @@
-part of 'designs.dart';
+part of '../platform_screens.dart';
 
 abstract class TabScreen extends _PlatformScreen {
   const TabScreen({Key? key}) : super(key: key);
