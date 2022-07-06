@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' as a;
+import 'package:flutter/foundation.dart';
 
 export 'package:flutter/material.dart' hide Scaffold, ScaffoldMessenger;
 
@@ -16,7 +17,7 @@ abstract class _PlatformScreen extends StatelessWidget {
     final a = appBarActions(context);
     final t = title(context);
 
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       return _buildCupertino(context, t, a);
     }
 
@@ -46,7 +47,7 @@ class ScreenAction {
   final VoidCallback onPress;
 
   ScreenAction({this.label, this.iconData, required this.onPress})
-      : assert(label != null && iconData != null);
+      : assert(label != null || iconData != null);
 
   Widget _toWidget() => iconData == null
       ? TextButton(onPressed: onPress, child: Text(label!))

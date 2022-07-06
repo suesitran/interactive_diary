@@ -8,6 +8,7 @@ abstract class Screen extends _PlatformScreen {
     final FloatingActionButtonConfig? config = floatingActionButtonConfig(context);
 
     return Stack(
+      alignment: Alignment.center,
       children: [
         a.CupertinoPageScaffold(
           navigationBar: title == null
