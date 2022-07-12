@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:home_planner/features/signin/sign_in_screen.dart';
 import 'package:home_planner/route/map_route.dart' as routes;
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       return CupertinoApp(
         title: 'Home Planner',
         theme: CupertinoThemeData(
