@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoPageScaffold;
+import 'package:flutter/cupertino.dart'
+    show CupertinoApp, CupertinoPageScaffold;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -9,40 +10,46 @@ class TestScreenWithoutFloatingButton extends Screen {
 
   @override
   Widget body(BuildContext context) => const Center(
-    child: Text('Sample Test'),
-  );
+        child: Text('Sample Test'),
+      );
 }
 
-class TestScreenWithFloatingButon extends Screen {
-  const TestScreenWithFloatingButon({Key? key}) : super(key: key);
+class TestScreenWithFloatingButton extends Screen {
+  const TestScreenWithFloatingButton({Key? key}) : super(key: key);
 
   @override
   Widget body(BuildContext context) => const Center(
-    child: Text('Sample Test'),
-  );
+        child: Text('Sample Test'),
+      );
 
   @override
   FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
-    return FloatingActionButtonConfig(button: FloatingActionButton(onPressed: () {}, child: Icon(Icons.ac_unit),));
+    return FloatingActionButtonConfig(
+        button: FloatingActionButton(
+      onPressed: () {},
+      child: const Icon(Icons.ac_unit),
+    ));
   }
 
   @override
-  List<ScreenAction>? appBarActions(BuildContext context) => <ScreenAction> [
-    ScreenAction(onPress: () {}, label: 'Action')
-  ];
+  List<ScreenAction>? appBarActions(BuildContext context) =>
+      <ScreenAction>[ScreenAction(onPress: () {}, label: 'Action')];
 
   @override
   String? title(BuildContext context) => 'Title';
-
 }
+
 void main() {
-  testWidgets('When OS is iOS and no floating button, show Cupertino page scaffold without floating button', (widgetTester) async {
+  testWidgets(
+      'When OS is iOS and no floating button, show Cupertino page scaffold without floating button',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
     final screen = CupertinoApp(
-      builder: (context, widget) => widget ?? const TestScreenWithoutFloatingButton(),
+      builder: (context, widget) =>
+          widget ?? const TestScreenWithoutFloatingButton(),
     );
-    
+
     await widgetTester.pumpWidget(screen);
     await widgetTester.pumpAndSettle();
 
@@ -53,11 +60,14 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('When OS is iOS with floating button, show Cupertino page scaffold with floating button', (widgetTester) async {
+  testWidgets(
+      'When OS is iOS with floating button, show Cupertino page scaffold with floating button',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
     final screen = CupertinoApp(
-      builder: (context, widget) => widget ?? const TestScreenWithFloatingButon(),
+      builder: (context, widget) =>
+          widget ?? const TestScreenWithFloatingButton(),
     );
 
     await widgetTester.pumpWidget(screen);
@@ -70,7 +80,9 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('When OS is android without floating button, show Material scaffold without floating button', (widgetTester) async {
+  testWidgets(
+      'When OS is android without floating button, show Material scaffold without floating button',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
     const screen = MaterialApp(
@@ -87,11 +99,13 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('When OS is android with floating button, show Material scaffold with floating button', (widgetTester) async {
+  testWidgets(
+      'When OS is android with floating button, show Material scaffold with floating button',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
     const screen = MaterialApp(
-      home: TestScreenWithFloatingButon(),
+      home: TestScreenWithFloatingButton(),
     );
 
     await widgetTester.pumpWidget(screen);
@@ -104,7 +118,9 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('When OS is windows without floating button, show Material scaffold without floating button', (widgetTester) async {
+  testWidgets(
+      'When OS is windows without floating button, show Material scaffold without floating button',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.windows;
 
     const screen = MaterialApp(
@@ -121,11 +137,13 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('When OS is windows with floating button, show Material scaffold with floating button', (widgetTester) async {
+  testWidgets(
+      'When OS is windows with floating button, show Material scaffold with floating button',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.windows;
 
     const screen = MaterialApp(
-      home: TestScreenWithFloatingButon(),
+      home: TestScreenWithFloatingButton(),
     );
 
     await widgetTester.pumpWidget(screen);

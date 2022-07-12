@@ -21,9 +21,11 @@ class SignInScreen extends Screen {
   }
 
   @override
-  FloatingActionButtonConfig floatingActionButtonConfig(BuildContext context) => FloatingActionButtonConfig(button: FloatingActionButton(
-    child: const Icon(Icons.plus_one),
-    onPressed: () => print('press on floating button'),
-  ),
-  location: FloatingActionButtonLocation.endTop);
+  FloatingActionButtonConfig floatingActionButtonConfig(BuildContext context) =>
+      FloatingActionButtonConfig(
+          button: FloatingActionButton(
+            child: const Icon(Icons.plus_one),
+            onPressed: () => print('press on floating button'),
+          ),
+          location: FloatingActionButtonLocation.endTop);
 }

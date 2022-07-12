@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart' hide Scaffold, ScaffoldMessenger;
 
 part 'per_os/screen_impl.dart';
+
 part 'per_os/tab_screen_impl.dart';
 
 abstract class _PlatformScreen extends StatelessWidget {
@@ -24,9 +25,11 @@ abstract class _PlatformScreen extends StatelessWidget {
     return _buildMaterial(context, t, a);
   }
 
-  Widget _buildCupertino(BuildContext context, String? title, List<ScreenAction>? actions);
+  Widget _buildCupertino(
+      BuildContext context, String? title, List<ScreenAction>? actions);
 
-  Widget _buildMaterial(BuildContext context, String? title, List<ScreenAction>? actions);
+  Widget _buildMaterial(
+      BuildContext context, String? title, List<ScreenAction>? actions);
 
   FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
     return null;
@@ -59,11 +62,13 @@ class FloatingActionButtonConfig {
   final FloatingActionButtonLocation location;
   final FloatingActionButtonAnimator animator;
 
-  FloatingActionButtonConfig({
-    required this.button, this.location = FloatingActionButtonLocation.centerDocked, this.animator = FloatingActionButtonAnimator.scaling
-  });
+  FloatingActionButtonConfig(
+      {required this.button,
+      this.location = FloatingActionButtonLocation.centerDocked,
+      this.animator = FloatingActionButtonAnimator.scaling});
 
-  EdgeInsets _calculateCupertinoPadding(BuildContext context, {bool inTab = false}) {
+  EdgeInsets _calculateCupertinoPadding(BuildContext context,
+      {bool inTab = false}) {
     final screenPadding = MediaQuery.of(context).padding;
     var top = screenPadding.top;
     var left = screenPadding.left;

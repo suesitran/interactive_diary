@@ -6,11 +6,11 @@ class HomePlannerMainScreen extends TabScreen {
   @override
   List<TabScreenContent> buildTabScreenContent() => <TabScreenContent>[
         TabScreenContent(
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled), label: 'Home'),
-            const Center(
-              child: Text('page 1'),
-            ),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.home_filled), label: 'Home'),
+          const Center(
+            child: Text('page 1'),
+          ),
         ),
         TabScreenContent(
             const BottomNavigationBarItem(
@@ -22,14 +22,13 @@ class HomePlannerMainScreen extends TabScreen {
 
   @override
   FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
-    return FloatingActionButtonConfig(button: FloatingActionButton(
-      child: const Icon(Icons.plus_one),
-      onPressed: () {
-        print("tap on floating button");
-      },
-    ),
-      location: FloatingActionButtonLocation.endTop
-    );
+    return FloatingActionButtonConfig(
+        button: FloatingActionButton(
+          child: const Icon(Icons.plus_one),
+          onPressed: () {
+            print("tap on floating button");
+          },
+        ),
+        location: FloatingActionButtonLocation.endTop);
   }
-
 }
