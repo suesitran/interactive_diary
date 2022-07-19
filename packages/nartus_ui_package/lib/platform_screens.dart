@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' as a;
 import 'package:flutter/foundation.dart';
 
-export 'package:flutter/material.dart' hide Scaffold, ScaffoldMessenger;
-
 part 'per_os/screen_impl.dart';
-
 part 'per_os/tab_screen_impl.dart';
 
 abstract class _PlatformScreen extends StatelessWidget {
