@@ -1,6 +1,6 @@
 {
-    "name": "home_planner",
-    "short_name": "home_planner",
+    "name": "interactive_diary",
+    "short_name": "interactive_diary",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

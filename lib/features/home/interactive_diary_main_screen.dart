@@ -1,7 +1,7 @@
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-class HomePlannerMainScreen extends TabScreen {
-  const HomePlannerMainScreen({Key? key}) : super(key: key);
+class InteractiveDiaryMainScreen extends TabScreen {
+  const InteractiveDiaryMainScreen({Key? key}) : super(key: key);
 
   @override
   List<TabScreenContent> buildTabScreenContent() => <TabScreenContent>[

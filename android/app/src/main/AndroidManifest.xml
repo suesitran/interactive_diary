@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nartus.home_planner">
+    package="com.nartus.interactive_diary">
    <application
-        android:label="home_planner"
+        android:label="Interactive Diary"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,12 +1,18 @@
-import 'package:flutter/services.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:home_planner/features/signin/sign_in_screen.dart';
-import 'package:home_planner/route/map_route.dart' as routes;
+import 'package:interactive_diary/features/signin/sign_in_screen.dart';
+import 'package:interactive_diary/route/map_route.dart' as routes;
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(App(
     home: const SignInScreen(),
-    title: 'Home Planner',
+    title: 'Interactive Diary',
     theme: Theme(
       primaryColor: Colors.deepOrange
     ),
