@@ -1,4 +1,4 @@
-import 'package:nartus_ui_package/platform_screens.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:home_planner/route/map_route.dart' as routes;
 
 class SignInScreen extends Screen {
