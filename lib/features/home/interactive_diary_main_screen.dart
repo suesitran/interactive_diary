@@ -20,15 +20,4 @@ class InteractiveDiaryMainScreen extends TabScreen {
             ))
       ];
 
-  @override
-  FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
-    return FloatingActionButtonConfig(
-        button: FloatingActionButton(
-          child: const Icon(Icons.plus_one),
-          onPressed: () {
-            print("tap on floating button");
-          },
-        ),
-        location: FloatingActionButtonLocation.endTop);
-  }
 }

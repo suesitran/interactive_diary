@@ -25,7 +25,7 @@ class SignInScreen extends Screen {
       FloatingActionButtonConfig(
           button: FloatingActionButton(
             child: const Icon(Icons.plus_one),
-            onPressed: () => print('press on floating button'),
+            onPressed: () {}
           ),
           location: FloatingActionButtonLocation.endTop);
 }

@@ -7,7 +7,7 @@ void main() {
   testWidgets('When platform is iOS, use CupertinoApp', (WidgetTester tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-    final app = App(home: const Center(child: Text('Hello'),));
+    const app = App(home: Center(child: Text('Hello'),));
 
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
@@ -21,7 +21,7 @@ void main() {
   testWidgets('When platform is Android, use MaterialApp', (WidgetTester tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
-    final app = App(home: const Center(child: Text('Hello'),));
+    const app = App(home: Center(child: Text('Hello'),));
 
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
