@@ -1,7 +1,7 @@
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-class HomePlannerMainScreen extends TabScreen {
-  const HomePlannerMainScreen({Key? key}) : super(key: key);
+class InteractiveDiaryMainScreen extends TabScreen {
+  const InteractiveDiaryMainScreen({Key? key}) : super(key: key);
 
   @override
   List<TabScreenContent> buildTabScreenContent() => <TabScreenContent>[
@@ -20,15 +20,4 @@ class HomePlannerMainScreen extends TabScreen {
             ))
       ];
 
-  @override
-  FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
-    return FloatingActionButtonConfig(
-        button: FloatingActionButton(
-          child: const Icon(Icons.plus_one),
-          onPressed: () {
-            print("tap on floating button");
-          },
-        ),
-        location: FloatingActionButtonLocation.endTop);
-  }
 }

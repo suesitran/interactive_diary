@@ -1,4 +1,4 @@
-# home_planner
+# interactive_diary
 
 Family planning
 

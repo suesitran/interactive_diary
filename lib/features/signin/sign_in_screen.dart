@@ -1,5 +1,5 @@
-import 'package:nartus_ui_package/platform_screens.dart';
-import 'package:home_planner/route/map_route.dart' as routes;
+import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:interactive_diary/route/map_route.dart' as routes;
 
 class SignInScreen extends Screen {
   const SignInScreen({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class SignInScreen extends Screen {
       FloatingActionButtonConfig(
           button: FloatingActionButton(
             child: const Icon(Icons.plus_one),
-            onPressed: () => print('press on floating button'),
+            onPressed: () {}
           ),
           location: FloatingActionButtonLocation.endTop);
 }

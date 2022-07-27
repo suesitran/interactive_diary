@@ -1,4 +1,4 @@
-name: home_planner
+name: interactive_diary
 description: Family planning
 
 # The following line prevents the package from being accidentally published to
@@ -33,10 +33,11 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  firebase_auth: ^3.4.1
+  cupertino_icons: ^1.0.5
+  firebase_auth: ^3.5.0
   nartus_ui_package:
     path: packages/nartus_ui_package
+  firebase_core: ^1.20.0
 
 dev_dependencies:
   flutter_test:

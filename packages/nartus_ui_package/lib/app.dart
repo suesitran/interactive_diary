@@ -12,14 +12,16 @@ class App extends StatelessWidget {
   final Map<String, WidgetBuilder>? routes;
   final Widget home;
 
-  App({
+  const App({
+    Key? key,
     required this.home,
     this.title = '',
     this.theme,
     this.darkTheme,
     this.routes,
-  });
+  }) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       return CupertinoApp(

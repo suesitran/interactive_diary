@@ -1,4 +1,4 @@
-library nartusUi;
+library nartus_ui;
 
 export 'package:flutter/material.dart' hide Scaffold, ScaffoldMessenger, Theme, ThemeData;
 
