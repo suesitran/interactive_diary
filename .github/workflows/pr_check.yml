@@ -22,7 +22,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
-    name: 'Run test on the code'
+    name: 'Run test and build code'
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -32,13 +32,6 @@ jobs:
         channel: 'stable'
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
-  build_apps:
-    name: 'Build app: Android and iOS'
-    runs-on: macos-latest
-    steps:
-      - uses: subosito/flutter-action@v2.6.1
-        with:
-          flutter-version: '3.0.5'
-          channel: 'stable'
-      - run: flutter build apk --debug
-      - run: flutter build ios --debug
+    - run: flutter build apk --debug
+    - run: flutter build ios --debug
+
