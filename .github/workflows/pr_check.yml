@@ -26,7 +26,10 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - run: echo "${{ secrets.FIREBASE_OPTION }}" > lib/firebase_options.dart
+    - shell: bash
+      env:
+        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
+      run: echo $"env:FIREBASE_OPTION" > lib/firebase_options.dart
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
