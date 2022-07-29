@@ -26,6 +26,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
+    - run: echo "${{ secrets.FIREBASE_OPTION }}" > lib/firebase_options.dart
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
@@ -34,8 +35,6 @@ jobs:
       with:
         flutter-version: '3.0.5'
         channel: 'stable'
-    - run: echo "${{ secrets.FIREBASE_OPTION }}" > lib/firebase_options.dart
-    - run: echo "${{ secrets.FIREBASE_APP_ID_FILE }}" > ios/firebase_app_id_file.json
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
     - run: flutter build apk --debug
