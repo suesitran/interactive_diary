@@ -29,7 +29,7 @@ jobs:
     - shell: bash
       env:
         FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
-      run: echo $"env:FIREBASE_OPTION" > lib/firebase_options.dart
+      run: echo "$FIREBASE_OPTION" > lib/firebase_options.dart
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
