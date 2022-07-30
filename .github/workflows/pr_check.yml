@@ -34,6 +34,10 @@ jobs:
       env:
         ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
       run: echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+    - shell: bash
+      env:
+        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
+      run: echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
@@ -45,5 +49,6 @@ jobs:
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
     - run: flutter build apk --debug
-    - run: flutter build ios --debug
+    - run: flutter build ios --debug --no-codesign
+
 
