@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Interactive Diary PR Check
 
 # Controls when the workflow will run
 on:
@@ -48,7 +48,10 @@ jobs:
         channel: 'stable'
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
+    - uses: schneegans/dynamic-badges-action@v1.0.0
+      with:
+        auth: ${{ secrets.GIST_TOKEN }}
+        gistID: db160700a4e965b7db754e3bc99b5488
+        filename: packages/*/coverage/lcov.info
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
-
-
