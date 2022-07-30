@@ -30,6 +30,10 @@ jobs:
       env:
         FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
       run: echo "$FIREBASE_OPTION" > lib/firebase_options.dart
+    - shell: bash
+      env:
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
+      run: echo "$ANDROID_GOOGLE_SERVICE" > android/google-services.json
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
