@@ -52,6 +52,6 @@ jobs:
       with:
         verbose: true
         fail_ci_if_error: true
-        directory: packages/*/
+        directory: ./packages/nartus_ui_package/coverage/
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
