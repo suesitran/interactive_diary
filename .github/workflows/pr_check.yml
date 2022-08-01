@@ -48,14 +48,11 @@ jobs:
         channel: 'stable'
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
-    - uses: schneegans/dynamic-badges-action@v1.0.0
-      with:
-        auth: ${{ secrets.GIST_TOKEN }}
-        gistID: db160700a4e965b7db754e3bc99b5488
-        filename: packages/*/coverage/lcov.info
-        label: Test Coverage
-        message: 25%
-        color: green
-        namedLogo: jest
+  - uses: codecov/codecov-action@v3
+    with:
+      files: ./coverage/lcov.info ,./packages/nartus_ui_package/coverage/lcov.info # optional
+      flags: unittests # optional
+      name: codecov-umbrella # optional
+      verbose: true # optional (default = false)
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
