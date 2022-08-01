@@ -48,7 +48,6 @@ jobs:
         channel: 'stable'
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
-    - run: ls . ./interactive_diary ./interactive_diary/coverage ./interactive_diary/packages/
     - uses: codecov/codecov-action@v3
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
