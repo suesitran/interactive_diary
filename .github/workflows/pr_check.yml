@@ -51,5 +51,7 @@ jobs:
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
+        fail_ci_if_error: true
+        directory: packages/*/
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
