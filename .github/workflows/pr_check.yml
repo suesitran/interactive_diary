@@ -48,11 +48,11 @@ jobs:
         channel: 'stable'
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
-  - uses: codecov/codecov-action@v3
-    with:
-      files: ./coverage/lcov.info ,./packages/nartus_ui_package/coverage/lcov.info # optional
-      flags: unittests # optional
-      name: codecov-umbrella # optional
-      verbose: true # optional (default = false)
+    - uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage/lcov.info ,./packages/nartus_ui_package/coverage/lcov.info # optional
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        verbose: true # optional (default = false)
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
