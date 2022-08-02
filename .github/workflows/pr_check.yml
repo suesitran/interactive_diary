@@ -52,6 +52,6 @@ jobs:
       with:
         verbose: true
         fail_ci_if_error: true
-        files: ./packages/nartus_ui_package/coverage/lcov.info
+        files: coverage/lcov.info packages/nartus_ui_package/coverage/lcov.info
     - run: flutter build apk --debug
     - run: flutter build ios --debug --no-codesign
