@@ -48,6 +48,8 @@ jobs:
         channel: 'stable'
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
+    - run: pwd
+    - run: ls packages/nartus_ui_package/coverage/lcov.info
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
