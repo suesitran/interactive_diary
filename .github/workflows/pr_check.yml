@@ -50,7 +50,7 @@ jobs:
     - run: flutter test test packages/*/test --coverage
     - run: pwd
     - run: ls
-    - run: ls packages
+    - run: ls packages/nartus_ui_package
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
