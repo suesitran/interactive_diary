@@ -49,7 +49,7 @@ jobs:
     - run: flutter clean
     - run: flutter test test packages/*/test --coverage
     - run: pwd
-    - run: ls
+    - run: ls coverage
     - run: ls packages/nartus_ui_package
     - uses: codecov/codecov-action@v3
       with:
