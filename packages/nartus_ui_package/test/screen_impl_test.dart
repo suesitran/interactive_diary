@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart'
     show CupertinoApp, CupertinoPageScaffold;
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:flutter/material.dart' show MaterialApp, Scaffold;
+import 'package:flutter/material.dart' show FloatingActionButton, Icons, MaterialApp, Scaffold;
 
 class TestScreenWithoutFloatingButton extends Screen {
   const TestScreenWithoutFloatingButton({Key? key}) : super(key: key);

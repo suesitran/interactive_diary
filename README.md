@@ -1,6 +1,9 @@
 # interactive_diary
 
-Family planning
+A mobile diary app that is as simple as recording emotion at anytime any place
+
+## Code Coverage
+[![codecov](https://codecov.io/gh/suesitran/interactive_diary/branch/dev/graph/badge.svg?token=A5CN9CRXPM)](https://codecov.io/gh/suesitran/interactive_diary)
 
 ## Getting Started
 
