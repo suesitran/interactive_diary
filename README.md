@@ -21,7 +21,9 @@ Location refers to user's current location at anything point of time during the 
 
 ![Location](https://user-images.githubusercontent.com/17781268/183033198-64a61aea-5d65-484f-b051-1132c564a79d.png)
 
-### Emoji (How I felt)
+### Emotion and Diary writing (How I felt)
+
+![Diary](https://user-images.githubusercontent.com/17781268/183036122-dfcca9f9-0287-4cdf-b57f-ac9f7f7c16b5.png)
 
 ### Activity details (What I did)
 
