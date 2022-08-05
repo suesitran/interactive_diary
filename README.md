@@ -12,7 +12,7 @@ This app is going to record daily activities in form of location checking and em
 
 The full idea of Interactive Diary can be summarized in this mindmap
 
-![Interactive diary](https://user-images.githubusercontent.com/17781268/183030263-ae15df03-8bb6-45d5-a893-ff7a7e4023f9.png)
+![Interactive diary](https://user-images.githubusercontent.com/17781268/183034546-5c0d81ea-0abc-4090-bd11-6045ad9d6017.png)
 
 There are 5 part of this project:
 
