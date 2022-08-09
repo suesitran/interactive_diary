@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/route/map_route.dart' as routes;
 import 'package:firebase_core/firebase_core.dart';
@@ -10,8 +11,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
+
   runApp(App.adaptive(
-    home: const IDHome(),
+    home: IDHome(),
     title: 'Interactive Diary',
     theme: Theme(primaryColor: Colors.deepOrange),
     routes: routes.appRoute,
