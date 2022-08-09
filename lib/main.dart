@@ -1,8 +1,8 @@
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:interactive_diary/features/signin/sign_in_screen.dart';
 import 'package:interactive_diary/route/map_route.dart' as routes;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
+import 'package:interactive_diary/features/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +11,7 @@ void main() async {
   );
 
   runApp(App.adaptive(
-    home: const SignInScreen(),
+    home: const IDHome(),
     title: 'Interactive Diary',
     theme: Theme(primaryColor: Colors.deepOrange),
     routes: routes.appRoute,
