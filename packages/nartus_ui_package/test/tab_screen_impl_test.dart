@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoTabScaffold;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:flutter/material.dart' show FloatingActionButton, Icons, MaterialApp, Scaffold;
+import 'package:flutter/material.dart'
+    show FloatingActionButton, Icons, MaterialApp, Scaffold;
 
 class TestTabScreenWithoutFloatingButton extends TabScreen {
   const TestTabScreenWithoutFloatingButton({Key? key}) : super(key: key);
@@ -26,24 +27,24 @@ class TestTabScreenWithFloatingButton extends TabScreen {
 
   @override
   List<TabScreenContent> buildTabScreenContent() => [
-    TabScreenContent(
-        const BottomNavigationBarItem(
-            label: 'Home', icon: Icon(Icons.home)),
-        const Center(
-          child: Text('Page 1'),
-        )),
-    TabScreenContent(
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.settings), label: 'Settings'),
-        const Center(child: Text('Page 2')))
-  ];
+        TabScreenContent(
+            const BottomNavigationBarItem(
+                label: 'Home', icon: Icon(Icons.home)),
+            const Center(
+              child: Text('Page 1'),
+            )),
+        TabScreenContent(
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'Settings'),
+            const Center(child: Text('Page 2')))
+      ];
 
   @override
   FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
     return FloatingActionButtonConfig(
         button: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.ac_unit),
+      onPressed: () {},
+      child: const Icon(Icons.ac_unit),
     ));
   }
 
@@ -87,105 +88,105 @@ void main() {
 
   testWidgets(
       'When OS is iOS with floating button, show Cupertino Tab scaffold with floating button',
-          (widgetTester) async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      (widgetTester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-        final screen = CupertinoApp(
-          builder: (context, widget) =>
+    final screen = CupertinoApp(
+      builder: (context, widget) =>
           widget ?? const TestTabScreenWithFloatingButton(),
-        );
+    );
 
-        await widgetTester.pumpWidget(screen);
-        await widgetTester.pumpAndSettle();
+    await widgetTester.pumpWidget(screen);
+    await widgetTester.pumpAndSettle();
 
-        expect(find.byType(CupertinoTabScaffold), findsOneWidget);
-        expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byType(CupertinoTabScaffold), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
 
-        // check that page 1 is currently showing
-        expect(find.text('Page 1'), findsOneWidget);
+    // check that page 1 is currently showing
+    expect(find.text('Page 1'), findsOneWidget);
 
-        // navigate to page 2
-        await widgetTester.tap(find.byIcon(Icons.settings));
-        await widgetTester.pump();
+    // navigate to page 2
+    await widgetTester.tap(find.byIcon(Icons.settings));
+    await widgetTester.pump();
 
-        // check that page 2 is currently showing
-        expect(find.text('Page 2'), findsOneWidget);
+    // check that page 2 is currently showing
+    expect(find.text('Page 2'), findsOneWidget);
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 
   testWidgets(
       'When OS is android without floating button, show Material scaffold without floating button',
-          (WidgetTester widgetTester) async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      (WidgetTester widgetTester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
-        const screen = MaterialApp(
-          home: TestTabScreenWithoutFloatingButton(),
-        );
+    const screen = MaterialApp(
+      home: TestTabScreenWithoutFloatingButton(),
+    );
 
-        await widgetTester.pumpWidget(screen);
-        await widgetTester.pumpAndSettle();
+    await widgetTester.pumpWidget(screen);
+    await widgetTester.pumpAndSettle();
 
-        expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.byType(FloatingActionButton), findsNothing);
+    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsNothing);
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 
   testWidgets(
       'When OS is android with floating button, show Material scaffold with floating button',
-          (widgetTester) async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      (widgetTester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
-        const screen = MaterialApp(
-          home: TestTabScreenWithFloatingButton(),
-        );
+    const screen = MaterialApp(
+      home: TestTabScreenWithFloatingButton(),
+    );
 
-        await widgetTester.pumpWidget(screen);
-        await widgetTester.pumpAndSettle();
+    await widgetTester.pumpWidget(screen);
+    await widgetTester.pumpAndSettle();
 
-        expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.text('Page 1'), findsOneWidget);
-        expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.text('Page 1'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 
   testWidgets(
       'When OS is windows without floating button, show Material scaffold without floating button',
-          (widgetTester) async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+      (widgetTester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.windows;
 
-        const screen = MaterialApp(
-          home: TestTabScreenWithoutFloatingButton(),
-        );
+    const screen = MaterialApp(
+      home: TestTabScreenWithoutFloatingButton(),
+    );
 
-        await widgetTester.pumpWidget(screen);
-        await widgetTester.pumpAndSettle();
+    await widgetTester.pumpWidget(screen);
+    await widgetTester.pumpAndSettle();
 
-        expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.text('Page 1'), findsOneWidget);
-        expect(find.byType(FloatingActionButton), findsNothing);
+    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.text('Page 1'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsNothing);
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 
   testWidgets(
       'When OS is windows with floating button, show Material scaffold with floating button',
-          (widgetTester) async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+      (widgetTester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.windows;
 
-        const screen = MaterialApp(
-          home: TestTabScreenWithFloatingButton(),
-        );
+    const screen = MaterialApp(
+      home: TestTabScreenWithFloatingButton(),
+    );
 
-        await widgetTester.pumpWidget(screen);
-        await widgetTester.pumpAndSettle();
+    await widgetTester.pumpWidget(screen);
+    await widgetTester.pumpAndSettle();
 
-        expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.text('Page 1'), findsOneWidget);
-        expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.text('Page 1'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 }

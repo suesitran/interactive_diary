@@ -48,10 +48,9 @@ abstract class TabScreen extends _PlatformScreen {
             ),
       body: Builder(
         builder: (context) => PageView(
-          controller: pageController,
+            controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
-          children: content.map((e) => e.page).toList()
-        ),
+            children: content.map((e) => e.page).toList()),
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: content.map((e) => e.bottomNavigationBarItem).toList(),

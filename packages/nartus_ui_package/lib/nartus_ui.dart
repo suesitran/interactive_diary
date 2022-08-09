@@ -18,7 +18,6 @@ export 'package:flutter/src/material/floating_action_button_theme.dart';
 export 'package:flutter/src/material/text_button.dart';
 // private Nartus implementation
 
-
 export 'platform_screens.dart';
 export 'app.dart';
 export 'theme.dart';
