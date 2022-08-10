@@ -36,9 +36,9 @@ jobs:
         FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
         ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
       run: |
-      echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
-      echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
-      echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/googlemap.properties
+        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
+        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/googlemap.properties
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
