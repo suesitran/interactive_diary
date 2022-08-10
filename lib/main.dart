@@ -16,7 +16,7 @@ void main() async {
   }
 
   runApp(App.adaptive(
-    home: IDHome(),
+    home: const IDHome(),
     title: 'Interactive Diary',
     theme: Theme(primaryColor: Colors.deepOrange),
     routes: routes.appRoute,
