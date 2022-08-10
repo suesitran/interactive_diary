@@ -90,7 +90,7 @@ void main() {
       expect(find.byType(MaterialApp), findsNothing);
       expect(find.byType(CupertinoApp), findsOneWidget);
 
-      expect(find.text('Home'), findsOneWidget);
+      expect(find.text('Hello'), findsOneWidget);
 
       CupertinoApp cupertinoApp = widgetTester.widget(find.byType(CupertinoApp));
       expect(cupertinoApp.title, 'Title');
