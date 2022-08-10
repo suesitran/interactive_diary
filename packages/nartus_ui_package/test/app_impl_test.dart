@@ -10,15 +10,22 @@ void main() {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
       const app = App.adaptive(
+          title: 'Title',
           home: Center(
-        child: Text('Hello'),
-      ));
+            child: Text('Hello'),
+          ));
 
       await tester.pumpWidget(app);
       await tester.pumpAndSettle();
 
       expect(find.byType(CupertinoApp), findsOneWidget);
       expect(find.byType(MaterialApp), findsNothing);
+
+      expect(find.text('Hello'), findsOneWidget);
+
+      CupertinoApp cupertinoApp = tester.widget(find.byType(CupertinoApp));
+
+      expect(cupertinoApp.title, 'Title');
 
       debugDefaultTargetPlatformOverride = null;
     });
@@ -28,15 +35,21 @@ void main() {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
       const app = App.adaptive(
+          title: 'Title',
           home: Center(
-        child: Text('Hello'),
-      ));
+            child: Text('Hello'),
+          ));
 
       await tester.pumpWidget(app);
       await tester.pumpAndSettle();
 
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(CupertinoApp), findsNothing);
+
+      expect(find.text('Hello'), findsOneWidget);
+
+      MaterialApp materialApp = tester.widget(find.byType(MaterialApp));
+      expect(materialApp.title, 'Title');
 
       debugDefaultTargetPlatformOverride = null;
     });
@@ -46,20 +59,27 @@ void main() {
     testWidgets('Material constructor will build MaterialApp',
         (widgetTester) async {
       const app = App.material(
+          title: 'Title',
           home: Center(
-        child: Text('Hello'),
-      ));
+            child: Text('Hello'),
+          ));
 
       await widgetTester.pumpWidget(app);
       await widgetTester.pumpAndSettle();
 
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(CupertinoApp), findsNothing);
+
+      expect(find.text('Hello'), findsOneWidget);
+
+      MaterialApp materialApp = widgetTester.widget(find.byType(MaterialApp));
+      expect(materialApp.title, 'Title');
     });
 
     testWidgets('Cupertino constructor will build CupertinoApp',
         (widgetTester) async {
       const app = App.cupertino(
+        title: 'Title',
           home: Center(
         child: Text('Hello'),
       ));
@@ -69,6 +89,11 @@ void main() {
 
       expect(find.byType(MaterialApp), findsNothing);
       expect(find.byType(CupertinoApp), findsOneWidget);
+
+      expect(find.text('Home'), findsOneWidget);
+
+      CupertinoApp cupertinoApp = widgetTester.widget(find.byType(CupertinoApp));
+      expect(cupertinoApp.title, 'Title');
     });
   });
 }
