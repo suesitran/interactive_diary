@@ -57,3 +57,4 @@ app.*.map.json
 /coverage
 /*/*/coverage
 ios/Flutter/GoogleMap.xcconfig
+ios/Flutter/GoogleMap.xcconfig
