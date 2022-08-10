@@ -3,9 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapAndPump(Widget widget) async {
-    final Widget wrapper = _MaterialWrapWidget(
-      child: widget
-    );
+    final Widget wrapper = _MaterialWrapWidget(child: widget);
 
     await pumpWidget(wrapper);
     await pump();
@@ -19,8 +17,8 @@ class _MaterialWrapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    home: Scaffold(
-      body: child,
-    ),
-  );
+        home: Scaffold(
+          body: child,
+        ),
+      );
 }

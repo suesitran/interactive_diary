@@ -41,4 +41,34 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
   });
+
+  group('Test platform specific constructor', () {
+    testWidgets('Material constructor will build MaterialApp',
+        (widgetTester) async {
+      const app = App.material(
+          home: Center(
+        child: Text('Hello'),
+      ));
+
+      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(MaterialApp), findsOneWidget);
+      expect(find.byType(CupertinoApp), findsNothing);
+    });
+
+    testWidgets('Cupertino constructor will build CupertinoApp',
+        (widgetTester) async {
+      const app = App.cupertino(
+          home: Center(
+        child: Text('Hello'),
+      ));
+
+      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(MaterialApp), findsNothing);
+      expect(find.byType(CupertinoApp), findsOneWidget);
+    });
+  });
 }
