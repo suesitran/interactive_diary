@@ -29,14 +29,12 @@ jobs:
     - shell: bash
       env:
         FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
-      run: echo "$FIREBASE_OPTION" > lib/firebase_options.dart
-    - shell: bash
-      env:
         ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
         FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
         ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
         IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
       run: |
+        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
         echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/googlemap.properties
