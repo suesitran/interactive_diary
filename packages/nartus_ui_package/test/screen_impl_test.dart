@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart'
-    show CupertinoApp, CupertinoPageScaffold, CupertinoNavigationBar;
+    show CupertinoApp, CupertinoPageScaffold, CupertinoNavigationBar, CupertinoButton;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:flutter/material.dart'
@@ -76,13 +76,14 @@ void main() {
 
   group('Test when screen has floating button', () {
     testWidgets(
-        'When OS is iOS, show Cupertino page scaffold with floating button',
+        'When OS is iOS, show Cupertino page scaffold with floating button - startTop',
             (widgetTester) async {
           debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
           final screen = CupertinoApp(
             builder: (context, widget) =>
-            widget ?? const TestScreenWithFloatingButton(),
+            widget ?? const TestScreenWithFloatingButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.startTop,),
           );
 
           await widgetTester.pumpWidget(screen);
@@ -93,6 +94,187 @@ void main() {
           expect(find.byType(FloatingActionButton), findsOneWidget);
           expect(find.byType(TextButton), findsNothing);
           expect(find.byType(IconButton), findsNothing);
+
+          // test location of floating action button
+          Align align = widgetTester.widget(
+              find.descendant(of: find.byType(Stack),
+                  matching: find.byType(Align)));
+          expect(align.alignment, Alignment.topLeft);
+          Padding padding = widgetTester.widget(
+              find.descendant(of: find.byType(Align),
+                  matching: find.byType(Padding))
+          );
+          expect(padding.padding, EdgeInsets.zero);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is iOS, show Cupertino page scaffold with floating button - centerTop',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+          final screen = CupertinoApp(
+            builder: (context, widget) =>
+            widget ?? const TestScreenWithFloatingButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(CupertinoPageScaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsOneWidget);
+          expect(find.byType(TextButton), findsNothing);
+          expect(find.byType(IconButton), findsNothing);
+
+          // test location of floating action button
+          Align align = widgetTester.widget(
+              find.descendant(of: find.byType(Stack),
+                  matching: find.byType(Align)));
+          expect(align.alignment, Alignment.topCenter);
+          Padding padding = widgetTester.widget(
+              find.descendant(of: find.byType(Align),
+                  matching: find.byType(Padding))
+          );
+          expect(padding.padding, EdgeInsets.zero);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is iOS, show Cupertino page scaffold with floating button - endTop',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+          final screen = CupertinoApp(
+            builder: (context, widget) =>
+            widget ?? const TestScreenWithFloatingButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.endTop,),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(CupertinoPageScaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsOneWidget);
+          expect(find.byType(TextButton), findsNothing);
+          expect(find.byType(IconButton), findsNothing);
+
+          // test location of floating action button
+          Align align = widgetTester.widget(
+              find.descendant(of: find.byType(Stack),
+                  matching: find.byType(Align)));
+          expect(align.alignment, Alignment.topRight);
+          Padding padding = widgetTester.widget(
+              find.descendant(of: find.byType(Align),
+                  matching: find.byType(Padding))
+          );
+          expect(padding.padding, EdgeInsets.zero);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is iOS, show Cupertino page scaffold with floating button - startDocked',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+          final screen = CupertinoApp(
+            builder: (context, widget) =>
+            widget ?? const TestScreenWithFloatingButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(CupertinoPageScaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsOneWidget);
+          expect(find.byType(TextButton), findsNothing);
+          expect(find.byType(IconButton), findsNothing);
+
+          // test location of floating action button
+          Align align = widgetTester.widget(
+              find.descendant(of: find.byType(Stack),
+                  matching: find.byType(Align)));
+          expect(align.alignment, Alignment.bottomLeft);
+          Padding padding = widgetTester.widget(
+              find.descendant(of: find.byType(Align),
+                  matching: find.byType(Padding))
+          );
+          expect(padding.padding, EdgeInsets.zero);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is iOS, show Cupertino page scaffold with floating button - centerDocked',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+          final screen = CupertinoApp(
+            builder: (context, widget) =>
+            widget ?? const TestScreenWithFloatingButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(CupertinoPageScaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsOneWidget);
+          expect(find.byType(TextButton), findsNothing);
+          expect(find.byType(IconButton), findsNothing);
+
+          // test location of floating action button
+          Align align = widgetTester.widget(
+              find.descendant(of: find.byType(Stack),
+                  matching: find.byType(Align)));
+          expect(align.alignment, Alignment.bottomCenter);
+          Padding padding = widgetTester.widget(
+              find.descendant(of: find.byType(Align),
+                  matching: find.byType(Padding))
+          );
+          expect(padding.padding, EdgeInsets.zero);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is iOS, show Cupertino page scaffold with floating button - endDocked',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+          final screen = CupertinoApp(
+            builder: (context, widget) =>
+            widget ?? const TestScreenWithFloatingButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(CupertinoPageScaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsOneWidget);
+          expect(find.byType(TextButton), findsNothing);
+          expect(find.byType(IconButton), findsNothing);
+
+          // test location of floating action button
+          Align align = widgetTester.widget(
+              find.descendant(of: find.byType(Stack),
+                  matching: find.byType(Align)));
+          expect(align.alignment, Alignment.bottomRight);
+          Padding padding = widgetTester.widget(
+              find.descendant(of: find.byType(Align),
+                  matching: find.byType(Padding))
+          );
+          expect(padding.padding, EdgeInsets.zero);
 
           debugDefaultTargetPlatformOverride = null;
         });
@@ -162,7 +344,7 @@ void main() {
               matching: find.text('Title')), findsOneWidget);
 
           // action button is text
-          expect(find.byType(TextButton), findsOneWidget);
+          expect(find.byType(CupertinoButton), findsOneWidget);
           expect(find.text('action'), findsOneWidget);
 
           // no icon button
@@ -310,6 +492,4 @@ void main() {
           debugDefaultTargetPlatformOverride = null;
         });
   });
-
-  group('Test when screen has title', () { });
 }

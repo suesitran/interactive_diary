@@ -10,11 +10,14 @@ class TestScreenBlank extends Screen {
 }
 
 class TestScreenWithFloatingButton extends TestScreenBlank {
-  const TestScreenWithFloatingButton({Key? key}) : super(key: key);
+  final FloatingActionButtonLocation floatingActionButtonLocation;
+
+  const TestScreenWithFloatingButton({Key? key, this.floatingActionButtonLocation = FloatingActionButtonLocation.centerDocked}) : super(key: key);
 
   @override
   FloatingActionButtonConfig? floatingActionButtonConfig(BuildContext context) {
     return FloatingActionButtonConfig(
+      location: floatingActionButtonLocation,
         button: FloatingActionButton(
           onPressed: () {},
           child: const Icon(Icons.ac_unit),
