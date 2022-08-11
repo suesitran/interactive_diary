@@ -2,7 +2,7 @@ import 'dart:ui';
 
 class Theme {
   final Color? primaryColor;
-  Brightness? brightness;
+  final Brightness? brightness;
 
-  Theme({this.primaryColor, this.brightness});
+  const Theme({this.primaryColor, this.brightness});
 }
