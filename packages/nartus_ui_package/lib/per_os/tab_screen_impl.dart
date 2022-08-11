@@ -19,12 +19,10 @@ abstract class TabScreen extends _PlatformScreen {
           tabBuilder: (context, index) => content[index].page,
         ),
         if (config != null)
-          Align(
+          Container(
             alignment: config._toAlign(config.location),
-            child: Padding(
-              padding: config._calculateCupertinoPadding(context, inTab: true),
-              child: config.button,
-            ),
+            padding: config._calculateCupertinoPadding(context, inTab: true),
+            child: config.button,
           )
       ],
     );
