@@ -18,7 +18,7 @@ class LocationService {
     switch (permissionStatus) {
       case PermissionStatus.denied:
       case PermissionStatus.deniedForever:
-        throw LocationPermissionNotGranted();
+        throw LocationPermissionNotGrantedException();
       default:
         break;
     }

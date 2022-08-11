@@ -6,6 +6,10 @@ class LocationInitial extends LocationState {}
 
 class LocationServiceDisableState extends LocationState {}
 
+class LocationPermissionNotGrantedState extends LocationState {}
+
+class UnknownLocationErrorState extends LocationState {}
+
 class LocationReadyState extends LocationState {
   final LocationDetails currentLocation;
 
