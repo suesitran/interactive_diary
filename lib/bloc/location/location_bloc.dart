@@ -10,15 +10,17 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc({LocationService? locationService})
       : _locationService = locationService ?? LocationService(),
         super(LocationInitial()) {
-    on<RequestCurrentLocationEvent>((LocationEvent event, Emitter<LocationState> emit) {
+    on<RequestCurrentLocationEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) {
       _requestCurrentLocation(emit);
     });
   }
 
   void _requestCurrentLocation(Emitter<LocationState> emit) async {
     try {
-      // LocationDetails data = await _locationService.getCurrentLocation();
-      emit(LocationReadyState(LocationDetails(-37.815561, 144.968915)));
+      LocationDetails data = await _locationService.getCurrentLocation();
+
+      emit(LocationReadyState(data));
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionNotGrantedException catch (_) {
