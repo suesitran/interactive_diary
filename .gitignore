@@ -58,3 +58,4 @@ app.*.map.json
 /*/*/coverage
 ios/Flutter/GoogleMap.xcconfig
 android/googlemap.properties
+**/test/**/*.mocks.dart
