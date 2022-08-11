@@ -96,15 +96,13 @@ void main() {
           expect(find.byType(IconButton), findsNothing);
 
           // test location of floating action button
-          Align align = widgetTester.widget(
-              find.descendant(of: find.byType(Stack),
-                  matching: find.byType(Align)));
-          expect(align.alignment, Alignment.topLeft);
-          Padding padding = widgetTester.widget(
-              find.descendant(of: find.byType(Align),
-                  matching: find.byType(Padding))
+          Container container = widgetTester.widget(
+            find.descendant(of: find.byType(Stack),
+                matching: find.ancestor(of: find.byType(FloatingActionButton),
+                    matching: find.byType(Container)))
           );
-          expect(padding.padding, EdgeInsets.zero);
+          expect(container.padding, const EdgeInsets.only(left: 25));
+          expect(container.alignment, Alignment.topLeft);
 
           debugDefaultTargetPlatformOverride = null;
         });
@@ -130,15 +128,13 @@ void main() {
           expect(find.byType(IconButton), findsNothing);
 
           // test location of floating action button
-          Align align = widgetTester.widget(
+          Container container = widgetTester.widget(
               find.descendant(of: find.byType(Stack),
-                  matching: find.byType(Align)));
-          expect(align.alignment, Alignment.topCenter);
-          Padding padding = widgetTester.widget(
-              find.descendant(of: find.byType(Align),
-                  matching: find.byType(Padding))
+                  matching: find.ancestor(of: find.byType(FloatingActionButton),
+                      matching: find.byType(Container)))
           );
-          expect(padding.padding, EdgeInsets.zero);
+          expect(container.padding, EdgeInsets.zero);
+          expect(container.alignment, Alignment.topCenter);
 
           debugDefaultTargetPlatformOverride = null;
         });
@@ -164,15 +160,13 @@ void main() {
           expect(find.byType(IconButton), findsNothing);
 
           // test location of floating action button
-          Align align = widgetTester.widget(
+          Container container = widgetTester.widget(
               find.descendant(of: find.byType(Stack),
-                  matching: find.byType(Align)));
-          expect(align.alignment, Alignment.topRight);
-          Padding padding = widgetTester.widget(
-              find.descendant(of: find.byType(Align),
-                  matching: find.byType(Padding))
+                  matching: find.ancestor(of: find.byType(FloatingActionButton),
+                      matching: find.byType(Container)))
           );
-          expect(padding.padding, EdgeInsets.zero);
+          expect(container.padding, const EdgeInsets.only(right: 25));
+          expect(container.alignment, Alignment.topRight);
 
           debugDefaultTargetPlatformOverride = null;
         });
@@ -198,15 +192,13 @@ void main() {
           expect(find.byType(IconButton), findsNothing);
 
           // test location of floating action button
-          Align align = widgetTester.widget(
+          Container container = widgetTester.widget(
               find.descendant(of: find.byType(Stack),
-                  matching: find.byType(Align)));
-          expect(align.alignment, Alignment.bottomLeft);
-          Padding padding = widgetTester.widget(
-              find.descendant(of: find.byType(Align),
-                  matching: find.byType(Padding))
+                  matching: find.ancestor(of: find.byType(FloatingActionButton),
+                      matching: find.byType(Container)))
           );
-          expect(padding.padding, EdgeInsets.zero);
+          expect(container.padding, const EdgeInsets.only(left: 25));
+          expect(container.alignment, Alignment.bottomLeft);
 
           debugDefaultTargetPlatformOverride = null;
         });
@@ -232,15 +224,13 @@ void main() {
           expect(find.byType(IconButton), findsNothing);
 
           // test location of floating action button
-          Align align = widgetTester.widget(
+          Container container = widgetTester.widget(
               find.descendant(of: find.byType(Stack),
-                  matching: find.byType(Align)));
-          expect(align.alignment, Alignment.bottomCenter);
-          Padding padding = widgetTester.widget(
-              find.descendant(of: find.byType(Align),
-                  matching: find.byType(Padding))
+                  matching: find.ancestor(of: find.byType(FloatingActionButton),
+                      matching: find.byType(Container)))
           );
-          expect(padding.padding, EdgeInsets.zero);
+          expect(container.padding, EdgeInsets.zero);
+          expect(container.alignment, Alignment.bottomCenter);
 
           debugDefaultTargetPlatformOverride = null;
         });
@@ -266,15 +256,13 @@ void main() {
           expect(find.byType(IconButton), findsNothing);
 
           // test location of floating action button
-          Align align = widgetTester.widget(
+          Container container = widgetTester.widget(
               find.descendant(of: find.byType(Stack),
-                  matching: find.byType(Align)));
-          expect(align.alignment, Alignment.bottomRight);
-          Padding padding = widgetTester.widget(
-              find.descendant(of: find.byType(Align),
-                  matching: find.byType(Padding))
+                  matching: find.ancestor(of: find.byType(FloatingActionButton),
+                      matching: find.byType(Container)))
           );
-          expect(padding.padding, EdgeInsets.zero);
+          expect(container.padding, const EdgeInsets.only(right: 25));
+          expect(container.alignment, Alignment.bottomRight);
 
           debugDefaultTargetPlatformOverride = null;
         });
