@@ -33,3 +33,15 @@ class TestScreenWithTextAction extends TestScreenBlank {
   @override
   String? title(BuildContext context) => 'Title';
 }
+
+class TestScreenWithIconAction extends TestScreenBlank {
+  const TestScreenWithIconAction({Key? key}) : super(key: key);
+
+  @override
+  List<ScreenAction>? appBarActions(BuildContext context) => [
+    ScreenAction(onPress: () {}, iconData: Icons.add)
+  ];
+
+  @override
+  String? title(BuildContext context) => 'Title';
+}

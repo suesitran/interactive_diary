@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart' as a;
 import 'package:flutter/foundation.dart';
 
 part 'per_os/screen_impl.dart';
+
 part 'per_os/tab_screen_impl.dart';
 
 abstract class _PlatformScreen extends StatelessWidget {
@@ -47,9 +48,16 @@ class ScreenAction {
   ScreenAction({this.label, this.iconData, required this.onPress})
       : assert(label != null || iconData != null);
 
-  Widget _toWidget() => iconData == null
-      ? TextButton(onPressed: onPress, child: Text(label!))
-      : IconButton(onPressed: onPress, icon: Icon(iconData));
+  Widget _toWidget(bool isIos) => iconData == null
+      ? isIos
+          ? a.CupertinoButton(onPressed: onPress, child: Text(label!))
+          : TextButton(onPressed: onPress, child: Text(label!))
+      : isIos
+          ? a.GestureDetector(
+              onTap: onPress,
+              child: Icon(iconData),
+            )
+          : IconButton(onPressed: onPress, icon: Icon(iconData));
 }
 
 class FloatingActionButtonConfig {

@@ -44,7 +44,7 @@ abstract class TabScreen extends _PlatformScreen {
           ? null
           : AppBar(
               title: Text(title),
-              actions: appBarAction?.map<Widget>((e) => e._toWidget()).toList(),
+              actions: appBarAction?.map<Widget>((e) => e._toWidget(false)).toList(),
             ),
       body: Builder(
         builder: (context) => PageView(

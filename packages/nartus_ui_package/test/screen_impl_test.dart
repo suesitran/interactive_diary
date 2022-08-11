@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart'
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:flutter/material.dart'
-    show FloatingActionButton, Icons, MaterialApp, Scaffold, IconButton, AppBar;
+    show FloatingActionButton, Icons, MaterialApp, Scaffold, IconButton, AppBar, InkWell;
 
 part 'screen_test_data.dart';
 
@@ -142,7 +142,7 @@ void main() {
 
   group('Test when screen has Text action button', () {
     testWidgets(
-        'When OS is iOS, show Cupertino page scaffold with text button',
+        'When OS is iOS, show Cupertino page scaffold with Text button',
             (widgetTester) async {
           debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
@@ -172,7 +172,7 @@ void main() {
         });
 
     testWidgets(
-        'When OS is android, show Material scaffold with floating button',
+        'When OS is android, show Material scaffold with Text button',
             (widgetTester) async {
           debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
@@ -202,7 +202,7 @@ void main() {
         });
 
     testWidgets(
-        'When OS is windows, show Material scaffold with floating button',
+        'When OS is windows, show Material scaffold with Text button',
             (widgetTester) async {
           debugDefaultTargetPlatformOverride = TargetPlatform.windows;
 
@@ -231,7 +231,85 @@ void main() {
         });
   });
 
-  group('test when screen has Icon action button', () { });
+  group('test when screen has Icon action button', () {
+    testWidgets(
+        'When OS is iOS, show Cupertino page scaffold with Icon button',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+          final screen = CupertinoApp(
+            builder: (context, widget) => const TestScreenWithIconAction(),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(CupertinoPageScaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsNothing);
+
+          // title text
+          expect(find.descendant(of: find.byType(CupertinoNavigationBar),
+              matching: find.text('Title')), findsOneWidget);
+
+          // icon button
+          expect(find.descendant(of: find.byType(GestureDetector),
+              matching: find.byType(Icon)), findsOneWidget);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is android, show Material scaffold with Icon button',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.android;
+
+          const screen = MaterialApp(
+            home: TestScreenWithIconAction(),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(Scaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsNothing);
+
+          // title
+          expect(find.descendant(of: find.byType(AppBar),
+              matching: find.text('Title')), findsOneWidget);
+
+          // icon button
+          expect(find.byType(IconButton), findsOneWidget);
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+
+    testWidgets(
+        'When OS is windows, show Material scaffold with Icon button',
+            (widgetTester) async {
+          debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+
+          const screen = MaterialApp(
+            home: TestScreenWithIconAction(),
+          );
+
+          await widgetTester.pumpWidget(screen);
+          await widgetTester.pumpAndSettle();
+
+          expect(find.byType(Scaffold), findsOneWidget);
+          expect(find.text('Sample Test'), findsOneWidget);
+          expect(find.byType(FloatingActionButton), findsNothing);
+
+          // title
+          expect(find.descendant(of: find.byType(AppBar),
+              matching: find.text('Title')), findsOneWidget);
+
+          // icon button
+          expect(find.byType(IconButton), findsOneWidget);
+          debugDefaultTargetPlatformOverride = null;
+        });
+  });
 
   group('Test when screen has title', () { });
 }
