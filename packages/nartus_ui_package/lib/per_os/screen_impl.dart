@@ -20,7 +20,7 @@ abstract class Screen extends _PlatformScreen {
                   trailing: actions?.isNotEmpty == true
                       ? Row(
                           children: actions!
-                              .map<Widget>((e) => e._toWidget())
+                              .map<Widget>((e) => e._toWidget(true))
                               .toList())
                       : null,
                 ),
@@ -51,7 +51,7 @@ abstract class Screen extends _PlatformScreen {
           ? null
           : AppBar(
               title: Text(title),
-              actions: actions?.map<Widget>((e) => e._toWidget()).toList(),
+              actions: actions?.map<Widget>((e) => e._toWidget(false)).toList(),
             ),
       body: Builder(
         builder: (context) => body(context),

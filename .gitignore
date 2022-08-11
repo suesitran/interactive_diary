@@ -56,3 +56,5 @@ app.*.map.json
 # ignore code coverage
 /coverage
 /*/*/coverage
+ios/Flutter/GoogleMap.xcconfig
+android/googlemap.properties

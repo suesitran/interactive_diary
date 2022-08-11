@@ -45,5 +45,7 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>MapApiKey</key>
+    <string>$(MAP_API_KEY)</string>
 </dict>
 </plist>

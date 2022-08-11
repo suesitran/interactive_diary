@@ -19,12 +19,10 @@ abstract class TabScreen extends _PlatformScreen {
           tabBuilder: (context, index) => content[index].page,
         ),
         if (config != null)
-          Align(
+          Container(
             alignment: config._toAlign(config.location),
-            child: Padding(
-              padding: config._calculateCupertinoPadding(context, inTab: true),
-              child: config.button,
-            ),
+            padding: config._calculateCupertinoPadding(context, inTab: true),
+            child: config.button,
           )
       ],
     );
@@ -44,14 +42,13 @@ abstract class TabScreen extends _PlatformScreen {
           ? null
           : AppBar(
               title: Text(title),
-              actions: appBarAction?.map<Widget>((e) => e._toWidget()).toList(),
+              actions: appBarAction?.map<Widget>((e) => e._toWidget(false)).toList(),
             ),
       body: Builder(
         builder: (context) => PageView(
-          controller: pageController,
+            controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
-          children: content.map((e) => e.page).toList()
-        ),
+            children: content.map((e) => e.page).toList()),
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: content.map((e) => e.bottomNavigationBarItem).toList(),

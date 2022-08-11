@@ -21,6 +21,16 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def mapProperties = new Properties()
+def mapPropertiesFile = rootProject.file('googlemap.properties')
+if (mapPropertiesFile.exists()) {
+    mapPropertiesFile.withReader('UTF-8') { reader ->
+        mapProperties.load(reader)
+    }
+}
+
+def mapApiKey = mapProperties.getProperty('MAP_API_KEY')
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -52,6 +62,8 @@ android {
         targetSdkVersion 32
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        manifestPlaceholders += [google_map_key: mapApiKey]
     }
 
     buildTypes {
