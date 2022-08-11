@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nartus.interactive_diary">
-   <application
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
         android:label="Interactive Diary"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
