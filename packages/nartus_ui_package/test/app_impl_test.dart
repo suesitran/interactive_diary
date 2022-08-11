@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart' show CupertinoApp;
 import 'package:flutter/material.dart' show MaterialApp, Brightness;
 import 'package:flutter_test/flutter_test.dart';
