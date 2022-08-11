@@ -16,7 +16,9 @@ class IDHome extends Screen {
               children: <Widget>[
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(state.currentLocation.latitude, state.currentLocation.longitude), zoom: 15),
+                      target: LatLng(state.currentLocation.latitude,
+                          state.currentLocation.longitude),
+                      zoom: 15),
                 )
               ],
             );
