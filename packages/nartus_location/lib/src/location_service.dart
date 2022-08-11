@@ -30,7 +30,7 @@ class LocationService {
       return LocationDetails(data.latitude!, data.longitude!);
     }
 
-    throw LocationDataCorrupted();
+    throw LocationDataCorruptedException();
   }
 
   Future<PermissionStatus> requestPermission() => _location.requestPermission();
