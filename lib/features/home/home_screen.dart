@@ -20,27 +20,34 @@ class IDHome extends Screen {
                       target: LatLng(state.currentLocation.latitude,
                           state.currentLocation.longitude),
                       zoom: 15),
-                  markers: <Marker>{Marker(
-                    markerId: const MarkerId('currentLocation'),
-                    position: LatLng(state.currentLocation.latitude, state.currentLocation.longitude),
-                  )},
+                  markers: <Marker>{
+                    Marker(
+                      markerId: const MarkerId('currentLocation'),
+                      position: LatLng(state.currentLocation.latitude,
+                          state.currentLocation.longitude),
+                    )
+                  },
                 ),
                 SafeArea(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Card(
-                      margin: const EdgeInsets.only(top: Dimension.spacing16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimension.spacing16)
-                      ),
-                      elevation: 4.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimension.spacing16, vertical: Dimension.spacing8),
-                        child: Text(state.dateDisplay, style: const TextStyle(fontWeight: FontWeight.w600),),
+                    child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Card(
+                    margin: const EdgeInsets.only(top: Dimension.spacing16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(Dimension.spacing16)),
+                    elevation: 4.0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimension.spacing16,
+                          vertical: Dimension.spacing8),
+                      child: Text(
+                        state.dateDisplay,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
-                  )
-                )
+                  ),
+                ))
               ],
             );
           }

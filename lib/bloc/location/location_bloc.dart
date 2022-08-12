@@ -20,10 +20,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
     try {
       final LocationDetails data = await _locationService.getCurrentLocation();
-      final String dateDisplay = DateFormat('dd-MMM-yyyy').format(DateTime.now());
+      final String dateDisplay =
+          DateFormat('dd-MMM-yyyy').format(DateTime.now());
 
       emit(LocationReadyState(data, dateDisplay));
-
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionNotGrantedException catch (_) {

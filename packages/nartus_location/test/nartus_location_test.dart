@@ -86,8 +86,11 @@ void main() {
     expect(result.longitude, 200.00);
   });
 
-  test('when requestPermission, then invoke location requestPermission exactly once', () async {
-    when(location.requestPermission()).thenAnswer((realInvocation) => Future.value(PermissionStatus.granted));
+  test(
+      'when requestPermission, then invoke location requestPermission exactly once',
+      () async {
+    when(location.requestPermission())
+        .thenAnswer((realInvocation) => Future.value(PermissionStatus.granted));
 
     // when
     await service.requestPermission();
@@ -95,8 +98,10 @@ void main() {
     verify(location.requestPermission()).called(1);
   });
 
-  test('when requestService, then invoke location requestService exactly once', () async {
-    when(location.requestService()).thenAnswer((realInvocation) => Future.value(true));
+  test('when requestService, then invoke location requestService exactly once',
+      () async {
+    when(location.requestService())
+        .thenAnswer((realInvocation) => Future.value(true));
     // when
     await service.requestService();
 
