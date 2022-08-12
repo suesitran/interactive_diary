@@ -13,8 +13,7 @@ import 'package:flutter/material.dart'
         MaterialApp,
         Scaffold,
         IconButton,
-        AppBar,
-        InkWell;
+        AppBar;
 
 part 'screen_test_data.dart';
 
