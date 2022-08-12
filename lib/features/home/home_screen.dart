@@ -19,6 +19,10 @@ class IDHome extends Screen {
                       target: LatLng(state.currentLocation.latitude,
                           state.currentLocation.longitude),
                       zoom: 15),
+                  markers: <Marker>{Marker(
+                    markerId: const MarkerId('currentLocation'),
+                    position: LatLng(state.currentLocation.latitude, state.currentLocation.longitude),
+                  )},
                 )
               ],
             );
