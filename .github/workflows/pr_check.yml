@@ -48,6 +48,7 @@ jobs:
         flutter-version: '3.0.5'
         channel: 'stable'
     - run: flutter clean
+    - run: flutter pub run build_runner build
     - run: flutter test --coverage
     - shell: bash
       run: for d in $(ls packages); do cd packages/$d; flutter pub run build_runner build; flutter test --coverage; cd -; done
