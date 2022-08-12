@@ -85,4 +85,21 @@ void main() {
     expect(result.latitude, 100.00);
     expect(result.longitude, 200.00);
   });
+
+  test('when requestPermission, then invoke location requestPermission exactly once', () async {
+    when(location.requestPermission()).thenAnswer((realInvocation) => Future.value(PermissionStatus.granted));
+
+    // when
+    await service.requestPermission();
+
+    verify(location.requestPermission()).called(1);
+  });
+
+  test('when requestService, then invoke location requestService exactly once', () async {
+    when(location.requestService()).thenAnswer((realInvocation) => Future.value(true));
+    // when
+    await service.requestService();
+
+    verify(location.requestService()).called(1);
+  });
 }
