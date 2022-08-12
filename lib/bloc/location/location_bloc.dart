@@ -11,21 +11,22 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       : _locationService = locationService ?? LocationService(),
         super(LocationInitial()) {
     on<RequestCurrentLocationEvent>(
-        (LocationEvent event, Emitter<LocationState> emit) {
-      _requestCurrentLocation(emit);
+        (LocationEvent event, Emitter<LocationState> emit) async {
+      await _requestCurrentLocation(emit);
     });
   }
 
-  void _requestCurrentLocation(Emitter<LocationState> emit) async {
+  Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
     try {
       LocationDetails data = await _locationService.getCurrentLocation();
 
       emit(LocationReadyState(data));
+
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionNotGrantedException catch (_) {
       emit(LocationPermissionNotGrantedState());
-    } on Exception catch (_) {
+    } on Exception catch (e) {
       emit(UnknownLocationErrorState());
     }
   }
