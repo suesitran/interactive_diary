@@ -28,7 +28,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       emit(LocationServiceDisableState());
     } on LocationPermissionNotGrantedException catch (_) {
       emit(LocationPermissionNotGrantedState());
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       emit(UnknownLocationErrorState());
     }
   }
