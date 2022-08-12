@@ -7,13 +7,7 @@ import 'package:flutter/cupertino.dart'
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:flutter/material.dart'
-    show
-        FloatingActionButton,
-        Icons,
-        MaterialApp,
-        Scaffold,
-        IconButton,
-        AppBar;
+    show FloatingActionButton, Icons, MaterialApp, Scaffold, IconButton, AppBar;
 
 part 'screen_test_data.dart';
 

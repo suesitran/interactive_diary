@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 extension WidgetExtension on WidgetTester {
-  Future<void> wrapAndPump(Widget widget, {bool infiniteAnimationWidget = false}) async {
+  Future<void> wrapAndPump(Widget widget,
+      {bool infiniteAnimationWidget = false}) async {
     final Widget wrapper = _MaterialWrapWidget(child: widget);
 
     await pumpWidget(wrapper);
@@ -14,10 +15,14 @@ extension WidgetExtension on WidgetTester {
     }
   }
 
-  Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(B bloc, Widget widget, {bool infiniteAnimationWidget = false}) async {
+  Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(
+      B bloc, Widget widget,
+      {bool infiniteAnimationWidget = false}) async {
     final Widget wrapper = BlocProvider<B>(
       create: (_) => bloc,
-      child: _MaterialWrapWidget(child: widget,),
+      child: _MaterialWrapWidget(
+        child: widget,
+      ),
     );
 
     await pumpWidget(wrapper);

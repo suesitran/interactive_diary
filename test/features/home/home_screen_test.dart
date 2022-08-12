@@ -18,21 +18,27 @@ void main() {
       (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
-    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(LocationReadyState(LocationDetails(0.0, 0.0))));
-    when(mockLocationBloc.state).thenAnswer((_) => LocationReadyState(LocationDetails(0.0, 0.0)));
+    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
+        LocationReadyState(LocationDetails(0.0, 0.0))));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationReadyState(LocationDetails(0.0, 0.0)));
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
 
     expect(find.byType(GoogleMap), findsOneWidget);
   });
 
-  testWidgets('When state is LocationInitial, then CircularProgressIndicator is presented', (WidgetTester widgetTester) async {
+  testWidgets(
+      'When state is LocationInitial, then CircularProgressIndicator is presented',
+      (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
-    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(LocationInitial()));
+    when(mockLocationBloc.stream)
+        .thenAnswer((_) => Stream<LocationState>.value(LocationInitial()));
     when(mockLocationBloc.state).thenAnswer((_) => LocationInitial());
 
-    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget, infiniteAnimationWidget: true);
+    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });

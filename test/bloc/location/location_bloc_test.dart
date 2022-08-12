@@ -32,7 +32,8 @@ void main() {
         },
         build: () => LocationBloc(locationService: service),
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => <TypeMatcher<LocationState>>[isA<LocationServiceDisableState>()]);
+        expect: () =>
+            <TypeMatcher<LocationState>>[isA<LocationServiceDisableState>()]);
 
     blocTest(
         'When location service throws LocationPermissionNotGrantedException, then state is LocationPermissionNotGrantedState',
@@ -40,7 +41,9 @@ void main() {
             .thenThrow(LocationPermissionNotGrantedException()),
         build: () => LocationBloc(locationService: service),
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => <TypeMatcher<LocationState>>[isA<LocationPermissionNotGrantedState>()]);
+        expect: () => <TypeMatcher<LocationState>>[
+              isA<LocationPermissionNotGrantedState>()
+            ]);
 
     blocTest(
         'when location service returns invalid lat and long, then state is UnknownLocationErrorState',
@@ -48,6 +51,7 @@ void main() {
             .thenThrow(LocationDataCorruptedException()),
         build: () => LocationBloc(locationService: service),
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
+        expect: () =>
+            <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
   });
 }
