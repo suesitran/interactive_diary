@@ -12,6 +12,7 @@ class UnknownLocationErrorState extends LocationState {}
 
 class LocationReadyState extends LocationState {
   final LocationDetails currentLocation;
+  final String dateDisplay;
 
-  LocationReadyState(this.currentLocation);
+  LocationReadyState(this.currentLocation, this.dateDisplay);
 }

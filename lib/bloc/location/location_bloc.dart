@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:nartus_location/nartus_location.dart';
 
 part 'location_event.dart';
@@ -18,9 +19,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
     try {
-      LocationDetails data = await _locationService.getCurrentLocation();
+      final LocationDetails data = await _locationService.getCurrentLocation();
+      final String dateDisplay = DateFormat('dd-MMM-yyyy').format(DateTime.now());
 
-      emit(LocationReadyState(data));
+      emit(LocationReadyState(data, dateDisplay));
 
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
