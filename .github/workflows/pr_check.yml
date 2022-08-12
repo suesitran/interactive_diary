@@ -53,7 +53,7 @@ jobs:
         flutter pub get
         flutter pub run build_runner build
         flutter test --coverage
-        for d in $(ls packages); do cd packages/$d; flutter pub run build_runner build; flutter test --coverage; cd -; done
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; flutter test --coverage; cd -; done
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
