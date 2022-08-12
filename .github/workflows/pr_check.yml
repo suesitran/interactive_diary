@@ -47,12 +47,13 @@ jobs:
       with:
         flutter-version: '3.0.5'
         channel: 'stable'
-    - run: |
-      flutter clean
-      flutter pub get
-      flutter pub run build_runner build
-      flutter test --coverage
-      for d in $(ls packages); do cd packages/$d; flutter pub run build_runner build; flutter test --coverage; cd -; done
+    - shell: bash
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter pub run build_runner build; flutter test --coverage; cd -; done
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
