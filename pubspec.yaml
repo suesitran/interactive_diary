@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^1.20.0
   google_maps_flutter: ^2.1.10
   flutter_bloc: ^8.0.1
+  intl: ^0.17.0
   nartus_ui_package:
     path: packages/nartus_ui_package
   nartus_location:
