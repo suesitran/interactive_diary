@@ -10,7 +10,7 @@ import 'package:nartus_location/nartus_location.dart';
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
 
-@GenerateMocks([LocationBloc])
+@GenerateMocks(<Type>[LocationBloc])
 void main() {
   final LocationBloc mockLocationBloc = MockLocationBloc();
 
@@ -18,7 +18,7 @@ void main() {
       (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
-    when(mockLocationBloc.stream).thenAnswer((_) => Stream.value(LocationReadyState(LocationDetails(0.0, 0.0))));
+    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(LocationReadyState(LocationDetails(0.0, 0.0))));
     when(mockLocationBloc.state).thenAnswer((_) => LocationReadyState(LocationDetails(0.0, 0.0)));
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
@@ -26,10 +26,10 @@ void main() {
     expect(find.byType(GoogleMap), findsOneWidget);
   });
 
-  testWidgets('When state is LocationInitial, then CircularProgressIndicator is presented', (widgetTester) async {
+  testWidgets('When state is LocationInitial, then CircularProgressIndicator is presented', (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
-    when(mockLocationBloc.stream).thenAnswer((_) => Stream.value(LocationInitial()));
+    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(LocationInitial()));
     when(mockLocationBloc.state).thenAnswer((_) => LocationInitial());
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget, infiniteAnimationWidget: true);

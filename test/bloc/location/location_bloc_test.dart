@@ -7,7 +7,7 @@ import 'package:nartus_location/nartus_location.dart';
 
 import 'location_bloc_test.mocks.dart';
 
-@GenerateMocks([LocationService])
+@GenerateMocks(<Type>[LocationService])
 void main() {
   final LocationService service = MockLocationService();
 
@@ -20,7 +20,7 @@ void main() {
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
         },
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => [isA<LocationReadyState>()]);
+        expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
   });
 
   group('Test error and state', () {
@@ -32,7 +32,7 @@ void main() {
         },
         build: () => LocationBloc(locationService: service),
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => [isA<LocationServiceDisableState>()]);
+        expect: () => <TypeMatcher<LocationState>>[isA<LocationServiceDisableState>()]);
 
     blocTest(
         'When location service throws LocationPermissionNotGrantedException, then state is LocationPermissionNotGrantedState',
@@ -40,7 +40,7 @@ void main() {
             .thenThrow(LocationPermissionNotGrantedException()),
         build: () => LocationBloc(locationService: service),
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => [isA<LocationPermissionNotGrantedState>()]);
+        expect: () => <TypeMatcher<LocationState>>[isA<LocationPermissionNotGrantedState>()]);
 
     blocTest(
         'when location service returns invalid lat and long, then state is UnknownLocationErrorState',
@@ -48,6 +48,6 @@ void main() {
             .thenThrow(LocationDataCorruptedException()),
         build: () => LocationBloc(locationService: service),
         act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
-        expect: () => [isA<UnknownLocationErrorState>()]);
+        expect: () => <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
   });
 }
