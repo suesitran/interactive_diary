@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/route/map_route.dart' as routes;
 import 'package:firebase_core/firebase_core.dart';
@@ -16,9 +18,12 @@ void main() async {
   }
 
   runApp(App.adaptive(
-    home: const IDHome(),
+    home: BlocProvider<LocationBloc>(
+      create: (BuildContext context) => LocationBloc(),
+      child: const IDHome(),
+    ),
     title: 'Interactive Diary',
-    theme: Theme(primaryColor: Colors.deepOrange),
+    theme: const Theme(primaryColor: Colors.deepOrange),
     routes: routes.appRoute,
   ));
 }

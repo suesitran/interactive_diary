@@ -47,11 +47,13 @@ jobs:
       with:
         flutter-version: '3.0.5'
         channel: 'stable'
-    - run: flutter clean
-    - run: flutter test --coverage
     - shell: bash
-      run: for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
-    - run: ls packages/nartus_ui_package/coverage
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; flutter test --coverage; cd -; done
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
