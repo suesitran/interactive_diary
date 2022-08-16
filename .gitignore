@@ -60,3 +60,4 @@ ios/Flutter/GoogleMap.xcconfig
 ios/Flutter/AppConfig.xcconfig
 android/googlemap.properties
 **/test/**/*.mocks.dart
+android/appconfig.properties
