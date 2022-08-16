@@ -22,7 +22,7 @@ if (flutterVersionName == null) {
 }
 
 def mapProperties = new Properties()
-def mapPropertiesFile = rootProject.file('googlemap.properties')
+def mapPropertiesFile = rootProject.file('appconfig.properties')
 if (mapPropertiesFile.exists()) {
     mapPropertiesFile.withReader('UTF-8') { reader ->
         mapProperties.load(reader)

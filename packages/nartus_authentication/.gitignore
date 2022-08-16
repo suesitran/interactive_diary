@@ -45,19 +45,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# Google service configs
-/android/app/google-services.json
-/android/google-services.json
-/ios/Runner/GoogleService-Info.plist
-/lib/firebase_options.dart
-/ios/firebase_app_id_file.json
-
-# ignore code coverage
-/coverage
-/*/*/coverage
-ios/Flutter/GoogleMap.xcconfig
-ios/Flutter/AppConfig.xcconfig
-android/googlemap.properties
-**/test/**/*.mocks.dart
-android/appconfig.properties
