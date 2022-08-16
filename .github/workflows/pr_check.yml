@@ -37,7 +37,7 @@ jobs:
         echo "$FIREBASE_OPTION" > lib/firebase_options.dart
         echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
-        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/googlemap.properties
+        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
     - uses: actions/setup-java@v3
       with:
