@@ -34,8 +34,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
-  firebase_auth: ^3.6.2
-  firebase_core: ^1.20.0
+  firebase_auth: ^3.6.3
+  firebase_core: ^1.20.1
   google_maps_flutter: ^2.1.10
   flutter_bloc: ^8.0.1
   intl: ^0.17.0
@@ -43,6 +43,8 @@ dependencies:
     path: packages/nartus_ui_package
   nartus_location:
     path: packages/nartus_location
+  nartus_authentication:
+    path: packages/nartus_authentication
 
 dev_dependencies:
   flutter_test:
