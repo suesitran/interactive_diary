@@ -57,5 +57,6 @@ app.*.map.json
 /coverage
 /*/*/coverage
 ios/Flutter/GoogleMap.xcconfig
+ios/Flutter/AppConfig.xcconfig
 android/googlemap.properties
 **/test/**/*.mocks.dart
