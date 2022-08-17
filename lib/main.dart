@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 
+import 'features/signup/signup_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -16,7 +18,7 @@ void main() async {
   }
 
   runApp(App.adaptive(
-    home: const IDHome(),
+    home: const IDSignUp(),
     title: 'Interactive Diary',
     theme: Theme(primaryColor: Colors.deepOrange),
     routes: routes.appRoute,

@@ -39,6 +39,8 @@ dependencies:
     path: packages/nartus_ui_package
   firebase_core: ^1.20.0
   google_maps_flutter: ^2.1.10
+  flutter_hooks: ^0.18.5+1
+  flutter_bloc: ^8.1.1
 
 dev_dependencies:
   flutter_test:
