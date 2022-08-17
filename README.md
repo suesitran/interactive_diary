@@ -22,11 +22,20 @@ Location refers to user's current location at anything point of time during the 
 ![Location](https://user-images.githubusercontent.com/17781268/183033198-64a61aea-5d65-484f-b051-1132c564a79d.png)
 
 ### Emotion and Diary writing (How I felt)
+This is the main feature of ID, and it is tied losely to Location feature, which means, it still works even if location is not available.
 
 ![Diary](https://user-images.githubusercontent.com/17781268/183036122-dfcca9f9-0287-4cdf-b57f-ac9f7f7c16b5.png)
 
 ### Activity details (What I did)
+This is a good to have feature, base on the type of location the user is in, there can be a prediction of what activity he can have there.
 
-### Authentication and social network (Who I met)
+![Activities](https://user-images.githubusercontent.com/17781268/184794073-1ad93f39-2ceb-4b02-b929-bc074d8934eb.png)
+
+### Authentication (Who am I)
+Detail of Authentication can be found [here](https://github.com/suesitran/interactive_diary/issues/14)
+
+Future: social network (Who I met)
+
 
 ### Timestamp (When it happend)
+Can be treated as an attribute attached to all above info
