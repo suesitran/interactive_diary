@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:interactive_diary/features/signup/bloc/signup_bloc.dart';
+import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
 const double kspEdge = 12.0;
@@ -12,8 +12,8 @@ class IDSignUp extends Screen {
 
   @override
   Widget body(BuildContext context) {
-    return BlocProvider<SignUpBloc>(
-      create: (_) => SignUpBloc(),
+    return BlocProvider<GoogleSignupBloc>(
+      create: (_) => GoogleSignupBloc(),
       child: const _IDSignUpBody(),
     );
   }
@@ -45,14 +45,31 @@ class _IDSignUpBody extends StatelessWidget {
           const Gap.v20(),
           _RegisterForm(),
           const Gap.v20(),
+          BlocBuilder<GoogleSignupBloc, GoogleSignupState>(
+            builder: (_, GoogleSignupState googleState) {
+              String text = 'Continue with Google';
+              Function() onPressed = () => _signUpByGoogle(context);
+              if (googleState is GoogleSigningUp) {
+                text = 'Signing Up';
+                onPressed = () {};
+              }
+              return AButton(
+                text: text,
+                onPressed: onPressed);
+            }
+          ),
           AButton(
-              text: 'Continue with Google', onPressed: () => print('Google')),
-          AButton(
-              text: 'Continue with Google', onPressed: () => print('Google'))
+              text: 'Continue with Facebook', onPressed: () => print('Google'))
         ],
       ),
     );
   }
+  
+  void _signUpByGoogle(BuildContext context) =>
+    context.read<GoogleSignupBloc>().add(SignUpByGoogle());
+
+  void _signUpByFacebook(BuildContext context) =>
+      context.read<GoogleSignupBloc>().add(SignUpByGoogle());
 }
 
 class _RegisterForm extends HookWidget {

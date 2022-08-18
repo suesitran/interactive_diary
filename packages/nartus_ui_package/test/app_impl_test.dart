@@ -11,8 +11,8 @@ void main() {
 
       const app = App.adaptive(
           home: Center(
-            child: Text('Hello'),
-          ));
+        child: Text('Hello'),
+      ));
 
       await tester.pumpWidget(app);
       await tester.pumpAndSettle();
@@ -25,7 +25,8 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
 
-    testWidgets('When platform is iOS, check details of CupertinoApp', (widgetTester) async {
+    testWidgets('When platform is iOS, check details of CupertinoApp',
+        (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
       const app = App.adaptive(
@@ -34,13 +35,9 @@ void main() {
           child: Text('Hello'),
         ),
         theme: Theme(
-            primaryColor: Colors.deepOrange,
-            brightness: Brightness.light
-        ),
-        darkTheme: Theme(
-            primaryColor: Colors.deepOrange,
-            brightness: Brightness.dark
-        ),
+            primaryColor: Colors.deepOrange, brightness: Brightness.light),
+        darkTheme:
+            Theme(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
       );
 
       await widgetTester.pumpWidget(app);
@@ -50,7 +47,8 @@ void main() {
       expect(find.byType(CupertinoApp), findsOneWidget);
       expect(find.text('Hello'), findsOneWidget);
 
-      final CupertinoApp cupertinoApp = widgetTester.widget(find.byType(CupertinoApp));
+      final CupertinoApp cupertinoApp =
+          widgetTester.widget(find.byType(CupertinoApp));
 
       // title is 'Title'
       expect(cupertinoApp.title, 'Title');
@@ -67,8 +65,8 @@ void main() {
 
       const app = App.adaptive(
           home: Center(
-            child: Text('Hello'),
-          ));
+        child: Text('Hello'),
+      ));
 
       await tester.pumpWidget(app);
       await tester.pumpAndSettle();
@@ -81,7 +79,8 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
 
-    testWidgets('When platform is Android, check details of MaterialApp', (widgetTester) async {
+    testWidgets('When platform is Android, check details of MaterialApp',
+        (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
       const app = App.adaptive(
@@ -90,13 +89,9 @@ void main() {
           child: Text('Hello'),
         ),
         theme: Theme(
-            primaryColor: Colors.deepOrange,
-            brightness: Brightness.light
-        ),
-        darkTheme: Theme(
-            primaryColor: Colors.deepOrange,
-            brightness: Brightness.dark
-        ),
+            primaryColor: Colors.deepOrange, brightness: Brightness.light),
+        darkTheme:
+            Theme(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
       );
 
       await widgetTester.pumpWidget(app);
@@ -106,7 +101,8 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.text('Hello'), findsOneWidget);
 
-      final MaterialApp materialApp = widgetTester.widget(find.byType(MaterialApp));
+      final MaterialApp materialApp =
+          widgetTester.widget(find.byType(MaterialApp));
 
       // title is 'Title'
       expect(materialApp.title, 'Title');
@@ -143,10 +139,10 @@ void main() {
     testWidgets('Cupertino constructor will build CupertinoApp',
         (widgetTester) async {
       const app = App.cupertino(
-        title: 'Title',
+          title: 'Title',
           home: Center(
-        child: Text('Hello'),
-      ));
+            child: Text('Hello'),
+          ));
 
       await widgetTester.pumpWidget(app);
       await widgetTester.pumpAndSettle();
@@ -156,7 +152,8 @@ void main() {
 
       expect(find.text('Hello'), findsOneWidget);
 
-      CupertinoApp cupertinoApp = widgetTester.widget(find.byType(CupertinoApp));
+      CupertinoApp cupertinoApp =
+          widgetTester.widget(find.byType(CupertinoApp));
       expect(cupertinoApp.title, 'Title');
     });
   });

@@ -22,7 +22,7 @@ if (flutterVersionName == null) {
 }
 
 def mapProperties = new Properties()
-def mapPropertiesFile = rootProject.file('googlemap.properties')
+def mapPropertiesFile = rootProject.file('appconfig.properties')
 if (mapPropertiesFile.exists()) {
     mapPropertiesFile.withReader('UTF-8') { reader ->
         mapProperties.load(reader)
@@ -54,7 +54,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.nartus.interactiveDiary"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
