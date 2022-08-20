@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
+import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
 const double kspEdge = 12.0;
@@ -29,48 +30,71 @@ class _IDSignUpBody extends StatelessWidget {
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(
+        children: const <Widget>[
+          SizedBox(
             width: double.infinity,
             child: Text(
               'Welcome to Interactive Dairy',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           ),
-          const Gap.v12(),
-          const SizedBox(
+          Gap.v12(),
+          SizedBox(
             width: double.infinity,
             child: Text("Let's join us to create your journey"),
           ),
-          const Gap.v20(),
+          Gap.v20(),
           _RegisterForm(),
-          const Gap.v20(),
-          BlocBuilder<GoogleSignupBloc, GoogleSignupState>(
-            builder: (_, GoogleSignupState googleState) {
-              String text = 'Continue with Google';
-              Function() onPressed = () => _signUpByGoogle(context);
-              if (googleState is GoogleSigningUp) {
-                text = 'Signing Up';
-                onPressed = () {};
-              }
-              return AButton(
-                text: text,
-                onPressed: onPressed);
-            }
-          ),
-          AButton(
-              text: 'Continue with Facebook', onPressed: () => print('Google'))
+          Gap.v20(),
+          GoogleSignInButton(),
+          Gap.v12(),
+          _FacebookSignInButton()
         ],
       ),
     );
   }
-  
-  void _signUpByGoogle(BuildContext context) =>
-    context.read<GoogleSignupBloc>().add(SignUpByGoogle());
+}
+
+class _FacebookSignInButton extends StatelessWidget {
+  const _FacebookSignInButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AButton(
+        text: 'Continue with Facebook', onPressed: () => print('facebook'));
+  }
 
   void _signUpByFacebook(BuildContext context) =>
-      context.read<GoogleSignupBloc>().add(SignUpByGoogle());
+      context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
 }
+
+
+class GoogleSignInButton extends StatelessWidget {
+  const GoogleSignInButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<GoogleSignupBloc, GoogleSignupState>(
+      builder: (_, GoogleSignupState googleState) {
+        return AButton(
+          text: 'Continue with Google',
+          onPressed: () => _signUpByGoogle(context),
+          isBusy: googleState is GoogleSigningUp,
+        );
+      },
+      listener: (_, GoogleSignupState googleState) {
+        if (googleState is GoogleSignupSucceed) {
+          Navigator.of(context).push(CupertinoPageRoute(
+              builder: (_) => const IDHome()));
+        }
+      },
+    );
+  }
+
+  void _signUpByGoogle(BuildContext context) =>
+      context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
+}
+
 
 class _RegisterForm extends HookWidget {
   const _RegisterForm({Key? key}) : super(key: key);
@@ -102,38 +126,72 @@ class _RegisterForm extends HookWidget {
 class Gap extends StatelessWidget {
   final double? vGap;
   final double? hGap;
-  const Gap.v20({Key? key}) : vGap = 20.0, hGap = 0.0, super(key: key);
-  const Gap.v16({Key? key}) : vGap = 16.0, hGap = 0.0, super(key: key);
-  const Gap.v12({Key? key}) : vGap = 12.0, hGap = 0.0, super(key: key);
-  const Gap.v08({Key? key}) : vGap = 8.0, hGap = 0.0, super(key: key);
-  const Gap.v04({Key? key}) : vGap = 4.0, hGap = 0.0, super(key: key);
+  const Gap.v20({Key? key})
+      : vGap = 20.0,
+        hGap = 0.0,
+        super(key: key);
+  const Gap.v16({Key? key})
+      : vGap = 16.0,
+        hGap = 0.0,
+        super(key: key);
+  const Gap.v12({Key? key})
+      : vGap = 12.0,
+        hGap = 0.0,
+        super(key: key);
+  const Gap.v08({Key? key})
+      : vGap = 8.0,
+        hGap = 0.0,
+        super(key: key);
+  const Gap.v04({Key? key})
+      : vGap = 4.0,
+        hGap = 0.0,
+        super(key: key);
 
-  const Gap.h20({Key? key}) : hGap = 20.0, vGap = 0.0, super(key: key);
-  const Gap.h16({Key? key}) : hGap = 16.0, vGap = 0.0, super(key: key);
-  const Gap.h12({Key? key}) : hGap = 12.0, vGap = 0.0, super(key: key);
-  const Gap.h08({Key? key}) : hGap = 8.0, vGap = 0.0, super(key: key);
-  const Gap.h04({Key? key}) : hGap = 4.0, vGap = 0.0, super(key: key);
+  const Gap.h20({Key? key})
+      : hGap = 20.0,
+        vGap = 0.0,
+        super(key: key);
+  const Gap.h16({Key? key})
+      : hGap = 16.0,
+        vGap = 0.0,
+        super(key: key);
+  const Gap.h12({Key? key})
+      : hGap = 12.0,
+        vGap = 0.0,
+        super(key: key);
+  const Gap.h08({Key? key})
+      : hGap = 8.0,
+        vGap = 0.0,
+        super(key: key);
+  const Gap.h04({Key? key})
+      : hGap = 4.0,
+        vGap = 0.0,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: vGap, width: hGap,);
+    return SizedBox(
+      height: vGap,
+      width: hGap,
+    );
   }
 }
 
 class AButton extends StatelessWidget {
   final String text;
   final void Function() onPressed;
-  const AButton({required this.text, required this.onPressed, Key? key})
+  final bool? isBusy;
+  const AButton({required this.text, required this.onPressed, Key? key, this.isBusy = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      icon: Icon(Icons.abc_outlined),
+      icon: isBusy! ? const SizedBox() : const Icon(Icons.abc_outlined),
       onPressed: onPressed,
-      label: Text(text),
+      label: isBusy! ? const CircularProgressIndicator() : Text(text),
       style: TextButton.styleFrom(
-          primary: Colors.black, backgroundColor: Colors.green),
+        primary: Colors.black, backgroundColor: Colors.green),
     );
   }
 }
@@ -143,13 +201,13 @@ class ATextFormField extends StatelessWidget {
   final String hint;
   final Widget? prefix;
   final bool? autoFocus;
-  const ATextFormField({
-    Key? key,
-    required this.controller,
-    required this.hint,
-    this.prefix,
-    this.autoFocus = false
-  }) : super(key: key);
+  const ATextFormField(
+      {Key? key,
+      required this.controller,
+      required this.hint,
+      this.prefix,
+      this.autoFocus = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

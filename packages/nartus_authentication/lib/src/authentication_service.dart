@@ -1,48 +1,58 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:nartus_authentication/src/authentication_exception.dart';
 
 import 'user_data.dart';
-
-abstract class IAuthenticationService {
-  Future<AUser?> signinGoogle();
-  Future<AUser?> getCurrentUser();
-  Future<void> signOut();
-}
 
 class AuthenticationService {
   final GoogleSignIn _googleSignIn;
   final FirebaseAuth _firebaseAuth;
 
-  AuthenticationService({GoogleSignIn? googleSignIn, FirebaseAuth? firebaseAuth}) :
-    _googleSignIn = googleSignIn ?? GoogleSignIn(),
-    _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  AuthenticationService(
+      {GoogleSignIn? googleSignIn, FirebaseAuth? firebaseAuth})
+      : _googleSignIn = googleSignIn ?? GoogleSignIn(),
+        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
-  Future<AUser?> signinGoogle() async {
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) return null;
+  Future<AUser> signinGoogle() async {
+    GoogleSignInAccount? googleUser;
+    try {
+      googleUser = await _googleSignIn.signIn();
+    } on PlatformException catch (e) {
+      throw AuthUtils.convertAuthException(e.code, '${e.message} | ${e.details}');
+    }
+
+    if (googleUser == null) throw AuthenticateFailedException.userCancelled();
 
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
     await _signInFirebase(oAuthCredential);
 
     return await getCurrentUser();
   }
 
-  Future<AUser?> getCurrentUser() async {
+  Future<AUser> getCurrentUser() async {
     final User? firebaseUser = _firebaseAuth.currentUser;
-    if (firebaseUser == null) return null;
+    if (firebaseUser == null) throw AuthenticateFailedException.userNotFound();
 
     return AUser(
-      name: firebaseUser.displayName!, avatarUrl: firebaseUser.photoURL!,
-      phone: firebaseUser.phoneNumber, email: firebaseUser.email
-    );
+      name: firebaseUser.displayName!,
+      avatarUrl: firebaseUser.photoURL!,
+      phone: firebaseUser.phoneNumber,
+      email: firebaseUser.email);
   }
 
   Future<void> _signInFirebase(AuthCredential credential) async {
-    await _firebaseAuth.signInWithCredential(credential);
+    try {
+      await _firebaseAuth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      throw AuthUtils.convertAuthException(e.code, e.message ?? 'Unknown error');
+    } catch (_) {
+      throw AuthenticateFailedException.unknown();
+    }
   }
 
   Future signOut() async {

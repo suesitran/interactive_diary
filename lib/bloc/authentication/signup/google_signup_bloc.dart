@@ -6,23 +6,25 @@ part 'google_signup_state.dart';
 
 class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
   final AuthenticationService _authenticationService;
-  GoogleSignupBloc({AuthenticationService? authenticationService}) :
-    _authenticationService = authenticationService ?? AuthenticationService(),
-    super(GoogleSignupInitial()) {
-    on<SignUpByGoogle>((GoogleSignupEvent event, Emitter<GoogleSignupState> emit) async {
+  GoogleSignupBloc({AuthenticationService? authenticationService})
+      : _authenticationService =
+            authenticationService ?? AuthenticationService(),
+        super(GoogleSignupInitial()) {
+    on<SignUpByGoogleEvent>(
+        (GoogleSignupEvent event, Emitter<GoogleSignupState> emit) async {
       await _signUpGoogle(emit);
     });
   }
 
   Future<dynamic> _signUpGoogle(Emitter<GoogleSignupState> emit) async {
+    emit(GoogleSigningUp());
     try {
-      final AUser? user = await _authenticationService.signinGoogle();
-      if (user != null) {
-        emit(GoogleSignupSucceed(user));
+      final AUser user = await _authenticationService.signinGoogle();
+      emit(GoogleSignupSucceed(user));
+    } on AuthenticateFailedException catch (e) {
+      if (!e.isUserCanceled) {
+        emit(GoogleSignupFailed(e.error));
       }
-      emit(GoogleSignupFailed('No user found'));
-    } catch (e) {
-      emit(GoogleSignupFailed('No user found'));
     }
   }
 }
