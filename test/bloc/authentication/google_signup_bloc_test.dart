@@ -18,7 +18,7 @@ void main() {
       build: () => GoogleSignupBloc(authenticationService: service),
       setUp: () {
         when(service.signinGoogle()).thenAnswer(
-          (_) => Future<AUser>.value(AUser(name: 'asdas')));
+          (_) => Future<UserDetail>.value(UserDetail(name: 'asdas')));
       },
       act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
       expect: () => <TypeMatcher<GoogleSignupState>>[isA<GoogleSignupSucceed>()]);

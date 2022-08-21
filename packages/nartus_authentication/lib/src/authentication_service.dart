@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nartus_authentication/src/authentication_exception.dart';
+import 'package:nartus_authentication/src/common.dart';
 
 import 'user_data.dart';
 
@@ -14,7 +15,7 @@ class AuthenticationService {
       : _googleSignIn = googleSignIn ?? GoogleSignIn(),
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
-  Future<AUser> signinGoogle() async {
+  Future<UserDetail> signinGoogle() async {
     GoogleSignInAccount? googleUser;
     try {
       googleUser = await _googleSignIn.signIn();
@@ -34,11 +35,11 @@ class AuthenticationService {
     return await getCurrentUser();
   }
 
-  Future<AUser> getCurrentUser() async {
+  Future<UserDetail> getCurrentUser() async {
     final User? firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser == null) throw AuthenticateFailedException.userNotFound();
 
-    return AUser(
+    return UserDetail(
       name: firebaseUser.displayName!,
       avatarUrl: firebaseUser.photoURL!,
       phone: firebaseUser.phoneNumber,
@@ -49,7 +50,7 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      throw AuthUtils.convertAuthException(e.code, e.message ?? 'Unknown error');
+      throw AuthUtils.convertAuthException(e.code, e.message ?? kErrUnknown);
     } catch (_) {
       throw AuthenticateFailedException.unknown();
     }

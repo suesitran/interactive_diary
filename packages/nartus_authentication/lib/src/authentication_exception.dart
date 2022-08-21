@@ -1,4 +1,6 @@
 
+import 'package:nartus_authentication/src/common.dart';
+
 class AuthenticationException implements Exception {
   final String error;
 
@@ -17,17 +19,17 @@ class AuthenticateFailedException extends AuthenticationException {
   final AuthenticateStatus status;
   AuthenticateFailedException(this.status, super.error);
   AuthenticateFailedException.userCancelled() :
-    status = AuthenticateStatus.userCanceled, super('User cancelled');
+    status = AuthenticateStatus.userCanceled, super(kErrUserCanceled);
   AuthenticateFailedException.userNotFound() :
-      status = AuthenticateStatus.userNotFound, super('User not found');
+      status = AuthenticateStatus.userNotFound, super(kErrUserNotFound);
   AuthenticateFailedException.unknown({String? error}) :
-      status = AuthenticateStatus.unknown, super(error ?? 'Unknown error');
+      status = AuthenticateStatus.unknown, super(error ?? kErrUnknown);
 
   bool get isUserCanceled => status == AuthenticateStatus.userCanceled;
 }
 
 enum AuthenticateStatus {
-  /// [START FIREBASE AUTH] signInWithCredential Exception
+  /// [FIREBASE AUTH] signInWithCredential Exception
   /// https://pub.dev/documentation/firebase_auth/latest/firebase_auth/FirebaseAuth/signInWithCredential.html
   accountExistsWithDifferentCredential,
   invalidCredential,
@@ -37,11 +39,9 @@ enum AuthenticateStatus {
   wrongPassword,
   invalidVerificationCode,
   invalidVerificationId,
-  /// [END FIREBASE AUTH] signInWithCredential Exception
 
-  /// [START GOOGLE] PlatformException
+  /// [GOOGLE SIGN IN] PlatformException
   userCanceled,
-  /// [END GOOGLE] PlatformException
 
   unknown
 }
@@ -49,6 +49,7 @@ enum AuthenticateStatus {
 class AuthUtils {
   static AuthenticateFailedException convertAuthException(String code, String message) {
     switch (code) {
+      /// [FIREBASE AUTH]
       case 'account-exists-with-different-credential':
         return AuthenticateFailedException(
           AuthenticateStatus.accountExistsWithDifferentCredential, message);
@@ -73,11 +74,13 @@ class AuthUtils {
       case 'invalid-verification-id':
         return AuthenticateFailedException(
           AuthenticateStatus.invalidVerificationId, message);
+
+      /// [GOOGLE SIGN IN]
       case 'sign_in_canceled':
         return AuthenticateFailedException(
           AuthenticateStatus.userCanceled, message);
       default:
-        return AuthenticateFailedException(AuthenticateStatus.unknown, 'Unknown error');
+        return AuthenticateFailedException(AuthenticateStatus.unknown, kErrUnknown);
     }
   }
 }

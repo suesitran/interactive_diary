@@ -5,7 +5,7 @@ abstract class GoogleSignupState {}
 class GoogleSignupInitial extends GoogleSignupState {}
 
 class GoogleSignupSucceed extends GoogleSignupState {
-  final AUser user;
+  final UserDetail user;
 
   GoogleSignupSucceed(this.user);
 }

@@ -19,7 +19,7 @@ class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
   Future<dynamic> _signUpGoogle(Emitter<GoogleSignupState> emit) async {
     emit(GoogleSigningUp());
     try {
-      final AUser user = await _authenticationService.signinGoogle();
+      final UserDetail user = await _authenticationService.signinGoogle();
       emit(GoogleSignupSucceed(user));
     } on AuthenticateFailedException catch (e) {
       if (!e.isUserCanceled) {
