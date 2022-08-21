@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoThemeData;
-import 'package:flutter/material.dart' show MaterialApp, ThemeData, Brightness;
-
-import 'theme.dart';
+import 'package:flutter/cupertino.dart'
+    show CupertinoApp, CupertinoThemeData, CupertinoTextThemeData;
+import 'package:flutter/material.dart'
+    show MaterialApp, Brightness, ThemeData, Colors;
 
 enum _AppType { material, cupertino, adaptive }
 
 class App extends StatelessWidget {
   final String _title;
-  final Theme? _theme;
-  final Theme? _darkTheme;
+  final ThemeData? _theme;
+  final ThemeData? _darkTheme;
   final Map<String, WidgetBuilder>? _routes;
   final Widget _home;
 
@@ -20,8 +20,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-      Theme? theme,
-      Theme? darkTheme,
+        ThemeData? theme,
+        ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes,
       required _AppType appType})
       : _home = home,
@@ -36,8 +36,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-      Theme? theme,
-      Theme? darkTheme,
+        ThemeData? theme,
+        ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes})
       : this._(
             key: key,
@@ -52,8 +52,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-      Theme? theme,
-      Theme? darkTheme,
+        ThemeData? theme,
+        ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes})
       : this._(
             key: key,
@@ -68,8 +68,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-      Theme? theme,
-      Theme? darkTheme,
+      ThemeData? theme,
+        ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes})
       : this._(
             key: key,
@@ -103,28 +103,40 @@ class App extends StatelessWidget {
 
   MaterialApp _buildMaterialApp() => MaterialApp(
         title: _title,
-        theme: _convertToMaterialThemeData(_theme),
-        darkTheme: _convertToMaterialThemeData(_darkTheme),
+        theme: _theme,
+        darkTheme: _darkTheme,
         routes: _routes ?? {},
         home: _home,
       );
 
   CupertinoThemeData _convertToCupertinoThemeData(
-      Theme? theme, Theme? darkTheme) {
+      ThemeData? theme, ThemeData? darkTheme) {
     final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
         .platformBrightness;
 
-    return CupertinoThemeData(
-        brightness: brightness == Brightness.dark
-            ? darkTheme?.brightness
-            : theme?.brightness,
-        primaryColor: brightness == Brightness.dark
-            ? darkTheme?.primaryColor
-            : theme?.primaryColor);
-  }
+    /// in dark mode, use dark theme, else use light theme.
+    /// if dark theme is null, use light theme.
+    final themeToUse = (brightness == Brightness.dark
+            ? darkTheme
+            : theme) ?? theme;
 
-  ThemeData _convertToMaterialThemeData(Theme? theme) {
-    return ThemeData(
-        brightness: theme?.brightness, primaryColor: theme?.primaryColor);
+    /// if light theme is also null, use default CupertinoThemeData
+    return CupertinoThemeData(
+        brightness: themeToUse?.brightness,
+        primaryColor: themeToUse?.primaryColor,
+        barBackgroundColor: themeToUse?.primaryColor,
+        primaryContrastingColor: themeToUse?.colorScheme.onPrimary,
+        scaffoldBackgroundColor: themeToUse?.scaffoldBackgroundColor,
+        textTheme: CupertinoTextThemeData(
+          primaryColor: themeToUse?.primaryColor ?? Colors.blue,
+          actionTextStyle: themeToUse?.textTheme.button,
+          dateTimePickerTextStyle: themeToUse?.textTheme.labelMedium,
+          navActionTextStyle: themeToUse?.textTheme.button,
+          navLargeTitleTextStyle: themeToUse?.textTheme.labelLarge,
+          navTitleTextStyle: themeToUse?.textTheme.labelMedium,
+          pickerTextStyle: themeToUse?.textTheme.bodyMedium,
+          tabLabelTextStyle: themeToUse?.textTheme.bodyMedium,
+          textStyle: themeToUse?.textTheme.bodyMedium
+        ));
   }
 }

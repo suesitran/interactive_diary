@@ -29,15 +29,19 @@ void main() {
         (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-      const app = App.adaptive(
+      final app = App.adaptive(
         title: 'Title',
-        home: Center(
+        home: const Center(
           child: Text('Hello'),
         ),
-        theme: Theme(
-            primaryColor: Colors.deepOrange, brightness: Brightness.light),
-        darkTheme:
-            Theme(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.deepOrange
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.deepOrange
+        ),
       );
 
       await widgetTester.pumpWidget(app);
@@ -83,15 +87,15 @@ void main() {
         (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
-      const app = App.adaptive(
+      final app = App.adaptive(
         title: 'Title',
-        home: Center(
+        home: const Center(
           child: Text('Hello'),
         ),
-        theme: Theme(
+        theme: ThemeData(
             primaryColor: Colors.deepOrange, brightness: Brightness.light),
         darkTheme:
-            Theme(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
+        ThemeData(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
       );
 
       await widgetTester.pumpWidget(app);
