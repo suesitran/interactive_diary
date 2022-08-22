@@ -62,3 +62,6 @@ android/appconfig.properties
 **/test/**/*.mocks.dart
 android/appconfig.properties
 packages/nartus_ui_package/android/local.properties
+
+# fvm
+./fvm

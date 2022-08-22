@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import '../nartus_ui.dart';
 
 class IDTextFormField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hint;
+  final TextEditingController? controller;
+  final String? hint;
   final Widget? prefix;
   final bool? autoFocus;
   const IDTextFormField(
       {Key? key,
-        required this.controller,
-        required this.hint,
+        this.controller,
+        this.hint,
         this.prefix,
         this.autoFocus = false})
       : super(key: key);
@@ -44,21 +44,14 @@ class IDTextFormField extends StatelessWidget {
 }
 
 class IDTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hint;
+  final TextEditingController? controller;
+  final String? hint;
   final Widget? prefix;
   final bool? autoFocus;
   const IDTextField(
       {Key? key,
-        required this.controller,
-        required this.hint,
-        this.prefix,
-        this.autoFocus = false})
-      : super(key: key);
-  const IDTextField.adaptive(
-      {Key? key,
-        required this.controller,
-        required this.hint,
+        this.controller,
+        this.hint,
         this.prefix,
         this.autoFocus = false})
       : super(key: key);
