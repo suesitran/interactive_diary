@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
+import 'package:interactive_diary/constants/dimens.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -26,7 +27,7 @@ class _IDSignUpBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: kspEdge),
+      padding: const EdgeInsets.symmetric(horizontal: Dimension.screenEdgeSpacing),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -44,24 +45,24 @@ class _IDSignUpBody extends StatelessWidget {
             child: Text("Let's join us to create your journey"),
           ),
           Gap.v20(),
-          _RegisterForm(),
+          _IDRegisterForm(),
           Gap.v20(),
-          GoogleSignInButton(),
+          IDGoogleSignInButton(),
           Gap.v12(),
-          _FacebookSignInButton()
+          _IDAppleSignInButton()
         ],
       ),
     );
   }
 }
 
-class _FacebookSignInButton extends StatelessWidget {
-  const _FacebookSignInButton({Key? key}) : super(key: key);
+class _IDAppleSignInButton extends StatelessWidget {
+  const _IDAppleSignInButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AButton(
-        text: 'Continue with Facebook', onPressed: () => print('facebook'));
+    return IDButton(
+        text: 'Continue with AppleId', onPressed: () => print('apple id'));
   }
 
   void _signUpByFacebook(BuildContext context) =>
@@ -69,23 +70,24 @@ class _FacebookSignInButton extends StatelessWidget {
 }
 
 
-class GoogleSignInButton extends StatelessWidget {
-  const GoogleSignInButton({Key? key}) : super(key: key);
+class IDGoogleSignInButton extends StatelessWidget {
+  const IDGoogleSignInButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GoogleSignupBloc, GoogleSignupState>(
-      builder: (_, GoogleSignupState googleState) {
-        return AButton(
+      builder: (BuildContext stateContext, GoogleSignupState googleState) {
+        return IDButton(
           text: 'Continue with Google',
-          onPressed: () => _signUpByGoogle(context),
-          isBusy: googleState is GoogleSigningUp,
+          onPressed: () => _signUpByGoogle(stateContext),
+          isBusy: googleState.isSigningUp,
         );
       },
-      listener: (_, GoogleSignupState googleState) {
-        if (googleState is GoogleSignupSucceed) {
-          Navigator.of(context).push(CupertinoPageRoute(
-              builder: (_) => const IDHome()));
+      listener: (BuildContext stateContext, GoogleSignupState googleState) {
+        if (googleState.isSignedSucceed) {
+          _navToHomeScreen(stateContext);
+        } else if (googleState.isSignedFailed) {
+          _showSignUpFailedDialog(stateContext, googleState.failedError);
         }
       },
     );
@@ -95,29 +97,47 @@ class GoogleSignInButton extends StatelessWidget {
       context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
 }
 
+Future<T?> _navToHomeScreen<T>(BuildContext context) {
+  return Navigator.of(context).pushReplacement(CupertinoPageRoute(
+      builder: (_) => const IDHome()));
+}
 
-class _RegisterForm extends HookWidget {
-  const _RegisterForm({Key? key}) : super(key: key);
+Future<T?> _showSignUpFailedDialog<T>(BuildContext context, String error) async {
+  return showDialog(context: context, builder: (_) {
+    return
+      AlertDialog(
+        title: const Text('Signup not succeed'),
+        content: Text(error),
+        actions: [
+          IDButton(text: 'I understand', onPressed: () => Navigator.of(context).pop()),
+        ],
+      );
+  });
+}
+
+
+class _IDRegisterForm extends HookWidget {
+  const _IDRegisterForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailCtrl = useTextEditingController();
     final TextEditingController passCtrl = useTextEditingController();
     return Form(
-        child: Column(
-      children: <Widget>[
-        ATextField(
-          controller: emailCtrl,
-          hint: 'Email',
-        ),
-        const Gap.v20(),
-        ATextField(
-          controller: passCtrl,
-          hint: 'Password',
-        ),
-        const Gap.v20(),
-        AButton(text: 'Register', onPressed: () => print('REGISTER'))
-      ],
+      child: Column(
+        children: <Widget>[
+          IDTextField(
+            controller: emailCtrl,
+            hint: 'Email',
+          ),
+          const Gap.v20(),
+          IDTextField(
+            controller: passCtrl,
+            hint: 'Password',
+          ),
+          const Gap.v20(),
+          IDButton(text: 'Register', onPressed: () => print('REGISTER'))
+        ],
     ));
   }
 }
@@ -177,31 +197,34 @@ class Gap extends StatelessWidget {
   }
 }
 
-class AButton extends StatelessWidget {
+class IDButton extends StatelessWidget {
   final String text;
   final void Function() onPressed;
   final bool? isBusy;
-  const AButton({required this.text, required this.onPressed, Key? key, this.isBusy = false})
+  const IDButton({required this.text, required this.onPressed, Key? key, this.isBusy = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      icon: isBusy! ? const SizedBox() : const Icon(Icons.abc_outlined),
+      icon: const SizedBox(),
       onPressed: onPressed,
       label: isBusy! ? const CircularProgressIndicator() : Text(text),
       style: TextButton.styleFrom(
-        primary: Colors.black, backgroundColor: Colors.green),
+        maximumSize: const Size(double.infinity, 46),
+        minimumSize: const Size(200, 46),
+        elevation: 1,
+        primary: Colors.black),
     );
   }
 }
 
-class ATextFormField extends StatelessWidget {
+class IDTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final Widget? prefix;
   final bool? autoFocus;
-  const ATextFormField(
+  const IDTextFormField(
       {Key? key,
       required this.controller,
       required this.hint,
@@ -236,19 +259,19 @@ class ATextFormField extends StatelessWidget {
   }
 }
 
-class ATextField extends StatelessWidget {
+class IDTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final Widget? prefix;
   final bool? autoFocus;
-  const ATextField(
+  const IDTextField(
       {Key? key,
       required this.controller,
       required this.hint,
       this.prefix,
       this.autoFocus = false})
       : super(key: key);
-  const ATextField.adaptive(
+  const IDTextField.adaptive(
       {Key? key,
       required this.controller,
       required this.hint,

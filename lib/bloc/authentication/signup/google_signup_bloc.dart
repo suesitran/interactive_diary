@@ -9,7 +9,7 @@ class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
   GoogleSignupBloc({AuthenticationService? authenticationService})
       : _authenticationService =
             authenticationService ?? AuthenticationService(),
-        super(GoogleSignupInitial()) {
+        super(GoogleSignupInitialState()) {
     on<SignUpByGoogleEvent>(
         (GoogleSignupEvent event, Emitter<GoogleSignupState> emit) async {
       await _signUpGoogle(emit);
@@ -17,14 +17,19 @@ class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
   }
 
   Future<dynamic> _signUpGoogle(Emitter<GoogleSignupState> emit) async {
-    emit(GoogleSigningUp());
+    emit(GoogleSigningUpState());
     try {
-      final UserDetail user = await _authenticationService.signinGoogle();
-      emit(GoogleSignupSucceed(user));
+      // final UserDetail user = await _authenticationService.signinGoogle();
+      // emit(GoogleSignupSucceedState(user));
+      final UserDetail user = await Future.delayed(Duration(milliseconds: 500), () => UserDetail(name: 'test'));
     } on AuthenticateFailedException catch (e) {
-      if (!e.isUserCanceled) {
-        emit(GoogleSignupFailed(e.error));
+      if (e.isUserCanceled) {
+        emit(GoogleSignupInitialState());
+      } else {
+        emit(GoogleSignupFailedState(e.error));
       }
+    } catch (e) {
+      emit(GoogleSignupFailedState('Something wrong happened. Please try again later'));
     }
   }
 }

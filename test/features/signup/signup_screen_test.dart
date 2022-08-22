@@ -15,22 +15,78 @@ import 'signup_screen_test.mocks.dart';
 void main() {
   setupFirebaseAuthMocks();
   final GoogleSignupBloc mockSignUpBloc = MockGoogleSignupBloc();
+  late IDSignUp screen;
 
   setUpAll(() async {
     await Firebase.initializeApp();
+    screen = const IDSignUp();
   });
 
   group('Signup with google', () {
-    testWidgets('When State is GoogleSigningUp, then the Google button is in loading status',
+    testWidgets('When State is GoogleSigninInitialState, '
+      'then the Google button is showed with idle status',
       (WidgetTester widgetTester) async {
-        const IDSignUp screen = IDSignUp();
 
+        when(mockSignUpBloc.stream)
+            .thenAnswer((_) => Stream<GoogleSignupState>.value(
+            GoogleSignupInitialState()));
         when(mockSignUpBloc.state)
-          .thenAnswer((_) => GoogleSigningUp());
+          .thenAnswer((_) => GoogleSignupInitialState());
 
-        await widgetTester.blocWrapAndPump<GoogleSignupBloc>(mockSignUpBloc, screen);
+        final Finder googleButton = find.widgetWithText(
+          IDGoogleSignInButton,
+          'Continue with Google'
+        );
 
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        await widgetTester.blocWrapAndPump<GoogleSignupBloc>(mockSignUpBloc, screen, infiniteAnimationWidget: true);
+
+        expect(googleButton, findsOneWidget);
+
       });
+
+    testWidgets('When State is GoogleSigningUpState, '
+      'then the Google button is showed with loading status',
+          (WidgetTester widgetTester) async {
+
+        when(mockSignUpBloc.stream).thenAnswer((_) =>
+          Stream<GoogleSignupState>.value(GoogleSigningUpState()));
+        when(mockSignUpBloc.state).thenAnswer((_) => GoogleSigningUpState());
+
+        await widgetTester.blocWrapAndPump<GoogleSignupBloc>(mockSignUpBloc, screen, infiniteAnimationWidget: true);
+
+        print('STATE 1: ${mockSignUpBloc.state}');
+
+        final Finder googleButton = find.widgetWithText(
+          IDGoogleSignInButton,
+          'Continue with Google'
+        );
+
+        final Finder loading = find.byWidget(
+            CircularProgressIndicator(),
+        );
+
+        // expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        expect(loading, findsOneWidget);
+
+      });
+
+    testWidgets('When State is GoogleSignupFailedState, '
+      'then show failed signup dialog',
+          (WidgetTester widgetTester) async {
+        final GoogleSignupFailedState signUpFailedState = GoogleSignupFailedState('error');
+
+        when(mockSignUpBloc.stream).thenAnswer((_) =>
+          Stream<GoogleSignupState>.value(signUpFailedState));
+        when(mockSignUpBloc.state).thenAnswer((_) => signUpFailedState);
+
+        await widgetTester.blocWrapAndPump<GoogleSignupBloc>(mockSignUpBloc, screen, infiniteAnimationWidget: true);
+
+        print('STATE 2 : ${mockSignUpBloc.state}');
+
+        expect(find.byType(AlertDialog), findsOneWidget);
+
+      });
+
   });
+
 }

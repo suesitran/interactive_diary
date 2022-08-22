@@ -2,19 +2,28 @@ part of 'google_signup_bloc.dart';
 
 abstract class GoogleSignupState {}
 
-class GoogleSignupInitial extends GoogleSignupState {}
+class GoogleSignupInitialState extends GoogleSignupState {}
 
-class GoogleSignupSucceed extends GoogleSignupState {
+class GoogleSignupSucceedState extends GoogleSignupState {
   final UserDetail user;
 
-  GoogleSignupSucceed(this.user);
+  GoogleSignupSucceedState(this.user);
 }
 
-class GoogleSignupFailed extends GoogleSignupState {
+class GoogleSignupFailedState extends GoogleSignupState {
   final String error;
 
-  GoogleSignupFailed(this.error);
+  GoogleSignupFailedState(this.error);
 
 }
 
-class GoogleSigningUp extends GoogleSignupState {}
+class GoogleSigningUpState extends GoogleSignupState {}
+
+extension GoogleSignupStateExtension on GoogleSignupState {
+  bool get isSigningUp => this is GoogleSigningUpState;
+  bool get isSignedSucceed => this is GoogleSignupSucceedState;
+  bool get isSignedFailed => this is GoogleSignupFailedState;
+  bool get isSignUpInitial => this is GoogleSignupInitialState;
+
+  String get failedError => isSignedFailed ? (this as GoogleSignupFailedState).error : '';
+}

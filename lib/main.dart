@@ -7,7 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 
-import 'features/signup/signup_screen.dart';
+import 'package:interactive_diary/features/signup/signup_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,11 +21,11 @@ void main() async {
   }
 
   runApp(App.adaptive(
-    // home: BlocProvider<LocationBloc>(
-    //   create: (BuildContext context) => LocationBloc(),
-    //   child: const IDHome(),
-    // ),
-    home: const IDSignUp(),
+    home: BlocProvider<LocationBloc>(
+      create: (BuildContext context) => LocationBloc(),
+      // child: const IDHome(),
+      child: const IDSignUp(),
+    ),
     title: 'Interactive Diary',
     theme: const Theme(primaryColor: Colors.deepOrange),
     routes: routes.appRoute,

@@ -4,4 +4,6 @@ class Dimension {
   static const double spacing8 = 8.0;
 
   static const double spacing16 = 16.0;
+
+  static const double screenEdgeSpacing = 12.0;
 }
