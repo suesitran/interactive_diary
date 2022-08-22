@@ -61,3 +61,4 @@ ios/Flutter/AppConfig.xcconfig
 android/googlemap.properties
 **/test/**/*.mocks.dart
 android/appconfig.properties
+packages/nartus_ui_package/android/local.properties
