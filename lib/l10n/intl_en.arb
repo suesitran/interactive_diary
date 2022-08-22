@@ -1,0 +1,15 @@
+{
+  "errorSomethingWrongHappened": "Something wrong happened. Please try again later",
+
+  "idWelcome" : "Welcome to Interactive Dairy",
+  "screenSignUpIntroduction" : "Let's join us to create your journey",
+
+  "btnSignInGoogle" : "Continue with Google",
+  "btnSignInApple" : "Continue with Apple",
+
+  "signup" : "Sign Up",
+  "signin" : "Sign Ip",
+
+  "email" : "Email",
+  "password" : "Password"
+}

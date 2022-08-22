@@ -50,7 +50,7 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      throw AuthUtils.convertAuthException(e.code, e.message ?? kErrUnknown);
+      throw AuthUtils.convertAuthException(e.code, e.message ?? DefaultError.kErrUnknown);
     } catch (_) {
       throw AuthenticateFailedException.unknown();
     }

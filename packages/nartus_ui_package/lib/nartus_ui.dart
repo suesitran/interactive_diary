@@ -21,3 +21,5 @@ export 'package:flutter/src/material/text_button.dart';
 export 'platform_screens.dart';
 export 'app.dart';
 export 'theme.dart';
+
+export 'widgets/widgets.dart';

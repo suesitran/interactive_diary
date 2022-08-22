@@ -1,5 +1,7 @@
 
-import 'package:nartus_authentication/src/common.dart';
+
+
+import 'common.dart';
 
 class AuthenticationException implements Exception {
   final String error;
@@ -19,11 +21,11 @@ class AuthenticateFailedException extends AuthenticationException {
   final AuthenticateStatus status;
   AuthenticateFailedException(this.status, super.error);
   AuthenticateFailedException.userCancelled() :
-    status = AuthenticateStatus.userCanceled, super(kErrUserCanceled);
+    status = AuthenticateStatus.userCanceled, super(DefaultError.kErrUserCanceled);
   AuthenticateFailedException.userNotFound() :
-      status = AuthenticateStatus.userNotFound, super(kErrUserNotFound);
+      status = AuthenticateStatus.userNotFound, super(DefaultError.kErrUserNotFound);
   AuthenticateFailedException.unknown({String? error}) :
-      status = AuthenticateStatus.unknown, super(error ?? kErrUnknown);
+      status = AuthenticateStatus.unknown, super(error ?? DefaultError.kErrUnknown);
 
   bool get isUserCanceled => status == AuthenticateStatus.userCanceled;
 }
@@ -80,7 +82,7 @@ class AuthUtils {
         return AuthenticateFailedException(
           AuthenticateStatus.userCanceled, message);
       default:
-        return AuthenticateFailedException(AuthenticateStatus.unknown, kErrUnknown);
+        return AuthenticateFailedException(AuthenticateStatus.unknown, DefaultError.kErrUnknown);
     }
   }
 }

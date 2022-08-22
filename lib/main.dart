@@ -5,7 +5,6 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/route/map_route.dart' as routes;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
-import 'package:interactive_diary/features/home/home_screen.dart';
 
 import 'package:interactive_diary/features/signup/signup_screen.dart';
 

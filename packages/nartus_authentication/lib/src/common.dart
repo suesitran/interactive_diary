@@ -1,3 +1,5 @@
-const String kErrUserCanceled = 'User cancelled';
-const String kErrUserNotFound = 'User not found';
-const String kErrUnknown = 'Unknown error';
+class DefaultError {
+  static const String kErrUserCanceled = 'User cancelled';
+  static const String kErrUserNotFound = 'User not found';
+  static const String kErrUnknown = 'Unknown error';
+}

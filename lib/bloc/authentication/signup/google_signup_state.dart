@@ -21,9 +21,9 @@ class GoogleSigningUpState extends GoogleSignupState {}
 
 extension GoogleSignupStateExtension on GoogleSignupState {
   bool get isSigningUp => this is GoogleSigningUpState;
-  bool get isSignedSucceed => this is GoogleSignupSucceedState;
-  bool get isSignedFailed => this is GoogleSignupFailedState;
+  bool get isSignedUpSucceed => this is GoogleSignupSucceedState;
+  bool get isSignedUpFailed => this is GoogleSignupFailedState;
   bool get isSignUpInitial => this is GoogleSignupInitialState;
 
-  String get failedError => isSignedFailed ? (this as GoogleSignupFailedState).error : '';
+  String get failedSignUpError => isSignedUpFailed ? (this as GoogleSignupFailedState).error : '';
 }
