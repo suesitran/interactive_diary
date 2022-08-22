@@ -22,11 +22,12 @@ void main() async {
   runApp(App.adaptive(
     home: BlocProvider<LocationBloc>(
       create: (BuildContext context) => LocationBloc(),
-      // child: const IDHome(),
       child: const IDSignUp(),
     ),
     title: 'Interactive Diary',
-    theme: const Theme(primaryColor: Colors.deepOrange),
+    theme: ThemeData(
+        primaryColor: Colors.deepOrange
+    ),
     routes: routes.appRoute,
   ));
 }

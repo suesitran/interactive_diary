@@ -27,25 +27,25 @@ class _IDSignUpBody extends StatelessWidget {
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: const <Widget>[
           SizedBox(
             width: double.infinity,
             child: Text(
-              IDLocalisation.of(context).idWelcome,
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              'Welcome to Interactive Dairy',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           ),
-          const Gap.v12(),
+          Gap.v12(),
           SizedBox(
             width: double.infinity,
-            child: Text(IDLocalisation.of(context).screenSignUpIntroduction),
+            child: Text("Let's join us to create your journey"),
           ),
-          const Gap.v20(),
-          const _IDRegisterForm(),
-          const Gap.v20(),
-          const IDGoogleSignInButton(),
-          const Gap.v12(),
-          const _IDAppleSignInButton()
+          Gap.v20(),
+          _IDRegisterForm(),
+          Gap.v20(),
+          IDGoogleSignInButton(),
+          Gap.v12(),
+          _IDAppleSignInButton()
         ],
       ),
     );
@@ -58,7 +58,7 @@ class _IDAppleSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IDButton(
-      text: IDLocalisation.of(context).btnSignInApple, onPressed: () => _signUpByApple(context));
+      text: 'Continue with Apple', onPressed: () => _signUpByApple(context));
   }
 
   void _signUpByApple(BuildContext context) =>
@@ -74,7 +74,7 @@ class IDGoogleSignInButton extends StatelessWidget {
     return BlocConsumer<GoogleSignupBloc, GoogleSignupState>(
       builder: (BuildContext stateContext, GoogleSignupState googleState) {
         return IDButton(
-          text: IDLocalisation.of(context).btnSignInGoogle,
+          text: 'Continue with Google',
           onPressed: () => _signUpByGoogle(stateContext),
           isBusy: googleState.isSigningUp,
         );
@@ -114,15 +114,15 @@ class _IDRegisterForm extends HookWidget {
         children: <Widget>[
           IDTextField(
             controller: emailCtrl,
-            hint: IDLocalisation.of(context).email,
+            hint: 'Email',
           ),
           const Gap.v20(),
           IDTextField(
             controller: passCtrl,
-            hint: IDLocalisation.of(context).password,
+            hint: 'Password',
           ),
           const Gap.v20(),
-          IDButton(text: IDLocalisation.of(context).signup, onPressed: () => throw UnimplementedError())
+          IDButton(text: 'Register', onPressed: () => throw UnimplementedError())
         ],
     ));
   }

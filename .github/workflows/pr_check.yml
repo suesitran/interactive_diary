@@ -4,6 +4,11 @@ name: Interactive Diary PR Check
 
 # Controls when the workflow will run
 on:
+  pull_request_target:
+    branches:
+      - '**'
+      - '!dev'
+      - '!master'
   # Triggers the workflow on push or pull request events but only for the "dev" branch
   push:
     branches: 
@@ -11,7 +16,7 @@ on:
       - '!dev'
       - '!master'
   pull_request:
-    branches: 
+    branches:
       - '**'
       - '!dev'
       - '!master'
