@@ -66,10 +66,13 @@ jobs:
         flutter clean
         flutter pub get
         flutter pub run build_runner build
-        flutter test --coverage
-        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; flutter test --coverage; cd -; done
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
     - name: analyse code
       run: flutter analyze
+    - name: Run tests
+      run: |
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
