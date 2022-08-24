@@ -24,7 +24,7 @@ void main() {
                   onPressed: () {
                     counter++;
                   },
-                  child: Text('Action'))
+                  child: const Text('Action'))
             ]);
         return Container();
       },
@@ -66,7 +66,7 @@ void main() {
                   onPressed: () {
                     counter++;
                   },
-                  child: Text('Action'))
+                  child: const Text('Action'))
             ]);
         return Container();
       },
