@@ -9,7 +9,7 @@ on:
       - '**'
       - '!dev'
       - '!master'
-  # Triggers the workflow on push or pull request events but only for the "dev" branch
+  # Triggers the workflow on push or pull request events but not for the "dev" branch
   push:
     branches: 
       - '**'
@@ -31,6 +31,9 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
     - name: Setup environment secrets
       shell: bash
       env:
