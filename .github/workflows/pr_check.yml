@@ -31,7 +31,8 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - shell: bash
+    - name: Setup environment secrets
+      shell: bash
       env:
         FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
         ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
@@ -44,21 +45,28 @@ jobs:
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
-    - uses: actions/setup-java@v3
+    - name:  Setup Java
+      uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
         java-version: '11'
-    - uses: subosito/flutter-action@v2.6.1
+    - name: Install Flutter 
+      uses: subosito/flutter-action@v2.6.1
       with:
         flutter-version: '3.0.5'
         channel: 'stable'
-    - shell: bash
+    - name: Install  dependencies
+      shell: bash
       run: |
         flutter clean
         flutter pub get
         flutter pub run build_runner build
         flutter test --coverage
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; flutter test --coverage; cd -; done
+    - name: Format filed
+      run: flutter format --set-exit-if-changed
+    - name:  Run analyse
+      run: flutter analyze
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
