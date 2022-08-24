@@ -60,8 +60,6 @@ jobs:
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
-    - name: analyse code
-      run: flutter analyze
     - name: Install dependencies
       shell: bash
       run: |
@@ -70,6 +68,8 @@ jobs:
         flutter pub run build_runner build
         flutter test --coverage
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; flutter test --coverage; cd -; done
+    - name: analyse code
+      run: flutter analyze
     - uses: codecov/codecov-action@v3
       with:
         verbose: true
