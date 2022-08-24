@@ -34,20 +34,6 @@ jobs:
       with:
         ref: ${{github.event.pull_request.head.ref}}
         repository: ${{github.event.pull_request.head.repo.full_name}}
-    - name: Setup environment secrets
-      shell: bash
-      env:
-        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
-        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
-        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
-        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
-        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
-      run: |
-        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
-        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
-        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
-        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
-        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
     - name:  Setup Java
       uses: actions/setup-java@v3
       with:
@@ -62,6 +48,20 @@ jobs:
       run: flutter format . --set-exit-if-changed
     - name: analyse code
       run: flutter analyze
+    - name: Setup environment secrets
+      shell: bash
+      env:
+        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
+        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
+        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
+      run: |
+        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
+        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
+        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
+        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
     - name: Install  dependencies
       shell: bash
       run: |
