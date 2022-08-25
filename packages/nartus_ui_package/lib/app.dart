@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/cupertino.dart'
-    show CupertinoApp;
+import 'package:flutter/cupertino.dart' show CupertinoApp;
 import 'package:flutter/material.dart'
     show MaterialApp, Brightness, ThemeData, Theme;
 
