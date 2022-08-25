@@ -97,7 +97,8 @@ class App extends StatelessWidget {
   CupertinoApp _buildCupertinoApp() {
     final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
         .platformBrightness;
-    final ThemeData? selectedTheme = (brightness == Brightness.dark ? _darkTheme : _theme) ?? _theme;
+    final ThemeData? selectedTheme =
+        (brightness == Brightness.dark ? _darkTheme : _theme) ?? _theme;
 
     if (selectedTheme != null) {
       return CupertinoApp(
