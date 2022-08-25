@@ -64,13 +64,15 @@ class App extends StatelessWidget {
             routes: routes,
             appType: _AppType.cupertino);
 
-  const App.adaptive(
-      {Key? key,
-      required Widget home,
-      String title = '',
-      ThemeData? theme,
+  const App.adaptive({
+        Key? key,
+        required Widget home,
+        String title = '',
+        ThemeData? theme,
         ThemeData? darkTheme,
-      Map<String, WidgetBuilder>? routes})
+        Map<String, WidgetBuilder>? routes,
+
+    })
       : this._(
             key: key,
             home: home,

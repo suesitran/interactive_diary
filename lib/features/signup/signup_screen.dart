@@ -23,7 +23,7 @@ class _IDSignUpBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Dimension.screenEdgeSpacing),
+      padding: const EdgeInsets.symmetric(horizontal: Dimension.spacing12),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
