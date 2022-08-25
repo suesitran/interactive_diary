@@ -25,7 +25,8 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
 
-    testWidgets('When platform is iOS, check that material theme is wrapped out of cupertino home',
+    testWidgets(
+        'When platform is iOS, check that material theme is wrapped out of cupertino home',
         (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
