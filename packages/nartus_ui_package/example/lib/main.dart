@@ -19,6 +19,16 @@ class MyApp extends StatelessWidget {
         ),
         body: const WidgetCatalog(),
       ),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue,
+        ).copyWith(
+          background: Colors.white,
+          onBackground: const Color(0xffFFF9ED),
+          error: const Color(0xFF8B0101),
+          onError: Colors.white,
+        )
+      ),
     );
   }
 }
@@ -30,7 +40,7 @@ class WidgetCatalog extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
         children: [
           _buildWidgetTile(
-              'Text and error label', const TextAndErrorLabelScreen()),
+              'Text and error label', TextAndErrorLabelScreen()),
         ],
       );
 
