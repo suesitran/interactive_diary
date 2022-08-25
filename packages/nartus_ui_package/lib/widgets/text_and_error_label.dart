@@ -18,10 +18,14 @@ class TextAndErrorLabel extends StatefulWidget {
 class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTickerProviderStateMixin {
 
   late AnimationController _controller;
-  final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
+  final Animatable<double> _easeInTween = CurveTween(curve: Curves.fastOutSlowIn);
   late Animation<double> _heightFactor;
 
-  final Duration _kExpand = const Duration(seconds: 5);
+  final Duration _kExpand = const Duration(milliseconds: 300);
+
+  final GlobalKey _labelKey = GlobalKey();
+
+  double height = 0;
 
   @override
   void initState() {
@@ -46,6 +50,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      height = _calculateHeightOfError();
       if (widget._showError) {
         _controller.forward();
       } else {
@@ -74,6 +79,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
   }
 
   Widget _labelWidget() => Builder(builder: (context) => Container(
+    key: _labelKey,
     alignment: Alignment.center,
     decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onBackground,
@@ -87,7 +93,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
     animation: _controller.view,
     builder: (context, child) {
       return Container(
-        height: 80 * _heightFactor.value,
+        height: height * _heightFactor.value,
           alignment: Alignment.bottomCenter,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: Text(
@@ -100,4 +106,23 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
       );
     },
   );
+
+  double _calculateHeightOfError() {
+    // height of error = height of error text + padding top + padding bottom + 1/2 label height
+    // label height
+    final double labelHeight = _labelKey.currentContext?.size?.height ?? 0.0;
+
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final double paddingTop = 4 * textScaleFactor;
+    final double paddingBottom = 4 * textScaleFactor;
+
+    TextPainter painter = TextPainter()
+    ..textDirection = TextDirection.ltr
+    ..text = TextSpan(text: widget._error, style: Theme.of(context).textTheme.subtitle1);
+
+    painter.layout();
+    double errorTextHeight = painter.height;
+
+    return errorTextHeight + paddingTop + paddingBottom + labelHeight;
+  }
 }
