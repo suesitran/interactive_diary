@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart'
-    show CupertinoApp, CupertinoThemeData, CupertinoTextThemeData;
+    show CupertinoApp;
 import 'package:flutter/material.dart'
-    show MaterialApp, Brightness, ThemeData, Colors, Theme;
+    show MaterialApp, Brightness, ThemeData, Theme;
 
 enum _AppType { material, cupertino, adaptive }
 
