@@ -7,7 +7,7 @@ rm -r coverage/
 flutter pub get
 flutter pub run build_runner build --delete-conflicting-outputs
 flutter test --coverage
-cat coverage/lcov.info > lcov.base.info
+cat coverage/lcov.info > coverage/lcov.base.info
 
 for d in $(ls packages)
 	do cd packages/$d
