@@ -36,4 +36,6 @@ class LocationService {
   Future<PermissionStatus> requestPermission() => _location.requestPermission();
 
   Future<bool> requestService() => _location.requestService();
+
+  Future<PermissionStatus> permissionStatus() => _location.hasPermission();
 }
