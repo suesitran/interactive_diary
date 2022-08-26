@@ -5,9 +5,9 @@ class TextAndErrorLabel extends StatefulWidget {
   final String _error;
   final bool _showError;
 
-  const TextAndErrorLabel({Key? key, required String label, required String error, bool showError = false})
+  const TextAndErrorLabel({Key? key, required String label, String? error, bool showError = false})
       : _label = label,
-        _error = error,
+        _error = error ?? '',
         _showError = showError,
         super(key: key);
 
