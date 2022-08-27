@@ -40,8 +40,8 @@ class AuthenticationService {
     if (firebaseUser == null) throw AuthenticateFailedException.userNotFound();
 
     return UserDetail(
-      name: firebaseUser.displayName!,
-      avatarUrl: firebaseUser.photoURL!,
+      name: firebaseUser.displayName,
+      avatarUrl: firebaseUser.photoURL,
       phone: firebaseUser.phoneNumber,
       email: firebaseUser.email);
   }

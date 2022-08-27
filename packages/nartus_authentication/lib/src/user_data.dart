@@ -1,5 +1,5 @@
 class UserDetail {
-  final String name;
+  final String? name;
   final String? avatarUrl;
   final String? phone;
   final String? email;

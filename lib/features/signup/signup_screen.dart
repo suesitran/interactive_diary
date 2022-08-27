@@ -61,8 +61,7 @@ class _IDAppleSignInButton extends StatelessWidget {
       text: 'Continue with Apple', onPressed: () => _signUpByApple(context));
   }
 
-  void _signUpByApple(BuildContext context) =>
-      throw UnimplementedError();
+  void _signUpByApple(BuildContext context) => () {};
 }
 
 
@@ -93,13 +92,9 @@ class IDGoogleSignInButton extends StatelessWidget {
       context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
 }
 
-Future<T?> _navToHomeScreen<T>(BuildContext context) {
-  throw UnimplementedError();
-}
+Future<T?> _navToHomeScreen<T>(BuildContext context) async {}
 
-Future<T?> _showSignUpFailedDialog<T>(BuildContext context, String error) async {
-  throw UnimplementedError();
-}
+Future<T?> _showSignUpFailedDialog<T>(BuildContext context, String error) async {}
 
 
 class _IDRegisterForm extends HookWidget {
@@ -122,8 +117,10 @@ class _IDRegisterForm extends HookWidget {
             hint: 'Password',
           ),
           const Gap.v20(),
-          IDButton(text: 'Register', onPressed: () => throw UnimplementedError())
+          IDButton(text: 'Register', onPressed: () => _register())
         ],
     ));
   }
+
+  void _register() {}
 }

@@ -32,10 +32,4 @@ void main() {
     });
   });
 
-  test('given user signing in by google, when user cancel login, then throw AuthenticateFailedException.userCancelled', () {
-    when(googleSignIn.signIn())
-        .thenAnswer((realInvocation) => throw PlatformException(code: 'sign_in_canceled'));
-
-    expect(() => authService.signinGoogle(), throwsA(isA<AuthenticateFailedException>()));
-  });
 }
