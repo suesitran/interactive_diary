@@ -31,6 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+pubspec.lock
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -48,5 +49,11 @@ app.*.map.json
 
 /android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
 /macos/Flutter/GeneratedPluginRegistrant.swift
+
+/ios
+/android
+/macos
+.metadata
+.packages
 
 

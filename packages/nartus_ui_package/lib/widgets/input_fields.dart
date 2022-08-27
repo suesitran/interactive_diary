@@ -15,7 +15,6 @@ class IDTextFormField extends StatelessWidget {
         this.prefix,
         this.autoFocus = false})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -55,7 +54,6 @@ class IDTextField extends StatelessWidget {
         this.prefix,
         this.autoFocus = false})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
