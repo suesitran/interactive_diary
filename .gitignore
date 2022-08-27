@@ -65,3 +65,6 @@ packages/nartus_ui_package/android/local.properties
 
 # fvm
 ./fvm
+lcov.*.info
+**/lcov.info
+**/lcov.*.info
