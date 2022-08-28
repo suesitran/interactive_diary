@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/dimens.dart';
-import 'package:interactive_diary/utils/dialogs/dialog.dart';
-import 'package:nartus_ui_package/nartus_ui.dart';
 
+import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:nartus_location/nartus_location.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +12,12 @@ class IDHome extends Screen {
   const IDHome({
     Key? key,
   }) : super(key: key);
+
+  primaryButtonPress(BuildContext context) {}
+
+  secondaryButtonPress(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pop(false);
+  }
 
   @override
   Widget body(BuildContext context) => BlocBuilder<LocationBloc, LocationState>(
@@ -58,42 +64,62 @@ class IDHome extends Screen {
 
           if (state is LocationPermissionNotGrantedState) {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-              bool value = await showDialog<bool>(
-                    context: context,
-                    builder: (BuildContext context) => DialogRequest(
-                      typeDialog: 0,
-                    ),
-                  ) ??
-                  false;
-              if (value) {
-                // ignore: use_build_context_synchronously
+              var value = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) => DialogRequest(
+                      title: 'Location Permission not granted',
+                      content:
+                          'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog',
+                      primaryButtonTitle: 'Allow',
+                      secondaryButtonTitle: 'Continue',
+                      primaryButtonPress: () {
+                        Navigator.of(context, rootNavigator: true).pop(true);
+                      },
+                      secondaryButtonPress: () {
+                        Navigator.of(context, rootNavigator: true).pop(false);
+                      }));
+              if (value!) {
                 context
                     .read<LocationBloc>()
                     .add(RequestPermissionLocationEvent());
               } else {
-                // ignore: use_build_context_synchronously
                 context.read<LocationBloc>().add(DefaultLocationServiceEvent());
               }
             });
           }
 
           if (state is LocationInitial) {
+            print('RequestCurrentLocationEvent');
             context.read<LocationBloc>().add(RequestCurrentLocationEvent());
           }
 
           if (state is LocationPermissionDeniedState) {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-              bool value = await showDialog<bool>(
-                    context: context,
-                    builder: (BuildContext context) => DialogRequest(
-                      typeDialog: 1,
-                    ),
-                  ) ??
-                  false;
-              if (value) {
-                // ignore: use_build_context_synchronously
+              var value = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) => DialogRequest(
+                      title: 'Why does app need location Permission',
+                      content: 'Explain why does app need location Permission',
+                      primaryButtonTitle: 'Allow',
+                      secondaryButtonTitle: '',
+                      primaryButtonPress: () {
+                        Navigator.of(context, rootNavigator: true).pop(true);
+                      },
+                      secondaryButtonPress: () {}));
+              if (value!) {
                 context.read<LocationBloc>().add(DefaultLocationServiceEvent());
               }
+              // bool value = await showDialog<bool>(
+              //       context: context,
+              //       builder: (BuildContext context) => DialogRequest(
+              //         typeDialog: 1,
+              //       ),
+              //     ) ??
+              //     false;
+              // if (value) {
+              //   // ignore: use_build_context_synchronously
+              //   context.read<LocationBloc>().add(DefaultLocationServiceEvent());
+              // }
             });
           }
 

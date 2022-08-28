@@ -28,57 +28,17 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
-    final bool isConnected = await InternetConnectionChecker().hasConnection;
-    //internet connected
-    if (isConnected) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final bool isLoaded = prefs.getBool('isLoadedDialog') ?? false;
-      //not Load permission dialog
-      if (!isLoaded) {
-        try {
-          final LocationDetails data =
-              await _locationService.getCurrentLocation();
-          final String dateDisplay =
-              DateFormat('dd-MMM-yyyy').format(DateTime.now());
-          emit(LocationReadyState(data, dateDisplay));
-        } on LocationServiceDisableException catch (_) {
-          emit(LocationServiceDisableState());
-        } on LocationPermissionNotGrantedException catch (_) {
-          emit(LocationPermissionNotGrantedState());
-        } on Exception catch (_) {
-          emit(UnknownLocationErrorState());
-        }
-      }
-      //Loaded permission dialog
-      else {
-        final PermissionStatus permissionGranted =
-            await _locationService.permissionStatus();
-        final LocationDetails data =
-            await _locationService.getCurrentLocation();
-        final LocationDetails dataDefault =
-            LocationDetails(10.7840007, 106.7034988);
-        final String dateDisplay =
-            DateFormat('dd-MMM-yyyy').format(DateTime.now());
-        switch (permissionGranted) {
-          //permission granted
-          case PermissionStatus.granted:
-            emit(LocationReadyState(data, dateDisplay));
-            break;
-          //permission denied -  load default location
-          case PermissionStatus.denied:
-            emit(LocationReadyState(dataDefault, dateDisplay));
-            break;
-          //permission deniedForever -  load default location
-          case PermissionStatus.deniedForever:
-            emit(LocationReadyState(dataDefault, dateDisplay));
-            break;
-          default:
-        }
-      }
-    }
-    //internet not connected
-    else {
-      emit(InternetDisconectedState());
+    try {
+      final LocationDetails data = await _locationService.getCurrentLocation();
+      final String dateDisplay =
+          DateFormat('dd-MMM-yyyy').format(DateTime.now());
+      emit(LocationReadyState(data, dateDisplay));
+    } on LocationServiceDisableException catch (_) {
+      emit(LocationServiceDisableState());
+    } on LocationPermissionNotGrantedException catch (_) {
+      emit(LocationPermissionNotGrantedState());
+    } on Exception catch (_) {
+      emit(UnknownLocationErrorState());
     }
   }
 
@@ -86,9 +46,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       Emitter<LocationState> emit) async {
     final PermissionStatus permissionGranted =
         await _locationService.requestPermission();
-    //set loaded dialog
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoadedDialog', true);
     switch (permissionGranted) {
       //permission granted
       case PermissionStatus.granted:
