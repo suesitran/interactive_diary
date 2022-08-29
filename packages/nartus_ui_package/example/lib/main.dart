@@ -1,6 +1,5 @@
 import 'package:example/screens/text_and_error_label_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:nartus_ui_package/app.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/widgets/text_error_label/text_and_error_label.dart';
 
 class TextAndErrorLabelScreen extends StatelessWidget {
