@@ -14,11 +14,22 @@ class TextAndErrorLabelScreen extends StatelessWidget {
       body: Column(
         children: [
           const TextAndErrorLabel(label: '22 August 2022'),
-          const SizedBox(height: NartusDimens.padding8,),
-          ValueListenableBuilder<bool>(valueListenable: error, builder: (context, showError, widget) => TextAndErrorLabel(label: '22 August 2022', error: 'No Internet connection', showError: showError,),),
-          TextButton(onPressed: () {
-            error.value = !error.value;
-          }, child: const Text('show/hide error'))
+          const SizedBox(
+            height: NartusDimens.padding8,
+          ),
+          ValueListenableBuilder<bool>(
+            valueListenable: error,
+            builder: (context, showError, widget) => TextAndErrorLabel(
+              label: '22 August 2022',
+              error: 'No Internet connection',
+              showError: showError,
+            ),
+          ),
+          TextButton(
+              onPressed: () {
+                error.value = !error.value;
+              },
+              child: const Text('show/hide error'))
         ],
       ),
     );

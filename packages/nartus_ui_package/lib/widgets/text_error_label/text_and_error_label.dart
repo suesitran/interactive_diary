@@ -6,7 +6,8 @@ class TextAndErrorLabel extends StatefulWidget {
   final String _error;
   final bool _showError;
 
-  const TextAndErrorLabel({Key? key, required String label, String? error, bool showError = false})
+  const TextAndErrorLabel(
+      {Key? key, required String label, String? error, bool showError = false})
       : _label = label,
         _error = error ?? '',
         _showError = showError,
@@ -16,10 +17,11 @@ class TextAndErrorLabel extends StatefulWidget {
   State<TextAndErrorLabel> createState() => _TextAndErrorLabelState();
 }
 
-class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTickerProviderStateMixin {
-
+class _TextAndErrorLabelState extends State<TextAndErrorLabel>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  final Animatable<double> _easeInTween = CurveTween(curve: Curves.fastOutSlowIn);
+  final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.fastOutSlowIn);
   late Animation<double> _heightFactor;
 
   final Duration _kExpand = const Duration(milliseconds: 300);
@@ -67,7 +69,8 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.error,
-            borderRadius: const BorderRadius.all(Radius.circular(NartusDimens.padding24))),
+            borderRadius: const BorderRadius.all(
+                Radius.circular(NartusDimens.padding24))),
         alignment: Alignment.center,
         child: Stack(
           children: [
@@ -82,34 +85,41 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
     );
   }
 
-  Widget _labelWidget() => Builder(builder: (context) => Container(
-    key: _labelKey,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onBackground,
-        borderRadius: const BorderRadius.all(Radius.circular(NartusDimens.padding24))),
-    padding:
-    const EdgeInsets.symmetric(horizontal: NartusDimens.padding16, vertical: NartusDimens.padding14),
-    child: Text(widget._label, style: Theme.of(context).textTheme.headline6),
-  ),);
+  Widget _labelWidget() => Builder(
+        builder: (context) => Container(
+          key: _labelKey,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onBackground,
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(NartusDimens.padding24))),
+          padding: const EdgeInsets.symmetric(
+              horizontal: NartusDimens.padding16,
+              vertical: NartusDimens.padding14),
+          child:
+              Text(widget._label, style: Theme.of(context).textTheme.headline6),
+        ),
+      );
 
   Widget _errorWidget() => AnimatedBuilder(
-    animation: _controller.view,
-    builder: (context, child) {
-      return Container(
-        height: height * _heightFactor.value,
-          alignment: Alignment.bottomCenter,
-          padding: const EdgeInsets.symmetric(horizontal: NartusDimens.padding16, vertical: NartusDimens.padding4),
-          child: Text(
-            widget._error,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                ?.copyWith(color: Theme.of(context).colorScheme.onError),
-          ),
+        animation: _controller.view,
+        builder: (context, child) {
+          return Container(
+            height: height * _heightFactor.value,
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.symmetric(
+                horizontal: NartusDimens.padding16,
+                vertical: NartusDimens.padding4),
+            child: Text(
+              widget._error,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  ?.copyWith(color: Theme.of(context).colorScheme.onError),
+            ),
+          );
+        },
       );
-    },
-  );
 
   double _calculateHeightOfError() {
     // height of error = height of error text + padding top + padding bottom + 1/2 label height
@@ -121,8 +131,9 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
     final double paddingBottom = NartusDimens.padding4 * textScaleFactor;
 
     TextPainter painter = TextPainter()
-    ..textDirection = TextDirection.ltr
-    ..text = TextSpan(text: widget._error, style: Theme.of(context).textTheme.subtitle1);
+      ..textDirection = TextDirection.ltr
+      ..text = TextSpan(
+          text: widget._error, style: Theme.of(context).textTheme.subtitle1);
 
     painter.layout();
     double errorTextHeight = painter.height;

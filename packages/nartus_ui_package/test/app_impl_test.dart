@@ -35,13 +35,9 @@ void main() {
           child: Text('Hello'),
         ),
         theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: Colors.deepOrange
-        ),
+            brightness: Brightness.light, primaryColor: Colors.deepOrange),
         darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.deepOrange
-        ),
+            brightness: Brightness.dark, primaryColor: Colors.deepOrange),
       );
 
       await widgetTester.pumpWidget(app);
@@ -94,8 +90,8 @@ void main() {
         ),
         theme: ThemeData(
             primaryColor: Colors.deepOrange, brightness: Brightness.light),
-        darkTheme:
-        ThemeData(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
+        darkTheme: ThemeData(
+            primaryColor: Colors.deepOrange, brightness: Brightness.dark),
       );
 
       await widgetTester.pumpWidget(app);
