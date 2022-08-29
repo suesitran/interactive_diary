@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
 
 class TextAndErrorLabel extends StatefulWidget {
   final String _label;
@@ -59,18 +60,21 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
     });
     return Card(
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(23)),
+        borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding24)),
       ),
       color: Theme.of(context).backgroundColor,
-      elevation: 4,
+      elevation: NartusDimens.padding4,
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.error,
-            borderRadius: const BorderRadius.all(Radius.circular(23))),
+            borderRadius: const BorderRadius.all(Radius.circular(NartusDimens.padding24))),
         alignment: Alignment.center,
         child: Stack(
           children: [
-            _errorWidget(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _errorWidget(),
+            ),
             _labelWidget(),
           ],
         ),
@@ -83,9 +87,9 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
     alignment: Alignment.center,
     decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onBackground,
-        borderRadius: const BorderRadius.all(Radius.circular(23))),
+        borderRadius: const BorderRadius.all(Radius.circular(NartusDimens.padding24))),
     padding:
-    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
+    const EdgeInsets.symmetric(horizontal: NartusDimens.padding16, vertical: NartusDimens.padding14),
     child: Text(widget._label, style: Theme.of(context).textTheme.headline6),
   ),);
 
@@ -95,7 +99,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
       return Container(
         height: height * _heightFactor.value,
           alignment: Alignment.bottomCenter,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: NartusDimens.padding16, vertical: NartusDimens.padding4),
           child: Text(
             widget._error,
             style: Theme.of(context)
@@ -113,8 +117,8 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel> with SingleTicker
     final double labelHeight = _labelKey.currentContext?.size?.height ?? 0.0;
 
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    final double paddingTop = 4 * textScaleFactor;
-    final double paddingBottom = 4 * textScaleFactor;
+    final double paddingTop = NartusDimens.padding4 * textScaleFactor;
+    final double paddingBottom = NartusDimens.padding4 * textScaleFactor;
 
     TextPainter painter = TextPainter()
     ..textDirection = TextDirection.ltr
