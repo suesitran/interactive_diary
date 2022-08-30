@@ -20,8 +20,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-        ThemeData? theme,
-        ThemeData? darkTheme,
+      ThemeData? theme,
+      ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes,
       required _AppType appType})
       : _home = home,
@@ -36,8 +36,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-        ThemeData? theme,
-        ThemeData? darkTheme,
+      ThemeData? theme,
+      ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes})
       : this._(
             key: key,
@@ -52,8 +52,8 @@ class App extends StatelessWidget {
       {Key? key,
       required Widget home,
       String title = '',
-        ThemeData? theme,
-        ThemeData? darkTheme,
+      ThemeData? theme,
+      ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes})
       : this._(
             key: key,
@@ -69,7 +69,7 @@ class App extends StatelessWidget {
       required Widget home,
       String title = '',
       ThemeData? theme,
-        ThemeData? darkTheme,
+      ThemeData? darkTheme,
       Map<String, WidgetBuilder>? routes})
       : this._(
             key: key,
@@ -116,9 +116,8 @@ class App extends StatelessWidget {
 
     /// in dark mode, use dark theme, else use light theme.
     /// if dark theme is null, use light theme.
-    final themeToUse = (brightness == Brightness.dark
-            ? darkTheme
-            : theme) ?? theme;
+    final themeToUse =
+        (brightness == Brightness.dark ? darkTheme : theme) ?? theme;
 
     /// if light theme is also null, use default CupertinoThemeData
     return CupertinoThemeData(
@@ -128,15 +127,14 @@ class App extends StatelessWidget {
         primaryContrastingColor: themeToUse?.colorScheme.onPrimary,
         scaffoldBackgroundColor: themeToUse?.scaffoldBackgroundColor,
         textTheme: CupertinoTextThemeData(
-          primaryColor: themeToUse?.primaryColor ?? Colors.blue,
-          actionTextStyle: themeToUse?.textTheme.button,
-          dateTimePickerTextStyle: themeToUse?.textTheme.labelMedium,
-          navActionTextStyle: themeToUse?.textTheme.button,
-          navLargeTitleTextStyle: themeToUse?.textTheme.labelLarge,
-          navTitleTextStyle: themeToUse?.textTheme.labelMedium,
-          pickerTextStyle: themeToUse?.textTheme.bodyMedium,
-          tabLabelTextStyle: themeToUse?.textTheme.bodyMedium,
-          textStyle: themeToUse?.textTheme.bodyMedium
-        ));
+            primaryColor: themeToUse?.primaryColor ?? Colors.blue,
+            actionTextStyle: themeToUse?.textTheme.button,
+            dateTimePickerTextStyle: themeToUse?.textTheme.labelMedium,
+            navActionTextStyle: themeToUse?.textTheme.button,
+            navLargeTitleTextStyle: themeToUse?.textTheme.labelLarge,
+            navTitleTextStyle: themeToUse?.textTheme.labelMedium,
+            pickerTextStyle: themeToUse?.textTheme.bodyMedium,
+            tabLabelTextStyle: themeToUse?.textTheme.bodyMedium,
+            textStyle: themeToUse?.textTheme.bodyMedium));
   }
 }

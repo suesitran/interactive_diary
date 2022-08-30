@@ -5,7 +5,8 @@ part 'google_signup_state.dart';
 
 class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
   GoogleSignupBloc() : super(GoogleSignupInitial()) {
-    on<GoogleSignupEvent>((GoogleSignupEvent event, Emitter<GoogleSignupState> emit) {
+    on<GoogleSignupEvent>(
+        (GoogleSignupEvent event, Emitter<GoogleSignupState> emit) {
       // TODO: implement event handler
     });
   }
