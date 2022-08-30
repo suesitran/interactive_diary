@@ -38,6 +38,7 @@ dependencies:
     path: packages/nartus_location
   nartus_authentication:
     path: packages/nartus_authentication
+  flutter_hooks: ^0.18.5+1
 
 dev_dependencies:
   flutter_test:
