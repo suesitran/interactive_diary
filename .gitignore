@@ -68,3 +68,7 @@ packages/nartus_ui_package/android/local.properties
 /packages/nartus_ui_package/macos
 
 /ios/Runner.xcodeproj/project.pbxproj
+
+/packages/nartus_authentication/pubspec.lock
+
+lcov.base.info
