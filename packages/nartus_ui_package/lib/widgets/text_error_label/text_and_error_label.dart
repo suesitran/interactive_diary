@@ -74,10 +74,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
         alignment: Alignment.center,
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: _errorWidget(),
-            ),
+            _errorWidget(),
             _labelWidget(),
           ],
         ),
