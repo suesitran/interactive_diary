@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/cupertino.dart'
-    show CupertinoApp, CupertinoThemeData, CupertinoTextThemeData;
+import 'package:flutter/cupertino.dart' show CupertinoApp;
 import 'package:flutter/material.dart'
-    show MaterialApp, Brightness, ThemeData, Colors;
+    show MaterialApp, Brightness, ThemeData, Theme;
 
 enum _AppType { material, cupertino, adaptive }
 
@@ -94,12 +93,29 @@ class App extends StatelessWidget {
     }
   }
 
-  CupertinoApp _buildCupertinoApp() => CupertinoApp(
+  CupertinoApp _buildCupertinoApp() {
+    final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
+        .platformBrightness;
+    final ThemeData? selectedTheme =
+        (brightness == Brightness.dark ? _darkTheme : _theme) ?? _theme;
+
+    if (selectedTheme != null) {
+      return CupertinoApp(
         title: _title,
-        theme: _convertToCupertinoThemeData(_theme, _darkTheme),
         routes: _routes ?? {},
-        home: _home,
+        home: Theme(
+          data: selectedTheme,
+          child: _home,
+        ),
       );
+    }
+
+    return CupertinoApp(
+      title: _title,
+      routes: _routes ?? {},
+      home: _home,
+    );
+  }
 
   MaterialApp _buildMaterialApp() => MaterialApp(
         title: _title,
@@ -108,33 +124,4 @@ class App extends StatelessWidget {
         routes: _routes ?? {},
         home: _home,
       );
-
-  CupertinoThemeData _convertToCupertinoThemeData(
-      ThemeData? theme, ThemeData? darkTheme) {
-    final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-        .platformBrightness;
-
-    /// in dark mode, use dark theme, else use light theme.
-    /// if dark theme is null, use light theme.
-    final themeToUse =
-        (brightness == Brightness.dark ? darkTheme : theme) ?? theme;
-
-    /// if light theme is also null, use default CupertinoThemeData
-    return CupertinoThemeData(
-        brightness: themeToUse?.brightness,
-        primaryColor: themeToUse?.primaryColor,
-        barBackgroundColor: themeToUse?.primaryColor,
-        primaryContrastingColor: themeToUse?.colorScheme.onPrimary,
-        scaffoldBackgroundColor: themeToUse?.scaffoldBackgroundColor,
-        textTheme: CupertinoTextThemeData(
-            primaryColor: themeToUse?.primaryColor ?? Colors.blue,
-            actionTextStyle: themeToUse?.textTheme.button,
-            dateTimePickerTextStyle: themeToUse?.textTheme.labelMedium,
-            navActionTextStyle: themeToUse?.textTheme.button,
-            navLargeTitleTextStyle: themeToUse?.textTheme.labelLarge,
-            navTitleTextStyle: themeToUse?.textTheme.labelMedium,
-            pickerTextStyle: themeToUse?.textTheme.bodyMedium,
-            tabLabelTextStyle: themeToUse?.textTheme.bodyMedium,
-            textStyle: themeToUse?.textTheme.bodyMedium));
-  }
 }
