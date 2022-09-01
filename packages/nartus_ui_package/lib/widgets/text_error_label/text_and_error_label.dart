@@ -122,6 +122,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
     // height of error = height of error text + padding top + padding bottom + 1/2 label height
     // label height
     final double labelHeight = _labelKey.currentContext?.size?.height ?? 0.0;
+    final double labelWidth = _labelKey.currentContext?.size?.width ?? 0.0;
 
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final double paddingTop = NartusDimens.padding4 * textScaleFactor;
@@ -129,12 +130,13 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
 
     TextPainter painter = TextPainter()
       ..textDirection = TextDirection.ltr
+      ..textScaleFactor = textScaleFactor
       ..text = TextSpan(
           text: widget._error, style: Theme.of(context).textTheme.subtitle1);
 
-    painter.layout();
+    painter.layout(maxWidth: labelWidth);
     double errorTextHeight = painter.height;
 
-    return errorTextHeight + paddingTop + paddingBottom + labelHeight;
+    return errorTextHeight + labelHeight + (paddingTop + paddingBottom) * textScaleFactor;
   }
 }
