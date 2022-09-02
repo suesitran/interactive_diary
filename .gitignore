@@ -61,7 +61,6 @@ ios/Flutter/AppConfig.xcconfig
 android/googlemap.properties
 **/test/**/*.mocks.dart
 android/appconfig.properties
-packages/nartus_ui_package/android/local.properties
 
 /packages/nartus_ui_package/android
 /packages/nartus_ui_package/ios
@@ -69,6 +68,6 @@ packages/nartus_ui_package/android/local.properties
 
 /ios/Runner.xcodeproj/project.pbxproj
 
-/packages/nartus_authentication/pubspec.lock
-
 lcov.base.info
+
+/lib/generated
