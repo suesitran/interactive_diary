@@ -51,7 +51,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       Emitter<LocationState> emit) async {
     final PermissionStatusDiary permission =
         await _locationService.requestPermission();
-    debugPrint(permission);
     emit(LocationInitial(permission));
   }
 }
