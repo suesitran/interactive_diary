@@ -9,7 +9,7 @@ on:
       - '**'
       - '!dev'
       - '!master'
-  # Triggers the workflow on push or pull request events but only for the "dev" branch
+  # Triggers the workflow on push or pull request events but not for the "dev" branch
   push:
     branches: 
       - '**'
@@ -31,7 +31,23 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - shell: bash
+      with:
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    - name:  Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Install Flutter 
+      uses: subosito/flutter-action@v2.6.1
+      with:
+        flutter-version: '3.0.5'
+        channel: 'stable'
+    - name: Format code
+      run: flutter format . --set-exit-if-changed
+    - name: Setup environment secrets
+      shell: bash
       env:
         FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
         ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
@@ -44,21 +60,19 @@ jobs:
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '11'
-    - uses: subosito/flutter-action@v2.6.1
-      with:
-        flutter-version: '3.0.5'
-        channel: 'stable'
-    - shell: bash
+    - name: Install dependencies
+      shell: bash
       run: |
         flutter clean
         flutter pub get
         flutter pub run build_runner build
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+    - name: analyse code
+      run: flutter analyze
+    - name: Run tests
+      run: |
         flutter test --coverage
-        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; flutter test --coverage; cd -; done
+        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
     - uses: codecov/codecov-action@v3
       with:
         verbose: true

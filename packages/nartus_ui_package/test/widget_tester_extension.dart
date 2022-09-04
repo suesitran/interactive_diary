@@ -48,8 +48,8 @@ class _CupertinoWrapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoApp(
-    home: CupertinoPageScaffold(
-      child: child,
-    ),
-  );
+        home: CupertinoPageScaffold(
+          child: child,
+        ),
+      );
 }

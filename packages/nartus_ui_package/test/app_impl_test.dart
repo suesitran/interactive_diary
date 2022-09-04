@@ -25,7 +25,8 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
 
-    testWidgets('When platform is iOS, check details of CupertinoApp',
+    testWidgets(
+        'When platform is iOS, check that material theme is wrapped out of cupertino home',
         (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
@@ -35,13 +36,9 @@ void main() {
           child: Text('Hello'),
         ),
         theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: Colors.deepOrange
-        ),
+            brightness: Brightness.light, primaryColor: Colors.deepOrange),
         darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.deepOrange
-        ),
+            brightness: Brightness.dark, primaryColor: Colors.deepOrange),
       );
 
       await widgetTester.pumpWidget(app);
@@ -56,9 +53,12 @@ void main() {
 
       // title is 'Title'
       expect(cupertinoApp.title, 'Title');
+      // Theme widget is found
+      expect(find.byType(Theme), findsOneWidget);
       // light theme is used
-      expect(cupertinoApp.theme?.primaryColor, Colors.deepOrange);
-      expect(cupertinoApp.theme?.brightness, Brightness.light);
+      final Theme theme = widgetTester.widget(find.byType(Theme));
+      expect(theme.data.primaryColor, Colors.deepOrange);
+      expect(theme.data.brightness, Brightness.light);
 
       debugDefaultTargetPlatformOverride = null;
     });
@@ -94,8 +94,8 @@ void main() {
         ),
         theme: ThemeData(
             primaryColor: Colors.deepOrange, brightness: Brightness.light),
-        darkTheme:
-        ThemeData(primaryColor: Colors.deepOrange, brightness: Brightness.dark),
+        darkTheme: ThemeData(
+            primaryColor: Colors.deepOrange, brightness: Brightness.dark),
       );
 
       await widgetTester.pumpWidget(app);
