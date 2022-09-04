@@ -6,3 +6,5 @@ class LocationDetails {
 
   LocationDetails(this.latitude, this.longitude);
 }
+
+enum PermissionStatusDiary { granted, denied, deniedForever, defaultLocation }

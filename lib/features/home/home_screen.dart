@@ -1,12 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/dimens.dart';
+import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 
 class IDHome extends Screen {
-  const IDHome({Key? key}) : super(key: key);
+  const IDHome({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget body(BuildContext context) => BlocBuilder<LocationBloc, LocationState>(
@@ -52,7 +54,41 @@ class IDHome extends Screen {
           }
 
           if (state is LocationInitial) {
-            context.read<LocationBloc>().add(RequestCurrentLocationEvent());
+            context
+                .read<LocationBloc>()
+                .add(RequestCurrentLocationEvent(state.status));
+          }
+
+          if (state is LocationPermissionNotGrantedState) {
+            if (state.status == PermissionStatusDiary.deniedForever) {
+              debugPrint('go to setting page');
+            } else if (state.status == PermissionStatusDiary.denied) {
+              context.showDialogAdaptive(
+                  title: const Text('Location Permission not granted'),
+                  content: const Text(
+                      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(ShowDialogRequestPermissionEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Allow')),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context.read<LocationBloc>().add(
+                              RequestCurrentLocationEvent(
+                                  PermissionStatusDiary.defaultLocation));
+                        },
+                        child: const Text('Continue')),
+                  ]);
+            }
           }
 
           return const Center(
