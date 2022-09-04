@@ -19,9 +19,13 @@ void main() {
             content: const Center(
               child: Text('Content'),
             ),
-            actions: [TextButton(onPressed: () {
-              counter++;
-            }, child: Text('Action'))]);
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    counter++;
+                  },
+                  child: const Text('Action'))
+            ]);
         return Container();
       },
     );
@@ -31,7 +35,8 @@ void main() {
     expect(find.byType(CupertinoAlertDialog), findsOneWidget);
 
     // test action
-    CupertinoAlertDialog cupertinoAlertDialog = widgetTester.widget(find.byType(CupertinoAlertDialog));
+    CupertinoAlertDialog cupertinoAlertDialog =
+        widgetTester.widget(find.byType(CupertinoAlertDialog));
 
     expect(cupertinoAlertDialog.actions.length, 1);
 
@@ -42,7 +47,9 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('given platform is Android, when showDialogAdaptive, then show MaterialAlertDialog', (widgetTester) async {
+  testWidgets(
+      'given platform is Android, when showDialogAdaptive, then show MaterialAlertDialog',
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
     int counter = 0;
@@ -54,9 +61,13 @@ void main() {
             content: const Center(
               child: Text('Content'),
             ),
-            actions: [TextButton(onPressed: () {
-              counter++;
-            }, child: Text('Action'))]);
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    counter++;
+                  },
+                  child: const Text('Action'))
+            ]);
         return Container();
       },
     );
@@ -79,16 +90,17 @@ void main() {
 
   testWidgets(
       'given platform is iOS, when showDialogAdaptive without actions, then show CupertinoAlertDialog without actions',
-  (widgetTester) async {
+      (widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
     Widget builder = Builder(
       builder: (BuildContext context) {
         context.showDialogAdaptive(
-            title: const Text('Title'),
-            content: const Center(
-              child: Text('Content'),
-            ),);
+          title: const Text('Title'),
+          content: const Center(
+            child: Text('Content'),
+          ),
+        );
         return Container();
       },
     );
@@ -98,7 +110,8 @@ void main() {
     expect(find.byType(CupertinoAlertDialog), findsOneWidget);
 
     // test action
-    CupertinoAlertDialog cupertinoAlertDialog = widgetTester.widget(find.byType(CupertinoAlertDialog));
+    CupertinoAlertDialog cupertinoAlertDialog =
+        widgetTester.widget(find.byType(CupertinoAlertDialog));
 
     expect(cupertinoAlertDialog.actions.length, 0);
 
@@ -107,29 +120,30 @@ void main() {
 
   testWidgets(
       'given platform is Android, when showDialogAdaptive without actions, then show MaterialAlertDialog without actions',
-          (widgetTester) async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      (widgetTester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
-        Widget builder = Builder(
-          builder: (BuildContext context) {
-            context.showDialogAdaptive(
-              title: const Text('Title'),
-              content: const Center(
-                child: Text('Content'),
-              ),);
-            return Container();
-          },
+    Widget builder = Builder(
+      builder: (BuildContext context) {
+        context.showDialogAdaptive(
+          title: const Text('Title'),
+          content: const Center(
+            child: Text('Content'),
+          ),
         );
+        return Container();
+      },
+    );
 
-        await widgetTester.wrapMaterialAndPump(builder);
+    await widgetTester.wrapMaterialAndPump(builder);
 
-        expect(find.byType(AlertDialog), findsOneWidget);
+    expect(find.byType(AlertDialog), findsOneWidget);
 
-        // test action
-        AlertDialog alertDialog = widgetTester.widget(find.byType(AlertDialog));
+    // test action
+    AlertDialog alertDialog = widgetTester.widget(find.byType(AlertDialog));
 
-        expect(alertDialog.actions?.length, 0);
+    expect(alertDialog.actions?.length, 0);
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 }

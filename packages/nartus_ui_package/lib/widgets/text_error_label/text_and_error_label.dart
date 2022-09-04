@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
+
+class TextAndErrorLabel extends StatefulWidget {
+  final String _label;
+  final String _error;
+  final bool _showError;
+
+  const TextAndErrorLabel(
+      {Key? key, required String label, String? error, bool showError = false})
+      : _label = label,
+        _error = error ?? '',
+        _showError = showError,
+        super(key: key);
+
+  @override
+  State<TextAndErrorLabel> createState() => _TextAndErrorLabelState();
+}
+
+class _TextAndErrorLabelState extends State<TextAndErrorLabel>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 300));
+  late final Animation<double> _sizeAnimation =
+      CurvedAnimation(curve: Curves.fastOutSlowIn, parent: _controller);
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget._showError) {
+      _controller.value = 1;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget._showError) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+
+    return Card(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding24)),
+      ),
+      color: Theme.of(context).colorScheme.error,
+      elevation: NartusDimens.padding4,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _labelWidget(),
+          _errorWidget(),
+        ],
+      ),
+    );
+  }
+
+  Widget _labelWidget() => Builder(
+        builder: (context) => Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onBackground,
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(NartusDimens.padding24))),
+          padding: const EdgeInsets.symmetric(
+              horizontal: NartusDimens.padding16,
+              vertical: NartusDimens.padding14),
+          child:
+              Text(widget._label, style: Theme.of(context).textTheme.headline6),
+        ),
+      );
+
+  Widget _errorWidget() => SizeTransition(
+        sizeFactor: _sizeAnimation,
+        axisAlignment: 1,
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          padding: const EdgeInsets.symmetric(
+              horizontal: NartusDimens.padding16,
+              vertical: NartusDimens.padding4),
+          child: Text(
+            widget._error,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(color: Theme.of(context).colorScheme.onError),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+}

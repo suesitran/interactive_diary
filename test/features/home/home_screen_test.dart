@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
@@ -20,8 +20,8 @@ void main() {
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
         LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022')));
-    when(mockLocationBloc.state)
-        .thenAnswer((_) => LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022'));
+    when(mockLocationBloc.state).thenAnswer(
+        (_) => LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022'));
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
 

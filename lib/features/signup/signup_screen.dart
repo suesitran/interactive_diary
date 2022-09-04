@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -96,23 +95,19 @@ Future<T?> _navToHomeScreen<T>(BuildContext context) async {}
 Future<T?> _showSignUpFailedDialog<T>(BuildContext context, String error) async {}
 
 
-class _IDRegisterForm extends HookWidget {
+class _IDRegisterForm extends StatelessWidget {
   const _IDRegisterForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailCtrl = useTextEditingController();
-    final TextEditingController passCtrl = useTextEditingController();
     return Form(
         child: Column(
           children: <Widget>[
             IDTextField(
-              controller: emailCtrl,
               hint: 'Email',
             ),
             const Gap.v20(),
             IDTextField(
-              controller: passCtrl,
               hint: 'Password',
             ),
             const Gap.v20(),
