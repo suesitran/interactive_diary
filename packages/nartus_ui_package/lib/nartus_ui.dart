@@ -19,6 +19,13 @@ export 'package:flutter/src/material/floating_action_button_location.dart';
 export 'package:flutter/src/material/floating_action_button_theme.dart';
 
 export 'package:flutter/src/material/text_button.dart';
+
+export 'package:flutter/src/material/progress_indicator.dart';
+export 'package:flutter/src/material/progress_indicator_theme.dart';
+
+export 'package:flutter/src/material/card.dart';
+export 'package:flutter/src/material/card_theme.dart';
+
 // private Nartus implementation
 
 export 'platform_screens.dart';

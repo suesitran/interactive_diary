@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "3.0.2"
   cupertino_icons:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
@@ -254,7 +254,7 @@ packages:
     source: hosted
     version: "1.0.1"
   flutter:
-    dependency: transitive
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
