@@ -33,7 +33,22 @@ class LocationService {
     throw LocationDataCorruptedException();
   }
 
-  Future<PermissionStatus> requestPermission() => _location.requestPermission();
+  Future<PermissionStatusDiary> requestPermission() async {
+    final status = await _location.requestPermission();
+    switch (status) {
+      case PermissionStatus.granted:
+        return PermissionStatusDiary.granted;
+      case PermissionStatus.denied:
+        return PermissionStatusDiary.denied;
+      case PermissionStatus.deniedForever:
+        return PermissionStatusDiary.deniedForever;
+      default:
+        break;
+    }
+    return PermissionStatusDiary.denied;
+  }
 
   Future<bool> requestService() => _location.requestService();
+  Future<PermissionStatus> permissionStatus() async =>
+      await _location.hasPermission();
 }
