@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';

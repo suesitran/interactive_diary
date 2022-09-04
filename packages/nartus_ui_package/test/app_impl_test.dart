@@ -25,7 +25,8 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
 
-    testWidgets('When platform is iOS, check details of CupertinoApp',
+    testWidgets(
+        'When platform is iOS, check that material theme is wrapped out of cupertino home',
         (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
@@ -52,9 +53,12 @@ void main() {
 
       // title is 'Title'
       expect(cupertinoApp.title, 'Title');
+      // Theme widget is found
+      expect(find.byType(Theme), findsOneWidget);
       // light theme is used
-      expect(cupertinoApp.theme?.primaryColor, Colors.deepOrange);
-      expect(cupertinoApp.theme?.brightness, Brightness.light);
+      final Theme theme = widgetTester.widget(find.byType(Theme));
+      expect(theme.data.primaryColor, Colors.deepOrange);
+      expect(theme.data.brightness, Brightness.light);
 
       debugDefaultTargetPlatformOverride = null;
     });
