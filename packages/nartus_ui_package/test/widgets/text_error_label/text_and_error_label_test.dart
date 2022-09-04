@@ -1,142 +1,78 @@
 import 'package:flutter/material.dart';
-import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:nartus_ui_package/widgets/text_error_label/text_and_error_label.dart';
 
-class TextAndErrorLabel extends StatefulWidget {
-  final String _label;
-  final String _error;
-  final bool _showError;
+import '../../widget_tester_extension.dart';
 
-  const TextAndErrorLabel(
-      {Key? key, required String label, String? error, bool showError = false})
-      : _label = label,
-        _error = error ?? '',
-        _showError = showError,
-        super(key: key);
+void main() {
+  testWidgets(
+      'When Text and Error label has only label, then only label is displayed',
+      (widgetTester) async {
+    TextAndErrorLabel label = const TextAndErrorLabel(label: 'Text Label');
 
-  @override
-  State<TextAndErrorLabel> createState() => _TextAndErrorLabelState();
-}
+    await widgetTester.wrapMaterialAndPump(label);
 
-class _TextAndErrorLabelState extends State<TextAndErrorLabel>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.fastOutSlowIn);
-  late Animation<double> _sizeAnimation;
+    expect(find.text('Text Label'), findsOneWidget);
+  });
 
-  final Duration _kExpand = const Duration(milliseconds: 300);
-
-  final GlobalKey _labelKey = GlobalKey();
-
-  double height = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(duration: _kExpand, vsync: this);
-
-    _sizeAnimation = _controller.drive(_easeInTween);
-
-    if (widget._showError) {
-      _controller.value = 1;
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _controller.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      height = _calculateHeightOfError();
-      if (widget._showError) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
-    return Card(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding24)),
-      ),
-      color: Theme.of(context).colorScheme.error,
-      elevation: NartusDimens.padding4,
-      child: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.error,
-            borderRadius: const BorderRadius.all(
-                Radius.circular(NartusDimens.padding24))),
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _labelWidget(),
-            _errorWidget(),
-          ],
-        ),
-      ),
+  testWidgets(
+      'When Text and Error label has both text and error, then both Text and error are displayed',
+      (widgetTester) async {
+    TextAndErrorLabel label = const TextAndErrorLabel(
+      label: 'Text Label',
+      error: 'Error label',
     );
-  }
 
-  Widget _labelWidget() => Builder(
-        builder: (context) => Container(
-          key: _labelKey,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onBackground,
-              borderRadius: const BorderRadius.all(
-                  Radius.circular(NartusDimens.padding24))),
-          padding: const EdgeInsets.symmetric(
-              horizontal: NartusDimens.padding16,
-              vertical: NartusDimens.padding14),
-          child:
-              Text(widget._label, style: Theme.of(context).textTheme.headline6),
-        ),
-      );
+    await widgetTester.wrapMaterialAndPump(label);
 
-  Widget _errorWidget() => SizeTransition(
-        sizeFactor: _sizeAnimation,
-    child: Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(
-        horizontal: NartusDimens.padding16,
-        vertical: NartusDimens.padding4),
-      child: Text(
-        widget._error,
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1
-            ?.copyWith(color: Theme.of(context).colorScheme.onError),
-        textAlign: TextAlign.center,
-      ),
-    ),
-      );
+    expect(find.text('Text Label'), findsOneWidget);
+    expect(find.text('Error label'), findsOneWidget);
+  });
 
-  double _calculateHeightOfError() {
-    // height of error = height of error text + padding top + padding bottom + 1/2 label height
-    // label height
-    final double labelHeight = _labelKey.currentContext?.size?.height ?? 0.0;
-    final double labelWidth = _labelKey.currentContext?.size?.width ?? 0.0;
+  testWidgets(
+      'When Text and Error label has label and error but error is not showed, then Error sizeFactor is 0',
+      (widgetTester) async {
+    TextAndErrorLabel label = const TextAndErrorLabel(
+      label: 'Text Label',
+      error: 'Error label',
+    );
 
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    final double paddingTop = NartusDimens.padding4 * textScaleFactor;
-    final double paddingBottom = NartusDimens.padding4 * textScaleFactor;
+    await widgetTester.wrapMaterialAndPump(label);
 
-    TextPainter painter = TextPainter()
-      ..textDirection = TextDirection.ltr
-      ..textScaleFactor = textScaleFactor
-      ..text = TextSpan(
-          text: widget._error, style: Theme.of(context).textTheme.subtitle1);
+    // find column
+    Column column = widgetTester.widget(
+        find.descendant(of: find.byType(Card), matching: find.byType(Column)));
 
-    painter.layout(maxWidth: labelWidth);
-    double errorTextHeight = painter.height;
+    expect(column.children.length, 2);
 
-    return errorTextHeight + labelHeight + (paddingTop + paddingBottom) * textScaleFactor;
-  }
+    // 'Error label' has height 0
+    SizeTransition sizeTransition = widgetTester.widget(find.descendant(
+        of: find.byType(Column), matching: find.byType(SizeTransition)));
+
+    expect(sizeTransition.sizeFactor.value, 0);
+  });
+
+  testWidgets(
+      'When Text and Error label has label and error, and error is showed, then Error sizeFactor is 1',
+      (widgetTester) async {
+    TextAndErrorLabel label = const TextAndErrorLabel(
+      label: 'Text label',
+      error: 'Error label',
+      showError: true,
+    );
+
+    await widgetTester.wrapMaterialAndPump(label,
+        infiniteAnimationWidget: true);
+
+    // find column
+    Column column = widgetTester.widget(
+        find.descendant(of: find.byType(Card), matching: find.byType(Column)));
+
+    expect(column.children.length, 2);
+
+    SizeTransition sizeTransition = widgetTester.widget(find.descendant(
+        of: find.byType(Column), matching: find.byType(SizeTransition)));
+
+    expect(sizeTransition.sizeFactor.value, 1);
+  });
 }
