@@ -67,3 +67,5 @@ lcov.*.info
 lcov.base.info
 
 /lib/generated
+
+pubspec.lock
