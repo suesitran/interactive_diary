@@ -64,3 +64,8 @@ android/appconfig.properties
 packages/nartus_ui_package/android/local.properties
 lcov.*.info
 
+lcov.base.info
+
+/lib/generated
+
+pubspec.lock
