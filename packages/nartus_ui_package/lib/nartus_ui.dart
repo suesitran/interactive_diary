@@ -29,3 +29,5 @@ export 'package:flutter/src/material/progress_indicator_theme.dart';
 export 'platform_screens.dart';
 export 'app.dart';
 export 'extensions/build_context_extension.dart';
+
+export 'widgets/widgets.dart';
