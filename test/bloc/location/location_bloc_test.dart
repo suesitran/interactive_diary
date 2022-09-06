@@ -51,7 +51,7 @@ void main() {
         'When request permission location granted, then get current location from service',
         setUp: () {
           when(service.requestPermission()).thenAnswer(
-              (realInvocation) => Future.value(PermissionStatusDiary.granted));
+              (Invocation realInvocation) => Future<PermissionStatusDiary>.value(PermissionStatusDiary.granted));
           when(service.getCurrentLocation()).thenAnswer(
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
         },
@@ -64,7 +64,7 @@ void main() {
         'When request permission location denied, then state is LocationPermissionNotGrantedState(denied), the event is RequestCurrentLocationEvent(denied)',
         setUp: () {
           when(service.requestPermission()).thenAnswer(
-              (realInvocation) => Future.value(PermissionStatusDiary.denied));
+              (Invocation realInvocation) => Future<PermissionStatusDiary>.value(PermissionStatusDiary.denied));
           when(service.getCurrentLocation())
               .thenThrow(LocationPermissionNotGrantedException());
         },
@@ -78,8 +78,8 @@ void main() {
     blocTest(
         'When request permission location deniedForever, then state is LocationPermissionNotGrantedState(deniedForever), the event is RequestCurrentLocationEvent(deniedForever)',
         setUp: () {
-          when(service.requestPermission()).thenAnswer((realInvocation) =>
-              Future.value(PermissionStatusDiary.deniedForever));
+          when(service.requestPermission()).thenAnswer((Invocation realInvocation) =>
+              Future<PermissionStatusDiary>.value(PermissionStatusDiary.deniedForever));
           when(service.getCurrentLocation())
               .thenThrow(LocationPermissionNotGrantedException());
         },
@@ -92,8 +92,8 @@ void main() {
 
     blocTest('when user click continue button, then get default location',
         setUp: () {
-          when(service.requestPermission()).thenAnswer((realInvocation) =>
-              Future.value(PermissionStatusDiary.defaultLocation));
+          when(service.requestPermission()).thenAnswer((Invocation realInvocation) =>
+              Future<PermissionStatusDiary>.value(PermissionStatusDiary.defaultLocation));
           when(service.getCurrentLocation()).thenAnswer(
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
         },

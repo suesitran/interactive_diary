@@ -34,8 +34,8 @@ void main() {
     const IDHome widget = IDHome();
 
     when(mockLocationBloc.stream)
-        .thenAnswer((_) => Stream<LocationState>.value(LocationInitial()));
-    when(mockLocationBloc.state).thenAnswer((_) => LocationInitial());
+        .thenAnswer((_) => Stream<LocationState>.value(LocationInitial(PermissionStatusDiary.denied)));
+    when(mockLocationBloc.state).thenAnswer((_) => LocationInitial(PermissionStatusDiary.denied));
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget,
         infiniteAnimationWidget: true);

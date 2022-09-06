@@ -78,9 +78,9 @@ class IDGoogleSignInButton extends StatelessWidget {
       },
       listener: (BuildContext stateContext, GoogleSignupState googleState) {
         if (googleState.isSignedUpSucceed) {
-          _navToHomeScreen(stateContext);
+          // TODO navigate to home screen
         } else if (googleState.isSignedUpFailed) {
-          _showSignUpFailedDialog(stateContext, googleState.failedSignUpError);
+          // TODO show sign up failed dialog
         }
       },
     );
@@ -89,10 +89,6 @@ class IDGoogleSignInButton extends StatelessWidget {
   void _signUpByGoogle(BuildContext context) =>
       context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
 }
-
-Future<T?> _navToHomeScreen<T>(BuildContext context) async {}
-
-Future<T?> _showSignUpFailedDialog<T>(BuildContext context, String error) async {}
 
 
 class _IDRegisterForm extends StatelessWidget {
@@ -103,11 +99,11 @@ class _IDRegisterForm extends StatelessWidget {
     return Form(
         child: Column(
           children: <Widget>[
-            IDTextField(
+            const IDTextField(
               hint: 'Email',
             ),
             const Gap.v20(),
-            IDTextField(
+            const IDTextField(
               hint: 'Password',
             ),
             const Gap.v20(),

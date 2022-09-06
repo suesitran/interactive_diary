@@ -17,7 +17,7 @@ class IDButton extends StatelessWidget {
           maximumSize: const Size(double.infinity, 46),
           minimumSize: const Size(200, 46),
           elevation: 1,
-          primary: Colors.black),
+          foregroundColor: Colors.black),
     );
   }
 }
