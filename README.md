@@ -39,5 +39,3 @@ Future: social network (Who I met)
 
 ### Timestamp (When it happend)
 Can be treated as an attribute attached to all above info
-
-testing
