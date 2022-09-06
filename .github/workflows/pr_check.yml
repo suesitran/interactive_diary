@@ -7,8 +7,6 @@ on:
   pull_request_target:
     branches:
       - '**'
-      - '!dev'
-      - '!master'
   # Triggers the workflow on push or pull request events but not for the "dev" branch
   push:
     branches: 
