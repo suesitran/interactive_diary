@@ -5,7 +5,6 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 
 void main() {
   group('Test platform specific constructor', () {
-
     late Key kTextField;
     late Key kTextFormField;
     late IDTextField idTextField;
@@ -19,25 +18,30 @@ void main() {
       idTextFormField = IDTextFormField(key: kTextFormField);
     });
 
-
     testWidgets('When platform is Android, then show TextField & TextFormField',
-      (widgetTester) async {
+        (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
       await widgetTester.pumpWidget(MaterialApp(
-        home: Scaffold(body: Column(children: [idTextField, idTextFormField],),)
-      ));
+          home: Scaffold(
+        body: Column(
+          children: [idTextField, idTextFormField],
+        ),
+      )));
       await widgetTester.pumpAndSettle();
 
       final findMaterialTextField = find.descendant(
-        of: find.byKey(kTextField), matching: find.byType(TextField));
+          of: find.byKey(kTextField), matching: find.byType(TextField));
       final findMaterialTextFormField = find.descendant(
-          of: find.byWidget(idTextFormField), matching: find.byType(TextFormField));
+          of: find.byWidget(idTextFormField),
+          matching: find.byType(TextFormField));
 
       final findCupertinoTextField = find.descendant(
-          of: find.byWidget(idTextField), matching: find.byType(CupertinoTextField));
+          of: find.byWidget(idTextField),
+          matching: find.byType(CupertinoTextField));
       final findCupertinoTextFormField = find.descendant(
-          of: find.byWidget(idTextFormField), matching: find.byType(CupertinoTextFormFieldRow));
+          of: find.byWidget(idTextFormField),
+          matching: find.byType(CupertinoTextFormFieldRow));
 
       expect(findMaterialTextField, findsOneWidget);
       expect(findMaterialTextFormField, findsOneWidget);
@@ -48,13 +52,17 @@ void main() {
       debugDefaultTargetPlatformOverride = null;
     });
 
-    testWidgets('When platform is IOS, then show CupertinoTextField & CupertinoTextFormFieldRow',
-      (widgetTester) async {
+    testWidgets(
+        'When platform is IOS, then show CupertinoTextField & CupertinoTextFormFieldRow',
+        (widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
       await widgetTester.pumpWidget(CupertinoApp(
-          home: CupertinoPageScaffold(child: Column(children: [idTextField, idTextFormField],),)
-      ));
+          home: CupertinoPageScaffold(
+        child: Column(
+          children: [idTextField, idTextFormField],
+        ),
+      )));
       await widgetTester.pumpAndSettle();
 
       final findMaterialTextField = find.descendant(
@@ -63,9 +71,11 @@ void main() {
           of: find.byKey(kTextFormField), matching: find.byType(TextFormField));
 
       final findCupertinoTextField = find.descendant(
-          of: find.byWidget(idTextField), matching: find.byType(CupertinoTextField));
+          of: find.byWidget(idTextField),
+          matching: find.byType(CupertinoTextField));
       final findCupertinoTextFormField = find.descendant(
-          of: find.byWidget(idTextFormField), matching: find.byType(CupertinoTextFormFieldRow));
+          of: find.byWidget(idTextFormField),
+          matching: find.byType(CupertinoTextFormFieldRow));
 
       expect(findMaterialTextField, findsNothing);
       expect(findMaterialTextFormField, findsNothing);
@@ -75,7 +85,5 @@ void main() {
 
       debugDefaultTargetPlatformOverride = null;
     });
-
   });
-
 }

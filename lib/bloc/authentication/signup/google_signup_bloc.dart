@@ -8,12 +8,12 @@ class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
   final AuthenticationService _authenticationService;
   GoogleSignupBloc({AuthenticationService? authenticationService})
       : _authenticationService =
-      authenticationService ?? AuthenticationService(),
+            authenticationService ?? AuthenticationService(),
         super(GoogleSignupInitialState()) {
     on<SignUpByGoogleEvent>(
-            (GoogleSignupEvent event, Emitter<GoogleSignupState> emit) async {
-          await _signUpGoogle(emit);
-        });
+        (GoogleSignupEvent event, Emitter<GoogleSignupState> emit) async {
+      await _signUpGoogle(emit);
+    });
   }
 
   Future<dynamic> _signUpGoogle(Emitter<GoogleSignupState> emit) async {
@@ -28,7 +28,8 @@ class GoogleSignupBloc extends Bloc<GoogleSignupEvent, GoogleSignupState> {
         emit(GoogleSignupFailedState(e.error));
       }
     } catch (e) {
-      emit(GoogleSignupFailedState('Something wrong happened. Please try again later'));
+      emit(GoogleSignupFailedState(
+          'Something wrong happened. Please try again later'));
     }
   }
 }

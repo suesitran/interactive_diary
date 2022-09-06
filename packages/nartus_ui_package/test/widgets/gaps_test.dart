@@ -4,7 +4,6 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import '../widget_tester_extension.dart';
 
 extension GapTestExtension on WidgetTester {
-
   /// Wrap inside Column to force gap renders the correct defined size
   /// Because if SizedBox's parent was Scaffold/ Material App then SizedBox will take
   /// all available space
@@ -18,7 +17,7 @@ extension GapTestExtension on WidgetTester {
 void main() {
   group('Test vertical gap', () {
     testWidgets('When create gap with v20, Then render SizedBox with height 20',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.v20();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -29,7 +28,7 @@ void main() {
     });
 
     testWidgets('When create gap with v16, Then render SizedBox with height 16',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.v16();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -40,7 +39,7 @@ void main() {
     });
 
     testWidgets('When create gap with v12, Then render SizedBox with height 12',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.v12();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -51,7 +50,7 @@ void main() {
     });
 
     testWidgets('When create gap with v08, Then render SizedBox with height 08',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.v08();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -62,20 +61,20 @@ void main() {
     });
 
     testWidgets('When create gap with v04, Then render SizedBox with height 04',
-      (WidgetTester tester) async {
-        const gap = Gap.v04();
+        (WidgetTester tester) async {
+      const gap = Gap.v04();
 
-        await tester.wrapForceRightSizeBoxAndPump(gap);
+      await tester.wrapForceRightSizeBoxAndPump(gap);
 
-        final SizedBox size = tester.widget<SizedBox>(find.byType(SizedBox));
+      final SizedBox size = tester.widget<SizedBox>(find.byType(SizedBox));
 
-        expect(size.height, 04);
-      });
+      expect(size.height, 04);
+    });
   });
 
   group('Test horizontal gap', () {
     testWidgets('When create gap with h20, Then render SizedBox with height 20',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.h20();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -86,7 +85,7 @@ void main() {
     });
 
     testWidgets('When create gap with h16, Then render SizedBox with height 16',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.h16();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -97,7 +96,7 @@ void main() {
     });
 
     testWidgets('When create gap with h12, Then render SizedBox with height 12',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.h12();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -108,7 +107,7 @@ void main() {
     });
 
     testWidgets('When create gap with h08, Then render SizedBox with height 08',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.h08();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);
@@ -119,7 +118,7 @@ void main() {
     });
 
     testWidgets('When create gap with h04, Then render SizedBox with height 04',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       const gap = Gap.h04();
 
       await tester.wrapForceRightSizeBoxAndPump(gap);

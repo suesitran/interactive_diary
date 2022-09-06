@@ -62,7 +62,6 @@ class _IDAppleSignInButton extends StatelessWidget {
   void _signUpByApple(BuildContext context) => () {};
 }
 
-
 class IDGoogleSignInButton extends StatelessWidget {
   const IDGoogleSignInButton({Key? key}) : super(key: key);
 
@@ -90,7 +89,6 @@ class IDGoogleSignInButton extends StatelessWidget {
       context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
 }
 
-
 class _IDRegisterForm extends StatelessWidget {
   const _IDRegisterForm({Key? key}) : super(key: key);
 
@@ -98,20 +96,19 @@ class _IDRegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
         child: Column(
-          children: <Widget>[
-            const IDTextField(
-              hint: 'Email',
-            ),
-            const Gap.v20(),
-            const IDTextField(
-              hint: 'Password',
-            ),
-            const Gap.v20(),
-            IDButton(text: 'Register', onPressed: () => _register())
-          ],
-        ));
+      children: <Widget>[
+        const IDTextField(
+          hint: 'Email',
+        ),
+        const Gap.v20(),
+        const IDTextField(
+          hint: 'Password',
+        ),
+        const Gap.v20(),
+        IDButton(text: 'Register', onPressed: () => _register())
+      ],
+    ));
   }
 
   void _register() {}
 }
-
