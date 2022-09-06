@@ -55,6 +55,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
       color: Theme.of(context).colorScheme.error,
       elevation: NartusDimens.padding4,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
