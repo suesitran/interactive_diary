@@ -23,7 +23,7 @@ void main() async {
       child: const IDHome(),
     ),
     title: 'Interactive Diary',
-    theme: ThemeData(primaryColor: Colors.deepOrange),
+    theme: lightTheme,
     routes: routes.appRoute,
   ));
 }

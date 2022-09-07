@@ -1,5 +1,6 @@
 import 'package:example/screens/text_and_error_label_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,15 +19,7 @@ class MyApp extends StatelessWidget {
         ),
         body: const WidgetCatalog(),
       ),
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: Colors.blue,
-      ).copyWith(
-        background: Colors.white,
-        onBackground: const Color(0xffFFF9ED),
-        error: const Color(0xFF8B0101),
-        onError: Colors.white,
-      )),
+      theme: lightTheme,
     );
   }
 }
