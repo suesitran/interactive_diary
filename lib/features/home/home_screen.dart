@@ -67,7 +67,7 @@ class IDHome extends Screen {
                   title: const Text('Location Permission not granted'),
                   content: const Text(
                       'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
-                  actions: [
+                  actions: <Widget>[
                     TextButton(
                         onPressed: () {
                           debugPrint('show dialog');
