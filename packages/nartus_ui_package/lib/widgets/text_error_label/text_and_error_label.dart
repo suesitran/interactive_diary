@@ -70,7 +70,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
         builder: (context) => Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: const BorderRadius.all(
                   Radius.circular(NartusDimens.padding24))),
           padding: const EdgeInsets.symmetric(
