@@ -3,6 +3,8 @@ import 'package:example/screens/theme_demo/shared_helper.dart';
 import 'package:example/screens/theme_demo/text_theme_demo_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'color_scheme_demo_screen.dart';
+
 class ThemeDemoScreen extends StatelessWidget {
   const ThemeDemoScreen({Key? key}) : super(key: key);
 
@@ -14,7 +16,9 @@ class ThemeDemoScreen extends StatelessWidget {
     body: ListView(
         children: [
           _demoBlock('Color demo', const ColorDemoScreen()),
-          _demoBlock('Text theme', const TextThemeDemoScreen())
+          _demoBlock('Color scheme demo', ColorSchemeDemoScreen(colorScheme: Theme.of(context).colorScheme,)),
+          _demoBlock('Text theme', TextThemeDemoScreen(textTheme: Theme.of(context).textTheme)),
+          _demoBlock('Primary text theme', TextThemeDemoScreen(textTheme: Theme.of(context).primaryTextTheme))
         ],
     ),
   );

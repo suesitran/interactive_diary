@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const MaterialColor lightColorSwatch = MaterialColor(0xFF96C4FF, {
+const MaterialColor lightColorSwatch = MaterialColor(0xFF779ECB, {
   50: Color(0xFFEFF3F9),
   100: Color(0xFFD6E2EF),
   200: Color(0xFFBBCFE5),
