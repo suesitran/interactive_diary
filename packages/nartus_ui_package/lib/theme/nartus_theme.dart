@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'nartus_color.dart';
 
 ThemeData lightTheme = ThemeData(
