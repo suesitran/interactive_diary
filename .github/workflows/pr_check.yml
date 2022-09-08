@@ -42,9 +42,11 @@ jobs:
       with:
         flutter-version: '3.3.1'
         channel: 'stable'
+        # check issues
+    - run: flutter format -o show packages/nartus_ui_package/lib/theme/
 #    enable it when issue is fixed
-#    - name: Format code
-#      run: flutter format . --fix --set-exit-if-changed
+    - name: Format code
+      run: flutter format . --fix --set-exit-if-changed
     - name: Setup environment secrets
       shell: bash
       env:
