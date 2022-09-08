@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const MaterialColor lightColorSwatch = MaterialColor(0xFF96C4FF, {
+const MaterialColor lightColorSwatch = MaterialColor(0xFF779ECB, {
   50: Color(0xFFEFF3F9),
   100: Color(0xFFD6E2EF),
   200: Color(0xFFBBCFE5),
@@ -15,5 +15,5 @@ const MaterialColor lightColorSwatch = MaterialColor(0xFF96C4FF, {
 
 class NartusColor {
   static const Color errorColor = Color(0xFF8B0101);
-  static const Color primary = Color(0xFF96C4FF);
+  static const Color primary = Color(0xFF779ECB);
 }
