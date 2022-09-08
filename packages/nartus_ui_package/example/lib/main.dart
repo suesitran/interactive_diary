@@ -1,4 +1,5 @@
 import 'package:example/screens/text_and_error_label_screen.dart';
+import 'package:example/screens/theme_demo/theme_demo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -30,6 +31,7 @@ class WidgetCatalog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView(
         children: [
+          _buildWidgetTile('Theme demo', const ThemeDemoScreen()),
           _buildWidgetTile('Text and error label', TextAndErrorLabelScreen()),
         ],
       );
