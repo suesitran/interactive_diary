@@ -6,10 +6,6 @@ name: Interactive Diary PR Check
 on:
   push:
     branches: [dev]
-    # to have it trigger on current pull request to test, Need to remove before merge
-  pull_request:
-    branches:
-      - '**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
