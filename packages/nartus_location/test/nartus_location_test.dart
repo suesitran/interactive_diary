@@ -24,7 +24,7 @@ void main() {
   });
 
   test(
-      'given location permission is denied, when get current location, then throw LocationPermissionNotGrantedException',
+      'given location permission is denied, when get current location, then throw LocationPermissionDeniedException',
       () async {
     // given
     when(location.serviceEnabled())
@@ -34,11 +34,11 @@ void main() {
 
     // then
     expect(() => service.getCurrentLocation(),
-        throwsA(isA<LocationPermissionNotGrantedException>()));
+        throwsA(isA<LocationPermissionDeniedException>()));
   });
 
   test(
-      'give location permission is denied forever, when get current location, then throw LocationPermissionNotGrantedException',
+      'give location permission is denied forever, when get current location, then throw LocationPermissionDeniedException',
       () async {
     // given
     when(location.serviceEnabled())
@@ -48,7 +48,7 @@ void main() {
 
     // then
     expect(() => service.getCurrentLocation(),
-        throwsA(isA<LocationPermissionNotGrantedException>()));
+        throwsA(isA<LocationPermissionDeniedException>()));
   });
 
   test(

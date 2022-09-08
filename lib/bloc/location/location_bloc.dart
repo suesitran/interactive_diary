@@ -39,7 +39,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         emit(LocationReadyState(data, dateDisplay));
       } on LocationServiceDisableException catch (_) {
         emit(LocationServiceDisableState());
-      } on LocationPermissionNotGrantedException catch (_) {
+      } on LocationPermissionDeniedException catch (_) {
         emit(LocationPermissionNotGrantedState(event.status));
       } on Exception catch (_) {
         emit(UnknownLocationErrorState());
@@ -50,7 +50,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Future<void> _showDialogRequestPermissionEvent(
       Emitter<LocationState> emit) async {
     final PermissionStatusDiary permission =
-        await _locationService.requestPermission();
+        await _locationService.checkPermission();
     emit(LocationInitial(permission));
   }
 }
