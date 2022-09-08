@@ -43,7 +43,7 @@ jobs:
         flutter-version: '3.3.1'
         channel: 'stable'
     - name: Format code
-      run: flutter format . --set-exit-if-changed
+      run: flutter format . --fix --set-exit-if-changed
     - name: Setup environment secrets
       shell: bash
       env:
