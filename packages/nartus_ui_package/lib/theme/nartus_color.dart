@@ -15,5 +15,5 @@ const MaterialColor lightColorSwatch = MaterialColor(0xFF779ECB, {
 
 class NartusColor {
   static const Color errorColor = Color(0xFF8B0101);
-  static const Color primary = Color(0xFF96C4FF);
+  static const Color primary = Color(0xFF779ECB);
 }
