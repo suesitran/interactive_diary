@@ -1,8 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_location/nartus_location.dart';
+
 part 'location_event.dart';
 part 'location_state.dart';
+
+final LocationDetails _defaultLocation = LocationDetails(10.7840007, 106.7034988);
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationService _locationService;
@@ -12,7 +15,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         super(LocationInitial(PermissionStatusDiary.denied)) {
     on<RequestCurrentLocationEvent>(
         (RequestCurrentLocationEvent event, Emitter<LocationState> emit) async {
-      await _requestCurrentLocation(event, emit);
+      await _requestCurrentLocation(emit);
     });
     on<ShowDialogRequestPermissionEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
@@ -21,15 +24,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _requestCurrentLocation(
-      RequestCurrentLocationEvent event, Emitter<LocationState> emit) async {
-    if (event.status == PermissionStatusDiary.defaultLocation) {
-      const double latitude = 10.7840007;
-      const double longitude = 106.7034988;
-      final LocationDetails dataDefault = LocationDetails(latitude, longitude);
-      final String dateDisplay =
-          DateFormat('dd-MMM-yyyy').format(DateTime.now());
-      emit(LocationReadyState(dataDefault, dateDisplay));
-    } else {
+       Emitter<LocationState> emit) async {
       try {
         final LocationDetails data =
             await _locationService.getCurrentLocation();
@@ -40,17 +35,18 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       } on LocationServiceDisableException catch (_) {
         emit(LocationServiceDisableState());
       } on LocationPermissionDeniedException catch (_) {
-        emit(LocationPermissionNotGrantedState(event.status));
+        emit(LocationPermissionDeniedState());
       } on Exception catch (_) {
         emit(UnknownLocationErrorState());
       }
-    }
   }
 
   Future<void> _showDialogRequestPermissionEvent(
       Emitter<LocationState> emit) async {
-    final PermissionStatusDiary permission =
-        await _locationService.checkPermission();
-    emit(LocationInitial(permission));
+    print('request permission dialog');
+    PermissionStatusDiary status = await _locationService.requestPermission();
+
+    print('status $status');
+    await _requestCurrentLocation(emit);
   }
 }

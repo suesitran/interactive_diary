@@ -59,36 +59,32 @@ class IDHome extends Screen {
                 .add(RequestCurrentLocationEvent(state.status));
           }
 
-          if (state is LocationPermissionNotGrantedState) {
-            if (state.status == PermissionStatusDiary.deniedForever) {
-              debugPrint('go to setting page');
-            } else if (state.status == PermissionStatusDiary.denied) {
-              context.showDialogAdaptive(
-                  title: const Text('Location Permission not granted'),
-                  content: const Text(
-                      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () {
-                          debugPrint('show dialog');
-                          context
-                              .read<LocationBloc>()
-                              .add(ShowDialogRequestPermissionEvent());
+          if (state is LocationPermissionDeniedState) {
+            context.showDialogAdaptive(
+                title: const Text('Location Permission not granted'),
+                content: const Text(
+                    'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () {
+                        debugPrint('show dialog');
+                        context
+                            .read<LocationBloc>()
+                            .add(ShowDialogRequestPermissionEvent());
 
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Allow')),
-                    TextButton(
-                        onPressed: () {
-                          debugPrint('click continue button');
-                          Navigator.of(context).pop();
-                          context.read<LocationBloc>().add(
-                              RequestCurrentLocationEvent(
-                                  PermissionStatusDiary.defaultLocation));
-                        },
-                        child: const Text('Continue')),
-                  ]);
-            }
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Allow')),
+                  TextButton(
+                      onPressed: () {
+                        debugPrint('click continue button');
+                        Navigator.of(context).pop();
+                        // context.read<LocationBloc>().add(
+                        //     RequestCurrentLocationEvent(
+                        //         PermissionStatusDiary.defaultLocation));
+                      },
+                      child: const Text('Continue')),
+                ]);
           }
 
           return const Center(

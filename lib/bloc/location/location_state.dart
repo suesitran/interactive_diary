@@ -9,10 +9,7 @@ class LocationInitial extends LocationState {
 
 class LocationServiceDisableState extends LocationState {}
 
-class LocationPermissionNotGrantedState extends LocationState {
-  PermissionStatusDiary status;
-  LocationPermissionNotGrantedState(this.status);
-}
+class LocationPermissionDeniedState extends LocationState {}
 
 class UnknownLocationErrorState extends LocationState {}
 
