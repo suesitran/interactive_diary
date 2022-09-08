@@ -43,10 +43,15 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Future<void> _showDialogRequestPermissionEvent(
       Emitter<LocationState> emit) async {
-    print('request permission dialog');
     PermissionStatusDiary status = await _locationService.requestPermission();
 
-    print('status $status');
-    await _requestCurrentLocation(emit);
+    if (status == PermissionStatusDiary.granted) {
+      await _requestCurrentLocation(emit);
+    } else if (status == PermissionStatusDiary.denied) {
+      emit(LocationPermissionDeniedState());
+    } else if (status == PermissionStatusDiary.deniedForever) {
+      // open app setting
+      await _locationService.requestOpenAppSettings();
+    }
   }
 }

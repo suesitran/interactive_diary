@@ -68,4 +68,5 @@ class LocationService {
 
   Future<bool> requestService() => _location.requestService();
 
+  Future<bool> requestOpenAppSettings() => openAppSettings();
 }
