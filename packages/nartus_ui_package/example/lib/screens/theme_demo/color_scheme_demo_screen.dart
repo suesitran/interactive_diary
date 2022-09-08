@@ -2,7 +2,8 @@ import 'package:example/screens/theme_demo/shared_helper.dart';
 import 'package:flutter/material.dart';
 
 class ColorSchemeDemoScreen extends StatelessWidget {
-  const ColorSchemeDemoScreen({Key? key, required this.colorScheme}) : super(key: key);
+  const ColorSchemeDemoScreen({Key? key, required this.colorScheme})
+      : super(key: key);
 
   final ColorScheme colorScheme;
   @override
@@ -19,11 +20,13 @@ class ColorSchemeDemoScreen extends StatelessWidget {
           createColorDemo('secondary', colorScheme.secondary),
           createColorDemo('onSecondary', colorScheme.onSecondary),
           createColorDemo('secondaryContainer', colorScheme.secondaryContainer),
-          createColorDemo('onSecondaryContainer', colorScheme.onSecondaryContainer),
+          createColorDemo(
+              'onSecondaryContainer', colorScheme.onSecondaryContainer),
           createColorDemo('tertiary', colorScheme.tertiary),
           createColorDemo('onTertiary', colorScheme.onTertiary),
           createColorDemo('tertiaryContainer', colorScheme.tertiaryContainer),
-          createColorDemo('onTertiaryContainer', colorScheme.onTertiaryContainer),
+          createColorDemo(
+              'onTertiaryContainer', colorScheme.onTertiaryContainer),
           createColorDemo('error', colorScheme.error),
           createColorDemo('onError', colorScheme.onError),
           createColorDemo('errorContainer', colorScheme.errorContainer),
@@ -39,6 +42,5 @@ class ColorSchemeDemoScreen extends StatelessWidget {
           createColorDemo('inverseSurface', colorScheme.inverseSurface),
           createColorDemo('inversePrimary', colorScheme.inversePrimary),
         ],
-      )
-  );
+      ));
 }
