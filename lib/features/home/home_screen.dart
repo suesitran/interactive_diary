@@ -79,9 +79,8 @@ class IDHome extends Screen {
                       onPressed: () {
                         debugPrint('click continue button');
                         Navigator.of(context).pop();
-                        // context.read<LocationBloc>().add(
-                        //     RequestCurrentLocationEvent(
-                        //         PermissionStatusDiary.defaultLocation));
+                        context.read<LocationBloc>().add(
+                            RequestDefaultLocationEvent());
                       },
                       child: const Text('Continue')),
                 ]);

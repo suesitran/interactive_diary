@@ -11,4 +11,4 @@ class RequestCurrentLocationEvent extends LocationEvent {
 
 class RequestLocationServiceEvent extends LocationEvent {}
 
-class DefaultLocationEvent extends LocationEvent {}
+class RequestDefaultLocationEvent extends LocationEvent {}

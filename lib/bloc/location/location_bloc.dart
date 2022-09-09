@@ -21,6 +21,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         (LocationEvent event, Emitter<LocationState> emit) async {
       await _showDialogRequestPermissionEvent(emit);
     });
+    on<RequestDefaultLocationEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) async {
+          await _requestDefaultLocation(emit);
+        });
   }
 
   Future<void> _requestCurrentLocation(
@@ -53,5 +57,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       // open app setting
       await _locationService.requestOpenAppSettings();
     }
+  }
+
+  Future<void> _requestDefaultLocation(Emitter<LocationState> emit) async {
+    final String dateDisplay =
+    DateFormat('dd-MMM-yyyy').format(DateTime.now());
+
+    emit(LocationReadyState(_defaultLocation, dateDisplay));
   }
 }
