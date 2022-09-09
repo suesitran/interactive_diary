@@ -8,11 +8,11 @@ on:
     branches: [dev]
   #    - '**'
   # Triggers the workflow on push or pull request events but not for the "dev" branch
-  #push:
-  #  branches: 
-  #    - '**'
-  #    - '!dev'
-  #    - '!master'
+  push:
+    branches:
+      - '**'
+      - '!dev'
+      - '!master'
   #pull_request:
   #  branches:
   #    - '**'
