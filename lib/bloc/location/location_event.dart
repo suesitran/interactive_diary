@@ -4,6 +4,8 @@ abstract class LocationEvent {}
 
 class ShowDialogRequestPermissionEvent extends LocationEvent {}
 
+class OpenAppSettingsEvent extends LocationEvent {}
+
 class RequestCurrentLocationEvent extends LocationEvent {
   PermissionStatusDiary status;
   RequestCurrentLocationEvent(this.status);

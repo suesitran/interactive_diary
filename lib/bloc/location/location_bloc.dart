@@ -25,6 +25,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         (LocationEvent event, Emitter<LocationState> emit) async {
           await _requestDefaultLocation(emit);
         });
+
+    on<OpenAppSettingsEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) async {
+          await _openAppSettings();
+        }
+    );
   }
 
   Future<void> _requestCurrentLocation(
@@ -54,8 +60,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     } else if (status == PermissionStatusDiary.denied) {
       emit(LocationPermissionDeniedState());
     } else if (status == PermissionStatusDiary.deniedForever) {
-      // open app setting
-      await _locationService.requestOpenAppSettings();
+      emit(LocationPermissionDeniedForeverState());
     }
   }
 
@@ -65,4 +70,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     emit(LocationReadyState(_defaultLocation, dateDisplay));
   }
+
+  Future<void> _openAppSettings() => _locationService.requestOpenAppSettings();
 }

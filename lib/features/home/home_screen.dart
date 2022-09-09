@@ -86,6 +86,33 @@ class IDHome extends Screen {
                 ]);
           }
 
+          if (state is LocationPermissionDeniedForeverState) {
+            context.showDialogAdaptive(
+                title: const Text('Location Permission not granted'),
+                content: const Text(
+                    'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () {
+                        debugPrint('show dialog');
+                        context
+                            .read<LocationBloc>()
+                            .add(OpenAppSettingsEvent());
+
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Open Settings')),
+                  TextButton(
+                      onPressed: () {
+                        debugPrint('click continue button');
+                        Navigator.of(context).pop();
+                        context.read<LocationBloc>().add(
+                            RequestDefaultLocationEvent());
+                      },
+                      child: const Text('Continue')),
+                ]);
+          }
+
           return const Center(
             child: CircularProgressIndicator(),
           );
