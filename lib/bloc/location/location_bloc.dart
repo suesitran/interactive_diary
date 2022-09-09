@@ -6,9 +6,12 @@ part 'location_event.dart';
 part 'location_state.dart';
 
 final LocationDetails _defaultLocation = LocationDetails(10.7840007, 106.7034988);
+const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationService _locationService;
+
+
 
   LocationBloc({LocationService? locationService})
       : _locationService = locationService ?? LocationService(),
@@ -39,7 +42,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         final LocationDetails data =
             await _locationService.getCurrentLocation();
         final String dateDisplay =
-            DateFormat('dd-MMM-yyyy').format(DateTime.now());
+            DateFormat(_dateFormat).format(DateTime.now());
 
         emit(LocationReadyState(data, dateDisplay));
       } on LocationServiceDisableException catch (_) {
@@ -66,7 +69,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Future<void> _requestDefaultLocation(Emitter<LocationState> emit) async {
     final String dateDisplay =
-    DateFormat('dd-MMM-yyyy').format(DateTime.now());
+    DateFormat(_dateFormat).format(DateTime.now());
 
     emit(LocationReadyState(_defaultLocation, dateDisplay));
   }

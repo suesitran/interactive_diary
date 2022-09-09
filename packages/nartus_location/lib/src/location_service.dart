@@ -40,7 +40,6 @@ class LocationService {
   Future<PermissionStatusDiary> checkPermission({PermissionStatus? permissionStatus}) async {
     final status = permissionStatus ?? await _permission.status;
 
-    print('status $status');
     switch (status) {
       case PermissionStatus.granted:
         return PermissionStatusDiary.granted;
