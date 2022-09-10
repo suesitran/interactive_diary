@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
@@ -17,7 +18,7 @@ void main() async {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
 
-  runApp(App.adaptive(
+  runApp(MaterialApp(
     home: BlocProvider<LocationBloc>(
       create: (BuildContext context) => LocationBloc(),
       child: const IDHome(),
