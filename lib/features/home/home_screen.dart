@@ -5,13 +5,13 @@ import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 
-class IDHome extends Screen {
+class IDHome extends StatelessWidget {
   const IDHome({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget body(BuildContext context) => BlocBuilder<LocationBloc, LocationState>(
+  Widget build(BuildContext context) => BlocBuilder<LocationBloc, LocationState>(
         builder: (BuildContext context, LocationState state) {
           if (state is LocationReadyState) {
             return Stack(

@@ -3,11 +3,11 @@ import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-class IDSignUp extends Screen {
+class IDSignUp extends StatelessWidget {
   const IDSignUp({Key? key}) : super(key: key);
 
   @override
-  Widget body(BuildContext context) {
+  Widget build(BuildContext context) {
     return BlocProvider<GoogleSignupBloc>(
       create: (_) => GoogleSignupBloc(),
       child: const _IDSignUpBody(),
