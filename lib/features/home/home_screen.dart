@@ -1,14 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/dimens.dart';
-import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 
-class IDHome extends StatelessWidget {
+class IDHome extends StatefulWidget {
   const IDHome({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<IDHome> createState() => _IDHomeState();
+}
+
+class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<LocationBloc, LocationState>(
@@ -113,9 +118,22 @@ class IDHome extends StatelessWidget {
                 ]);
           }
 
+          if (state is AwaitLocationPermissionFromAppSettingState) {
+            WidgetsBinding.instance.addObserver(this);
+          }
+
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
       );
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      WidgetsBinding.instance.removeObserver(this);
+      context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
+    }
+  }
+
 }

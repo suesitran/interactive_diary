@@ -11,8 +11,6 @@ const String _dateFormat = 'dd-MMM-yyyy';
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationService _locationService;
 
-
-
   LocationBloc({LocationService? locationService})
       : _locationService = locationService ?? LocationService(),
         super(LocationInitial(PermissionStatusDiary.denied)) {
@@ -31,7 +29,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     on<OpenAppSettingsEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
-          await _openAppSettings();
+          await _openAppSettings(emit);
+        }
+    );
+
+    on<ReturnedFromAppSettingsEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) async {
+          await _requestCurrentLocation(emit);
         }
     );
   }
@@ -74,5 +78,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(LocationReadyState(_defaultLocation, dateDisplay));
   }
 
-  Future<void> _openAppSettings() => _locationService.requestOpenAppSettings();
+  Future<void> _openAppSettings(Emitter<LocationState> emit) async {
+    emit(AwaitLocationPermissionFromAppSettingState());
+
+    await _locationService.requestOpenAppSettings();
+  }
 }
