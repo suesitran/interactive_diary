@@ -61,7 +61,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
           if (state is LocationInitial) {
             context
                 .read<LocationBloc>()
-                .add(RequestCurrentLocationEvent(state.status));
+                .add(RequestCurrentLocationEvent());
           }
 
           if (state is LocationPermissionDeniedState) {
