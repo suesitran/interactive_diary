@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_location/nartus_location.dart';
@@ -18,10 +19,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         (RequestCurrentLocationEvent event, Emitter<LocationState> emit) async {
       await _requestCurrentLocation(emit);
     });
+
     on<ShowDialogRequestPermissionEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
       await _showDialogRequestPermissionEvent(emit);
     });
+
     on<RequestDefaultLocationEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
           await _requestDefaultLocation(emit);
@@ -53,6 +56,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         emit(LocationServiceDisableState());
       } on LocationPermissionDeniedException catch (_) {
         emit(LocationPermissionDeniedState());
+      } on LocationPermissionDeniedForeverException catch (_) {
+        emit(LocationPermissionDeniedForeverState());
       } on Exception catch (_) {
         emit(UnknownLocationErrorState());
       }

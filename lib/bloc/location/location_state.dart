@@ -1,10 +1,16 @@
 part of 'location_bloc.dart';
 
-abstract class LocationState {}
+abstract class LocationState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class LocationInitial extends LocationState {
-  PermissionStatusDiary status;
+  final PermissionStatusDiary status;
   LocationInitial(this.status);
+
+  @override
+  List<Object?> get props => [status];
 }
 
 class LocationServiceDisableState extends LocationState {}
