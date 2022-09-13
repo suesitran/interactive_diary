@@ -67,9 +67,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
           if (state is LocationPermissionDeniedState) {
             context.showDialogAdaptive(
-                title: const Text('Location Permission not granted'),
-                content: const Text(
-                    'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+                title: Text(S.of(context).locationPermissionDialogTitle),
+                content: Text(
+                    S.of(context).locationPermissionDialogMessage),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () {
@@ -80,7 +80,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Allow')),
+                      child: Text(S.of(context).locationPermissionDialogAllowButton)),
                   TextButton(
                       onPressed: () {
                         debugPrint('click continue button');
@@ -88,15 +88,15 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                         context.read<LocationBloc>().add(
                             RequestDefaultLocationEvent());
                       },
-                      child: const Text('Continue')),
+                      child: Text(S.of(context).locationPermissionDialogContinueButton)),
                 ]);
           }
 
           if (state is LocationPermissionDeniedForeverState) {
             context.showDialogAdaptive(
-                title: const Text('Location Permission not granted'),
-                content: const Text(
-                    'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+                title: Text(S.of(context).locationPermissionDialogTitle),
+                content: Text(
+                    S.of(context).locationPermissionDialogMessage),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () {
@@ -107,7 +107,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Open Settings')),
+                      child: Text(S.of(context).locationPermissionDialogOpenSettingsButton)),
                   TextButton(
                       onPressed: () {
                         debugPrint('click continue button');
@@ -115,7 +115,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                         context.read<LocationBloc>().add(
                             RequestDefaultLocationEvent());
                       },
-                      child: const Text('Continue')),
+                      child: Text(S.of(context).locationPermissionDialogContinueButton)),
                 ]);
           }
 
