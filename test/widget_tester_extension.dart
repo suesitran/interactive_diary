@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapAndPump(Widget widget,
@@ -13,6 +14,8 @@ extension WidgetExtension on WidgetTester {
     } else {
       await pumpAndSettle();
     }
+
+    await pumpFrames(widget, const Duration(milliseconds: 500));
   }
 
   Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(
@@ -31,6 +34,8 @@ extension WidgetExtension on WidgetTester {
     } else {
       await pumpAndSettle();
     }
+
+    await pumpFrames(wrapper, const Duration(milliseconds: 16));
   }
 }
 
@@ -40,9 +45,16 @@ class _MaterialWrapWidget extends StatelessWidget {
   const _MaterialWrapWidget({required this.child, Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        home: Scaffold(
-          body: child,
-        ),
-      );
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: child,
+      ),
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        S.delegate
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      locale: const Locale('en'),
+    );
+  }
 }
