@@ -9,8 +9,8 @@ on:
   #    - '**'
   # Triggers the workflow on push or pull request events but not for the "dev" branch
   push:
-    branches:
-      - '**'
+    paths:
+      - '**.yml'
   #    - '!dev'
   #    - '!master'
   #pull_request:
@@ -64,7 +64,7 @@ jobs:
       run: |
         flutter clean
         flutter pub get
-        flutter pub run build_runner build
+        flutter pub run build_runner build --delete-conflicting-outputs
         flutter pub global run intl_utils:generate
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
     - name: analyse code
