@@ -15,9 +15,9 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
-
   @override
-  Widget build(BuildContext context) => BlocBuilder<LocationBloc, LocationState>(
+  Widget build(BuildContext context) =>
+      BlocBuilder<LocationBloc, LocationState>(
         builder: (BuildContext context, LocationState state) {
           if (state is LocationReadyState) {
             return Stack(
@@ -60,16 +60,13 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
           }
 
           if (state is LocationInitial) {
-            context
-                .read<LocationBloc>()
-                .add(RequestCurrentLocationEvent());
+            context.read<LocationBloc>().add(RequestCurrentLocationEvent());
           }
 
           if (state is LocationPermissionDeniedState) {
             context.showDialogAdaptive(
                 title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(
-                    S.of(context).locationPermissionDialogMessage),
+                content: Text(S.of(context).locationPermissionDialogMessage),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () {
@@ -80,23 +77,26 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
                         Navigator.of(context).pop();
                       },
-                      child: Text(S.of(context).locationPermissionDialogAllowButton)),
+                      child: Text(
+                          S.of(context).locationPermissionDialogAllowButton)),
                   TextButton(
                       onPressed: () {
                         debugPrint('click continue button');
                         Navigator.of(context).pop();
-                        context.read<LocationBloc>().add(
-                            RequestDefaultLocationEvent());
+                        context
+                            .read<LocationBloc>()
+                            .add(RequestDefaultLocationEvent());
                       },
-                      child: Text(S.of(context).locationPermissionDialogContinueButton)),
+                      child: Text(S
+                          .of(context)
+                          .locationPermissionDialogContinueButton)),
                 ]);
           }
 
           if (state is LocationPermissionDeniedForeverState) {
             context.showDialogAdaptive(
                 title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(
-                    S.of(context).locationPermissionDialogMessage),
+                content: Text(S.of(context).locationPermissionDialogMessage),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () {
@@ -107,15 +107,20 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
                         Navigator.of(context).pop();
                       },
-                      child: Text(S.of(context).locationPermissionDialogOpenSettingsButton)),
+                      child: Text(S
+                          .of(context)
+                          .locationPermissionDialogOpenSettingsButton)),
                   TextButton(
                       onPressed: () {
                         debugPrint('click continue button');
                         Navigator.of(context).pop();
-                        context.read<LocationBloc>().add(
-                            RequestDefaultLocationEvent());
+                        context
+                            .read<LocationBloc>()
+                            .add(RequestDefaultLocationEvent());
                       },
-                      child: Text(S.of(context).locationPermissionDialogContinueButton)),
+                      child: Text(S
+                          .of(context)
+                          .locationPermissionDialogContinueButton)),
                 ]);
           }
 
@@ -136,5 +141,4 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
       context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
     }
   }
-
 }

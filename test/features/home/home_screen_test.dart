@@ -127,36 +127,36 @@ void main() {
   testWidgets(
       'given location explanation dialog when denied forever is visible, when tap on Open Settings, then go to App Settings',
       (WidgetTester widgetTester) async {
-        const IDHome widget = IDHome();
+    const IDHome widget = IDHome();
 
-        when(mockLocationBloc.stream).thenAnswer(
-                (_) => Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
-        when(mockLocationBloc.state)
-            .thenAnswer((_) => LocationPermissionDeniedForeverState());
+    when(mockLocationBloc.stream).thenAnswer((_) =>
+        Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-        await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-            infiniteAnimationWidget: true);
+    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
 
-        await widgetTester.tap(find.text('Open Settings'));
+    await widgetTester.tap(find.text('Open Settings'));
 
-        verify(mockLocationBloc.add(OpenAppSettingsEvent()));
-      });
+    verify(mockLocationBloc.add(OpenAppSettingsEvent()));
+  });
 
   testWidgets(
       'given location explanation dialog when denied forever is visible, when tap on Continue, then request default location',
-          (WidgetTester widgetTester) async {
-        const IDHome widget = IDHome();
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
 
-        when(mockLocationBloc.stream).thenAnswer(
-                (_) => Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
-        when(mockLocationBloc.state)
-            .thenAnswer((_) => LocationPermissionDeniedForeverState());
+    when(mockLocationBloc.stream).thenAnswer((_) =>
+        Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-        await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-            infiniteAnimationWidget: true);
+    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
 
-        await widgetTester.tap(find.text('Continue'));
+    await widgetTester.tap(find.text('Continue'));
 
-        verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
-      });
+    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+  });
 }

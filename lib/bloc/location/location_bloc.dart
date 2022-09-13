@@ -6,7 +6,8 @@ import 'package:nartus_location/nartus_location.dart';
 part 'location_event.dart';
 part 'location_state.dart';
 
-final LocationDetails _defaultLocation = LocationDetails(10.7840007, 106.7034988);
+final LocationDetails _defaultLocation =
+    LocationDetails(10.7840007, 106.7034988);
 const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
@@ -27,40 +28,35 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     on<RequestDefaultLocationEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
-          await _requestDefaultLocation(emit);
-        });
+      await _requestDefaultLocation(emit);
+    });
 
     on<OpenAppSettingsEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
-          await _openAppSettings(emit);
-        }
-    );
+      await _openAppSettings(emit);
+    });
 
     on<ReturnedFromAppSettingsEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
-          await _requestCurrentLocation(emit);
-        }
-    );
+      await _requestCurrentLocation(emit);
+    });
   }
 
-  Future<void> _requestCurrentLocation(
-       Emitter<LocationState> emit) async {
-      try {
-        final LocationDetails data =
-            await _locationService.getCurrentLocation();
-        final String dateDisplay =
-            DateFormat(_dateFormat).format(DateTime.now());
+  Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
+    try {
+      final LocationDetails data = await _locationService.getCurrentLocation();
+      final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
 
-        emit(LocationReadyState(data, dateDisplay));
-      } on LocationServiceDisableException catch (_) {
-        emit(LocationServiceDisableState());
-      } on LocationPermissionDeniedException catch (_) {
-        emit(LocationPermissionDeniedState());
-      } on LocationPermissionDeniedForeverException catch (_) {
-        emit(LocationPermissionDeniedForeverState());
-      } on Exception catch (_) {
-        emit(UnknownLocationErrorState());
-      }
+      emit(LocationReadyState(data, dateDisplay));
+    } on LocationServiceDisableException catch (_) {
+      emit(LocationServiceDisableState());
+    } on LocationPermissionDeniedException catch (_) {
+      emit(LocationPermissionDeniedState());
+    } on LocationPermissionDeniedForeverException catch (_) {
+      emit(LocationPermissionDeniedForeverState());
+    } on Exception catch (_) {
+      emit(UnknownLocationErrorState());
+    }
   }
 
   Future<void> _showDialogRequestPermissionEvent(
@@ -77,8 +73,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _requestDefaultLocation(Emitter<LocationState> emit) async {
-    final String dateDisplay =
-    DateFormat(_dateFormat).format(DateTime.now());
+    final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
 
     emit(LocationReadyState(_defaultLocation, dateDisplay));
   }

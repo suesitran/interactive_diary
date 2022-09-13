@@ -4,7 +4,9 @@ class LocationService {
   final Location _location;
   final Permission _permission;
 
-  LocationService({Location? location, Permission? permission}) : _location = location ?? Location(), _permission = permission ?? Permission.location;
+  LocationService({Location? location, Permission? permission})
+      : _location = location ?? Location(),
+        _permission = permission ?? Permission.location;
 
   Future<LocationDetails> getCurrentLocation() async {
     // check if locations service is enable
@@ -37,7 +39,8 @@ class LocationService {
     throw LocationDataCorruptedException();
   }
 
-  Future<PermissionStatusDiary> checkPermission({PermissionStatus? permissionStatus}) async {
+  Future<PermissionStatusDiary> checkPermission(
+      {PermissionStatus? permissionStatus}) async {
     final status = permissionStatus ?? await _permission.status;
 
     switch (status) {
