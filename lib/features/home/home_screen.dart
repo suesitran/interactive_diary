@@ -4,6 +4,7 @@ import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 
 class IDHome extends StatelessWidget {
   const IDHome({
@@ -64,9 +65,8 @@ class IDHome extends StatelessWidget {
               debugPrint('go to setting page');
             } else if (state.status == PermissionStatusDiary.denied) {
               context.showDialogAdaptive(
-                  title: const Text('Location Permission not granted'),
-                  content: const Text(
-                      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () {
@@ -77,7 +77,7 @@ class IDHome extends StatelessWidget {
 
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Allow')),
+                        child: Text(S.of(context).locationPermissionDialogAllowButton)),
                     TextButton(
                         onPressed: () {
                           debugPrint('click continue button');
@@ -86,7 +86,7 @@ class IDHome extends StatelessWidget {
                               RequestCurrentLocationEvent(
                                   PermissionStatusDiary.defaultLocation));
                         },
-                        child: const Text('Continue')),
+                        child: Text(S.of(context).locationPermissionDialogContinueButton)),
                   ]);
             }
           }
