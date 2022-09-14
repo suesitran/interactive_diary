@@ -1,8 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_location/nartus_location.dart';
+
 part 'location_event.dart';
 part 'location_state.dart';
+
+final LocationDetails _defaultLocation =
+    LocationDetails(10.7840007, 106.7034988);
+const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationService _locationService;
@@ -12,45 +18,69 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         super(LocationInitial(PermissionStatusDiary.denied)) {
     on<RequestCurrentLocationEvent>(
         (RequestCurrentLocationEvent event, Emitter<LocationState> emit) async {
-      await _requestCurrentLocation(event, emit);
+      await _requestCurrentLocation(emit);
     });
+
     on<ShowDialogRequestPermissionEvent>(
         (LocationEvent event, Emitter<LocationState> emit) async {
       await _showDialogRequestPermissionEvent(emit);
     });
+
+    on<RequestDefaultLocationEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) async {
+      await _requestDefaultLocation(emit);
+    });
+
+    on<OpenAppSettingsEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) async {
+      await _openAppSettings(emit);
+    });
+
+    on<ReturnedFromAppSettingsEvent>(
+        (LocationEvent event, Emitter<LocationState> emit) async {
+      await _requestCurrentLocation(emit);
+    });
   }
 
-  Future<void> _requestCurrentLocation(
-      RequestCurrentLocationEvent event, Emitter<LocationState> emit) async {
-    if (event.status == PermissionStatusDiary.defaultLocation) {
-      const double latitude = 10.7840007;
-      const double longitude = 106.7034988;
-      final LocationDetails dataDefault = LocationDetails(latitude, longitude);
-      final String dateDisplay =
-          DateFormat('dd-MMM-yyyy').format(DateTime.now());
-      emit(LocationReadyState(dataDefault, dateDisplay));
-    } else {
-      try {
-        final LocationDetails data =
-            await _locationService.getCurrentLocation();
-        final String dateDisplay =
-            DateFormat('dd-MMM-yyyy').format(DateTime.now());
+  Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
+    try {
+      final LocationDetails data = await _locationService.getCurrentLocation();
+      final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
 
-        emit(LocationReadyState(data, dateDisplay));
-      } on LocationServiceDisableException catch (_) {
-        emit(LocationServiceDisableState());
-      } on LocationPermissionNotGrantedException catch (_) {
-        emit(LocationPermissionNotGrantedState(event.status));
-      } on Exception catch (_) {
-        emit(UnknownLocationErrorState());
-      }
+      emit(LocationReadyState(data, dateDisplay));
+    } on LocationServiceDisableException catch (_) {
+      emit(LocationServiceDisableState());
+    } on LocationPermissionDeniedException catch (_) {
+      emit(LocationPermissionDeniedState());
+    } on LocationPermissionDeniedForeverException catch (_) {
+      emit(LocationPermissionDeniedForeverState());
+    } on Exception catch (_) {
+      emit(UnknownLocationErrorState());
     }
   }
 
   Future<void> _showDialogRequestPermissionEvent(
       Emitter<LocationState> emit) async {
-    final PermissionStatusDiary permission =
-        await _locationService.requestPermission();
-    emit(LocationInitial(permission));
+    PermissionStatusDiary status = await _locationService.requestPermission();
+
+    if (status == PermissionStatusDiary.granted) {
+      await _requestCurrentLocation(emit);
+    } else if (status == PermissionStatusDiary.denied) {
+      emit(LocationPermissionDeniedState());
+    } else if (status == PermissionStatusDiary.deniedForever) {
+      emit(LocationPermissionDeniedForeverState());
+    }
+  }
+
+  Future<void> _requestDefaultLocation(Emitter<LocationState> emit) async {
+    final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
+
+    emit(LocationReadyState(_defaultLocation, dateDisplay));
+  }
+
+  Future<void> _openAppSettings(Emitter<LocationState> emit) async {
+    emit(AwaitLocationPermissionFromAppSettingState());
+
+    await _locationService.requestOpenAppSettings();
   }
 }
