@@ -4,20 +4,20 @@ name: Interactive Diary PR Check
 
 # Controls when the workflow will run
 on:
-  pull_request_target:
-    branches: [dev]
-  #    - '**'
-  # Triggers the workflow on push or pull request events but not for the "dev" branch
-  #push:
-  #  branches: 
-  #    - '**'
-  #    - '!dev'
-  #    - '!master'
-  #pull_request:
-  #  branches:
-  #    - '**'
-  #    - '!dev'
-  #    - '!master'
+#  pull_request_target:
+#    branches: [dev]
+#      - '**'
+# Triggers the workflow on push or pull request events but not for the "dev" branch
+#  push:
+#    branches:
+#      - '**'
+#    - '!dev'
+#    - '!master'
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,11 +27,14 @@ jobs:
   test:
     name: 'Run test and build code'
     runs-on: macos-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{github.event.pull_request_target.head.ref}}
-        repository: ${{github.event.pull_request_target.head.repo.full_name}}
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
     - name:  Setup Java
       uses: actions/setup-java@v3
       with:
@@ -64,8 +67,8 @@ jobs:
       run: |
         flutter clean
         flutter pub get
-        flutter pub run build_runner build
-        flutter pub global run intl_utils:generate
+        flutter pub run build_runner build --delete-conflicting-outputs
+        flutter pub run intl_utils:generate
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
     - name: analyse code
       run: flutter analyze
