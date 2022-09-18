@@ -10,11 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  connectivity_plus: ^2.3.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  mockito: ^5.3.1
+  build_runner: ^2.2.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
