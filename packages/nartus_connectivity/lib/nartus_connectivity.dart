@@ -24,15 +24,18 @@ class ConnectivityService {
   }
 
   void _handleConnectivityChange(ConnectivityResult result) async {
-    final updatedConnectivity = await _checkConnectivity(connectivityResult: result);
+    final updatedConnectivity =
+        await _checkConnectivity(connectivityResult: result);
     if (updatedConnectivity != _currentConnectivity) {
       _currentConnectivity = updatedConnectivity;
       _connectivityChange.add(_currentConnectivity);
     }
   }
 
-  Future<bool> _checkConnectivity({ConnectivityResult? connectivityResult}) async {
-    final result = connectivityResult ?? await _connectivity.checkConnectivity();
+  Future<bool> _checkConnectivity(
+      {ConnectivityResult? connectivityResult}) async {
+    final result =
+        connectivityResult ?? await _connectivity.checkConnectivity();
 
     return result != ConnectivityResult.none;
   }
