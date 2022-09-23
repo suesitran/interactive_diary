@@ -23,54 +23,56 @@ jobs:
         ref: ${{github.event.pull_request_target.head.ref}}
         repository: ${{github.event.pull_request_target.head.repo.full_name}}
         fetch-depth: 0
-#    - name:  Setup Java
-#      uses: actions/setup-java@v3
-#      with:
-#        distribution: 'zulu'
-#        java-version: '11'
-#    - name: Install Flutter
-#      uses: subosito/flutter-action@v2.6.2
-#      with:
-#        flutter-version: '3.3.2'
-#        channel: 'stable'
-#    - name: Setup environment secrets
-#      shell: bash
-#      env:
-#        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
-#        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
-#        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
-#        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
-#        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
-#      run: |
-#        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
-#        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
-#        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
-#        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
-#        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
-#    - name: Install dependencies
-#      shell: bash
-#      run: |
-#        flutter clean
-#        flutter pub get
-#        flutter pub run build_runner build
-#        flutter pub run intl_utils:generate
-#        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
-#    - name: Run tests
-#      run: |
-#        flutter test --coverage
-#        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
-#    - uses: codecov/codecov-action@v3
-#      with:
-#        verbose: true
-#        fail_ci_if_error: true
+    - name:  Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2.6.2
+      with:
+        flutter-version: '3.3.2'
+        channel: 'stable'
+    - name: Setup environment secrets
+      shell: bash
+      env:
+        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
+        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
+        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
+      run: |
+        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
+        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
+        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
+        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
+    - name: Install dependencies
+      shell: bash
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build
+        flutter pub run intl_utils:generate
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+    - name: Run tests
+      run: |
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
+    - uses: codecov/codecov-action@v3
+      with:
+        verbose: true
+        fail_ci_if_error: true
     - name: checking git commit count
       run: |
-        git log
         count=$(git rev-list --count HEAD)
-        echo count: $count
-#    - name: build Android
-#      run: |
-#        flutter build apk --debug
+        echo build number: $count
+      env:
+        BUILD_NUMBER: ${{ count }}
+    - name: build Android
+      run: |
+        echo build number env: $BUILD_NUMBER
+        flutter build apk --debug
 #    - name: build iOS
 #      run : |
 #        flutter build ios --debug --no-codesign
