@@ -89,6 +89,7 @@ jobs:
   build-iOS:
     name: Build iOS app
     runs-on: macos-latest
+    needs: setup-environment
     steps:
     - name: build iOS
       run: |
