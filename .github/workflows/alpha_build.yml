@@ -14,8 +14,11 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   validate-and-build-apps:
-    name: 'Setup environment on macos-latest'
+    name: 'Validate and build Android and iOS apps on macos-latest'
     runs-on: macos-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
     - name: checkout source code
       uses: actions/checkout@v2
@@ -92,6 +95,9 @@ jobs:
     name: Distribute Android app
     needs: validate-and-build-apps
     runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
 
     steps:
       - uses: actions/checkout@v2
@@ -116,7 +122,10 @@ jobs:
     name: Distribute iOS app
     needs: validate-and-build-apps
     runs-on: ubuntu-latest
-
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
+      
     steps:
       - uses: actions/checkout@v2
       - name: Download iOS build
