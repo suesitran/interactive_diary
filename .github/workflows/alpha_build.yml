@@ -17,37 +17,31 @@ jobs:
     name: 'Setup environment on macos-latest'
     runs-on: macos-latest
     steps:
-      - name: checkout source code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{github.event.pull_request_target.head.ref}}
-          repository: ${{github.event.pull_request_target.head.repo.full_name}}
-          fetch-depth: 0
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2.6.2
-        with:
-          flutter-version: '3.3.2'
-          channel: 'stable'
-      - name: Install dependencies
-        shell: bash
-        run: |
-          flutter clean
-          flutter pub get
-          flutter pub run build_runner build
-          flutter pub run intl_utils:generate
-          for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
-
-  run-test-with-codecov:
-    name: 'Run codecov on dev'
-    runs-on: macos-latest
-    needs: setup-environment
-    steps:
-    - name: Run tests
+    - name: checkout source code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.event.pull_request_target.head.ref}}
+        repository: ${{github.event.pull_request_target.head.repo.full_name}}
+        fetch-depth: 0
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2.6.2
+      with:
+        flutter-version: '3.3.2'
+        channel: 'stable'
+    - name: Install dependencies
+      shell: bash
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build
+        flutter pub run intl_utils:generate
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+    - name: Run tests coverage
       run: |
         flutter test --coverage
         for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
@@ -64,16 +58,6 @@ jobs:
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
-    - name: Build Android app
-      run: |
-        count=$(git rev-list --count HEAD)
-        echo Build Android and iOS with build number env: $count
-        flutter build apk --debug --build-number=$count
-    - name: build iOS app
-      run: |
-        count=$(git rev-list --count HEAD)
-        echo Build iOS with build number env: $count
-        flutter build ios --debug --no-codesign --build-number=$count
     - name: Upload iOS artifact
       uses: actions/upload-artifact@v2
       with:
