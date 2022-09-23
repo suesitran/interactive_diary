@@ -13,48 +13,40 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
-    name: 'Run codecov on dev'
+  setup-environment:
+    name: 'Setup environment on macos-latest'
     runs-on: macos-latest
     steps:
-    - name: checkout source code
-      uses: actions/checkout@v2
-      with:
-        ref: ${{github.event.pull_request_target.head.ref}}
-        repository: ${{github.event.pull_request_target.head.repo.full_name}}
-        fetch-depth: 0
-    - name:  Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '11'
-    - name: Install Flutter
-      uses: subosito/flutter-action@v2.6.2
-      with:
-        flutter-version: '3.3.2'
-        channel: 'stable'
-    - name: Setup environment secrets
-      shell: bash
-      env:
-        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
-        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
-        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
-        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
-        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
-      run: |
-        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
-        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
-        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
-        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
-        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
-    - name: Install dependencies
-      shell: bash
-      run: |
-        flutter clean
-        flutter pub get
-        flutter pub run build_runner build
-        flutter pub run intl_utils:generate
-        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+      - name: checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request_target.head.ref}}
+          repository: ${{github.event.pull_request_target.head.repo.full_name}}
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.6.2
+        with:
+          flutter-version: '3.3.2'
+          channel: 'stable'
+      - name: Install dependencies
+        shell: bash
+        run: |
+          flutter clean
+          flutter pub get
+          flutter pub run build_runner build
+          flutter pub run intl_utils:generate
+          for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+
+  run-test-with-codecov:
+    name: 'Run codecov on dev'
+    runs-on: macos-latest
+    needs: setup-environment
+    steps:
     - name: Run tests
       run: |
         flutter test --coverage
@@ -72,17 +64,70 @@ jobs:
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
-    - name: Firebase App Distribution - Android upload
-      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+    - name: Upload iOS artifact
+      uses: actions/upload-artifact@v2
       with:
-        token: ${{ secrets.FAD_TOKEN }}
-        file: build/app/outputs/flutter-apk/app-debug.apk
-        releaseNotesFile: release_note.txt
-        groups: android_test_group
-    - name: Firebase App Distribution - iOS upload
-      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+        name: Runner.app
+        path: build/ios/iphoneos/Runner.app
+    - name: Upload Android artifact
+      uses: actions/upload-artifact@v2
       with:
-        token: ${{ secrets.FAD_TOKEN }}
-        file: build/ios/iphoneos/Runner.app
-        releaseNotesFile: release_note.txt
-        groups: ios_test_group
+        name: app-debug.apk
+        path: build/app/outputs/flutter-apk/app-debug.apk
+
+  build-android:
+    name: Build Android app
+    runs-on: ubuntu-latest
+    needs: setup-environment
+    steps:
+    - name: build Android
+      run: |
+        count=$(git rev-list --count HEAD)
+        echo Build Android and iOS with build number env: $count
+        flutter build apk --debug --build-number=$count
+
+  build-iOS:
+    name: Build iOS app
+    runs-on: macos-latest
+    steps:
+    - name: build iOS
+      run: |
+        count=$(git rev-list --count HEAD)
+        echo Build iOS with build number env: $count
+        flutter build ios --debug --no-codesign --build-number=$count
+
+#  distribute-android:
+#    name: Distribute Android app
+#    needs: build-android
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#    - uses: actions/download-artifact@v2
+#      with:
+#        name: app-debug.apk
+#    - name: Firebase App Distribution - Android upload
+#      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+#      with:
+#        token: ${{ secrets.FAD_TOKEN }}
+#        file: app-debug.apk
+#        releaseNotesFile: release_note.txt
+#        groups: android_test_group
+#
+#  distribute-iOS:
+#    name: Distribute Android app
+#    needs: build-apps
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: YourApp.ipa
+#      - name: Firebase App Distribution - iOS upload
+#        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+#        with:
+#          token: ${{ secrets.FAD_TOKEN }}
+#          file: Runner.app
+#          releaseNotesFile: release_note.txt
+#          groups: ios_test_group
