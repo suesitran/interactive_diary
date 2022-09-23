@@ -69,13 +69,20 @@ jobs:
         echo Build Android and iOS with build number env: $count
         flutter build apk --debug --build-number=$count
         flutter build ios --debug --no-codesign --build-number=$count
-#    - name: generate release note
-#      run: |
-#        git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
-#    - name: Firebase App Distribution - Android upload
-#      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-#      with:
-#        token: ${{ secrets.FAD_TOKEN }}
-#        file: build/app/outputs/flutter-apk/app-debug.apk
-#        releaseNotesFile: release_note.txt
-#        groups: android_test_group
+    - name: generate release note
+      run: |
+        git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
+    - name: Firebase App Distribution - Android upload
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+      with:
+        token: ${{ secrets.FAD_TOKEN }}
+        file: build/app/outputs/flutter-apk/app-debug.apk
+        releaseNotesFile: release_note.txt
+        groups: android_test_group
+    - name: Firebase App Distribution - iOS upload
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+      with:
+        token: ${{ secrets.FAD_TOKEN }}
+        file: build/ios/iphoneos/Runner.app
+        releaseNotesFile: release_note.txt
+        groups: ios_test_group
