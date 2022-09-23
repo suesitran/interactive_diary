@@ -67,8 +67,8 @@ jobs:
       run: |
         count=$(git rev-list --count HEAD)
         echo Build Android and iOS with build number env: $count
-        flutter build apk --debug --build-number=$count
-        flutter build ios --debug --no-codesign --build-number=$count
+        flutter build apk --build-number=$count
+        flutter build ios --build-number=$count
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
@@ -98,6 +98,7 @@ jobs:
         with:
           token: ${{ secrets.FAD_TOKEN }}
           file: app-debug.apk
+          appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
           releaseNotesFile: release_note.txt
           groups: android_test_group
 
@@ -110,11 +111,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: YourApp.ipa
+          name: Runner.app
       - name: Firebase App Distribution - iOS upload
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
         with:
           token: ${{ secrets.FAD_TOKEN }}
           file: Runner.app
+          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
           releaseNotesFile: release_note.txt
           groups: ios_test_group
