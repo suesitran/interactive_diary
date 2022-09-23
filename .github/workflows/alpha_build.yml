@@ -64,7 +64,7 @@ jobs:
 #        fail_ci_if_error: true
     - name: checking git commit count
       run: |
-        count = $(git rev-list --count HEAD)
+        count=$(git rev-list --count HEAD)
         echo count: $count
 #    - name: build Android
 #      run: |
