@@ -65,7 +65,7 @@ jobs:
         fail_ci_if_error: true
     - name: checking git commit count
       run: |
-        count=$(git rev-list --count HEAD)
+        export count=$(git rev-list --count HEAD)
         echo build number: $count
       env:
         BUILD_NUMBER: ${{ count }}
