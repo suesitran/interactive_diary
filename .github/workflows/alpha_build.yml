@@ -63,16 +63,11 @@ jobs:
       with:
         verbose: true
         fail_ci_if_error: true
-    - name: checking git commit count
-      run: |
-        export count=$(git rev-list --count HEAD)
-        echo build number: $count
-      env:
-        BUILD_NUMBER: ${{ count }}
     - name: build Android
       run: |
-        echo build number env: $BUILD_NUMBER
-        flutter build apk --debug
+        count=$(git rev-list --count HEAD)
+        echo Android with build number env: $count
+        flutter build apk --debug --build-number=$count
 #    - name: build iOS
 #      run : |
 #        flutter build ios --debug --no-codesign
