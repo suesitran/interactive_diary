@@ -113,7 +113,7 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
         with:
           token: ${{ secrets.FAD_TOKEN }}
-          file: app-debug.apk
+          file: app-release.apk
           appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
           releaseNotesFile: release_note.txt
           groups: android_test_group
@@ -140,7 +140,7 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
         with:
           token: ${{ secrets.FAD_TOKEN }}
-          file: Runner.app
+          file: interactive_diary.ipa
           appId: ${{secrets.FIREBASE_IOS_APP_ID}}
           releaseNotesFile: release_note.txt
           groups: ios_test_group
