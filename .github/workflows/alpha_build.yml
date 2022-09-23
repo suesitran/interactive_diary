@@ -68,20 +68,25 @@ jobs:
         count=$(git rev-list --count HEAD)
         echo Build Android and iOS with build number env: $count
         flutter build apk --build-number=$count
-        flutter build ios --build-number=$count
+        flutter build ipa --build-number=$count
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
     - name: Upload iOS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Runner.app
-        path: build/ios/iphoneos/Runner.app
+        name: interactive_diary.ipa
+        path: build/ios/ipa/interactive_diary.ipa
     - name: Upload Android artifact
       uses: actions/upload-artifact@v2
       with:
         name: app-debug.apk
         path: build/app/outputs/flutter-apk/app-debug.apk
+    - name: Upload release note
+      uses: actions/upload-artifact@v2
+      with:
+        name: release_note.txt
+        path: release_note.txt
 
   distribute-android:
     name: Distribute Android app
@@ -90,9 +95,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - name: Download android buil
+        uses: actions/download-artifact@v2
         with:
           name: app-debug.apk
+      - name: Download release note
+        uses: actions/download-artifact@v2
+        with:
+          name: release_note.txt
       - name: Firebase App Distribution - Android upload
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
         with:
@@ -109,9 +119,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - name: Download iOS build
+        uses: actions/download-artifact@v2
         with:
-          name: Runner.app
+          name: interactive_diary.ipa
+      - name: Download release note
+        uses: actions/download-artifact@v2
+        with:
+          name: release_note.txt
       - name: Firebase App Distribution - iOS upload
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
         with:
