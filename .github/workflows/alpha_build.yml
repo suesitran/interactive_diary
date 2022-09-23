@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  setup-environment:
+  validate-and-build-apps:
     name: 'Setup environment on macos-latest'
     runs-on: macos-latest
     steps:
@@ -64,6 +64,16 @@ jobs:
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
+    - name: Build Android app
+      run: |
+        count=$(git rev-list --count HEAD)
+        echo Build Android and iOS with build number env: $count
+        flutter build apk --debug --build-number=$count
+    - name: build iOS app
+      run: |
+        count=$(git rev-list --count HEAD)
+        echo Build iOS with build number env: $count
+        flutter build ios --debug --no-codesign --build-number=$count
     - name: Upload iOS artifact
       uses: actions/upload-artifact@v2
       with:
@@ -75,60 +85,38 @@ jobs:
         name: app-debug.apk
         path: build/app/outputs/flutter-apk/app-debug.apk
 
-  build-android:
-    name: Build Android app
+  distribute-android:
+    name: Distribute Android app
+    needs: validate-and-build-apps
     runs-on: ubuntu-latest
-    needs: setup-environment
-    steps:
-    - name: build Android
-      run: |
-        count=$(git rev-list --count HEAD)
-        echo Build Android and iOS with build number env: $count
-        flutter build apk --debug --build-number=$count
 
-  build-iOS:
-    name: Build iOS app
-    runs-on: macos-latest
-    needs: setup-environment
     steps:
-    - name: build iOS
-      run: |
-        count=$(git rev-list --count HEAD)
-        echo Build iOS with build number env: $count
-        flutter build ios --debug --no-codesign --build-number=$count
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        name: app-debug.apk
+    - name: Firebase App Distribution - Android upload
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+      with:
+        token: ${{ secrets.FAD_TOKEN }}
+        file: app-debug.apk
+        releaseNotesFile: release_note.txt
+        groups: android_test_group
 
-#  distribute-android:
-#    name: Distribute Android app
-#    needs: build-android
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#    - uses: actions/download-artifact@v2
-#      with:
-#        name: app-debug.apk
-#    - name: Firebase App Distribution - Android upload
-#      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-#      with:
-#        token: ${{ secrets.FAD_TOKEN }}
-#        file: app-debug.apk
-#        releaseNotesFile: release_note.txt
-#        groups: android_test_group
-#
-#  distribute-iOS:
-#    name: Distribute Android app
-#    needs: build-apps
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/download-artifact@v2
-#        with:
-#          name: YourApp.ipa
-#      - name: Firebase App Distribution - iOS upload
-#        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-#        with:
-#          token: ${{ secrets.FAD_TOKEN }}
-#          file: Runner.app
-#          releaseNotesFile: release_note.txt
-#          groups: ios_test_group
+  distribute-iOS:
+    name: Distribute Android app
+    needs: validate-and-build-apps
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: YourApp.ipa
+      - name: Firebase App Distribution - iOS upload
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+        with:
+          token: ${{ secrets.FAD_TOKEN }}
+          file: Runner.app
+          releaseNotesFile: release_note.txt
+          groups: ios_test_group
