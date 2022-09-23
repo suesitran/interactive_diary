@@ -33,6 +33,20 @@ jobs:
       with:
         flutter-version: '3.3.2'
         channel: 'stable'
+    - name: Setup environment secrets
+      shell: bash
+      env:
+        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
+        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
+        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
+      run: |
+        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
+        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
+        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
+        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
     - name: Install dependencies
       shell: bash
       run: |
@@ -58,49 +72,4 @@ jobs:
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
-    - name: Upload iOS artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: Runner.app
-        path: build/ios/iphoneos/Runner.app
-    - name: Upload Android artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-debug.apk
-        path: build/app/outputs/flutter-apk/app-debug.apk
 
-  distribute-android:
-    name: Distribute Android app
-    needs: validate-and-build-apps
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@v2
-      with:
-        name: app-debug.apk
-    - name: Firebase App Distribution - Android upload
-      uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-      with:
-        token: ${{ secrets.FAD_TOKEN }}
-        file: app-debug.apk
-        releaseNotesFile: release_note.txt
-        groups: android_test_group
-
-  distribute-iOS:
-    name: Distribute Android app
-    needs: validate-and-build-apps
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: YourApp.ipa
-      - name: Firebase App Distribution - iOS upload
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-        with:
-          token: ${{ secrets.FAD_TOKEN }}
-          file: Runner.app
-          releaseNotesFile: release_note.txt
-          groups: ios_test_group
