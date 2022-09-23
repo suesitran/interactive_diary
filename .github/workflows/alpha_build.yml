@@ -102,7 +102,7 @@ jobs:
           groups: android_test_group
 
   distribute-iOS:
-    name: Distribute Android app
+    name: Distribute iOS app
     needs: validate-and-build-apps
     runs-on: ubuntu-latest
 
