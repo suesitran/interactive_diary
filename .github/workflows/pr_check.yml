@@ -82,4 +82,4 @@ jobs:
         verbose: true
         fail_ci_if_error: true
     - run: flutter build apk
-    - run: flutter build ios --no-codesign
+    - run: flutter build ipa --no-codesign
