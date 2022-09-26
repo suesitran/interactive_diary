@@ -115,14 +115,14 @@ jobs:
         count=$(git rev-list --count HEAD)
         echo Build Android and iOS with build number env: $count
         flutter build apk --build-number=$count
-        flutter build ios --release --no-codesign --build-number=$count
-    - name: Build resolve Swift dependencies
-      run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
-    - name: Build xArchive
-      env:
-        PROVISIONING_UUID: ${{ secrets.BUILD_PROVISIONING_UUID }}
-        CODE_SIGN_IDENTITY: ${{ secrets.BUILD_CODE_SIGN_IDENTITY }}
-      run: |
+        flutter build ipa --release --build-number=$count
+#    - name: Build resolve Swift dependencies
+#      run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
+#    - name: Build xArchive
+#      env:
+#        PROVISIONING_UUID: ${{ secrets.BUILD_PROVISIONING_UUID }}
+#        CODE_SIGN_IDENTITY: ${{ secrets.BUILD_CODE_SIGN_IDENTITY }}
+#      run: |
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
