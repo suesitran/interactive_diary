@@ -72,7 +72,7 @@ jobs:
         count=$(git rev-list --count HEAD)
         echo Build Android and iOS with build number env: $count
         flutter build apk --build-number=$count
-        flutter build ios --build-number=$count
+        flutter build ios --build-number=$count --no-codesign
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
