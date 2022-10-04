@@ -52,8 +52,16 @@ jobs:
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
-        echo "$ANDROID_KEYSTORE" > android/app/interactive-diary-release.keystore
-        echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
+
+        # put keystore
+        echo "$$ANDROID_KEYSTORE" > keystore
+        base64 -d keystore >> android/app/interactive-diary-release.keystore
+        rm keystore
+
+        # put keyproperties
+        echo "$ANDROID_KEY_PROPERTIES" > keyproperties
+        base64 -d keyproperties >> android/key.properties
+        rm keyproperties
     - name: Install dependencies
       shell: bash
       run: |
