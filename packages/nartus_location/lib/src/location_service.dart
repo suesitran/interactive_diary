@@ -2,8 +2,11 @@ part of "../nartus_location.dart";
 
 class LocationService {
   final Location _location;
+  final Permission _permission;
 
-  LocationService({Location? location}) : _location = location ?? Location();
+  LocationService({Location? location, Permission? permission})
+      : _location = location ?? Location(),
+        _permission = permission ?? Permission.location;
 
   Future<LocationDetails> getCurrentLocation() async {
     // check if locations service is enable
@@ -14,11 +17,14 @@ class LocationService {
     }
 
     // check permission
-    PermissionStatus permissionStatus = await _location.hasPermission();
+    PermissionStatus permissionStatus = await _permission.status;
     switch (permissionStatus) {
       case PermissionStatus.denied:
-      case PermissionStatus.deniedForever:
-        throw LocationPermissionNotGrantedException();
+      case PermissionStatus.limited:
+      case PermissionStatus.restricted:
+        throw LocationPermissionDeniedException();
+      case PermissionStatus.permanentlyDenied:
+        throw LocationPermissionDeniedForeverException();
       default:
         break;
     }
@@ -33,14 +39,18 @@ class LocationService {
     throw LocationDataCorruptedException();
   }
 
-  Future<PermissionStatusDiary> requestPermission() async {
-    final status = await _location.requestPermission();
+  Future<PermissionStatusDiary> checkPermission(
+      {PermissionStatus? permissionStatus}) async {
+    final status = permissionStatus ?? await _permission.status;
+
     switch (status) {
       case PermissionStatus.granted:
         return PermissionStatusDiary.granted;
       case PermissionStatus.denied:
+      case PermissionStatus.restricted:
+      case PermissionStatus.limited:
         return PermissionStatusDiary.denied;
-      case PermissionStatus.deniedForever:
+      case PermissionStatus.permanentlyDenied:
         return PermissionStatusDiary.deniedForever;
       default:
         break;
@@ -48,7 +58,17 @@ class LocationService {
     return PermissionStatusDiary.denied;
   }
 
+  Future<PermissionStatusDiary> requestPermission() async {
+    PermissionStatus status = await _permission.status;
+
+    if (status != PermissionStatus.granted) {
+      status = await _permission.request();
+    }
+
+    return checkPermission(permissionStatus: status);
+  }
+
   Future<bool> requestService() => _location.requestService();
-  Future<PermissionStatus> permissionStatus() async =>
-      await _location.hasPermission();
+
+  Future<bool> requestOpenAppSettings() => openAppSettings();
 }

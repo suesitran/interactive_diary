@@ -1,1 +1,8 @@
-{}
+{
+  "@@locale": "en",
+  "locationPermissionDialogTitle": "Location Permission not granted",
+  "locationPermissionDialogMessage": "Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog",
+  "locationPermissionDialogAllowButton": "Allow",
+  "locationPermissionDialogContinueButton": "Continue",
+  "locationPermissionDialogOpenSettingsButton": "Open Settings"
+}

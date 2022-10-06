@@ -3,11 +3,11 @@ import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-class IDSignUp extends Screen {
+class IDSignUp extends StatelessWidget {
   const IDSignUp({Key? key}) : super(key: key);
 
   @override
-  Widget body(BuildContext context) {
+  Widget build(BuildContext context) {
     return BlocProvider<GoogleSignupBloc>(
       create: (_) => GoogleSignupBloc(),
       child: const _IDSignUpBody(),
@@ -62,7 +62,6 @@ class _IDAppleSignInButton extends StatelessWidget {
   void _signUpByApple(BuildContext context) => () {};
 }
 
-
 class IDGoogleSignInButton extends StatelessWidget {
   const IDGoogleSignInButton({Key? key}) : super(key: key);
 
@@ -78,9 +77,9 @@ class IDGoogleSignInButton extends StatelessWidget {
       },
       listener: (BuildContext stateContext, GoogleSignupState googleState) {
         if (googleState.isSignedUpSucceed) {
-          _navToHomeScreen(stateContext);
+          // TODO navigate to home screen
         } else if (googleState.isSignedUpFailed) {
-          _showSignUpFailedDialog(stateContext, googleState.failedSignUpError);
+          // TODO show sign up failed dialog
         }
       },
     );
@@ -90,11 +89,6 @@ class IDGoogleSignInButton extends StatelessWidget {
       context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
 }
 
-Future<T?> _navToHomeScreen<T>(BuildContext context) async {}
-
-Future<T?> _showSignUpFailedDialog<T>(BuildContext context, String error) async {}
-
-
 class _IDRegisterForm extends StatelessWidget {
   const _IDRegisterForm({Key? key}) : super(key: key);
 
@@ -102,20 +96,19 @@ class _IDRegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
         child: Column(
-          children: <Widget>[
-            IDTextField(
-              hint: 'Email',
-            ),
-            const Gap.v20(),
-            IDTextField(
-              hint: 'Password',
-            ),
-            const Gap.v20(),
-            IDButton(text: 'Register', onPressed: () => _register())
-          ],
-        ));
+      children: <Widget>[
+        const IDTextField(
+          hint: 'Email',
+        ),
+        const Gap.v20(),
+        const IDTextField(
+          hint: 'Password',
+        ),
+        const Gap.v20(),
+        IDButton(text: 'Register', onPressed: () => _register())
+      ],
+    ));
   }
 
   void _register() {}
 }
-

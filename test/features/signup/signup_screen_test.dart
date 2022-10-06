@@ -9,7 +9,6 @@ import '../../mock_firebase.dart';
 import '../../widget_tester_extension.dart';
 import 'signup_screen_test.mocks.dart';
 
-
 @GenerateMocks(<Type>[GoogleSignupBloc])
 void main() {
   setupFirebaseAuthMocks();
@@ -22,42 +21,39 @@ void main() {
   });
 
   group('Signup with google', () {
-    testWidgets('When State is GoogleSigninInitialState, '
-      'then the Google button is showed with idle status',
-      (WidgetTester widgetTester) async {
+    testWidgets(
+        'When State is GoogleSigninInitialState, '
+        'then the Google button is showed with idle status',
+        (WidgetTester widgetTester) async {
+      when(mockSignUpBloc.stream).thenAnswer(
+          (_) => Stream<GoogleSignupState>.value(GoogleSignupInitialState()));
+      when(mockSignUpBloc.state).thenAnswer((_) => GoogleSignupInitialState());
 
-        when(mockSignUpBloc.stream)
-            .thenAnswer((_) => Stream<GoogleSignupState>.value(
-            GoogleSignupInitialState()));
-        when(mockSignUpBloc.state)
-          .thenAnswer((_) => GoogleSignupInitialState());
+      final Finder googleButton =
+          find.widgetWithText(IDGoogleSignInButton, 'Continue with Google');
 
-        final Finder googleButton = find.widgetWithText(
-          IDGoogleSignInButton,
-          'Continue with Google'
-        );
+      await widgetTester.blocWrapAndPump<GoogleSignupBloc>(
+          mockSignUpBloc, screen,
+          infiniteAnimationWidget: true);
 
-        await widgetTester.blocWrapAndPump<GoogleSignupBloc>(mockSignUpBloc, screen, infiniteAnimationWidget: true);
+      expect(googleButton, findsOneWidget);
+    });
 
-        expect(googleButton, findsOneWidget);
+    testWidgets(
+        'When State is GoogleSigningUpState, '
+        'then the Google button is showed with loading status',
+        (WidgetTester widgetTester) async {
+      Widget googleButton = const IDGoogleSignInButton();
+      when(mockSignUpBloc.stream).thenAnswer(
+          (_) => Stream<GoogleSignupState>.value(GoogleSigningUpState()));
+      when(mockSignUpBloc.state).thenAnswer((_) => GoogleSigningUpState());
 
-      });
+      await widgetTester.blocWrapAndPump<GoogleSignupBloc>(
+          mockSignUpBloc, googleButton,
+          infiniteAnimationWidget: true);
 
-    testWidgets('When State is GoogleSigningUpState, '
-      'then the Google button is showed with loading status',
-          (WidgetTester widgetTester) async {
-
-        Widget googleButton = const IDGoogleSignInButton();
-        when(mockSignUpBloc.stream).thenAnswer((_) =>
-        Stream<GoogleSignupState>.value(GoogleSigningUpState()));
-        when(mockSignUpBloc.state).thenAnswer((_) => GoogleSigningUpState());
-
-        await widgetTester.blocWrapAndPump<GoogleSignupBloc>(
-          mockSignUpBloc, googleButton, infiniteAnimationWidget: true);
-
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-      });
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
 
     /// TODO : Re-test after enable navigation/ showDialog
     // testWidgets('When State is GoogleSignupFailedState, '
@@ -74,7 +70,5 @@ void main() {
     //     expect(find.byType(AlertDialog), findsOneWidget);
     //
     //   });
-
   });
-
 }

@@ -20,12 +20,14 @@ class AuthenticationService {
     try {
       googleUser = await _googleSignIn.signIn();
     } on PlatformException catch (e) {
-      throw AuthUtils.convertAuthException(e.code, '${e.message} | ${e.details}');
+      throw AuthUtils.convertAuthException(
+          e.code, '${e.message} | ${e.details}');
     }
 
     if (googleUser == null) throw AuthenticateFailedException.userCancelled();
 
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
     final OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
@@ -40,17 +42,18 @@ class AuthenticationService {
     if (firebaseUser == null) throw AuthenticateFailedException.userNotFound();
 
     return UserDetail(
-      name: firebaseUser.displayName,
-      avatarUrl: firebaseUser.photoURL,
-      phone: firebaseUser.phoneNumber,
-      email: firebaseUser.email);
+        name: firebaseUser.displayName,
+        avatarUrl: firebaseUser.photoURL,
+        phone: firebaseUser.phoneNumber,
+        email: firebaseUser.email);
   }
 
   Future<void> _signInFirebase(AuthCredential credential) async {
     try {
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      throw AuthUtils.convertAuthException(e.code, e.message ?? DefaultError.kErrUnknown);
+      throw AuthUtils.convertAuthException(
+          e.code, e.message ?? DefaultError.kErrUnknown);
     } catch (_) {
       throw AuthenticateFailedException.unknown();
     }

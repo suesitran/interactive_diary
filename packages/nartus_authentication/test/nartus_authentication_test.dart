@@ -10,26 +10,30 @@ import 'nartus_authentication_test.mocks.dart';
 
 @GenerateMocks([GoogleSignIn, FirebaseAuth])
 void main() {
-
   final GoogleSignIn googleSignIn = MockGoogleSignIn();
   final FirebaseAuth firebaseAuth = MockFirebaseAuth();
   final AuthenticationService authService = AuthenticationService(
-    googleSignIn: googleSignIn, firebaseAuth: firebaseAuth);
+      googleSignIn: googleSignIn, firebaseAuth: firebaseAuth);
 
-  group('test user canceled login flow', (){
-    test('given user signing in by google, when user cancel login, then throw AuthenticateFailedException.userCancelled', () async {
-      when(googleSignIn.signIn())
-          .thenAnswer((realInvocation) => throw PlatformException(code: 'sign_in_canceled'));
+  group('test user canceled login flow', () {
+    test(
+        'given user signing in by google, when user cancel login, then throw AuthenticateFailedException.userCancelled',
+        () async {
+      when(googleSignIn.signIn()).thenAnswer((realInvocation) =>
+          throw PlatformException(code: 'sign_in_canceled'));
 
-      expect(() => authService.signinGoogle(), throwsA(isA<AuthenticateFailedException>()));
+      expect(() => authService.signinGoogle(),
+          throwsA(isA<AuthenticateFailedException>()));
     });
 
-    test('given user signing in by google, when user cancel login, then throw AuthenticateFailedException.userCancelled', () async {
+    test(
+        'given user signing in by google, when user cancel login, then throw AuthenticateFailedException.userCancelled',
+        () async {
       when(googleSignIn.signIn())
           .thenAnswer((realInvocation) => Future.value(null));
 
-      expect(() => authService.signinGoogle(), throwsA(isA<AuthenticateFailedException>()));
+      expect(() => authService.signinGoogle(),
+          throwsA(isA<AuthenticateFailedException>()));
     });
   });
-
 }

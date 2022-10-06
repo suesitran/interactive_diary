@@ -10,10 +10,10 @@ class IDTextFormField extends StatelessWidget {
   final bool? autoFocus;
   const IDTextFormField(
       {Key? key,
-        this.controller,
-        this.hint,
-        this.prefix,
-        this.autoFocus = false})
+      this.controller,
+      this.hint,
+      this.prefix,
+      this.autoFocus = false})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -49,10 +49,10 @@ class IDTextField extends StatelessWidget {
   final bool? autoFocus;
   const IDTextField(
       {Key? key,
-        this.controller,
-        this.hint,
-        this.prefix,
-        this.autoFocus = false})
+      this.controller,
+      this.hint,
+      this.prefix,
+      this.autoFocus = false})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
