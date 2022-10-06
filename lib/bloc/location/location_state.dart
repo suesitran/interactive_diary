@@ -30,4 +30,8 @@ class LocationReadyState extends LocationState {
   final String dateDisplay;
   BitmapDescriptor icon;
   LocationReadyState(this.currentLocation, this.dateDisplay, this.icon);
+  // LocationReadyState(
+  //   this.currentLocation,
+  //   this.dateDisplay,
+  // );
 }

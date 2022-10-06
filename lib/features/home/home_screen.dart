@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/dimens.dart';
@@ -5,6 +7,7 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/widgets/marker.dart';
+import 'dart:ui' as ui;
 
 class IDHome extends StatefulWidget {
   const IDHome({
@@ -16,11 +19,12 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
-  GlobalKey iconKey = GlobalKey();
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<LocationBloc, LocationState>(
           builder: (BuildContext context, LocationState state) {
+        GlobalKey iconKey = GlobalKey();
+
         if (state is LocationReadyState) {
           return Stack(
             children: <Widget>[
@@ -64,10 +68,6 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
           context
               .read<LocationBloc>()
               .add(RequestCurrentLocationEvent(iconKey));
-          return MarkerIcon(
-            height: 30,
-            globalKeyMyWidget: iconKey,
-          );
         }
 
         if (state is LocationPermissionDeniedState) {
@@ -130,12 +130,14 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
         if (state is AwaitLocationPermissionFromAppSettingState) {
           WidgetsBinding.instance.addObserver(this);
         }
-        if (state is _IDHomeState) {
-          state.iconKey = iconKey;
-        }
 
-        return const Center(
-          child: CircularProgressIndicator(),
+        return Scaffold(
+          body: Center(
+            child: MarkerIcon(
+              globalKeyMyWidget: iconKey,
+              height: 40,
+            ),
+          ),
         );
       });
 
