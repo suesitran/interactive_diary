@@ -10,4 +10,3 @@ void setupFirebaseAuthMocks([Callback? customHandlers]) {
 
   setupFirebaseCoreMocks();
 }
-

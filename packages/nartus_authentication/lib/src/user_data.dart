@@ -4,7 +4,5 @@ class UserDetail {
   final String? phone;
   final String? email;
 
-  UserDetail({
-    required this.name, this.avatarUrl, this.phone, this.email
-  });
+  UserDetail({required this.name, this.avatarUrl, this.phone, this.email});
 }

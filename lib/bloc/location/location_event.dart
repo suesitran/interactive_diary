@@ -1,14 +1,20 @@
 part of 'location_bloc.dart';
 
-abstract class LocationEvent {}
+abstract class LocationEvent extends Equatable {
+  @override
+  List<Object?> get props => <Object?>[];
+}
 
 class ShowDialogRequestPermissionEvent extends LocationEvent {}
 
+class OpenAppSettingsEvent extends LocationEvent {}
+
 class RequestCurrentLocationEvent extends LocationEvent {
-  PermissionStatusDiary status;
-  RequestCurrentLocationEvent(this.status);
+  RequestCurrentLocationEvent();
 }
 
 class RequestLocationServiceEvent extends LocationEvent {}
 
-class DefaultLocationEvent extends LocationEvent {}
+class RequestDefaultLocationEvent extends LocationEvent {}
+
+class ReturnedFromAppSettingsEvent extends LocationEvent {}

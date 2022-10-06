@@ -14,7 +14,6 @@ class GoogleSignupFailedState extends GoogleSignupState {
   final String error;
 
   GoogleSignupFailedState(this.error);
-
 }
 
 class GoogleSigningUpState extends GoogleSignupState {}
@@ -25,5 +24,6 @@ extension GoogleSignupStateExtension on GoogleSignupState {
   bool get isSignedUpFailed => this is GoogleSignupFailedState;
   bool get isSignUpInitial => this is GoogleSignupInitialState;
 
-  String get failedSignUpError => isSignedUpFailed ? (this as GoogleSignupFailedState).error : '';
+  String get failedSignUpError =>
+      isSignedUpFailed ? (this as GoogleSignupFailedState).error : '';
 }

@@ -4,24 +4,23 @@ name: Interactive Diary PR Check
 
 # Controls when the workflow will run
 on:
-  pull_request_target:
-    branches:
-      - '**'
-      - '!dev'
-      - '!master'
-  # Triggers the workflow on push or pull request events but not for the "dev" branch
-  push:
-    branches: 
-      - '**'
-      - '!dev'
-      - '!master'
+#  pull_request_target:
+#    branches: [dev]
+#      - '**'
+# Triggers the workflow on push or pull request events but not for the "dev" branch
+#  push:
+#    branches:
+#      - '**'
+#    - '!dev'
+#    - '!master'
   pull_request:
-    branches:
-      - '**'
-      - '!dev'
-      - '!master'
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
 
-  # Allows you to run this workflow manually from the Actions tab
+      # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -29,6 +28,9 @@ jobs:
   test:
     name: 'Run test and build code'
     runs-on: macos-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -40,12 +42,13 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
     - name: Install Flutter 
-      uses: subosito/flutter-action@v2.6.1
+      uses: subosito/flutter-action@v2.6.2
       with:
-        flutter-version: '3.0.5'
+        flutter-version: '3.3.2'
         channel: 'stable'
-    - name: Format code
-      run: flutter format . --set-exit-if-changed
+#    enable it when issue is fixed
+#    - name: Format code
+#      run: flutter format . --fix --set-exit-if-changed
     - name: Setup environment secrets
       shell: bash
       env:
@@ -65,7 +68,8 @@ jobs:
       run: |
         flutter clean
         flutter pub get
-        flutter pub run build_runner build
+        flutter pub run build_runner build --delete-conflicting-outputs
+        flutter pub run intl_utils:generate
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
     - name: analyse code
       run: flutter analyze
@@ -77,5 +81,5 @@ jobs:
       with:
         verbose: true
         fail_ci_if_error: true
-    - run: flutter build apk --debug
-    - run: flutter build ios --debug --no-codesign
+    - run: flutter build apk
+    - run: flutter build ipa --no-codesign

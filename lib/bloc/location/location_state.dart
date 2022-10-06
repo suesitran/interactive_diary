@@ -1,18 +1,25 @@
 part of 'location_bloc.dart';
 
-abstract class LocationState {}
+abstract class LocationState extends Equatable {
+  @override
+  List<Object?> get props => <Object?>[];
+}
 
 class LocationInitial extends LocationState {
-  PermissionStatusDiary status;
+  final PermissionStatusDiary status;
   LocationInitial(this.status);
+
+  @override
+  List<PermissionStatusDiary> get props => <PermissionStatusDiary>[status];
 }
 
 class LocationServiceDisableState extends LocationState {}
 
-class LocationPermissionNotGrantedState extends LocationState {
-  PermissionStatusDiary status;
-  LocationPermissionNotGrantedState(this.status);
-}
+class LocationPermissionDeniedState extends LocationState {}
+
+class LocationPermissionDeniedForeverState extends LocationState {}
+
+class AwaitLocationPermissionFromAppSettingState extends LocationState {}
 
 class UnknownLocationErrorState extends LocationState {}
 

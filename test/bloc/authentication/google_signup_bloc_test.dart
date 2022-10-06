@@ -1,4 +1,3 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,45 +20,45 @@ void main() {
 
   group('Test event and states', () {
     blocTest(
-      'when receive event SignUpByGoogleEvent and signin succeed, '
-      'then emit Succeed state',
-      build: () => GoogleSignupBloc(authenticationService: service),
-      setUp: () {
-        when(service.signinGoogle()).thenAnswer(
-          (_) => Future<UserDetail>.value(UserDetail(name: 'asdas')));
-      },
-      act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
-      expect: () => <TypeMatcher<GoogleSignupState>>[
-        isA<GoogleSigningUpState>(),
-        isA<GoogleSignupSucceedState>()
-      ]);
+        'when receive event SignUpByGoogleEvent and signin succeed, '
+        'then emit Succeed state',
+        build: () => GoogleSignupBloc(authenticationService: service),
+        setUp: () {
+          when(service.signinGoogle()).thenAnswer(
+              (_) => Future<UserDetail>.value(UserDetail(name: 'asdas')));
+        },
+        act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
+        expect: () => <TypeMatcher<GoogleSignupState>>[
+              isA<GoogleSigningUpState>(),
+              isA<GoogleSignupSucceedState>()
+            ]);
 
     blocTest(
-      'when receive event SignUpByGoogleEvent but signin failed due to user canceled, '
-      'then emit initial state',
-      build: () => GoogleSignupBloc(authenticationService: service),
-      setUp: () {
-        when(service.signinGoogle()).thenAnswer(
-          (_) => throw AuthenticateFailedException.userCancelled());
-      },
-      act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
-      expect: () => <TypeMatcher<GoogleSignupState>>[
-        isA<GoogleSigningUpState>(),
-        isA<GoogleSignupInitialState>()
-      ]);
+        'when receive event SignUpByGoogleEvent but signin failed due to user canceled, '
+        'then emit initial state',
+        build: () => GoogleSignupBloc(authenticationService: service),
+        setUp: () {
+          when(service.signinGoogle()).thenAnswer(
+              (_) => throw AuthenticateFailedException.userCancelled());
+        },
+        act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
+        expect: () => <TypeMatcher<GoogleSignupState>>[
+              isA<GoogleSigningUpState>(),
+              isA<GoogleSignupInitialState>()
+            ]);
 
     blocTest(
-      'when receive event SignUpByGoogleEvent but signin failed due to unknown error, '
-          'then emit initial state',
-      build: () => GoogleSignupBloc(authenticationService: service),
-      setUp: () {
-        when(service.signinGoogle()).thenAnswer(
-          (_) => throw AuthenticateFailedException.unknown());
-      },
-      act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
-      expect: () => <TypeMatcher<GoogleSignupState>>[
-        isA<GoogleSigningUpState>(),
-        isA<GoogleSignupFailedState>()
-      ]);
+        'when receive event SignUpByGoogleEvent but signin failed due to unknown error, '
+        'then emit initial state',
+        build: () => GoogleSignupBloc(authenticationService: service),
+        setUp: () {
+          when(service.signinGoogle())
+              .thenAnswer((_) => throw AuthenticateFailedException.unknown());
+        },
+        act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
+        expect: () => <TypeMatcher<GoogleSignupState>>[
+              isA<GoogleSigningUpState>(),
+              isA<GoogleSignupFailedState>()
+            ]);
   });
 }

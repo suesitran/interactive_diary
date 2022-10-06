@@ -24,10 +24,8 @@ export 'package:flutter/src/material/card.dart';
 export 'package:flutter/src/material/card_theme.dart';
 export 'package:flutter/src/material/progress_indicator.dart';
 export 'package:flutter/src/material/progress_indicator_theme.dart';
+
 // private Nartus implementation
-
-export 'platform_screens.dart';
-export 'app.dart';
 export 'extensions/build_context_extension.dart';
-
 export 'widgets/widgets.dart';
+export 'theme/nartus_theme.dart';
