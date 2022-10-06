@@ -1,0 +1,46 @@
+name: Interactive Diary Design System CD
+
+on:
+  push:
+    branches:
+      - dev
+
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  distribute:
+    name: 'Widget Catalog app Firebase Distribution'
+    runs-on: ubuntu-latest
+    steps:
+    - name:  Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2.6.1
+      with:
+        flutter-version: '3.0.5'
+        channel: 'stable'
+    - name: Checkout repository
+      uses: actions/checkout@V2
+    - name: Flutter install dependencies
+      shell: bash
+      run: |
+        pwd
+        echo "LIST CONTENT"
+        ls -a
+        cd packages/nartus_ui_package/example
+        pwd
+        git config --global --add safe.directory /opt/hostedtoolcache/flutter/stable-3.0.5-x64
+        flutter clean
+        flutter pub get
+    - name: Build Android apk
+      run: flutter build apk --debug
+    - name: Build IOS bundle
+      run: flutter build ipa --debug --no-codesign
+
+
+#        flutter pub run build_runner build
