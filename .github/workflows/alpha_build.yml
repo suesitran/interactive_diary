@@ -53,7 +53,7 @@ jobs:
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
         # put keystore
-        echo "$ANDROID_KEYSTORE" > android/app/interactive-diary-release.keystore
+        echo -n "$ANDROID_KEYSTORE" | base64 --decode --output android/app/interactive-diary-release.keystore
         # put keyproperties
         echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
     - name: Install dependencies
