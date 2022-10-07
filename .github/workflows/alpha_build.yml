@@ -30,6 +30,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: suesitran/idcred
+        submodules: true
 #    - name: Setup Java
 #      uses: actions/setup-java@v3
 #      with:
