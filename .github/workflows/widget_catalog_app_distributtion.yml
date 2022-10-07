@@ -21,7 +21,7 @@ jobs:
         flutter-version: '3.3.2'
         channel: 'stable'
     - name: Checkout repository
-      uses: actions/checkout@V2
+      uses: actions/checkout@v2
     - name: Flutter install dependencies
       shell: bash
       run: |
