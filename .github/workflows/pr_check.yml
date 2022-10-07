@@ -58,6 +58,7 @@ jobs:
         ANDROID_APP_CONFIGS: ${{ secrets.PR_ANDROID_APP_CONFIG }}
         IOS_APP_CONFIGS: ${{ secrets.PR_IOS_GOOGLE_MAP_PROPERTIES }}
         IOS_GOOGLE_SERVICE: ${{ secrets.PR_IOS_GOOGLE_SERVICE }}
+        ANDROID_KEY_PROPERTIES: ${{ secrets.PR_ANDROID_KEY_PROPERTIES }}
       run: |
         echo "$FIREBASE_OPTION" > lib/firebase_options.dart
         echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
@@ -65,6 +66,7 @@ jobs:
         echo "$ANDROID_APP_CONFIGS" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
         echo "$IOS_GOOGLE_SERVICE" > ios/Runner/GoogleService-Info.plist
+        echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
     - name: Install dependencies
       shell: bash
       run: |
