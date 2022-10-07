@@ -26,14 +26,10 @@ jobs:
     - name: Flutter install dependencies
       shell: bash
       run: |
-        pwd
-        echo "LIST CONTENT"
-        ls -a
-        cd packages/nartus_ui_package/example
-        pwd
         flutter clean
         flutter pub get
         flutter pub run build_runner build
+        echo "FINISH GET AND BUILD RUNNER MAIN FOLDER"
         flutter pub run intl_utils:generate
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
     - name: Build Android apk
