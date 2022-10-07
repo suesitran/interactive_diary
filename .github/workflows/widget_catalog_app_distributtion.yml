@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - feat-CD-widget-catalog
-    paths:
-      - interactive_diary/packages/nartus_ui_package/**
+#    paths:
+#      - interactive_diary/packages/nartus_ui_package/**
 
 jobs:
   distribute:
