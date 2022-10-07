@@ -28,6 +28,7 @@ jobs:
       run: |
         cd packages/nartus_ui_package
         flutter pub get
+        cd example
 #        flutter clean
 #        flutter pub get
 #        flutter pub run build_runner build
@@ -46,5 +47,5 @@ jobs:
     - name: Upload Android artifact
       uses: actions/upload-artifact@v2
       with:
-        name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        name: app-debug.apk
+        path: build/app/outputs/flutter-apk/app-debug.apk
