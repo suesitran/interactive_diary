@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - feat-CD-widget-catalog
+    paths:
+      - interactive_diary/packages/nartus_ui_package/**
 
 jobs:
   distribute:
     name: 'Widget Catalog app Firebase Distribution'
     runs-on: ubuntu-latest
     steps:
-    - name:  Setup Java
+    - name: Setup Java
       uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
@@ -20,7 +22,7 @@ jobs:
       with:
         flutter-version: '3.3.2'
         channel: 'stable'
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
     - name: Flutter install dependencies
       shell: bash
       run: |
@@ -29,7 +31,6 @@ jobs:
         ls -a
         cd packages/nartus_ui_package/example
         pwd
-#        git config --global --add safe.directory /opt/hostedtoolcache/flutter/stable-3.0.5-x64
         flutter clean
         flutter pub get
         flutter pub run build_runner build
