@@ -12,6 +12,7 @@ jobs:
     name: 'Widget Catalog app Firebase Distribution'
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
@@ -22,7 +23,6 @@ jobs:
       with:
         flutter-version: '3.3.2'
         channel: 'stable'
-    - uses: actions/checkout@v2
     - name: Flutter install dependencies
       shell: bash
       run: |
