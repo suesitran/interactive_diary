@@ -20,7 +20,7 @@ void main() {
         'given user signing in by google, when user cancel login, then throw AuthenticateFailedException.userCancelled',
         () async {
       when(googleSignIn.signIn()).thenAnswer((realInvocation) =>
-          throw PlatformException(code: 'sign_in_canceled'));
+          throw PlatformException(code: 'sign_in_canceled qwdqwdqwdqw'));
 
       expect(() => authService.signinGoogle(),
           throwsA(isA<AuthenticateFailedException>()));

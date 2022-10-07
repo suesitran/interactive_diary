@@ -21,5 +21,16 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "locationPermissionDialogAllowButton":
+            MessageLookupByLibrary.simpleMessage("Allow"),
+        "locationPermissionDialogContinueButton":
+            MessageLookupByLibrary.simpleMessage("Continue"),
+        "locationPermissionDialogMessage": MessageLookupByLibrary.simpleMessage(
+            "Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog"),
+        "locationPermissionDialogOpenSettingsButton":
+            MessageLookupByLibrary.simpleMessage("Open Settings"),
+        "locationPermissionDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Location Permission not granted")
+      };
 }

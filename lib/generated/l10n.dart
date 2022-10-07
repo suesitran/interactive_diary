@@ -49,6 +49,56 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `Location Permission not granted`
+  String get locationPermissionDialogTitle {
+    return Intl.message(
+      'Location Permission not granted',
+      name: 'locationPermissionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog`
+  String get locationPermissionDialogMessage {
+    return Intl.message(
+      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog',
+      name: 'locationPermissionDialogMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow`
+  String get locationPermissionDialogAllowButton {
+    return Intl.message(
+      'Allow',
+      name: 'locationPermissionDialogAllowButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get locationPermissionDialogContinueButton {
+    return Intl.message(
+      'Continue',
+      name: 'locationPermissionDialogContinueButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Settings`
+  String get locationPermissionDialogOpenSettingsButton {
+    return Intl.message(
+      'Open Settings',
+      name: 'locationPermissionDialogOpenSettingsButton',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
