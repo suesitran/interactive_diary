@@ -64,66 +64,66 @@ jobs:
         flutter pub run build_runner build
         flutter pub run intl_utils:generate
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
-#    - name: Run tests coverage
-#      run: |
-#        flutter test --coverage
-#        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
-#    - name: Run codecov
-#      uses: codecov/codecov-action@v3
-#      with:
-#        verbose: true
-#        fail_ci_if_error: true
+    - name: Run tests coverage
+      run: |
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
+    - name: Run codecov
+      uses: codecov/codecov-action@v3
+      with:
+        verbose: true
+        fail_ci_if_error: true
     - name: build Android and iOS
       run: |
         count=$(git rev-list --count HEAD)
         echo Build Android and iOS with build number env: $count
         flutter build apk --build-number=$count
         flutter build ios --build-number=$count --no-codesign
-#    - name: generate release note
-#      run: |
-#        git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
-#    - name: Upload iOS artifact
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: interactive_diary.app
-#        path: build/ios/iphoneos/Runner.app
-#    - name: Upload Android artifact
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: app-release.apk
-#        path: build/app/outputs/flutter-apk/app-release.apk
-#    - name: Upload release note
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: release_note.txt
-#        path: release_note.txt
-#
-#  distribute-android:
-#    name: Distribute Android app
-#    needs: validate-and-build-apps
-#    runs-on: ubuntu-latest
-#    concurrency:
-#      cancel-in-progress: true
-#      group: ${{ github.workflow }}-${{ github.ref }}
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Download android build
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: app-release.apk
-#      - name: Download release note
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: release_note.txt
-#      - name: Firebase App Distribution - Android upload
-#        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-#        with:
-#          token: ${{ secrets.FAD_TOKEN }}
-#          file: app-release.apk
-#          appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
-#          releaseNotesFile: release_note.txt
-#          groups: android_test_group
+    - name: generate release note
+      run: |
+        git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
+    - name: Upload iOS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: interactive_diary.app
+        path: build/ios/iphoneos/Runner.app
+    - name: Upload Android artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+    - name: Upload release note
+      uses: actions/upload-artifact@v2
+      with:
+        name: release_note.txt
+        path: release_note.txt
+
+  distribute-android:
+    name: Distribute Android app
+    needs: validate-and-build-apps
+    runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download android build
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.apk
+      - name: Download release note
+        uses: actions/download-artifact@v2
+        with:
+          name: release_note.txt
+      - name: Firebase App Distribution - Android upload
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+        with:
+          token: ${{ secrets.FAD_TOKEN }}
+          file: app-release.apk
+          appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
+          releaseNotesFile: release_note.txt
+          groups: android_test_group
 
 #  distribute-iOS:
 #    name: Distribute iOS app
