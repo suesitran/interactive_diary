@@ -33,13 +33,13 @@ jobs:
           flutter pub get
       - name: Build Android apk
         run: flutter build apk --release
-      - name: Build IOS bundle
-        run: flutter build ipa --debug --no-codesign
-      - name: Upload iOS artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: interactive_diary.app
-          path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/ios/iphoneos/Runner.app
+      # - name: Build IOS bundle
+      #   run: flutter build ipa --debug --no-codesign
+      # - name: Upload iOS artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: interactive_diary.app
+      #     path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/ios/iphoneos/Runner.app
       - name: Upload Android artifact
         uses: actions/upload-artifact@v2
         with:
