@@ -10,7 +10,7 @@ on:
 jobs:
   distribute:
     name: "Widget Catalog app Firebase Distribution"
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: packages/nartus_ui_package/example
