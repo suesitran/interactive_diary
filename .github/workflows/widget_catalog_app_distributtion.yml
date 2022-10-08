@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     defaults:
       run:
-        working-directory: interactive_diary/packages/nartus_ui_package/example
+        working-directory: packages/nartus_ui_package/example
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
