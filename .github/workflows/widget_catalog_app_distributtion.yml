@@ -46,7 +46,7 @@ jobs:
           name: app-debug.apk
           path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/app/outputs/flutter-apk/app-release.apk
       - name: Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.5
         with:
           appId: ${{secrets.FIREBASE_APP_ID_STAGING}}
           token: ${{secrets.FIREBASE_TOKEN}}
