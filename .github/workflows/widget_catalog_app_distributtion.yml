@@ -10,7 +10,10 @@ on:
 jobs:
   distribute:
     name: "Widget Catalog app Firebase Distribution"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: /interactive_diary/packages/nartus_ui_package
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
