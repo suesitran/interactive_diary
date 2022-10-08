@@ -9,43 +9,46 @@ on:
 
 jobs:
   distribute:
-    name: 'Widget Catalog app Firebase Distribution'
-    runs-on: macos-latest
+    name: "Widget Catalog app Firebase Distribution"
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '11'
-    - name: Install Flutter
-      uses: subosito/flutter-action@v2.6.1
-      with:
-        flutter-version: '3.3.2'
-        channel: 'stable'
-    - name: Flutter install dependencies
-      shell: bash
-      run: |
-        cd packages/nartus_ui_package
-        flutter pub get
-        cd example
-#        flutter clean
-#        flutter pub get
-#        flutter pub run build_runner build
-#        echo "FINISH GET AND BUILD RUNNER MAIN FOLDER"
-#        flutter pub run intl_utils:generate
-#        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
-    - name: Build Android apk
-      run: flutter build apk --debug
-    - name: Build IOS bundle
-      run: flutter build ipa --debug --no-codesign
-    - name: Upload iOS artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: interactive_diary.app
-        path: build/ios/iphoneos/Runner.app
-    - name: Upload Android artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-debug.apk
-        path: build/app/outputs/flutter-apk/app-debug.apk
+      - uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "11"
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.6.1
+        with:
+          flutter-version: "3.3.2"
+          channel: "stable"
+      - name: Flutter install dependencies
+        shell: bash
+        run: |
+          cd packages/nartus_ui_package
+          flutter pub get
+          cd example
+      #        flutter clean
+      #        flutter pub get
+      #        flutter pub run build_runner build
+      #        echo "FINISH GET AND BUILD RUNNER MAIN FOLDER"
+      #        flutter pub run intl_utils:generate
+      #        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+      - name: Build Android apk
+        run: |
+          echo "******************* PRINT DIRECTORY"
+          pwd
+          flutter build apk --debug
+      - name: Build IOS bundle
+        run: flutter build ipa --debug --no-codesign
+      - name: Upload iOS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: interactive_diary.app
+          path: build/ios/iphoneos/Runner.app
+      - name: Upload Android artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
