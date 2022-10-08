@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     defaults:
       run:
-        working-directory: interactive_diary/packages/nartus_ui_package/
+        working-directory: interactive_diary/packages/nartus_ui_package/example
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
@@ -29,10 +29,10 @@ jobs:
       - name: Flutter install dependencies
         shell: bash
         run: |
-          cd packages/nartus_ui_package
+          pwd
+          flutter clean
           flutter pub get
-          cd example
-      #        flutter clean
+      #
       #        flutter pub get
       #        flutter pub run build_runner build
       #        echo "FINISH GET AND BUILD RUNNER MAIN FOLDER"
