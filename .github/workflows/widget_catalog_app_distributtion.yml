@@ -29,20 +29,10 @@ jobs:
       - name: Flutter install dependencies
         shell: bash
         run: |
-          pwd
           flutter clean
           flutter pub get
-      #
-      #        flutter pub get
-      #        flutter pub run build_runner build
-      #        echo "FINISH GET AND BUILD RUNNER MAIN FOLDER"
-      #        flutter pub run intl_utils:generate
-      #        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
       - name: Build Android apk
-        run: |
-          echo "******************* PRINT DIRECTORY"
-          pwd
-          flutter build apk --debug
+        run: flutter build apk --release
       - name: Build IOS bundle
         run: flutter build ipa --debug --no-codesign
       - name: Upload iOS artifact
@@ -54,4 +44,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-debug.apk
-          path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/app/outputs/flutter-apk/app-debug.apk
+          path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/app/outputs/flutter-apk/app-release.apk
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID_STAGING}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: testers
+          file: /home/runner/work/interactive_diary/interactive_diary/build/app/outputs/flutter-apk/app-release.apk
