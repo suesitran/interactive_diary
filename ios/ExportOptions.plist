@@ -18,5 +18,10 @@
 	<false/>
 	<key>uploadSymbols</key>
 	<true/>
+	<key>provisioningProfiles</key>
+        <dict>
+            <key>com.nartus.interactiveDiary</key>
+            <string>Interactive Diary</string>
+        </dict>
 </dict>
 </plist>
