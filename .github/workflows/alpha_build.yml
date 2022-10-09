@@ -166,29 +166,29 @@ jobs:
           releaseNotesFile: release_note.txt
           groups: android_test_group
 
-#  distribute-iOS:
-#    name: Distribute iOS app
-#    needs: validate-and-build-apps
-#    runs-on: ubuntu-latest
-#    concurrency:
-#      cancel-in-progress: true
-#      group: ${{ github.workflow }}-${{ github.ref }}
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Download iOS build
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: interactive_diary.app
-#      - name: Download release note
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: release_note.txt
-#      - name: Firebase App Distribution - iOS upload
-#        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
-#        with:
-#          token: ${{ secrets.FAD_TOKEN }}
-#          file: interactive_diary.app
-#          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
-#          releaseNotesFile: release_note.txt
-#          groups: ios_test_group
+  distribute-iOS:
+    name: Distribute iOS app
+    needs: validate-and-build-apps
+    runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download iOS build
+        uses: actions/download-artifact@v2
+        with:
+          name: interactive_diary.app
+      - name: Download release note
+        uses: actions/download-artifact@v2
+        with:
+          name: release_note.txt
+      - name: Firebase App Distribution - iOS upload
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+        with:
+          token: ${{ secrets.FAD_TOKEN }}
+          file: interactive_diary.app
+          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+          releaseNotesFile: release_note.txt
+          groups: ios_test_group
