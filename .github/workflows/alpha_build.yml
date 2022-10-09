@@ -92,15 +92,15 @@ jobs:
         flutter pub run build_runner build
         flutter pub run intl_utils:generate
         for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
-    - name: Run tests coverage
-      run: |
-        flutter test --coverage
-        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
-    - name: Run codecov
-      uses: codecov/codecov-action@v3
-      with:
-        verbose: true
-        fail_ci_if_error: true
+#    - name: Run tests coverage
+#      run: |
+#        flutter test --coverage
+#        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
+#    - name: Run codecov
+#      uses: codecov/codecov-action@v3
+#      with:
+#        verbose: true
+#        fail_ci_if_error: true
     - name: build Android and iOS # build iOS no codesign, will sign manually
       run: |
         count=$(git rev-list --count HEAD)
