@@ -4,8 +4,9 @@ name: Build Alpha version
 
 # Controls when the workflow will run
 on:
-  push: # trigger at each merge to dev
-    branches: [dev]
+#  push: # trigger at each merge to dev
+#    branches: [dev]
+  pull_request: # trigger on pull_request, to run test while pushing to PR
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
