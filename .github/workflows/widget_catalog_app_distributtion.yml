@@ -43,12 +43,12 @@ jobs:
       - name: Upload Android artifact
         uses: actions/upload-artifact@v2
         with:
-          name: app-debug.apk
-          path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/app/outputs/flutter-apk/app-release.apk
+          name: app-release.apk
+          path: ./build/app/outputs/flutter-apk/app-release.apk
       - name: Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.5
         with:
           appId: ${{secrets.FIREBASE_APP_ID_STAGING}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: testers
-          file: /home/runner/work/interactive_diary/interactive_diary/build/app/outputs/flutter-apk/app-release.apk
+          file: ./build/app/outputs/flutter-apk/app-release.apk
