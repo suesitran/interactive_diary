@@ -55,6 +55,34 @@ jobs:
         echo -n "$ANDROID_KEYSTORE" | base64 --decode --output android/app/interactive-diary-release.keystore
         # put keyproperties
         echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
+    - name: Install the Apple certificate and provisioning profile # setup apple cert and provisioning
+      env:
+        BUILD_CERTIFICATE_BASE64: ${{ secrets.STAGING_BUILD_CERTIFICATE_BASE64 }}
+        P12_PASSWORD: ${{ secrets.STAGING_P12_PASSWORD }}
+        BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.STAGING_BUILD_PROVISION_PROFILE_BASE64 }}
+        KEYCHAIN_PASSWORD: ${{ secrets.STAGING_KEYCHAIN_PASSWORD }}
+      run: |
+        # create variables
+        CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+        PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+        KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+        # import certificate and provisioning profile from secrets
+        echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+        echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+
+        # create temporary keychain
+        security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+        security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+        security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+        # import certificate to keychain
+        security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+        security list-keychain -d user -s $KEYCHAIN_PATH
+
+        # apply provisioning profile
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
     - name: Install dependencies
       shell: bash
       run: |
@@ -72,12 +100,20 @@ jobs:
       with:
         verbose: true
         fail_ci_if_error: true
-    - name: build Android and iOS
+    - name: build Android and iOS # build iOS no codesign, will sign manually
       run: |
         count=$(git rev-list --count HEAD)
         echo Build Android and iOS with build number env: $count
         flutter build apk --build-number=$count
         flutter build ios --build-number=$count --no-codesign
+    - name: Build resolve Swift dependencies # build with swift dependencies
+      run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release"
+    - name: Build xArchive # build with xArchive
+      run: |
+        xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release-staging" DEVELOPMENT_TEAM=**DEV_TEAM** -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=**PROVISIONING_PROFILE_ID** clean archive CODE_SIGN_IDENTITY="**CODE_SIGNING_IDENTITY**"
+    - name: Export ipa # generate ipa file
+      run: |
+        xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
     - name: generate release note
       run: |
         git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
@@ -96,6 +132,11 @@ jobs:
       with:
         name: release_note.txt
         path: release_note.txt
+    - name: Clean up keychain and provisioning profile # clean up, need to use always()
+      if: ${{ always() }}
+      run: |
+        security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+        rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
   distribute-android:
     name: Distribute Android app
