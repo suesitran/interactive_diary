@@ -31,6 +31,8 @@ jobs:
         run: |
           flutter clean
           flutter pub get
+          echo "************ DIRECTORY"
+          pwd
       - name: Build Android apk
         run: flutter build apk --release
       # - name: Build IOS bundle
@@ -44,11 +46,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release.apk
-          path: ./build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
       - name: Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.5
         with:
           appId: ${{secrets.FIREBASE_APP_ID_STAGING}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: testers
-          file: ./build/app/outputs/flutter-apk/app-release.apk
+          file: build/app/outputs/flutter-apk/app-release.apk
