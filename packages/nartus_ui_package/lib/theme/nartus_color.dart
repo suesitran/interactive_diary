@@ -53,5 +53,17 @@ class NartusColor {
   static const Color onOrange = Color(0xFF1C2025);
   static const Color orangeContainer = Color(0xFFFEF3E3);
   static const Color onOrangeContainer = Color(0xFF1C2025);
-
 }
+
+const ColorScheme lightColorScheme = ColorScheme(
+    brightness: Brightness.light,
+    primary: NartusColor.primary,
+    onPrimary: NartusColor.onPrimary,
+    secondary: NartusColor.secondary,
+    onSecondary: NartusColor.onSecondary,
+    error: NartusColor.red,
+    onError: NartusColor.red,
+    background: NartusColor.background,
+    onBackground: NartusColor.onBackground,
+    surface: NartusColor.surface,
+    onSurface: NartusColor.onSurface);
