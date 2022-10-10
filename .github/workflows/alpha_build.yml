@@ -115,7 +115,7 @@ jobs:
         STAGING_PROVISIONING_PROFILE: ${{ secrets.STAGING_PROVISIONING_PROFILE }}
         STAGING_CODE_SIGN_IDENTITY: ${{ secrets.STAGING_CODE_SIGN_IDENTITY }}
       run: |
-        xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release-staging" DEVELOPMENT_TEAM=$STAGING_DEVELOPMENT_TEAM -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE='$STAGING_PROVISIONING_PROFILE' clean archive CODE_SIGN_IDENTITY="$STAGING_CODE_SIGN_IDENTITY"
+        xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release-staging" DEVELOPMENT_TEAM="$STAGING_DEVELOPMENT_TEAM" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="$STAGING_PROVISIONING_PROFILE" clean archive CODE_SIGN_IDENTITY="$STAGING_CODE_SIGN_IDENTITY"
     - name: Export ipa # generate ipa file
       run: |
         xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
