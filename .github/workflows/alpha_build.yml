@@ -84,6 +84,7 @@ jobs:
         # apply provisioning profile
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+        ls ~/Library/MobileDevice/Provisioning\ Profiles/
     - name: Install dependencies
       shell: bash
       run: |
