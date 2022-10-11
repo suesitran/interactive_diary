@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
@@ -17,7 +16,7 @@ void main() {
   final LocationBloc mockLocationBloc = MockLocationBloc();
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
