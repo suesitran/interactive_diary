@@ -28,7 +28,7 @@ class ConnectivityPlusServiceImpl extends ConnectivityService {
 
   void _handleConnectivityChange(ConnectivityResult result) async {
     final updatedConnectivity =
-    await _checkConnectivity(connectivityResult: result);
+        await _checkConnectivity(connectivityResult: result);
     if (updatedConnectivity != _currentConnectivity) {
       _currentConnectivity = updatedConnectivity;
       _connectivityChange.add(_currentConnectivity);
