@@ -56,14 +56,21 @@ class NartusColor {
 }
 
 const ColorScheme lightColorScheme = ColorScheme(
-    brightness: Brightness.light,
-    primary: NartusColor.primary,
-    onPrimary: NartusColor.onPrimary,
-    secondary: NartusColor.secondary,
-    onSecondary: NartusColor.onSecondary,
-    error: NartusColor.red,
-    onError: NartusColor.red,
-    background: NartusColor.background,
-    onBackground: NartusColor.onBackground,
-    surface: NartusColor.surface,
-    onSurface: NartusColor.onSurface);
+  brightness: Brightness.light,
+  primary: NartusColor.primary,
+  onPrimary: NartusColor.onPrimary,
+  secondary: NartusColor.secondary,
+  onSecondary: NartusColor.onSecondary,
+  error: NartusColor.red,
+  onError: NartusColor.onRed,
+  onErrorContainer: NartusColor.onRedContainer,
+  errorContainer: NartusColor.redContainer,
+  background: NartusColor.background,
+  onBackground: NartusColor.onBackground,
+  surface: NartusColor.surface,
+  onSurface: NartusColor.onSurface,
+  primaryContainer: NartusColor.primaryContainer,
+  onPrimaryContainer: NartusColor.onPrimaryContainer,
+  secondaryContainer: NartusColor.secondaryContainer,
+  onSecondaryContainer: NartusColor.onSecondaryContainer,
+);
