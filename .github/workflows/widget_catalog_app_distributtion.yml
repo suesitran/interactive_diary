@@ -34,18 +34,18 @@ jobs:
           pwd
       - name: Build Android apk
         run: flutter build apk --release
-#      - name: Build IOS bundle
-#        run: flutter build ipa --release --no-codesign
-#      - name: Upload iOS artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: interactive_diary.app
-#          path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/ios/iphoneos/Runner.app
+      #      - name: Build IOS bundle
+      #        run: flutter build ipa --release --no-codesign
+      #      - name: Upload iOS artifact
+      #        uses: actions/upload-artifact@v2
+      #        with:
+      #          name: interactive_diary.app
+      #          path: /Users/runner/work/interactive_diary/interactive_diary/packages/nartus_ui_package/example/build/ios/iphoneos/Runner.app
       - name: Upload Android artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-release.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: packages/nartus_ui_package/example/build/app/outputs/flutter-apk/app-release.apk
 #      - name: Firebase App Distribution
 #        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.5
 #        with:
