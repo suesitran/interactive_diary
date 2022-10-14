@@ -13,7 +13,12 @@ class DateLabelDemoScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: const [
-          DateLabelView(leadingIcon: Icons.calendar_month, dateLabel: '20 August 2022', labelExpansionIcon: Icons.arrow_drop_down, tailIcon: Icons.account_circle,)
+          DateLabelView(
+            leadingIcon: Icons.calendar_month,
+            dateLabel: '20 August 2022',
+            labelExpansionIcon: Icons.arrow_drop_down,
+            tailIcon: Icons.account_circle,
+          )
         ],
       ),
     );

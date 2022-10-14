@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../dimens/dimens.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
 
 class DateLabelView extends StatelessWidget {
-  const DateLabelView({Key? key,
-  required this.leadingIcon, this.leadingIconColor, this.leadingIconSemanticLabel, required this.dateLabel, this.labelExpansionIcon, required this.tailIcon}) : super(key: key);
+  const DateLabelView({
+    required this.leadingIcon,
+    required this.dateLabel,
+    required this.tailIcon,
+    Key? key,
+    this.leadingIconColor,
+    this.leadingIconSemanticLabel,
+    this.labelExpansionIcon,
+  }) : super(key: key);
 
   final IconData leadingIcon;
   final Color? leadingIconColor;
@@ -27,36 +34,42 @@ class DateLabelView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _leadingIcon(),
-          _mainTitle(),
-          _tailIcon()
-        ],
+        children: <Widget>[_leadingIcon(), _mainTitle(), _tailIcon()],
       ),
     );
   }
 
   Widget _leadingIcon() => Padding(
-    padding: const EdgeInsets.only(
-        left: NartusDimens.padding20,
-        top: NartusDimens.padding18,
-        right: NartusDimens.padding18,
-        bottom: NartusDimens.padding18
-    ),
-    child: Icon(leadingIcon, color: leadingIconColor, semanticLabel: leadingIconSemanticLabel,),
-  );
+        padding: const EdgeInsets.only(
+            left: NartusDimens.padding20,
+            top: NartusDimens.padding18,
+            right: NartusDimens.padding18,
+            bottom: NartusDimens.padding18),
+        child: Icon(
+          leadingIcon,
+          color: leadingIconColor,
+          semanticLabel: leadingIconSemanticLabel,
+        ),
+      );
 
-  Widget _mainTitle() => Builder(builder: (context) => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
-    children: [
-      Text(
-        dateLabel,
-        style: Theme.of(context).textTheme.titleSmall,
-      ),
-      if (labelExpansionIcon != null)
-        Padding(padding: const EdgeInsets.only(left: NartusDimens.padding4), child: Icon(labelExpansionIcon),)
-    ],
-  ));
+  Widget _mainTitle() => Builder(
+      builder: (BuildContext context) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(
+                dateLabel,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              if (labelExpansionIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: NartusDimens.padding4),
+                  child: Icon(labelExpansionIcon),
+                )
+            ],
+          ));
 
-  Widget _tailIcon() => Padding(padding: EdgeInsets.all(8.0), child: Icon(tailIcon, size: 40), );
+  Widget _tailIcon() => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(tailIcon, size: 40),
+      );
 }
