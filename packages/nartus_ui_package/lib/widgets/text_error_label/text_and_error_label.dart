@@ -7,7 +7,7 @@ class TextAndErrorLabel extends StatefulWidget {
   final bool _showError;
 
   const TextAndErrorLabel(
-      {required String label,Key? key,  String? error, bool showError = false})
+      {required String label, Key? key, String? error, bool showError = false})
       : _label = label,
         _error = error ?? '',
         _showError = showError,
