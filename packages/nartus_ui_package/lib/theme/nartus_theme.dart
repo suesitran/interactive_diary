@@ -6,4 +6,5 @@ ThemeData lightTheme = ThemeData(
   primarySwatch: lightColorSwatch,
   errorColor: NartusColor.errorColor,
   materialTapTargetSize: MaterialTapTargetSize.padded,
+  backgroundColor: Colors.white
 );
