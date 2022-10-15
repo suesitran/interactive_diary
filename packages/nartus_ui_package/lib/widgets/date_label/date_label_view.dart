@@ -10,17 +10,27 @@ class DateLabelView extends StatelessWidget {
     Key? key,
     this.leadingIconColor,
     this.leadingIconSemanticLabel,
+    this.onLeadingIconPressed,
     this.labelExpansionIcon,
+    this.dateSemanticLabel,
+    this.tailIconColor,
+    this.tailIconSemanticLabel,
+    this.onTailIconPressed,
   }) : super(key: key);
 
   final IconData leadingIcon;
   final Color? leadingIconColor;
   final String? leadingIconSemanticLabel;
+  final VoidCallback? onLeadingIconPressed;
 
   final String dateLabel;
   final IconData? labelExpansionIcon;
+  final String? dateSemanticLabel;
 
   final IconData tailIcon;
+  final Color? tailIconColor;
+  final String? tailIconSemanticLabel;
+  final VoidCallback? onTailIconPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -45,31 +55,44 @@ class DateLabelView extends StatelessWidget {
             top: NartusDimens.padding18,
             right: NartusDimens.padding18,
             bottom: NartusDimens.padding18),
-        child: Icon(
-          leadingIcon,
-          color: leadingIconColor,
-          semanticLabel: leadingIconSemanticLabel,
+        child: IconButton(
+          icon: Icon(
+            leadingIcon,
+            color: leadingIconColor,
+            semanticLabel: leadingIconSemanticLabel,
+          ),
+          onPressed: onLeadingIconPressed,
         ),
       );
 
   Widget _mainTitle() => Builder(
-      builder: (BuildContext context) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Text(
-                dateLabel,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              if (labelExpansionIcon != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: NartusDimens.padding4),
-                  child: Icon(labelExpansionIcon),
-                )
-            ],
+      builder: (BuildContext context) => Semantics(
+            explicitChildNodes: true,
+            label: dateSemanticLabel ?? dateLabel,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text(
+                  dateLabel,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                if (labelExpansionIcon != null)
+                  Padding(
+                    padding: const EdgeInsets.only(left: NartusDimens.padding4),
+                    child: Icon(labelExpansionIcon),
+                  )
+              ],
+            ),
           ));
 
   Widget _tailIcon() => Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Icon(tailIcon, size: 40),
+        child: IconButton(
+          onPressed: onTailIconPressed,
+          icon: Icon(tailIcon,
+              color: tailIconColor,
+              semanticLabel: tailIconSemanticLabel,
+              size: 40),
+        ),
       );
 }
