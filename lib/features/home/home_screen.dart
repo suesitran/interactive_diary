@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+
+import '../test_screen.dart';
 
 class IDHome extends StatefulWidget {
   const IDHome({
@@ -29,6 +32,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                       zoom: 15),
                   markers: <Marker>{
                     Marker(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                        return TestScreen();
+                      })),
                       markerId: const MarkerId('currentLocation'),
                       position: LatLng(state.currentLocation.latitude,
                           state.currentLocation.longitude),
@@ -140,5 +146,29 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
       WidgetsBinding.instance.removeObserver(this);
       context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
     }
+  }
+}
+
+class CircularButton extends StatelessWidget {
+
+  final double width;
+  final double height;
+  final Color color;
+  final Icon icon;
+  final Function onClick;
+
+  CircularButton({
+    required this.color, required this.width, required this.height, 
+    required this.icon, required this.onClick});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: color,shape: BoxShape.circle),
+      width: width,
+      height: height,
+      child: IconButton(icon: icon,enableFeedback: true, onPressed: () => onClick.call()),
+    );
   }
 }
