@@ -12,7 +12,7 @@ void main() {
     // theme color light is swatch 100
     expect(lightTheme.primaryColorLight, const Color(0xFFD6E2EF));
     // background color is swatch 200
-    expect(lightTheme.backgroundColor, const Color(0xFFBBCFE5));
+    expect(lightTheme.backgroundColor, const Color(0xFFFFFFFF));
 
     // error color is dark red
     expect(lightTheme.errorColor, const Color(0xFF8B0101));
