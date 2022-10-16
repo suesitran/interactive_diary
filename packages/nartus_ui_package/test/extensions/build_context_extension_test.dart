@@ -7,7 +7,7 @@ import '../widget_tester_extension.dart';
 void main() {
   testWidgets(
       'given platform is iOS, when showDialogAdaptive, then show CupertinoAlertDialog',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
     int counter = 0;
@@ -19,7 +19,7 @@ void main() {
             content: const Center(
               child: Text('Content'),
             ),
-            actions: [
+            actions: <Widget>[
               TextButton(
                   onPressed: () {
                     counter++;
@@ -49,7 +49,7 @@ void main() {
 
   testWidgets(
       'given platform is Android, when showDialogAdaptive, then show MaterialAlertDialog',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
     int counter = 0;
@@ -61,7 +61,7 @@ void main() {
             content: const Center(
               child: Text('Content'),
             ),
-            actions: [
+            actions: <Widget>[
               TextButton(
                   onPressed: () {
                     counter++;
@@ -90,7 +90,7 @@ void main() {
 
   testWidgets(
       'given platform is iOS, when showDialogAdaptive without actions, then show CupertinoAlertDialog without actions',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
     Widget builder = Builder(
@@ -120,7 +120,7 @@ void main() {
 
   testWidgets(
       'given platform is Android, when showDialogAdaptive without actions, then show MaterialAlertDialog without actions',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
     Widget builder = Builder(

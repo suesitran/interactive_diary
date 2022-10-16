@@ -7,7 +7,7 @@ import '../../widget_tester_extension.dart';
 void main() {
   testWidgets(
       'When Text and Error label has only label, then only label is displayed',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     TextAndErrorLabel label = const TextAndErrorLabel(label: 'Text Label');
 
     await widgetTester.wrapMaterialAndPump(label);
@@ -17,7 +17,7 @@ void main() {
 
   testWidgets(
       'When Text and Error label has both text and error, then both Text and error are displayed',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     TextAndErrorLabel label = const TextAndErrorLabel(
       label: 'Text Label',
       error: 'Error label',
@@ -31,7 +31,7 @@ void main() {
 
   testWidgets(
       'When Text and Error label has label and error but error is not showed, then Error sizeFactor is 0',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     TextAndErrorLabel label = const TextAndErrorLabel(
       label: 'Text Label',
       error: 'Error label',
@@ -54,7 +54,7 @@ void main() {
 
   testWidgets(
       'When Text and Error label has label and error, and error is showed, then Error sizeFactor is 1',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     TextAndErrorLabel label = const TextAndErrorLabel(
       label: 'Text label',
       error: 'Error label',
