@@ -7,7 +7,6 @@ import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
 import '../circle_menu_view.dart';
-import '../test_screen.dart';
 
 class IDHome extends StatefulWidget {
   const IDHome({
