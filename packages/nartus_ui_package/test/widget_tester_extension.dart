@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapMaterialAndPump(Widget widget,
-      {bool infiniteAnimationWidget = false}) async {
-    final Widget wrapper = _MaterialWrapWidget(child: widget);
+      {bool infiniteAnimationWidget = false, ThemeData? theme}) async {
+    final Widget wrapper = _MaterialWrapWidget(theme: theme, child: widget,);
 
     await pumpWidget(wrapper);
     if (infiniteAnimationWidget) {
@@ -30,11 +30,14 @@ extension WidgetExtension on WidgetTester {
 
 class _MaterialWrapWidget extends StatelessWidget {
   final Widget child;
+  final ThemeData? theme;
 
-  const _MaterialWrapWidget({required this.child, Key? key}) : super(key: key);
+  const _MaterialWrapWidget({required this.child, Key? key, this.theme})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        theme: theme,
         home: Scaffold(
           body: child,
         ),
