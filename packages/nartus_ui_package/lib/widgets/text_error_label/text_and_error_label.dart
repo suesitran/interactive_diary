@@ -36,18 +36,23 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
   @override
   void dispose() {
     super.dispose();
-
     _controller.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (widget._showError) {
-      _controller.forward();
-    } else {
-      _controller.reverse();
+  void didUpdateWidget(covariant TextAndErrorLabel oldWidget) {
+    if (widget._showError != oldWidget._showError) {
+      if (widget._showError) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
     }
+    super.didUpdateWidget(oldWidget);
+  }
 
+  @override
+  Widget build(BuildContext context) {      
     return Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding24)),
