@@ -6,6 +6,7 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
+import '../circle_menu_view.dart';
 import '../test_screen.dart';
 
 class IDHome extends StatefulWidget {
@@ -17,50 +18,67 @@ class IDHome extends StatefulWidget {
   State<IDHome> createState() => _IDHomeState();
 }
 
-class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
+class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+  bool isShowingMenu = false;
+
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<LocationBloc, LocationState>(
+  Widget build(BuildContext context) {
+    print('BUILD MAP');
+    return Scaffold(
+      body:  BlocBuilder<LocationBloc, LocationState>(
         builder: (BuildContext context, LocationState state) {
+          debugPrint('BUILDER');
           if (state is LocationReadyState) {
             return Stack(
               children: <Widget>[
                 GoogleMap(
+                  onCameraMoveStarted: () => _closeMenuIfOpening(),
+                  onTap: (data) {
+                    print('ON TAP : $data');
+                    _closeMenuIfOpening();
+                  },
+                  onCameraIdle: () {
+                    print('onCameraIdle');
+                  },
+                  onCameraMove: (_) => _closeMenuIfOpening(),
                   initialCameraPosition: CameraPosition(
                       target: LatLng(state.currentLocation.latitude,
                           state.currentLocation.longitude),
                       zoom: 15),
                   markers: <Marker>{
                     Marker(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                        return TestScreen();
-                      })),
+                      onTap: () {
+                        setState(() {
+                          isShowingMenu = !isShowingMenu;
+                        });
+                      },
                       markerId: const MarkerId('currentLocation'),
                       position: LatLng(state.currentLocation.latitude,
                           state.currentLocation.longitude),
                     )
                   },
                 ),
+                CircleMenuView(isShowingMenu: isShowingMenu,),
                 SafeArea(
                     child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Card(
-                    margin: const EdgeInsets.only(top: Dimension.spacing16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
+                      alignment: Alignment.topCenter,
+                      child: Card(
+                        margin: const EdgeInsets.only(top: Dimension.spacing16),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
                             BorderRadius.circular(Dimension.spacing16)),
-                    elevation: 4.0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Dimension.spacing16,
-                          vertical: Dimension.spacing8),
-                      child: Text(
-                        state.dateDisplay,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        elevation: 4.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Dimension.spacing16,
+                              vertical: Dimension.spacing8),
+                          child: Text(
+                            state.dateDisplay,
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ))
+                    ))
               ],
             );
           }
@@ -138,7 +156,21 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
             child: CircularProgressIndicator(),
           );
         },
-      );
+      ),
+    );
+  }
+
+  void _closeMenuIfOpening() {
+    if (isShowingMenu) {
+      setState(() {
+        isShowingMenu = false;
+      });
+      // WidgetsBinding.instance.addPostFrameCallback((_) =>
+      //     setState(() {
+      //       isShowingMenu = false;
+      //     }));
+    }
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -158,7 +190,7 @@ class CircularButton extends StatelessWidget {
   final Function onClick;
 
   CircularButton({
-    required this.color, required this.width, required this.height, 
+    required this.color, required this.width, required this.height,
     required this.icon, required this.onClick});
 
 
