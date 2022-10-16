@@ -5,7 +5,6 @@ import 'nartus_text_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch: lightColorSwatch,
   errorColor: NartusColor.red,
   textTheme: textTheme,
   materialTapTargetSize: MaterialTapTargetSize.padded,

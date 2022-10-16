@@ -56,15 +56,15 @@ void main() {
 
 Future<void> testWidgetsCustom(ThemeData theme, Color expectColor,
     Color Function(BuildContext context) getAppliedColor) async {
-  testWidgets('Validate color scheme', (tester) async {
-    final displayTextGroup = Builder(builder: (context) {
+  testWidgets('Validate color scheme [${expectColor.value.toRadixString(16)}]', (tester) async {
+    final testIcon = Builder(builder: (context) {
       return Icon(
         Icons.abc_outlined,
         color: getAppliedColor(context),
       );
     });
 
-    await tester.wrapMaterialAndPump(displayTextGroup, theme: lightTheme);
+    await tester.wrapMaterialAndPump(testIcon, theme: lightTheme);
 
     final Icon renderedIcon = tester.widget<Icon>(find.byType(Icon));
 
