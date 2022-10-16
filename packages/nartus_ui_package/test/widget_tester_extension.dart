@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 extension WidgetExtension on WidgetTester {
   Future<void> wrapMaterialAndPump(Widget widget,
       {bool infiniteAnimationWidget = false, ThemeData? theme}) async {
-    final Widget wrapper = _MaterialWrapWidget(child: widget, theme: theme,);
+    final Widget wrapper = _MaterialWrapWidget(theme: theme, child: widget,);
 
     await pumpWidget(wrapper);
     if (infiniteAnimationWidget) {
