@@ -13,11 +13,14 @@ on:
 #      - '**'
 #    - '!dev'
 #    - '!master'
-  pull_request:
+  pull_request_target:
+    branches: 
+      - dev
     types:
       - opened
       - edited
       - reopened
+      - synchronize
 
       # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,12 +32,12 @@ jobs:
     runs-on: macos-latest
     concurrency:
       cancel-in-progress: true
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: build-${{ github.event.pull_request_target.number || github.ref }}
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{github.event.pull_request.head.ref}}
-        repository: ${{github.event.pull_request.head.repo.full_name}}
+        ref: ${{github.event.pull_request_target.head.ref}}
+        repository: ${{github.event.pull_request_target.head.repo.full_name}}
     - name:  Setup Java
       uses: actions/setup-java@v3
       with:
@@ -43,7 +46,7 @@ jobs:
     - name: Install Flutter 
       uses: subosito/flutter-action@v2.6.2
       with:
-        flutter-version: '3.3.1'
+        flutter-version: '3.3.2'
         channel: 'stable'
 #    enable it when issue is fixed
 #    - name: Format code
@@ -51,17 +54,21 @@ jobs:
     - name: Setup environment secrets
       shell: bash
       env:
-        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
-        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
-        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
-        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
-        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
+        FIREBASE_OPTION: ${{ secrets.PR_FIREBASE_OPTIONS }}
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.PR_ANDROID_GOOGLE_SERVICE }}
+        FIREBASE_APP_ID_FILE: ${{ secrets.PR_FIREBASE_APP_ID_FILE }}
+        ANDROID_APP_CONFIGS: ${{ secrets.PR_ANDROID_APP_CONFIG }}
+        IOS_APP_CONFIGS: ${{ secrets.PR_IOS_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_SERVICE: ${{ secrets.PR_IOS_GOOGLE_SERVICE }}
+        ANDROID_KEY_PROPERTIES: ${{ secrets.PR_ANDROID_KEY_PROPERTIES }}
       run: |
         echo "$FIREBASE_OPTION" > lib/firebase_options.dart
         echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
-        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
+        echo "$ANDROID_APP_CONFIGS" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
+        echo "$IOS_GOOGLE_SERVICE" > ios/Runner/GoogleService-Info.plist
+        echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
     - name: Install dependencies
       shell: bash
       run: |
@@ -81,4 +88,4 @@ jobs:
         verbose: true
         fail_ci_if_error: true
     - run: flutter build apk --debug
-    - run: flutter build ios --debug --no-codesign
+    - run: flutter build ipa --no-codesign

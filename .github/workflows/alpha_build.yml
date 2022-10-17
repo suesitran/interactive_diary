@@ -1,0 +1,152 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build Alpha version
+
+# Controls when the workflow will run
+on:
+  push: # trigger at each merge to dev
+    branches: [dev]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  validate-and-build-apps:
+    name: 'Validate and build Android and iOS apps on macos-latest'
+    runs-on: macos-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+    - name: checkout source code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.event.pull_request_target.head.ref}}
+        repository: ${{github.event.pull_request_target.head.repo.full_name}}
+        fetch-depth: 0
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2.6.2
+      with:
+        flutter-version: '3.3.2'
+        channel: 'stable'
+    - name: Setup environment secrets
+      shell: bash
+      env:
+        FIREBASE_OPTION: ${{ secrets.FIREBASE_OPTION }}
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
+        FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
+        ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
+        ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+        ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
+      run: |
+        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
+        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
+        echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
+        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
+        # put keystore
+        echo -n "$ANDROID_KEYSTORE" | base64 --decode --output android/app/interactive-diary-release.keystore
+        # put keyproperties
+        echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
+    - name: Install dependencies
+      shell: bash
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build
+        flutter pub run intl_utils:generate
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+    - name: Run tests coverage
+      run: |
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
+    - name: Run codecov
+      uses: codecov/codecov-action@v3
+      with:
+        verbose: true
+        fail_ci_if_error: true
+    - name: build Android and iOS
+      run: |
+        count=$(git rev-list --count HEAD)
+        echo Build Android and iOS with build number env: $count
+        flutter build apk --build-number=$count
+        flutter build ios --build-number=$count --no-codesign
+    - name: generate release note
+      run: |
+        git log --pretty=oneline --abbrev-commit --no-merges $(git describe --tags --abbrev=0)..HEAD > release_note.txt
+    - name: Upload iOS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: interactive_diary.app
+        path: build/ios/iphoneos/Runner.app
+    - name: Upload Android artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+    - name: Upload release note
+      uses: actions/upload-artifact@v2
+      with:
+        name: release_note.txt
+        path: release_note.txt
+
+  distribute-android:
+    name: Distribute Android app
+    needs: validate-and-build-apps
+    runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download android build
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.apk
+      - name: Download release note
+        uses: actions/download-artifact@v2
+        with:
+          name: release_note.txt
+      - name: Firebase App Distribution - Android upload
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+        with:
+          token: ${{ secrets.FAD_TOKEN }}
+          file: app-release.apk
+          appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
+          releaseNotesFile: release_note.txt
+          groups: android_test_group
+
+#  distribute-iOS:
+#    name: Distribute iOS app
+#    needs: validate-and-build-apps
+#    runs-on: ubuntu-latest
+#    concurrency:
+#      cancel-in-progress: true
+#      group: ${{ github.workflow }}-${{ github.ref }}
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Download iOS build
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: interactive_diary.app
+#      - name: Download release note
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: release_note.txt
+#      - name: Firebase App Distribution - iOS upload
+#        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
+#        with:
+#          token: ${{ secrets.FAD_TOKEN }}
+#          file: interactive_diary.app
+#          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+#          releaseNotesFile: release_note.txt
+#          groups: ios_test_group
