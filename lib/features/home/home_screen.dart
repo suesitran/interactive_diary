@@ -19,6 +19,7 @@ class IDHome extends StatefulWidget {
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   bool isShowingMenu = false;
+  late GoogleMapController mapCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +32,22 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTick
             return Stack(
               children: <Widget>[
                 GoogleMap(
+                  onMapCreated: (GoogleMapController controller) => mapCtrl = controller,
                   onCameraMoveStarted: () => _closeMenuIfOpening(),
-                  onTap: (data) {
-                    print('ON TAP : $data');
-                    _closeMenuIfOpening();
-                  },
-                  onCameraIdle: () {
-                    print('onCameraIdle');
-                  },
-                  onCameraMove: (_) => _closeMenuIfOpening(),
+                  onTap: (_) => _closeMenuIfOpening(),
+                  // onCameraMove: (_) => _closeMenuIfOpening(),
                   initialCameraPosition: CameraPosition(
                       target: LatLng(state.currentLocation.latitude,
                           state.currentLocation.longitude),
                       zoom: 15),
                   markers: <Marker>{
                     Marker(
-                      onTap: () {
+                      onTap: () async {
+                        await mapCtrl.moveCamera(CameraUpdate.newLatLng(
+                          LatLng(state.currentLocation.latitude,
+                          state.currentLocation.longitude)
+                        ));
+
                         setState(() {
                           isShowingMenu = !isShowingMenu;
                         });
