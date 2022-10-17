@@ -5,15 +5,15 @@ import 'package:nartus_ui_package/theme/nartus_text_theme.dart';
 import '../widget_tester_extension.dart';
 
 void main() {
-  testWidgets('Validate [Display] text style ', (tester) async {
+  testWidgets('Validate [Display] text style ', (WidgetTester tester) async {
     GlobalKey largeK = GlobalKey();
     GlobalKey mediumK = GlobalKey();
     GlobalKey smallK = GlobalKey();
 
-    final displayTextGroup = Builder(builder: (context) {
+    final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: [
+        children: <Widget>[
           Text('Test Large', key: largeK, style: Theme.of(context).textTheme.displayLarge),
           Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.displayMedium),
           Text('Test Small', key: smallK, style: Theme.of(context).textTheme.displaySmall)
@@ -45,14 +45,14 @@ void main() {
 
   });
 
-  testWidgets('Validate [Headline] text style ', (tester) async {
+  testWidgets('Validate [Headline] text style ', (WidgetTester tester) async {
     GlobalKey largeK = GlobalKey();
     GlobalKey mediumK = GlobalKey();
 
-    final displayTextGroup = Builder(builder: (context) {
+    final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: [
+        children: <Widget>[
           Text('Test Large', key: largeK, style: Theme.of(context).textTheme.headlineLarge),
           Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.headlineMedium),
         ],
@@ -77,15 +77,15 @@ void main() {
 
   });
 
-  testWidgets('Validate [Title] text style ', (tester) async {
+  testWidgets('Validate [Title] text style ', (WidgetTester tester) async {
     GlobalKey largeK = GlobalKey();
     GlobalKey mediumK = GlobalKey();
     GlobalKey smallK = GlobalKey();
 
-    final displayTextGroup = Builder(builder: (context) {
+    final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: [
+        children: <Widget>[
           Text('Test Large', key: largeK, style: Theme.of(context).textTheme.titleLarge),
           Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.titleMedium),
           Text('Test Small', key: smallK, style: Theme.of(context).textTheme.titleSmall)
@@ -117,15 +117,15 @@ void main() {
 
   });
 
-  testWidgets('Validate [Body] text style ', (tester) async {
+  testWidgets('Validate [Body] text style ', (WidgetTester tester) async {
     GlobalKey largeK = GlobalKey();
     GlobalKey mediumK = GlobalKey();
     GlobalKey smallK = GlobalKey();
 
-    final displayTextGroup = Builder(builder: (context) {
+    final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: [
+        children: <Widget>[
           Text('Test Large', key: largeK, style: Theme.of(context).textTheme.bodyLarge),
           Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.bodyMedium),
           Text('Test Small', key: smallK, style: Theme.of(context).textTheme.bodySmall)
@@ -157,14 +157,14 @@ void main() {
 
   });
 
-  testWidgets('Validate [Label] text style ', (tester) async {
+  testWidgets('Validate [Label] text style ', (WidgetTester tester) async {
     GlobalKey mediumK = GlobalKey();
     GlobalKey smallK = GlobalKey();
 
-    final displayTextGroup = Builder(builder: (context) {
+    final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: [
+        children: <Widget>[
           Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.labelMedium),
           Text('Test Small', key: smallK, style: Theme.of(context).textTheme.labelSmall)
         ],
