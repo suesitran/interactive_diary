@@ -13,7 +13,6 @@ coverage:
         only_pulls: false
         paths:
         - lib
-        target: auto
-        threshold: 80%
+        target: 80%
         ignore:
           - "lib/generated"  # ignore folders and all its contents
