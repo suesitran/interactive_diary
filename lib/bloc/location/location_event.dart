@@ -10,8 +10,7 @@ class ShowDialogRequestPermissionEvent extends LocationEvent {}
 class OpenAppSettingsEvent extends LocationEvent {}
 
 class RequestCurrentLocationEvent extends LocationEvent {
-  GlobalKey key;
-  RequestCurrentLocationEvent(this.key);
+  RequestCurrentLocationEvent();
 }
 
 class RequestLocationServiceEvent extends LocationEvent {}

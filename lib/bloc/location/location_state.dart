@@ -1,10 +1,8 @@
 part of 'location_bloc.dart';
 
 abstract class LocationState extends Equatable {
-  GlobalKey? iconKey;
   @override
   List<Object?> get props => <Object?>[];
-  LocationState({this.iconKey});
 }
 
 class LocationInitial extends LocationState {
@@ -28,10 +26,6 @@ class UnknownLocationErrorState extends LocationState {}
 class LocationReadyState extends LocationState {
   final LocationDetails currentLocation;
   final String dateDisplay;
-  BitmapDescriptor icon;
-  LocationReadyState(this.currentLocation, this.dateDisplay, this.icon);
-  // LocationReadyState(
-  //   this.currentLocation,
-  //   this.dateDisplay,
-  // );
+
+  LocationReadyState(this.currentLocation, this.dateDisplay);
 }
