@@ -17,39 +17,49 @@ void main() {
       (BuildContext context) => Theme.of(context).colorScheme.primary);
   testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
       (BuildContext context) => Theme.of(context).colorScheme.onPrimary);
-  testWidgetsCustom(lightTheme, const Color(0xFFEFEAFE), 
+  testWidgetsCustom(lightTheme, const Color(0xFFEFEAFE),
       (BuildContext context) => Theme.of(context).colorScheme.primaryContainer);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025), 
-      (BuildContext context) => Theme.of(context).colorScheme.onPrimaryContainer);
+  testWidgetsCustom(
+      lightTheme,
+      const Color(0xFF1C2025),
+      (BuildContext context) =>
+          Theme.of(context).colorScheme.onPrimaryContainer);
   testWidgetsCustom(lightTheme, const Color(0xFF7A7A7A),
       (BuildContext context) => Theme.of(context).colorScheme.secondary);
   testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
       (BuildContext context) => Theme.of(context).colorScheme.onSecondary);
-  testWidgetsCustom(lightTheme, const Color(0xFFECECF1), 
-      (BuildContext context) => Theme.of(context).colorScheme.secondaryContainer);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025), 
-      (BuildContext context) => Theme.of(context).colorScheme.onSecondaryContainer);
+  testWidgetsCustom(
+      lightTheme,
+      const Color(0xFFECECF1),
+      (BuildContext context) =>
+          Theme.of(context).colorScheme.secondaryContainer);
+  testWidgetsCustom(
+      lightTheme,
+      const Color(0xFF1C2025),
+      (BuildContext context) =>
+          Theme.of(context).colorScheme.onSecondaryContainer);
   testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
       (BuildContext context) => Theme.of(context).colorScheme.background);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025), 
+  testWidgetsCustom(lightTheme, const Color(0xFF1C2025),
       (BuildContext context) => Theme.of(context).colorScheme.onBackground);
   testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
       (BuildContext context) => Theme.of(context).colorScheme.surface);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025), 
+  testWidgetsCustom(lightTheme, const Color(0xFF1C2025),
       (BuildContext context) => Theme.of(context).colorScheme.onSurface);
-  testWidgetsCustom(lightTheme, const Color(0xFFB3261E), 
+  testWidgetsCustom(lightTheme, const Color(0xFFB3261E),
       (BuildContext context) => Theme.of(context).colorScheme.error);
-  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF), 
+  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
       (BuildContext context) => Theme.of(context).colorScheme.onError);
-  testWidgetsCustom(lightTheme, const Color(0xFFF6E5E4), 
+  testWidgetsCustom(lightTheme, const Color(0xFFF6E5E4),
       (BuildContext context) => Theme.of(context).colorScheme.errorContainer);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025), 
+  testWidgetsCustom(lightTheme, const Color(0xFF1C2025),
       (BuildContext context) => Theme.of(context).colorScheme.onErrorContainer);
 }
 
 Future<void> testWidgetsCustom(ThemeData theme, Color expectColor,
     Color Function(BuildContext context) getAppliedColor) async {
-  testWidgets('Validate color scheme [${expectColor.value.toRadixString(16)}]', (WidgetTester tester) async {
+  testWidgets('Validate color scheme [${expectColor.value.toRadixString(16)}]',
+      (WidgetTester tester) async {
     final Builder testIcon = Builder(builder: (BuildContext context) {
       return Icon(
         Icons.abc_outlined,
@@ -63,6 +73,7 @@ Future<void> testWidgetsCustom(ThemeData theme, Color expectColor,
 
     expect((renderedIcon.color?.value.toRadixString(16)),
         expectColor.value.toRadixString(16),
-        reason: 'Failed compare theme color (${renderedIcon.color?.value.toRadixString(16)}) vs expect color (${expectColor.value.toRadixString(16)})');
+        reason:
+            'Failed compare theme color (${renderedIcon.color?.value.toRadixString(16)}) vs expect color (${expectColor.value.toRadixString(16)})');
   });
 }

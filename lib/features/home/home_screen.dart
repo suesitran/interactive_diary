@@ -55,6 +55,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               children: <Widget>[
                 FutureBuilder<List<Marker>>(
                     future: futureListMarker,
+                    initialData: const <Marker>[],
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Marker>> snapshot) {
                       if (snapshot.hasData) {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-
-
 // final TextTheme textTheme = GoogleFonts.plusJakartaSansTextTheme();
 
 class FontStyleGuide {
@@ -31,7 +29,6 @@ class FontStyleGuide {
   static const FontWeight fwBold = FontWeight.w700;
   static const FontWeight fwSemiBold = FontWeight.w600;
   static const FontWeight fwRegular = FontWeight.w400;
-
 }
 
 const TextTheme textTheme = TextTheme(
@@ -87,21 +84,31 @@ const TextTheme textTheme = TextTheme(
   /// [BODY] -------------------------------------------------------------------
 
   bodyLarge: TextStyle(
-      fontSize: FontStyleGuide.fontSize16, height: FontStyleGuide.lineHeight24, 
-      letterSpacing: FontStyleGuide.letterSpacing0, fontWeight: FontStyleGuide.fwRegular),
+      fontSize: FontStyleGuide.fontSize16,
+      height: FontStyleGuide.lineHeight24,
+      letterSpacing: FontStyleGuide.letterSpacing0,
+      fontWeight: FontStyleGuide.fwRegular),
   bodyMedium: TextStyle(
-      fontSize: FontStyleGuide.fontSize14, height: FontStyleGuide.lineHeight22, 
-      letterSpacing: FontStyleGuide.letterSpacing0, fontWeight: FontStyleGuide.fwRegular),
+      fontSize: FontStyleGuide.fontSize14,
+      height: FontStyleGuide.lineHeight22,
+      letterSpacing: FontStyleGuide.letterSpacing0,
+      fontWeight: FontStyleGuide.fwRegular),
   bodySmall: TextStyle(
-      fontSize: FontStyleGuide.fontSize12, height: FontStyleGuide.lineHeight18, 
-      letterSpacing: FontStyleGuide.letterSpacing0, fontWeight: FontStyleGuide.fwRegular),
+      fontSize: FontStyleGuide.fontSize12,
+      height: FontStyleGuide.lineHeight18,
+      letterSpacing: FontStyleGuide.letterSpacing0,
+      fontWeight: FontStyleGuide.fwRegular),
 
   /// [LABEL] ------------------------------------------------------------------
 
   labelMedium: TextStyle(
-      fontSize: FontStyleGuide.fontSize12, height: FontStyleGuide.lineHeight18, 
-      letterSpacing: FontStyleGuide.letterSpacing0, fontWeight: FontStyleGuide.fwSemiBold),
+      fontSize: FontStyleGuide.fontSize12,
+      height: FontStyleGuide.lineHeight18,
+      letterSpacing: FontStyleGuide.letterSpacing0,
+      fontWeight: FontStyleGuide.fwSemiBold),
   labelSmall: TextStyle(
-      fontSize: FontStyleGuide.fontSize10, height: FontStyleGuide.lineHeight16, 
-      letterSpacing: FontStyleGuide.letterSpacing0, fontWeight: FontStyleGuide.fwSemiBold),
+      fontSize: FontStyleGuide.fontSize10,
+      height: FontStyleGuide.lineHeight16,
+      letterSpacing: FontStyleGuide.letterSpacing0,
+      fontWeight: FontStyleGuide.fwSemiBold),
 );

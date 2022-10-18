@@ -52,7 +52,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
   }
 
   @override
-  Widget build(BuildContext context) {      
+  Widget build(BuildContext context) {
     return Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding24)),

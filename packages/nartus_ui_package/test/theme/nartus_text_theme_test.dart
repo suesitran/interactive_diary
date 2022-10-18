@@ -13,12 +13,15 @@ void main() {
     final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: <Widget>[
-          Text('Test Large', key: largeK, style: Theme.of(context).textTheme.displayLarge),
-          Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.displayMedium),
-          Text('Test Small', key: smallK, style: Theme.of(context).textTheme.displaySmall)
-        ],
-      ),
+          children: <Widget>[
+            Text('Test Large',
+                key: largeK, style: Theme.of(context).textTheme.displayLarge),
+            Text('Test Medium',
+                key: mediumK, style: Theme.of(context).textTheme.displayMedium),
+            Text('Test Small',
+                key: smallK, style: Theme.of(context).textTheme.displaySmall)
+          ],
+        ),
       );
     });
 
@@ -27,7 +30,7 @@ void main() {
     final Text renderedLargeT = tester.widget<Text>(find.byKey(largeK));
     final Text renderedMediumT = tester.widget<Text>(find.byKey(mediumK));
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
-    
+
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize48);
     expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight64);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
@@ -42,7 +45,6 @@ void main() {
     expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight40);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwBold);
-
   });
 
   testWidgets('Validate [Headline] text style ', (WidgetTester tester) async {
@@ -52,11 +54,14 @@ void main() {
     final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: <Widget>[
-          Text('Test Large', key: largeK, style: Theme.of(context).textTheme.headlineLarge),
-          Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.headlineMedium),
-        ],
-      ),
+          children: <Widget>[
+            Text('Test Large',
+                key: largeK, style: Theme.of(context).textTheme.headlineLarge),
+            Text('Test Medium',
+                key: mediumK,
+                style: Theme.of(context).textTheme.headlineMedium),
+          ],
+        ),
       );
     });
 
@@ -64,7 +69,7 @@ void main() {
 
     final Text renderedLargeT = tester.widget<Text>(find.byKey(largeK));
     final Text renderedMediumT = tester.widget<Text>(find.byKey(mediumK));
-    
+
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize20);
     expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight30);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
@@ -74,7 +79,6 @@ void main() {
     expect(renderedMediumT.style?.height, FontStyleGuide.lineHeight28);
     expect(renderedMediumT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedMediumT.style?.fontWeight, FontStyleGuide.fwBold);
-
   });
 
   testWidgets('Validate [Title] text style ', (WidgetTester tester) async {
@@ -85,12 +89,15 @@ void main() {
     final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: <Widget>[
-          Text('Test Large', key: largeK, style: Theme.of(context).textTheme.titleLarge),
-          Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.titleMedium),
-          Text('Test Small', key: smallK, style: Theme.of(context).textTheme.titleSmall)
-        ],
-      ),
+          children: <Widget>[
+            Text('Test Large',
+                key: largeK, style: Theme.of(context).textTheme.titleLarge),
+            Text('Test Medium',
+                key: mediumK, style: Theme.of(context).textTheme.titleMedium),
+            Text('Test Small',
+                key: smallK, style: Theme.of(context).textTheme.titleSmall)
+          ],
+        ),
       );
     });
 
@@ -99,7 +106,7 @@ void main() {
     final Text renderedLargeT = tester.widget<Text>(find.byKey(largeK));
     final Text renderedMediumT = tester.widget<Text>(find.byKey(mediumK));
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
-    
+
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize18);
     expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight28);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
@@ -114,7 +121,6 @@ void main() {
     expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight22);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwSemiBold);
-
   });
 
   testWidgets('Validate [Body] text style ', (WidgetTester tester) async {
@@ -125,12 +131,15 @@ void main() {
     final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: <Widget>[
-          Text('Test Large', key: largeK, style: Theme.of(context).textTheme.bodyLarge),
-          Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.bodyMedium),
-          Text('Test Small', key: smallK, style: Theme.of(context).textTheme.bodySmall)
-        ],
-      ),
+          children: <Widget>[
+            Text('Test Large',
+                key: largeK, style: Theme.of(context).textTheme.bodyLarge),
+            Text('Test Medium',
+                key: mediumK, style: Theme.of(context).textTheme.bodyMedium),
+            Text('Test Small',
+                key: smallK, style: Theme.of(context).textTheme.bodySmall)
+          ],
+        ),
       );
     });
 
@@ -139,7 +148,7 @@ void main() {
     final Text renderedLargeT = tester.widget<Text>(find.byKey(largeK));
     final Text renderedMediumT = tester.widget<Text>(find.byKey(mediumK));
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
-    
+
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize16);
     expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight24);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
@@ -154,7 +163,6 @@ void main() {
     expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight18);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwRegular);
-
   });
 
   testWidgets('Validate [Label] text style ', (WidgetTester tester) async {
@@ -164,11 +172,13 @@ void main() {
     final Builder displayTextGroup = Builder(builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Column(
-        children: <Widget>[
-          Text('Test Medium', key: mediumK, style: Theme.of(context).textTheme.labelMedium),
-          Text('Test Small', key: smallK, style: Theme.of(context).textTheme.labelSmall)
-        ],
-      ),
+          children: <Widget>[
+            Text('Test Medium',
+                key: mediumK, style: Theme.of(context).textTheme.labelMedium),
+            Text('Test Small',
+                key: smallK, style: Theme.of(context).textTheme.labelSmall)
+          ],
+        ),
       );
     });
 
@@ -186,7 +196,5 @@ void main() {
     expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight16);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwSemiBold);
-
   });
-  
 }
