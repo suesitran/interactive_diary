@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/dimens.dart';
@@ -21,7 +20,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   Future<List<Marker>> generateListMarkers(
       double latitude, double longitude) async {
-    List<Marker> markers = [];
+    List<Marker> markers = <Marker>[];
     final BitmapDescriptor icon = isAnimation == true
         ? await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
