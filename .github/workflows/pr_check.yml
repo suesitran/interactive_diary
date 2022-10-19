@@ -13,9 +13,6 @@ on:
 #      - '**'
 #    - '!dev'
 #    - '!master'
-  pull_request:
-    branches:
-      - dev
   pull_request_target:
     branches: 
       - dev
@@ -37,6 +34,11 @@ jobs:
       cancel-in-progress: true
       group: build-${{ github.event.pull_request.number || github.event.pull_request_target.number || github.ref }}
     steps:
+    - name: check github data
+      shell: bash
+      run: |
+        echo pull_request_target ${{ github.event.pull_request_target.head.ref }}
+        echo pull_request ${{ github.event.pull_request.head.ref }}
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request_target.head.ref || github.event.pull_request.head.ref }}
