@@ -36,7 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{github.event.pull_request_target.head.ref}}
+#        ref: ${{github.event.pull_request_target.head.ref}}
         repository: ${{github.event.pull_request_target.head.repo.full_name}}
     - name:  Setup Java
       uses: actions/setup-java@v3
