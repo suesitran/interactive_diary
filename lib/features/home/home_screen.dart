@@ -169,8 +169,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               child: CircularProgressIndicator(),
             );
           },
-        ),
-      );
+        );
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
