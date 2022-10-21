@@ -14,16 +14,6 @@ class FontStyleGuide {
   static const double fontSize12 = 12;
   static const double fontSize10 = 10;
 
-  static const double lineHeight64 = 64;
-  static const double lineHeight40 = 40;
-  static const double lineHeight32 = 32;
-  static const double lineHeight30 = 30;
-  static const double lineHeight28 = 28;
-  static const double lineHeight24 = 24;
-  static const double lineHeight22 = 22;
-  static const double lineHeight18 = 18;
-  static const double lineHeight16 = 16;
-
   static const double letterSpacing0 = 0;
 
   static const FontWeight fwBold = FontWeight.w700;
@@ -36,17 +26,14 @@ const TextTheme textTheme = TextTheme(
 
   displayLarge: TextStyle(
       fontSize: FontStyleGuide.fontSize48,
-      height: FontStyleGuide.lineHeight64,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwBold),
   displayMedium: TextStyle(
       fontSize: FontStyleGuide.fontSize32,
-      height: FontStyleGuide.lineHeight40,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwBold),
   displaySmall: TextStyle(
       fontSize: FontStyleGuide.fontSize24,
-      height: FontStyleGuide.lineHeight40,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwBold),
 
@@ -54,12 +41,10 @@ const TextTheme textTheme = TextTheme(
 
   headlineLarge: TextStyle(
       fontSize: FontStyleGuide.fontSize20,
-      height: FontStyleGuide.lineHeight30,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwBold),
   headlineMedium: TextStyle(
       fontSize: FontStyleGuide.fontSize18,
-      height: FontStyleGuide.lineHeight28,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwBold),
 
@@ -67,17 +52,14 @@ const TextTheme textTheme = TextTheme(
 
   titleLarge: TextStyle(
       fontSize: FontStyleGuide.fontSize18,
-      height: FontStyleGuide.lineHeight28,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwSemiBold),
   titleMedium: TextStyle(
       fontSize: FontStyleGuide.fontSize16,
-      height: FontStyleGuide.lineHeight24,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwSemiBold),
   titleSmall: TextStyle(
       fontSize: FontStyleGuide.fontSize14,
-      height: FontStyleGuide.lineHeight22,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwSemiBold),
 
@@ -85,17 +67,14 @@ const TextTheme textTheme = TextTheme(
 
   bodyLarge: TextStyle(
       fontSize: FontStyleGuide.fontSize16,
-      height: FontStyleGuide.lineHeight24,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwRegular),
   bodyMedium: TextStyle(
       fontSize: FontStyleGuide.fontSize14,
-      height: FontStyleGuide.lineHeight22,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwRegular),
   bodySmall: TextStyle(
       fontSize: FontStyleGuide.fontSize12,
-      height: FontStyleGuide.lineHeight18,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwRegular),
 
@@ -103,12 +82,10 @@ const TextTheme textTheme = TextTheme(
 
   labelMedium: TextStyle(
       fontSize: FontStyleGuide.fontSize12,
-      height: FontStyleGuide.lineHeight18,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwSemiBold),
   labelSmall: TextStyle(
       fontSize: FontStyleGuide.fontSize10,
-      height: FontStyleGuide.lineHeight16,
       letterSpacing: FontStyleGuide.letterSpacing0,
       fontWeight: FontStyleGuide.fwSemiBold),
 );
