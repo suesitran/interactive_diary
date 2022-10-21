@@ -32,17 +32,14 @@ void main() {
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
 
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize48);
-    expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight64);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedLargeT.style?.fontWeight, FontStyleGuide.fwBold);
 
     expect(renderedMediumT.style?.fontSize, FontStyleGuide.fontSize32);
-    expect(renderedMediumT.style?.height, FontStyleGuide.lineHeight40);
     expect(renderedMediumT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedMediumT.style?.fontWeight, FontStyleGuide.fwBold);
 
     expect(renderedSmallT.style?.fontSize, FontStyleGuide.fontSize24);
-    expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight40);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwBold);
   });
@@ -71,12 +68,10 @@ void main() {
     final Text renderedMediumT = tester.widget<Text>(find.byKey(mediumK));
 
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize20);
-    expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight30);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedLargeT.style?.fontWeight, FontStyleGuide.fwBold);
 
     expect(renderedMediumT.style?.fontSize, FontStyleGuide.fontSize18);
-    expect(renderedMediumT.style?.height, FontStyleGuide.lineHeight28);
     expect(renderedMediumT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedMediumT.style?.fontWeight, FontStyleGuide.fwBold);
   });
@@ -108,17 +103,14 @@ void main() {
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
 
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize18);
-    expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight28);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedLargeT.style?.fontWeight, FontStyleGuide.fwSemiBold);
 
     expect(renderedMediumT.style?.fontSize, FontStyleGuide.fontSize16);
-    expect(renderedMediumT.style?.height, FontStyleGuide.lineHeight24);
     expect(renderedMediumT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedMediumT.style?.fontWeight, FontStyleGuide.fwSemiBold);
 
     expect(renderedSmallT.style?.fontSize, FontStyleGuide.fontSize14);
-    expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight22);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwSemiBold);
   });
@@ -150,17 +142,14 @@ void main() {
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
 
     expect(renderedLargeT.style?.fontSize, FontStyleGuide.fontSize16);
-    expect(renderedLargeT.style?.height, FontStyleGuide.lineHeight24);
     expect(renderedLargeT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedLargeT.style?.fontWeight, FontStyleGuide.fwRegular);
 
     expect(renderedMediumT.style?.fontSize, FontStyleGuide.fontSize14);
-    expect(renderedMediumT.style?.height, FontStyleGuide.lineHeight22);
     expect(renderedMediumT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedMediumT.style?.fontWeight, FontStyleGuide.fwRegular);
 
     expect(renderedSmallT.style?.fontSize, FontStyleGuide.fontSize12);
-    expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight18);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwRegular);
   });
@@ -188,12 +177,10 @@ void main() {
     final Text renderedSmallT = tester.widget<Text>(find.byKey(smallK));
 
     expect(renderedMediumT.style?.fontSize, FontStyleGuide.fontSize12);
-    expect(renderedMediumT.style?.height, FontStyleGuide.lineHeight18);
     expect(renderedMediumT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedMediumT.style?.fontWeight, FontStyleGuide.fwSemiBold);
 
     expect(renderedSmallT.style?.fontSize, FontStyleGuide.fontSize10);
-    expect(renderedSmallT.style?.height, FontStyleGuide.lineHeight16);
     expect(renderedSmallT.style?.letterSpacing, FontStyleGuide.letterSpacing0);
     expect(renderedSmallT.style?.fontWeight, FontStyleGuide.fwSemiBold);
   });
