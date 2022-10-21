@@ -38,7 +38,9 @@ class DateLabelView extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding54)),
       ),
-      color: Theme.of(context).backgroundColor,
+      color: Theme
+          .of(context)
+          .backgroundColor,
       elevation: NartusDimens.padding4,
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -49,7 +51,42 @@ class DateLabelView extends StatelessWidget {
     );
   }
 
-  Widget _leadingIcon() => Padding(
+  Widget _leadingIcon() =>
+      LeadingWidget(
+        icon: leadingIcon,
+        iconColor: leadingIconColor,
+        iconSemanticLabel: leadingIconSemanticLabel,
+        onPressed: onLeadingIconPressed,
+      );
+
+  Widget _mainTitle() =>
+      MainTitle(label: dateLabel,
+        semanticLabel: dateSemanticLabel,
+        expansionIcon: labelExpansionIcon,);
+
+  Widget _tailIcon() =>
+      TailIcon(icon: tailIcon,
+        onPressed: onTailIconPressed,
+        color: tailIconColor,
+        semanticLabel: tailIconSemanticLabel,);
+}
+
+class LeadingWidget extends StatelessWidget {
+  final IconData? icon;
+  final Color? iconColor;
+  final String? iconSemanticLabel;
+  final VoidCallback? onPressed;
+
+  const LeadingWidget({
+    this.icon,
+    this.iconColor,
+    this.iconSemanticLabel,
+    this.onPressed,
+    Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) =>
+      Padding(
         padding: const EdgeInsets.only(
             left: NartusDimens.padding20,
             top: NartusDimens.padding18,
@@ -57,42 +94,69 @@ class DateLabelView extends StatelessWidget {
             bottom: NartusDimens.padding18),
         child: IconButton(
           icon: Icon(
-            leadingIcon,
-            color: leadingIconColor,
-            semanticLabel: leadingIconSemanticLabel,
+            icon,
+            color: iconColor,
+            semanticLabel: iconSemanticLabel,
           ),
-          onPressed: onLeadingIconPressed,
-        ),
-      );
-
-  Widget _mainTitle() => Builder(
-      builder: (BuildContext context) => Semantics(
-            explicitChildNodes: true,
-            label: dateSemanticLabel ?? dateLabel,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text(
-                  dateLabel,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                if (labelExpansionIcon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: NartusDimens.padding4),
-                    child: Icon(labelExpansionIcon),
-                  )
-              ],
-            ),
-          ));
-
-  Widget _tailIcon() => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: IconButton(
-          onPressed: onTailIconPressed,
-          icon: Icon(tailIcon,
-              color: tailIconColor,
-              semanticLabel: tailIconSemanticLabel,
-              size: 40),
+          onPressed: onPressed,
         ),
       );
 }
+
+class MainTitle extends StatelessWidget {
+  final String? semanticLabel;
+  final String label;
+  final IconData? expansionIcon;
+
+  const MainTitle(
+      {required this.label, this.semanticLabel, this.expansionIcon, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) =>
+      Semantics(
+        explicitChildNodes: true,
+        label: semanticLabel ?? label,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+              Text(
+                label,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .titleSmall,
+              ),
+            if (expansionIcon != null)
+              Padding(
+                padding: const EdgeInsets.only(left: NartusDimens.padding4),
+                child: Icon(expansionIcon),
+              )
+          ],
+        ),
+      );
+}
+
+class TailIcon extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final IconData icon;
+  final Color? color;
+  final String? semanticLabel;
+
+  const TailIcon({required this.icon, this.onPressed, this.color, this.semanticLabel, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: IconButton(
+      onPressed: onPressed,
+      icon: Icon(icon,
+          color: color,
+          semanticLabel: semanticLabel,
+          size: 40),
+    ),
+  );
+}
+
+
+
