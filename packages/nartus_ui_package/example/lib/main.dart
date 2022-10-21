@@ -49,10 +49,9 @@ class WidgetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
       shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Theme.of(context).dividerColor, width: 1.0)),
+          side: BorderSide(color: Theme.of(context).dividerColor, width: 1.0)),
       contentPadding:
-      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       trailing: const Icon(Icons.arrow_right),
       onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => catalogScreen)),
