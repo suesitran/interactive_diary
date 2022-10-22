@@ -8,24 +8,24 @@ class DateLabelView extends StatelessWidget {
   const DateLabelView({required this.dateLabel, Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-        child: Card(
-          color: Theme.of(context).backgroundColor,
-          elevation: NartusDimens.elevation4,
-          shape: const RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(NartusDimens.padding54)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              CalendarLabelView(dateLabel: dateLabel),
-              const ProfileIconView()
-            ],
-          ),
+  Widget build(BuildContext context) =>  Padding(
+      padding: const EdgeInsets.symmetric(vertical: NartusDimens.padding10, horizontal: NartusDimens.padding24),
+      child: Card(
+        color: Theme.of(context).colorScheme.background,
+        elevation: NartusDimens.elevation4,
+        shape: const RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.all(Radius.circular(NartusDimens.padding54)),
         ),
-      );
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            CalendarLabelView(dateLabel: dateLabel),
+            const ProfileIconView(),
+          ],
+        ),
+      ),
+    );
 }
 
 class CalendarLabelView extends StatelessWidget {
@@ -48,7 +48,7 @@ class CalendarLabelView extends StatelessWidget {
               height: 20,
             ),
           ),
-          Text(dateLabel)
+          Text(dateLabel, style: Theme.of(context).textTheme.titleSmall,)
         ],
       );
 }
