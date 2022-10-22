@@ -44,8 +44,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         body: BlocBuilder<LocationBloc, LocationState>(
           builder: (BuildContext context, LocationState state) {
             if (state is LocationReadyState) {
@@ -77,9 +76,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                       }),
                   SafeArea(
                       child: Align(
-                        alignment: Alignment.topCenter,
-                        child: DateLabelView(dateLabel: state.dateDisplay),
-                      ))
+                    alignment: Alignment.topCenter,
+                    child: DateLabelView(dateLabel: state.dateDisplay),
+                  ))
                 ],
               );
             }
