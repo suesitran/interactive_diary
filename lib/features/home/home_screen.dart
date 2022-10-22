@@ -21,7 +21,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   Future<List<Marker>> generateListMarkers(
       double latitude, double longitude) async {
-    List<Marker> markers = [];
+    List<Marker> markers = <Marker>[];
     final BitmapDescriptor icon = isAnimation == true
         ? await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
@@ -77,7 +77,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   SafeArea(
                       child: Align(
                     alignment: Alignment.topCenter,
-                    child: DateLabelView(dateLabel: state.dateDisplay),
+                    child: DateLabelView(dateLabel: state.dateDisplay, profileSemanticLabel: S.of(context).anonymous_profile,),
                   ))
                 ],
               );
