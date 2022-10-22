@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
@@ -20,7 +21,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   Future<List<Marker>> generateListMarkers(
       double latitude, double longitude) async {
-    List<Marker> markers = <Marker>[];
+    List<Marker> markers = [];
     final BitmapDescriptor icon = isAnimation == true
         ? await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
@@ -44,117 +45,119 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<LocationBloc, LocationState>(
-        builder: (BuildContext context, LocationState state) {
-          if (state is LocationReadyState) {
-            futureListMarker = generateListMarkers(
-                state.currentLocation.latitude,
-                state.currentLocation.longitude);
+      Scaffold(
+        body: BlocBuilder<LocationBloc, LocationState>(
+          builder: (BuildContext context, LocationState state) {
+            if (state is LocationReadyState) {
+              futureListMarker = generateListMarkers(
+                  state.currentLocation.latitude,
+                  state.currentLocation.longitude);
 
-            return Stack(
-              children: <Widget>[
-                FutureBuilder<List<Marker>>(
-                    future: futureListMarker,
-                    initialData: const <Marker>[],
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Marker>> snapshot) {
-                      if (snapshot.hasData) {
-                        return GoogleMap(
-                            initialCameraPosition: CameraPosition(
-                                target: LatLng(state.currentLocation.latitude,
-                                    state.currentLocation.longitude),
-                                zoom: 15),
-                            markers: Set<Marker>.of(
-                                snapshot.data as Iterable<Marker>));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }),
-                SafeArea(
-                    child: Align(
-                  alignment: Alignment.topCenter,
-                  child: DateLabelView(dateLabel: state.dateDisplay),
-                ))
-              ],
+              return Stack(
+                children: <Widget>[
+                  FutureBuilder<List<Marker>>(
+                      future: futureListMarker,
+                      initialData: const <Marker>[],
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Marker>> snapshot) {
+                        if (snapshot.hasData) {
+                          return GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                  target: LatLng(state.currentLocation.latitude,
+                                      state.currentLocation.longitude),
+                                  zoom: 15),
+                              markers: Set<Marker>.of(
+                                  snapshot.data as Iterable<Marker>));
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }),
+                  SafeArea(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: DateLabelView(dateLabel: state.dateDisplay),
+                      ))
+                ],
+              );
+            }
+
+            if (state is LocationInitial) {
+              context.read<LocationBloc>().add(RequestCurrentLocationEvent());
+            }
+
+            if (state is LocationPermissionDeniedState) {
+              context.showDialogAdaptive(
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(ShowDialogRequestPermissionEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                            S.of(context).locationPermissionDialogAllowButton)),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context
+                              .read<LocationBloc>()
+                              .add(RequestDefaultLocationEvent());
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogContinueButton)),
+                  ]);
+            }
+
+            if (state is LocationPermissionDeniedForeverState) {
+              context.showDialogAdaptive(
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(OpenAppSettingsEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogOpenSettingsButton)),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context
+                              .read<LocationBloc>()
+                              .add(RequestDefaultLocationEvent());
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogContinueButton)),
+                  ]);
+            }
+
+            if (state is AwaitLocationPermissionFromAppSettingState) {
+              WidgetsBinding.instance.addObserver(this);
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-
-          if (state is LocationInitial) {
-            context.read<LocationBloc>().add(RequestCurrentLocationEvent());
-          }
-
-          if (state is LocationPermissionDeniedState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(ShowDialogRequestPermissionEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                          S.of(context).locationPermissionDialogAllowButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
-          }
-
-          if (state is LocationPermissionDeniedForeverState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(OpenAppSettingsEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogOpenSettingsButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
-          }
-
-          if (state is AwaitLocationPermissionFromAppSettingState) {
-            WidgetsBinding.instance.addObserver(this);
-          }
-
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+          },
+        ),
       );
 
   @override
