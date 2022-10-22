@@ -12,6 +12,12 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/anonymous.svg
+  String get anonymous => 'assets/images/anonymous.svg';
+
+  /// File path: assets/images/calendar.svg
+  String get calendar => 'assets/images/calendar.svg';
+
   /// File path: assets/images/marker_nonetap.png
   AssetGenImage get markerNonetap =>
       const AssetGenImage('assets/images/marker_nonetap.png');
@@ -21,7 +27,7 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/marker_ontap.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [markerNonetap, markerOntap];
+  List<dynamic> get values => [anonymous, calendar, markerNonetap, markerOntap];
 }
 
 class Assets {
