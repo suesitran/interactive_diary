@@ -15,6 +15,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/anonymous.svg
   String get anonymous => 'assets/images/anonymous.svg';
 
+  /// File path: assets/images/arrow_down.svg
+  String get arrowDown => 'assets/images/arrow_down.svg';
+
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
@@ -27,7 +30,8 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/marker_ontap.png');
 
   /// List of all assets
-  List<dynamic> get values => [anonymous, calendar, markerNonetap, markerOntap];
+  List<dynamic> get values =>
+      [anonymous, arrowDown, calendar, markerNonetap, markerOntap];
 }
 
 class Assets {
