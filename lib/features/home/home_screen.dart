@@ -17,22 +17,32 @@ class IDHome extends StatefulWidget {
   State<IDHome> createState() => _IDHomeState();
 }
 
-class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+class _IDHomeState extends State<IDHome>
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   bool isShowingMenu = false;
   late GoogleMapController mapCtrl;
+  int markerXCoordinate = 0;
+  int markerYCoordinate = 0;
+  final double menuIconSize = 40;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD MAP');
+    TextEditingController ctrl;
     return Scaffold(
-      body:  BlocBuilder<LocationBloc, LocationState>(
+      body: BlocBuilder<LocationBloc, LocationState>(
         builder: (BuildContext context, LocationState state) {
           debugPrint('BUILDER');
           if (state is LocationReadyState) {
             return Stack(
               children: <Widget>[
                 GoogleMap(
-                  onMapCreated: (GoogleMapController controller) => mapCtrl = controller,
+                  onMapCreated: (GoogleMapController controller) =>
+                      mapCtrl = controller,
                   onCameraMoveStarted: () => _closeMenuIfOpening(),
                   onTap: (_) => _closeMenuIfOpening(),
                   // onCameraMove: (_) => _closeMenuIfOpening(),
@@ -43,13 +53,28 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTick
                   markers: <Marker>{
                     Marker(
                       onTap: () async {
-                        await mapCtrl.moveCamera(CameraUpdate.newLatLng(
-                          LatLng(state.currentLocation.latitude,
-                          state.currentLocation.longitude)
-                        ));
+                        final double currentMarkerLat = state.currentLocation.latitude;
+                        final double currentMarkerLong = state.currentLocation.longitude;
+
+                        /// Move camera to current marker at center
+                        await mapCtrl.moveCamera(CameraUpdate.newLatLng(LatLng(
+                            currentMarkerLat, currentMarkerLong)));
+
+                        /// Convert current marker LatLong to Screen X, Y
+                        final ScreenCoordinate coordinate = await mapCtrl.getScreenCoordinate(
+                            LatLng(currentMarkerLat, currentMarkerLong));
 
                         setState(() {
-                          isShowingMenu = !isShowingMenu;
+                          markerXCoordinate = coordinate.x;
+                          markerYCoordinate = coordinate.y;
+                        });
+
+                        /// Wait until finish setting Circle menu point to marker coordinate
+                        /// then show the menu
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          setState(() {
+                            isShowingMenu = !isShowingMenu;
+                          });
                         });
                       },
                       markerId: const MarkerId('currentLocation'),
@@ -58,27 +83,46 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTick
                     )
                   },
                 ),
-                CircleMenuView(isShowingMenu: isShowingMenu,),
+                // CircleMenuView(
+                //   isShowingMenu: isShowingMenu,
+                // ),
+
+                Positioned(
+                  left: (markerXCoordinate - (menuIconSize / 2)).toDouble(),
+                  top: (markerYCoordinate - (menuIconSize / 2)).toDouble(),
+                  child: CircleMenuViewV2(
+                    isShowingMenu: isShowingMenu,
+                    menuIconSize: menuIconSize,
+                  )
+                ),
+                // Positioned(
+                //   left: markerXCoordinate.toDouble(),
+                //   top: markerYCoordinate.toDouble(),
+                //   child: Container(
+                //     height: 50, width: 50,
+                //     color: Colors.amber,
+                //   )
+                // ),
                 SafeArea(
                     child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Card(
-                        margin: const EdgeInsets.only(top: Dimension.spacing16),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
+                  alignment: Alignment.topCenter,
+                  child: Card(
+                    margin: const EdgeInsets.only(top: Dimension.spacing16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
                             BorderRadius.circular(Dimension.spacing16)),
-                        elevation: 4.0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimension.spacing16,
-                              vertical: Dimension.spacing8),
-                          child: Text(
-                            state.dateDisplay,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
+                    elevation: 4.0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimension.spacing16,
+                          vertical: Dimension.spacing8),
+                      child: Text(
+                        state.dateDisplay,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                    ))
+                    ),
+                  ),
+                ))
               ],
             );
           }
@@ -165,10 +209,6 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTick
       setState(() {
         isShowingMenu = false;
       });
-      // WidgetsBinding.instance.addPostFrameCallback((_) =>
-      //     setState(() {
-      //       isShowingMenu = false;
-      //     }));
     }
   }
 
@@ -182,25 +222,27 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver, SingleTick
 }
 
 class CircularButton extends StatelessWidget {
-
   final double width;
   final double height;
   final Color color;
   final Icon icon;
   final Function onClick;
 
-  CircularButton({
-    required this.color, required this.width, required this.height,
-    required this.icon, required this.onClick});
-
+  CircularButton(
+      {required this.color,
+      required this.width,
+      required this.height,
+      required this.icon,
+      required this.onClick});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: color,shape: BoxShape.circle),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       width: width,
       height: height,
-      child: IconButton(icon: icon,enableFeedback: true, onPressed: () => onClick.call()),
+      child: IconButton(
+          icon: icon, enableFeedback: true, onPressed: () => onClick.call()),
     );
   }
 }
