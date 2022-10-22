@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:nartus_ui_package/theme/nartus_color.dart';
-import 'package:nartus_ui_package/theme/nartus_text_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+part 'nartus_color.dart';
+part 'nartus_text_theme.dart';
+part 'nartus_card_theme.dart';
 
 ThemeData lightTheme = ThemeData(
     errorColor: NartusColor.red,
     textTheme: textTheme,
     materialTapTargetSize: MaterialTapTargetSize.padded,
     colorScheme: lightColorScheme,
-    fontFamily: GoogleFonts.plusJakartaSans().fontFamily);
+    fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+cardTheme: cardTheme);

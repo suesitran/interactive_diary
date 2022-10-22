@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-
-// final TextTheme textTheme = GoogleFonts.plusJakartaSansTextTheme();
+part of 'nartus_theme.dart';
 
 class FontStyleGuide {
   static const double fontSize48 = 48;

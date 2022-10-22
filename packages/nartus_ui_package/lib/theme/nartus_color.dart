@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'nartus_theme.dart';
 
 class NartusColor {
   static const Color errorColor = Color(0xFF8B0101);
