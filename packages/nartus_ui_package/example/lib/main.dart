@@ -1,4 +1,3 @@
-import 'package:example/screens/date_label_demo_screen.dart';
 import 'package:example/screens/text_and_error_label_screen.dart';
 import 'package:example/screens/theme_demo/theme_demo_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,6 @@ class WidgetCatalog extends StatelessWidget {
         children: [
           const WidgetTile('Theme demo', ThemeDemoScreen()),
           WidgetTile('Text and error label', TextAndErrorLabelScreen()),
-          const WidgetTile('Date label', DateLabelDemoScreen()),
         ],
       );
 }
