@@ -41,7 +41,6 @@ dependencies:
   intl: ^0.17.0
   equatable: ^2.0.5
   flutter_svg: ^1.1.5
-  flutter_gen: ^5.0.3
   nartus_ui_package:
     path: packages/nartus_ui_package
   nartus_location:
@@ -50,6 +49,7 @@ dependencies:
     path: packages/nartus_authentication
   nartus_connectivity:
     path: packages/nartus_connectivity
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
