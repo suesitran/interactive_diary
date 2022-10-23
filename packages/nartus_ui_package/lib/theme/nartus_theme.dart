@@ -12,4 +12,4 @@ ThemeData lightTheme = ThemeData(
     materialTapTargetSize: MaterialTapTargetSize.padded,
     colorScheme: lightColorScheme,
     fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
-cardTheme: cardTheme);
+    cardTheme: cardTheme);

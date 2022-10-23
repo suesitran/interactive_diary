@@ -56,7 +56,6 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                 children: <Widget>[
                   FutureBuilder<List<Marker>>(
                       future: futureListMarker,
-                      initialData: const <Marker>[],
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Marker>> snapshot) {
                         if (snapshot.hasData) {
@@ -77,7 +76,10 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   SafeArea(
                       child: Align(
                     alignment: Alignment.topCenter,
-                    child: DateLabelView(dateLabel: state.dateDisplay, profileSemanticLabel: S.of(context).anonymous_profile,),
+                    child: DateLabelView(
+                      dateLabel: state.dateDisplay,
+                      profileSemanticLabel: S.of(context).anonymous_profile,
+                    ),
                   ))
                 ],
               );
