@@ -20,7 +20,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   Future<List<Marker>> generateListMarkers(
       double latitude, double longitude) async {
-    List<Marker> markers = [];
+    List<Marker> markers = <Marker>[];
     final BitmapDescriptor icon = isAnimation == true
         ? await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
@@ -90,86 +90,85 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
-                  ),
-                ))
-              ],
+                  )))
+                ],
+              );
+            }
+
+            if (state is LocationInitial) {
+              context.read<LocationBloc>().add(RequestCurrentLocationEvent());
+            }
+
+            if (state is LocationPermissionDeniedState) {
+              context.showDialogAdaptive(
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(ShowDialogRequestPermissionEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                            S.of(context).locationPermissionDialogAllowButton)),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context
+                              .read<LocationBloc>()
+                              .add(RequestDefaultLocationEvent());
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogContinueButton)),
+                  ]);
+            }
+
+            if (state is LocationPermissionDeniedForeverState) {
+              context.showDialogAdaptive(
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(OpenAppSettingsEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogOpenSettingsButton)),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context
+                              .read<LocationBloc>()
+                              .add(RequestDefaultLocationEvent());
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogContinueButton)),
+                  ]);
+            }
+
+            if (state is AwaitLocationPermissionFromAppSettingState) {
+              WidgetsBinding.instance.addObserver(this);
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-
-          if (state is LocationInitial) {
-            context.read<LocationBloc>().add(RequestCurrentLocationEvent());
-          }
-
-          if (state is LocationPermissionDeniedState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(ShowDialogRequestPermissionEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                          S.of(context).locationPermissionDialogAllowButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
-          }
-
-          if (state is LocationPermissionDeniedForeverState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(OpenAppSettingsEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogOpenSettingsButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
-          }
-
-          if (state is AwaitLocationPermissionFromAppSettingState) {
-            WidgetsBinding.instance.addObserver(this);
-          }
-
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
+          },
+        );
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

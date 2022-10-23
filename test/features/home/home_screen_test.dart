@@ -1,4 +1,5 @@
-import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
@@ -13,6 +14,27 @@ import 'home_screen_test.mocks.dart';
 @GenerateMocks(<Type>[LocationBloc])
 void main() {
   final LocationBloc mockLocationBloc = MockLocationBloc();
+
+  testWidgets('When screen is loaded, then check if UI is in a Scaffold',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
+        LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022')));
+    when(mockLocationBloc.state).thenAnswer(
+        (_) => LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022'));
+
+    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
+
+    expect(
+        find.ancestor(
+            of: find.ancestor(
+                of: find.byType(GoogleMap),
+                matching:
+                    find.byType(BlocBuilder<LocationBloc, LocationState>)),
+            matching: find.byType(Scaffold)),
+        findsAtLeastNWidgets(1));
+  });
 
   testWidgets('When State is LocationReadyState, then GoogleMap is presented',
       (WidgetTester widgetTester) async {
