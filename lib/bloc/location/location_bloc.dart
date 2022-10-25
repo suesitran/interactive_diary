@@ -47,7 +47,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       final LocationDetails data = await _locationService.getCurrentLocation();
       final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
 
-      emit(LocationReadyState(LatLng(data.latitude, data.longitude), dateDisplay));
+      emit(LocationReadyState(
+          LatLng(data.latitude, data.longitude), dateDisplay));
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionDeniedException catch (_) {
