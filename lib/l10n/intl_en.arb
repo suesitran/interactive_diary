@@ -4,5 +4,6 @@
   "locationPermissionDialogMessage": "Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog",
   "locationPermissionDialogAllowButton": "Allow",
   "locationPermissionDialogContinueButton": "Continue",
-  "locationPermissionDialogOpenSettingsButton": "Open Settings"
+  "locationPermissionDialogOpenSettingsButton": "Open Settings",
+  "anonymous_profile" : "Anonymous Profile. Please login to use all features."
 }

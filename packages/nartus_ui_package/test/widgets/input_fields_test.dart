@@ -19,27 +19,27 @@ void main() {
     });
 
     testWidgets('When platform is Android, then show TextField & TextFormField',
-        (widgetTester) async {
+        (WidgetTester widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
       await widgetTester.pumpWidget(MaterialApp(
           home: Scaffold(
         body: Column(
-          children: [idTextField, idTextFormField],
+          children: <Widget>[idTextField, idTextFormField],
         ),
       )));
       await widgetTester.pumpAndSettle();
 
-      final findMaterialTextField = find.descendant(
+      final Finder findMaterialTextField = find.descendant(
           of: find.byKey(kTextField), matching: find.byType(TextField));
-      final findMaterialTextFormField = find.descendant(
+      final Finder findMaterialTextFormField = find.descendant(
           of: find.byWidget(idTextFormField),
           matching: find.byType(TextFormField));
 
-      final findCupertinoTextField = find.descendant(
+      final Finder findCupertinoTextField = find.descendant(
           of: find.byWidget(idTextField),
           matching: find.byType(CupertinoTextField));
-      final findCupertinoTextFormField = find.descendant(
+      final Finder findCupertinoTextFormField = find.descendant(
           of: find.byWidget(idTextFormField),
           matching: find.byType(CupertinoTextFormFieldRow));
 
@@ -54,26 +54,26 @@ void main() {
 
     testWidgets(
         'When platform is IOS, then show CupertinoTextField & CupertinoTextFormFieldRow',
-        (widgetTester) async {
+        (WidgetTester widgetTester) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
       await widgetTester.pumpWidget(CupertinoApp(
           home: CupertinoPageScaffold(
         child: Column(
-          children: [idTextField, idTextFormField],
+          children: <Widget>[idTextField, idTextFormField],
         ),
       )));
       await widgetTester.pumpAndSettle();
 
-      final findMaterialTextField = find.descendant(
+      final Finder findMaterialTextField = find.descendant(
           of: find.byWidget(idTextField), matching: find.byType(TextField));
-      final findMaterialTextFormField = find.descendant(
+      final Finder findMaterialTextFormField = find.descendant(
           of: find.byKey(kTextFormField), matching: find.byType(TextFormField));
 
-      final findCupertinoTextField = find.descendant(
+      final Finder findCupertinoTextField = find.descendant(
           of: find.byWidget(idTextField),
           matching: find.byType(CupertinoTextField));
-      final findCupertinoTextFormField = find.descendant(
+      final Finder findCupertinoTextFormField = find.descendant(
           of: find.byWidget(idTextFormField),
           matching: find.byType(CupertinoTextFormFieldRow));
 
