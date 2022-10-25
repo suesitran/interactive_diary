@@ -20,9 +20,9 @@ void main() {
     const IDHome widget = IDHome();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022')));
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
     when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022'));
+        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
 
@@ -41,9 +41,9 @@ void main() {
     const IDHome widget = IDHome();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022')));
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
     when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(LocationDetails(0.0, 0.0), '17-07-2022'));
+        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
 
     await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
 

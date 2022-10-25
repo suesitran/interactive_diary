@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
+import 'package:interactive_diary/features/home/widgets/googe_map.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -25,10 +27,10 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
     final BitmapDescriptor icon = isAnimation == true
         ? await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
-            'assets/images/marker_ontap.png')
+            Assets.images.markerOntap.path)
         : await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
-            'assets/images/marker_nonetap.png');
+            Assets.images.markerNonetap.path);
 
     final Marker marker = Marker(
         markerId: MarkerId(latitude.toString()),
@@ -59,13 +61,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Marker>> snapshot) {
                         if (snapshot.hasData) {
-                          return GoogleMap(
-                              initialCameraPosition: CameraPosition(
-                                  target: LatLng(state.currentLocation.latitude,
-                                      state.currentLocation.longitude),
-                                  zoom: 15),
-                              markers: Set<Marker>.of(
-                                  snapshot.data as Iterable<Marker>));
+                          return GoogleMapView(
+                            currentLocation: state.currentLocation,
+                          );
                         } else if (snapshot.hasError) {
                           return Text('${snapshot.error}');
                         }

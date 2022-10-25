@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_location/nartus_location.dart';
 
 part 'location_event.dart';
 part 'location_state.dart';
 
-final LocationDetails _defaultLocation =
-    LocationDetails(10.7840007, 106.7034988);
+const LatLng _defaultLocation = LatLng(10.7840007, 106.7034988);
 const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
@@ -47,7 +47,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       final LocationDetails data = await _locationService.getCurrentLocation();
       final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
 
-      emit(LocationReadyState(data, dateDisplay));
+      emit(LocationReadyState(LatLng(data.latitude, data.longitude), dateDisplay));
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionDeniedException catch (_) {
