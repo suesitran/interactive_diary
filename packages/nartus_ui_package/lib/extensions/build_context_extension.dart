@@ -8,24 +8,24 @@ extension BuildContextExtension on BuildContext {
       Widget? content,
       List<Widget>? actions,
       bool barrierDismissible = false}) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         showCupertinoDialog(
             context: this,
-            builder: (context) => CupertinoAlertDialog(
+            builder: (BuildContext context) => CupertinoAlertDialog(
                   title: title,
                   content: content,
-                  actions: actions ?? [],
+                  actions: actions ?? <Widget>[],
                   insetAnimationCurve: Curves.easeIn,
                 ),
             barrierDismissible: barrierDismissible);
       } else {
         showDialog(
             context: this,
-            builder: (context) => AlertDialog(
+            builder: (BuildContext context) => AlertDialog(
                   title: title,
                   content: content,
-                  actions: actions ?? [],
+                  actions: actions ?? <Widget>[],
                 ),
             barrierDismissible: barrierDismissible);
       }

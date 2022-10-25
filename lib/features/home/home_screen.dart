@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:interactive_diary/constants/dimens.dart';
+import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -43,54 +44,43 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<LocationBloc, LocationState>(
-        builder: (BuildContext context, LocationState state) {
-          if (state is LocationReadyState) {
-            futureListMarker = generateListMarkers(
-                state.currentLocation.latitude,
-                state.currentLocation.longitude);
+  Widget build(BuildContext context) => Scaffold(
+        body: BlocBuilder<LocationBloc, LocationState>(
+          builder: (BuildContext context, LocationState state) {
+            if (state is LocationReadyState) {
+              futureListMarker = generateListMarkers(
+                  state.currentLocation.latitude,
+                  state.currentLocation.longitude);
 
-            return Stack(
-              children: <Widget>[
-                FutureBuilder<List<Marker>>(
-                    future: futureListMarker,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Marker>> snapshot) {
-                      if (snapshot.hasData) {
-                        return GoogleMap(
-                            initialCameraPosition: CameraPosition(
-                                target: LatLng(state.currentLocation.latitude,
-                                    state.currentLocation.longitude),
-                                zoom: 15),
-                            markers: Set<Marker>.of(
-                                snapshot.data as Iterable<Marker>));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }),
-                SafeArea(
-                    child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Card(
-                    margin: const EdgeInsets.only(top: Dimension.spacing16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimension.spacing16)),
-                    elevation: 4.0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Dimension.spacing16,
-                          vertical: Dimension.spacing8),
-                      child: Text(
-                        state.dateDisplay,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
+              return Stack(
+                children: <Widget>[
+                  FutureBuilder<List<Marker>>(
+                      future: futureListMarker,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Marker>> snapshot) {
+                        if (snapshot.hasData) {
+                          return GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                  target: LatLng(state.currentLocation.latitude,
+                                      state.currentLocation.longitude),
+                                  zoom: 15),
+                              markers: Set<Marker>.of(
+                                  snapshot.data as Iterable<Marker>));
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }),
+                  SafeArea(
+                      child: Align(
+                    alignment: Alignment.topCenter,
+                    child: DateLabelView(
+                      dateLabel: state.dateDisplay,
+                      profileSemanticLabel: S.of(context).anonymous_profile,
                     ),
-                  )))
+                  ))
                 ],
               );
             }
@@ -168,7 +158,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               child: CircularProgressIndicator(),
             );
           },
-        );
+        ),
+      );
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

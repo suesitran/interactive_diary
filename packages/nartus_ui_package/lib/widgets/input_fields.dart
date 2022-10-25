@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../nartus_ui.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 class IDTextFormField extends StatelessWidget {
   final TextEditingController? controller;
