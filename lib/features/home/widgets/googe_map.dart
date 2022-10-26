@@ -79,6 +79,13 @@ class _GoogleMapViewState extends State<GoogleMapView>
     );
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    _streamController.close();
+    super.dispose();
+  }
+
   Future<void> _generateMarkerIcon() async {
     baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
     markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
