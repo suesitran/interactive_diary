@@ -31,20 +31,27 @@ class WidgetCatalog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView(
         children: [
-          _buildWidgetTile('Theme demo', const ThemeDemoScreen()),
-          _buildWidgetTile('Text and error label', TextAndErrorLabelScreen()),
+          const WidgetTile('Theme demo', ThemeDemoScreen()),
+          WidgetTile('Text and error label', TextAndErrorLabelScreen()),
         ],
       );
+}
 
-  Widget _buildWidgetTile(String title, Widget catalogScreen) => Builder(
-      builder: (context) => ListTile(
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: Theme.of(context).dividerColor, width: 1.0)),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-          trailing: const Icon(Icons.arrow_right),
-          onTap: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => catalogScreen)),
-          title: Text(title)));
+class WidgetTile extends StatelessWidget {
+  final String title;
+  final Widget catalogScreen;
+
+  const WidgetTile(this.title, this.catalogScreen, {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => ListTile(
+      shape: RoundedRectangleBorder(
+          side: BorderSide(color: Theme.of(context).dividerColor, width: 1.0)),
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      trailing: const Icon(Icons.arrow_right),
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => catalogScreen)),
+      title: Text(title));
 }
