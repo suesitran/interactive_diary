@@ -18,59 +18,16 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
-  bool isAnimation = false;
-  late Future<List<Marker>> futureListMarker;
-
-  Future<List<Marker>> generateListMarkers(
-      double latitude, double longitude) async {
-    List<Marker> markers = <Marker>[];
-    final BitmapDescriptor icon = isAnimation == true
-        ? await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(24, 24)),
-            Assets.images.markerOntap.path)
-        : await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(24, 24)),
-            Assets.images.markerNonetap.path);
-
-    final Marker marker = Marker(
-        markerId: MarkerId(latitude.toString()),
-        position: LatLng(latitude, longitude),
-        icon: icon,
-        onTap: () {
-          setState(() {
-            isAnimation = !isAnimation;
-          });
-        });
-    markers.add(marker);
-    return markers;
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         body: BlocBuilder<LocationBloc, LocationState>(
           builder: (BuildContext context, LocationState state) {
             if (state is LocationReadyState) {
-              futureListMarker = generateListMarkers(
-                  state.currentLocation.latitude,
-                  state.currentLocation.longitude);
-
               return Stack(
                 children: <Widget>[
-                  FutureBuilder<List<Marker>>(
-                      future: futureListMarker,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<Marker>> snapshot) {
-                        if (snapshot.hasData) {
-                          return GoogleMapView(
-                            currentLocation: state.currentLocation,
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }),
+                  GoogleMapView(
+                    currentLocation: state.currentLocation,
+                  ),
                   SafeArea(
                       child: Align(
                     alignment: Alignment.topCenter,
