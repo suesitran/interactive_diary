@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -56,25 +57,34 @@ class _GoogleMapViewState extends State<GoogleMapView> {
                   icon: icon)
             });
       },
-      initialData: Uint8List(0),
     );
   }
 
   Future<void> _generateMarkerIcon() async {
-    const double markerSize = 200.0;
+    baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
+    markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
+
+    return _computeMarker();
+  }
+
+  Future<DrawableRoot> _createBaseMarkerDrawableRoot() async {
     // load the base marker svg string from asset
     final String baseMarkerSvgString =
-        await rootBundle.loadString(Assets.images.markerBase);
+    await rootBundle.loadString(Assets.images.markerBase);
     // load the base marker from svg
-    baseMarkerDrawableRoot =
-        await svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
+    return svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
+  }
 
+  Future<DrawableRoot> _createCenterMarkerDrawableRoot() async {
     // load add/close icon from svg string
     final String markerCenterSvgString =
-        await rootBundle.loadString(Assets.images.markerAdd);
+    await rootBundle.loadString(Assets.images.markerAdd);
     // load marker add into drawable root from svg
-    markerAddDrawableRoot =
-        await svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
+    return svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
+  }
+
+  void _computeMarker({double angle = 0}) async {
+    const double markerSize = 100.0;
 
     // create canvas to draw
     final PictureRecorder recorder = PictureRecorder();
@@ -82,9 +92,9 @@ class _GoogleMapViewState extends State<GoogleMapView> {
         recorder,
         Rect.fromPoints(
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
-    // canvas.drawRect(Rect.fromPoints(const Offset(0.0, 0.0), const Offset(markerSize, markerSize)), Paint()..color = Colors.green);
 
     // draw baseMarker on canvas
+    const double makerAddSize = 24;
     baseMarkerDrawableRoot.scaleCanvasToViewBox(
         canvas, const Size(markerSize, markerSize));
     baseMarkerDrawableRoot.clipCanvasToViewBox(canvas);
@@ -94,21 +104,33 @@ class _GoogleMapViewState extends State<GoogleMapView> {
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     // draw marker add
-    canvas.translate(20, 16);
-    markerAddDrawableRoot.scaleCanvasToViewBox(canvas, const Size(24, 24));
+    canvas.translate(4, 4);
+    canvas.save();
+    final double r = sqrt(makerAddSize * makerAddSize + makerAddSize * makerAddSize) / 2;
+    final double alpha = atan(makerAddSize / makerAddSize);
+    final double beta = alpha + angle;
+    final double shiftY = r * sin(beta);
+    final double shiftX = r * cos(beta);
+    final double translateX = makerAddSize / 2 - shiftX;
+    final double translateY = makerAddSize / 2 - shiftY;
+    canvas.translate(translateX, translateY);
+    canvas.rotate(angle);
+
+    markerAddDrawableRoot.scaleCanvasToViewBox(canvas, const Size(makerAddSize, makerAddSize));
     markerAddDrawableRoot.clipCanvasToViewBox(canvas);
     markerAddDrawableRoot.draw(
         canvas,
         Rect.fromPoints(
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+    canvas.restore();
 
     final ByteData? pngBytes = await (await recorder
-            .endRecording()
-            .toImage(markerSize.toInt(), markerSize.toInt()))
+        .endRecording()
+        .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
 
     if (pngBytes != null) {
-      _streamController.sink.add(Uint8List.view(pngBytes.buffer));
+    _streamController.sink.add(Uint8List.view(pngBytes.buffer));
     }
   }
 }
