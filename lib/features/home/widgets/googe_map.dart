@@ -86,7 +86,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
   }
 
   // draw complete marker with angle
-  void _computeMarker({double angle = 0}) async {
+  void _computeMarker({double angleInDegree = 0}) async {
     const double markerSize = 100.0;
 
     // create canvas to draw
@@ -109,7 +109,10 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     // draw marker add
     // translate to desired location on canvas
     canvas.translate(4, 4);
-    if (angle % 90 != 0) {
+    if (angleInDegree % 90 != 0) {
+      // convert angle in degree to radiant
+      final double angle = angleInDegree * pi / 180;
+
       // lock canvas - prepare to draw marker add with desired rotation
       // only do this if angle is not a power of 90
       canvas.save();
