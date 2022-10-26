@@ -21,7 +21,7 @@ class GoogleMapView extends StatefulWidget {
 class _GoogleMapViewState extends State<GoogleMapView>
     with TickerProviderStateMixin {
   static final StreamController<Uint8List> _streamController =
-      StreamController<Uint8List>();
+      StreamController<Uint8List>.broadcast();
   Stream<Uint8List> markerData = _streamController.stream;
 
   // to draw marker with animation
@@ -75,6 +75,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                           })
                     }));
       },
+      initialData: Uint8List(0),
     );
   }
 
