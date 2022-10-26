@@ -6,6 +6,7 @@ part 'nartus_secondary_button.dart';
 part 'nartus_text_button.dart';
 
 enum ButtonType { primary, secondary, text }
+
 enum IconPosition { left, right }
 
 class NartusButton extends StatelessWidget {
@@ -16,17 +17,40 @@ class NartusButton extends StatelessWidget {
   final ButtonType buttonType;
 
   const NartusButton.primary(
-      {Key? key, this.label, this.icon, this.onPressed, this.iconPosition = IconPosition.left})
+      {Key? key,
+      this.label,
+      this.icon,
+      this.onPressed,
+      this.iconPosition = IconPosition.left})
       : assert(label != null || icon != null,
             'either label or icon must not be null'),
-        buttonType = ButtonType.primary, super(key: key);
+        buttonType = ButtonType.primary,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     switch (buttonType) {
-      case ButtonType.primary: return _NartusPrimaryButton(label: label, icon: icon, onPressed: onPressed, iconPosition: iconPosition,);
-      case ButtonType.secondary: return _NartusSecondaryButton(label: label, icon: icon, onPressed: onPressed, iconPosition: iconPosition,);
-      case ButtonType.text: return _NartusTextButton(label: label, icon: icon, onPressed: onPressed, iconPosition: iconPosition,);
+      case ButtonType.primary:
+        return _NartusPrimaryButton(
+          label: label,
+          icon: icon,
+          onPressed: onPressed,
+          iconPosition: iconPosition,
+        );
+      case ButtonType.secondary:
+        return _NartusSecondaryButton(
+          label: label,
+          icon: icon,
+          onPressed: onPressed,
+          iconPosition: iconPosition,
+        );
+      case ButtonType.text:
+        return _NartusTextButton(
+          label: label,
+          icon: icon,
+          onPressed: onPressed,
+          iconPosition: iconPosition,
+        );
     }
   }
 }

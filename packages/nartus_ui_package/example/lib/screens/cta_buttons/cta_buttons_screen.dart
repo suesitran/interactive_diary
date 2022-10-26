@@ -16,8 +16,21 @@ class CTAButtonsScreen extends StatelessWidget {
           children: [
             _demoButton('primary button - text only - active',
                 NartusButton.primary(label: 'Button', onPressed: () {})),
-            _demoButton('primary button - left icon - active', NartusButton.primary(label: 'Button', icon: const Icon(Icons.account_balance_wallet), onPressed: () {},)),
-            _demoButton('primary button - right icon - active', NartusButton.primary(label: 'Button', icon: const Icon(Icons.account_balance_wallet), onPressed: () {}, iconPosition: IconPosition.right,))
+            _demoButton(
+                'primary button - left icon - active',
+                NartusButton.primary(
+                  label: 'Button',
+                  icon: const Icon(Icons.account_balance_wallet),
+                  onPressed: () {},
+                )),
+            _demoButton(
+                'primary button - right icon - active',
+                NartusButton.primary(
+                  label: 'Button',
+                  icon: const Icon(Icons.account_balance_wallet),
+                  onPressed: () {},
+                  iconPosition: IconPosition.right,
+                ))
           ],
         ),
       ),
@@ -25,11 +38,11 @@ class CTAButtonsScreen extends StatelessWidget {
   }
 
   Widget _demoButton(String label, Widget widget) => Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Text(label), widget],
         ),
-  );
+      );
 }
