@@ -56,7 +56,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
         return AnimatedBuilder(
             animation: _controller,
-            builder: (context, child) => GoogleMap(
+            builder: (BuildContext context, Widget? child) => GoogleMap(
                     initialCameraPosition: CameraPosition(
                         target: LatLng(widget.currentLocation.latitude,
                             widget.currentLocation.longitude),
