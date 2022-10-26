@@ -18,7 +18,7 @@ class GoogleMapView extends StatefulWidget {
   State<GoogleMapView> createState() => _GoogleMapViewState();
 }
 
-class _GoogleMapViewState extends State<GoogleMapView> {
+class _GoogleMapViewState extends State<GoogleMapView> with TickerProviderStateMixin {
   static final StreamController<Uint8List> _streamController =
       StreamController<Uint8List>();
   Stream<Uint8List> markerData = _streamController.stream;
@@ -27,9 +27,16 @@ class _GoogleMapViewState extends State<GoogleMapView> {
   late final DrawableRoot baseMarkerDrawableRoot;
   late final DrawableRoot markerAddDrawableRoot;
 
+  late final AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
+
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 300))
+      ..addListener(() {
+        _computeMarker(angleInDegree: _controller.value * 45);
+    });
 
     // generate marker icon
     _generateMarkerIcon();
@@ -45,7 +52,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
             ? BitmapDescriptor.defaultMarker
             : BitmapDescriptor.fromBytes(data);
 
-        return GoogleMap(
+        return AnimatedBuilder(animation: _controller, builder: (context, child) => GoogleMap(
             initialCameraPosition: CameraPosition(
                 target: LatLng(widget.currentLocation.latitude,
                     widget.currentLocation.longitude),
@@ -54,8 +61,15 @@ class _GoogleMapViewState extends State<GoogleMapView> {
               Marker(
                   markerId: const MarkerId('currentLocation'),
                   position: widget.currentLocation,
-                  icon: icon)
-            });
+                  icon: icon,
+              onTap: () {
+                    if (_controller.value == 1) {
+                      _controller.reverse();
+                    } else {
+                      _controller.forward();
+                    }
+              })
+            }));
       },
     );
   }
