@@ -97,7 +97,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     // draw baseMarker on canvas
-    const double makerAddSize = 24;
+    const double markerAddSize = 24;
     baseMarkerDrawableRoot.scaleCanvasToViewBox(
         canvas, const Size(markerSize, markerSize));
     baseMarkerDrawableRoot.clipCanvasToViewBox(canvas);
@@ -114,18 +114,18 @@ class _GoogleMapViewState extends State<GoogleMapView> {
       // only do this if angle is not a power of 90
       canvas.save();
       final double r =
-          sqrt(makerAddSize * makerAddSize + makerAddSize * makerAddSize) / 2;
-      final double alpha = atan(makerAddSize / makerAddSize);
+          sqrt(markerAddSize * markerAddSize + markerAddSize * markerAddSize) / 2;
+      final double alpha = atan(markerAddSize / markerAddSize);
       final double beta = alpha + angle;
       final double shiftY = r * sin(beta);
       final double shiftX = r * cos(beta);
-      final double translateX = makerAddSize / 2 - shiftX;
-      final double translateY = makerAddSize / 2 - shiftY;
+      final double translateX = markerAddSize / 2 - shiftX;
+      final double translateY = markerAddSize / 2 - shiftY;
       canvas.translate(translateX, translateY);
       canvas.rotate(angle);
 
       markerAddDrawableRoot.scaleCanvasToViewBox(
-          canvas, const Size(makerAddSize, makerAddSize));
+          canvas, const Size(markerAddSize, markerAddSize));
       markerAddDrawableRoot.clipCanvasToViewBox(canvas);
       markerAddDrawableRoot.draw(
           canvas,
@@ -136,7 +136,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     } else {
       // do normal drawing
       markerAddDrawableRoot.scaleCanvasToViewBox(
-          canvas, const Size(makerAddSize, makerAddSize));
+          canvas, const Size(markerAddSize, markerAddSize));
       markerAddDrawableRoot.clipCanvasToViewBox(canvas);
       markerAddDrawableRoot.draw(
           canvas,
