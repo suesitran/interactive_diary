@@ -67,6 +67,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     return _computeMarker();
   }
 
+  // generate marker base drawable from SVG asset
   Future<DrawableRoot> _createBaseMarkerDrawableRoot() async {
     // load the base marker svg string from asset
     final String baseMarkerSvgString =
@@ -75,6 +76,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     return svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
   }
 
+  // generate center marker from SVG asset
   Future<DrawableRoot> _createCenterMarkerDrawableRoot() async {
     // load add/close icon from svg string
     final String markerCenterSvgString =
@@ -83,6 +85,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     return svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
   }
 
+  // draw complete marker with angle
   void _computeMarker({double angle = 0}) async {
     const double markerSize = 100.0;
 
@@ -104,27 +107,42 @@ class _GoogleMapViewState extends State<GoogleMapView> {
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     // draw marker add
+    // translate to desired location on canvas
     canvas.translate(4, 4);
-    canvas.save();
-    final double r =
-        sqrt(makerAddSize * makerAddSize + makerAddSize * makerAddSize) / 2;
-    final double alpha = atan(makerAddSize / makerAddSize);
-    final double beta = alpha + angle;
-    final double shiftY = r * sin(beta);
-    final double shiftX = r * cos(beta);
-    final double translateX = makerAddSize / 2 - shiftX;
-    final double translateY = makerAddSize / 2 - shiftY;
-    canvas.translate(translateX, translateY);
-    canvas.rotate(angle);
+    if (angle % 90 != 0) {
+      // lock canvas - prepare to draw marker add with desired rotation
+      // only do this if angle is not a power of 90
+      canvas.save();
+      final double r =
+          sqrt(makerAddSize * makerAddSize + makerAddSize * makerAddSize) / 2;
+      final double alpha = atan(makerAddSize / makerAddSize);
+      final double beta = alpha + angle;
+      final double shiftY = r * sin(beta);
+      final double shiftX = r * cos(beta);
+      final double translateX = makerAddSize / 2 - shiftX;
+      final double translateY = makerAddSize / 2 - shiftY;
+      canvas.translate(translateX, translateY);
+      canvas.rotate(angle);
 
-    markerAddDrawableRoot.scaleCanvasToViewBox(
-        canvas, const Size(makerAddSize, makerAddSize));
-    markerAddDrawableRoot.clipCanvasToViewBox(canvas);
-    markerAddDrawableRoot.draw(
-        canvas,
-        Rect.fromPoints(
-            const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
-    canvas.restore();
+      markerAddDrawableRoot.scaleCanvasToViewBox(
+          canvas, const Size(makerAddSize, makerAddSize));
+      markerAddDrawableRoot.clipCanvasToViewBox(canvas);
+      markerAddDrawableRoot.draw(
+          canvas,
+          Rect.fromPoints(
+              const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+      // unlock canvas
+      canvas.restore();
+    } else {
+      // do normal drawing
+      markerAddDrawableRoot.scaleCanvasToViewBox(
+          canvas, const Size(makerAddSize, makerAddSize));
+      markerAddDrawableRoot.clipCanvasToViewBox(canvas);
+      markerAddDrawableRoot.draw(
+          canvas,
+          Rect.fromPoints(
+              const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+    }
 
     final ByteData? pngBytes = await (await recorder
             .endRecording()
