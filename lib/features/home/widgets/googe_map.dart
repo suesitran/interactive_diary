@@ -70,7 +70,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
   Future<DrawableRoot> _createBaseMarkerDrawableRoot() async {
     // load the base marker svg string from asset
     final String baseMarkerSvgString =
-    await rootBundle.loadString(Assets.images.markerBase);
+        await rootBundle.loadString(Assets.images.markerBase);
     // load the base marker from svg
     return svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
   }
@@ -78,7 +78,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
   Future<DrawableRoot> _createCenterMarkerDrawableRoot() async {
     // load add/close icon from svg string
     final String markerCenterSvgString =
-    await rootBundle.loadString(Assets.images.markerAdd);
+        await rootBundle.loadString(Assets.images.markerAdd);
     // load marker add into drawable root from svg
     return svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
   }
@@ -106,7 +106,8 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     // draw marker add
     canvas.translate(4, 4);
     canvas.save();
-    final double r = sqrt(makerAddSize * makerAddSize + makerAddSize * makerAddSize) / 2;
+    final double r =
+        sqrt(makerAddSize * makerAddSize + makerAddSize * makerAddSize) / 2;
     final double alpha = atan(makerAddSize / makerAddSize);
     final double beta = alpha + angle;
     final double shiftY = r * sin(beta);
@@ -116,7 +117,8 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     canvas.translate(translateX, translateY);
     canvas.rotate(angle);
 
-    markerAddDrawableRoot.scaleCanvasToViewBox(canvas, const Size(makerAddSize, makerAddSize));
+    markerAddDrawableRoot.scaleCanvasToViewBox(
+        canvas, const Size(makerAddSize, makerAddSize));
     markerAddDrawableRoot.clipCanvasToViewBox(canvas);
     markerAddDrawableRoot.draw(
         canvas,
@@ -125,12 +127,12 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     canvas.restore();
 
     final ByteData? pngBytes = await (await recorder
-        .endRecording()
-        .toImage(markerSize.toInt(), markerSize.toInt()))
+            .endRecording()
+            .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
 
     if (pngBytes != null) {
-    _streamController.sink.add(Uint8List.view(pngBytes.buffer));
+      _streamController.sink.add(Uint8List.view(pngBytes.buffer));
     }
   }
 }
