@@ -6,28 +6,37 @@ class CTAButtonsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('CTA Buttons demo'),
       ),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _demoButton('primary button - text only - active',
+            _demoButton(
+                '52px - primary button - text only - active',
                 NartusButton.primary(label: 'Button', onPressed: () {})),
             _demoButton(
-                'primary button - left icon - active',
+                '52px - primary button - left icon - active',
                 NartusButton.primary(
                   label: 'Button',
-                  icon: const Icon(Icons.account_balance_wallet),
+                  icon: Image.asset('assets/facebook.png'),
                   onPressed: () {},
                 )),
             _demoButton(
-                'primary button - right icon - active',
+                '52px - primary button - right icon - active',
                 NartusButton.primary(
                   label: 'Button',
-                  icon: const Icon(Icons.account_balance_wallet),
+                  icon: Image.asset('assets/facebook.png'),
+                  onPressed: () {},
+                  iconPosition: IconPosition.right,
+                )),
+            _demoButton(
+                '52px - primary button - icon only - active',
+                NartusButton.primary(
+                  icon: Image.asset('assets/facebook.png',),
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 ))
@@ -42,7 +51,7 @@ class CTAButtonsScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(label), widget],
+          children: [Padding(padding: const EdgeInsets.only(bottom: 8.0), child: Text(label),), widget],
         ),
       );
 }

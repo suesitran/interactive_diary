@@ -30,7 +30,11 @@ class _NartusTextButton extends StatelessWidget {
     } else if (icon == null) {
       return TextButton(onPressed: onPressed, child: Text(label!));
     } else {
-      return TextButton(onPressed: onPressed, child: icon!);
+      return TextButton(onPressed: onPressed, style: _iconOnlyButtonStyle, child: SizedBox(
+        width: NartusDimens.padding20,
+        height: NartusDimens.padding20,
+        child: icon!,
+      ),);
     }
   }
 }

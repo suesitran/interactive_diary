@@ -18,6 +18,7 @@ class _NartusPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     if (icon != null && label != null) {
       return ElevatedButton(
         onPressed: onPressed,
@@ -28,9 +29,13 @@ class _NartusPrimaryButton extends StatelessWidget {
         ),
       );
     } else if (icon == null) {
-      return ElevatedButton(onPressed: onPressed, child: Text(label!));
+      return ElevatedButton(onPressed: onPressed, child: Text(label!),);
     } else {
-      return ElevatedButton(onPressed: onPressed, child: icon!);
+      return ElevatedButton(onPressed: onPressed, style: _iconOnlyButtonStyle, child: SizedBox(
+        width: NartusDimens.padding20,
+        height: NartusDimens.padding20,
+        child: icon!,
+      ),);
     }
   }
 }

@@ -30,7 +30,11 @@ class _NartusSecondaryButton extends StatelessWidget {
     } else if (icon == null) {
       return OutlinedButton(onPressed: onPressed, child: Text(label!));
     } else {
-      return OutlinedButton(onPressed: onPressed, child: icon!);
+      return OutlinedButton(onPressed: onPressed, style: _iconOnlyButtonStyle, child: SizedBox(
+        width: NartusDimens.padding20,
+        height: NartusDimens.padding20,
+        child: icon!,
+      ),);
     }
   }
 }

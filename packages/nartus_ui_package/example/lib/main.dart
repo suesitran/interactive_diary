@@ -34,7 +34,7 @@ class WidgetCatalog extends StatelessWidget {
         children: [
           const WidgetTile('Theme demo', ThemeDemoScreen()),
           WidgetTile('Text and error label', TextAndErrorLabelScreen()),
-          WidgetTile('CTA Buttons', CTAButtonsScreen())
+          const WidgetTile('CTA Buttons', CTAButtonsScreen())
         ],
       );
 }

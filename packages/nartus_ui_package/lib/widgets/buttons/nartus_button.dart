@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
 
 part 'nartus_primary_button.dart';
 part 'nartus_button_content.dart';
@@ -9,19 +10,23 @@ enum ButtonType { primary, secondary, text }
 
 enum IconPosition { left, right }
 
+enum SizeType { large, small }
+
 class NartusButton extends StatelessWidget {
   final String? label;
   final Widget? icon;
   final IconPosition iconPosition;
   final VoidCallback? onPressed;
   final ButtonType buttonType;
+  final SizeType sizeType;
 
   const NartusButton.primary(
       {Key? key,
       this.label,
       this.icon,
       this.onPressed,
-      this.iconPosition = IconPosition.left})
+      this.iconPosition = IconPosition.left,
+      this.sizeType = SizeType.large})
       : assert(label != null || icon != null,
             'either label or icon must not be null'),
         buttonType = ButtonType.primary,
@@ -54,3 +59,8 @@ class NartusButton extends StatelessWidget {
     }
   }
 }
+
+const ButtonStyle _iconOnlyButtonStyle = ButtonStyle(
+    padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(NartusDimens.padding16)),
+    minimumSize: MaterialStatePropertyAll<Size>(Size(NartusDimens.padding52, NartusDimens.padding52))
+);

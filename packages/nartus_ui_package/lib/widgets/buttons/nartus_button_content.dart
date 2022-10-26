@@ -19,7 +19,7 @@ class _ButtonContent extends StatelessWidget {
         children: iconPosition == IconPosition.left
             ? <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(right: 14, left: 14),
+                  padding: const EdgeInsets.only(right: NartusDimens.padding14),
                   child: icon,
                 ),
                 Text(label)
@@ -27,7 +27,7 @@ class _ButtonContent extends StatelessWidget {
             : <Widget>[
                 Text(label),
                 Padding(
-                  padding: const EdgeInsets.only(left: 14),
+                  padding: const EdgeInsets.only(left: NartusDimens.padding14),
                   child: icon,
                 )
               ],
