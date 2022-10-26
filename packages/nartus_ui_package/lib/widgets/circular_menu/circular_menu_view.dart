@@ -15,7 +15,9 @@ class _IDCircularMenuViewState extends State<IDCircularMenuView>
   late AnimationController animationController;
   late Animation<double> degOneTranslationAnimation;
   late Animation<double> rotationAnimation;
-  final Duration animationDuration = const Duration(milliseconds: 250);
+  final Duration animationDuration = const Duration(milliseconds: 300);
+  /// Distance from root coordinate to each menu item
+  final double distance = 130;
 
   @override
   void initState() {
@@ -64,16 +66,19 @@ class _IDCircularMenuViewState extends State<IDCircularMenuView>
     return Stack(
       children: <Widget>[
         ...widget.items
-            .map<Widget>((IDCircularMenuItemData item) => Transform.translate(
-          offset: Offset.fromDirection(
-              CircularMenuUtils.getRadiansFromDegree(item.degree),
-              degOneTranslationAnimation.value * 120),
-          child: Transform(
-              transform: Matrix4.rotationZ(
-                  CircularMenuUtils.getRadiansFromDegree(rotationAnimation.value))
-                ..scale(degOneTranslationAnimation.value),
-              alignment: Alignment.center,
-              child: item.item),
+            .map<Widget>((IDCircularMenuItemData item) => GestureDetector(
+          onTap: () => item.onPressed.call(),
+          child: Transform.translate(
+            offset: Offset.fromDirection(
+                CircularMenuUtils.getRadiansFromDegree(item.degree),
+                distance),
+            child: Transform(
+                transform: Matrix4.rotationZ(
+                    CircularMenuUtils.getRadiansFromDegree(rotationAnimation.value))
+                  ..scale(degOneTranslationAnimation.value),
+                alignment: Alignment.center,
+                child: item.item),
+          ),
         ))
       ],
     );

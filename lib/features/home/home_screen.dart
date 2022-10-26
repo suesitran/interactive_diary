@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/constants/dimens.dart';
 import 'package:interactive_diary/constants/resources.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/theme/nartus_color.dart';
+
 
 class IDHome extends StatefulWidget {
   const IDHome({
@@ -22,8 +24,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   late GoogleMapController mapCtrl;
   int markerXCoordinate = 0;
   int markerYCoordinate = 0;
-  final double menuIconSize = 40;
+  Size menuIconSize = const Size(0, 0);
   late IDCircularMenuController menuCtrl;
+  final GlobalKey menuIconWidgetKey = GlobalKey();
 
   Future<List<Marker>> generateListMarkers(
       double latitude, double longitude) async {
@@ -43,23 +46,29 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
         onTap: () async {
           if (!isAnimation) {
             /// Bring current marker to center of the screen by moving camera
-            await mapCtrl.moveCamera(CameraUpdate.newLatLng(LatLng(latitude, longitude)));
+            await mapCtrl.moveCamera(
+                CameraUpdate.newLatLng(LatLng(latitude, longitude)));
 
             /// Convert current marker LatLong to Screen X, Y
-            final ScreenCoordinate coordinate = await mapCtrl.getScreenCoordinate(
-                LatLng(latitude, longitude));
+            final ScreenCoordinate coordinate =
+                await mapCtrl.getScreenCoordinate(LatLng(latitude, longitude));
             markerXCoordinate = coordinate.x;
             markerYCoordinate = coordinate.y;
           }
 
-          await Future.delayed(Duration(seconds: 1));
           setState(() {
             isAnimation = !isAnimation;
           });
 
-          /// Wait until finish setting Circle menu point to marker coordinate
-          /// then show the menu
+          /// Wait until finish moving Circle menu base point to marker coordination
+          /// then pop up the menu
           WidgetsBinding.instance.addPostFrameCallback((_) {
+            final RenderBox renderBox = menuIconWidgetKey.currentContext
+                ?.findRenderObject() as RenderBox;
+            setState(() {
+              menuIconSize = Size(renderBox.size.width, renderBox.size.height);
+            });
+
             menuCtrl.changePresentingStatus();
           });
         });
@@ -90,16 +99,16 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                         AsyncSnapshot<List<Marker>> snapshot) {
                       if (snapshot.hasData) {
                         return GoogleMap(
-                            onMapCreated: (GoogleMapController controller) => mapCtrl = controller,
-                            onCameraMoveStarted: () => _closeMenuIfOpening(),
-                            onTap: (_) => _closeMenuIfOpening(),
-                            initialCameraPosition: CameraPosition(
-                                target: LatLng(state.currentLocation.latitude,
-                                    state.currentLocation.longitude),
-                                zoom: 15),
-                            markers: Set<Marker>.of(
-                                snapshot.data as Iterable<Marker>),
-
+                          onMapCreated: (GoogleMapController controller) =>
+                              mapCtrl = controller,
+                          onCameraMoveStarted: () => _closeMenuIfOpening(),
+                          onTap: (_) => _closeMenuIfOpening(),
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(state.currentLocation.latitude,
+                                  state.currentLocation.longitude),
+                              zoom: 15),
+                          markers:
+                              Set<Marker>.of(snapshot.data as Iterable<Marker>),
                         );
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
@@ -109,9 +118,38 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                       );
                     }),
                 Positioned(
-                  left: (markerXCoordinate - (menuIconSize / 2)).toDouble(),
-                  top: (markerYCoordinate - (menuIconSize / 2)).toDouble(),
-                  child: CircleMenuView(controller: menuCtrl),
+                  left: (markerXCoordinate - (menuIconSize.width / 2)).toDouble(),
+                  top: (markerYCoordinate - (menuIconSize.height / 2)).toDouble(),
+                  child: IDCircularMenuView(
+                    items: <IDCircularMenuItemData>[
+                      IDCircularMenuItemData(
+                        item: IDCircleMenuButton(
+                          key: menuIconWidgetKey, iconPath: IDIcons.pencil),
+                        degree: 210.0,
+                        onPressed: () {
+                          print('PENCIL');
+                        }
+                      ),
+                      IDCircularMenuItemData(
+                        item: const IDCircleMenuButton(iconPath: IDIcons.camera),
+                        degree: 250.0,
+                        onPressed: () {
+                          print('PENCIL');
+                        }
+                      ),
+                      IDCircularMenuItemData(
+                        item: const IDCircleMenuButton(iconPath: IDIcons.micro),
+                        degree: 290.0,
+                        onPressed: () {}
+                      ),
+                      IDCircularMenuItemData(
+                        item: const IDCircleMenuButton(iconPath: IDIcons.smile),
+                        degree: 330.0,
+                        onPressed: () {}
+                      ),
+                    ],
+                    controller: menuCtrl,
+                  )
                 ),
                 // SafeArea(
                 //     child: Align(
@@ -232,85 +270,30 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
       setState(() {
         isAnimation = false;
       });
-      menuCtrl.closeMenu();
+      menuCtrl.close();
     }
   }
 }
 
-class CircleMenuView extends StatefulWidget {
-  final IDCircularMenuController controller;
-  const CircleMenuView({required this.controller, Key? key}) : super(key: key);
-
-  @override
-  _CircleMenuViewState createState() => _CircleMenuViewState();
-}
-
-class _CircleMenuViewState extends State<CircleMenuView> {
-  bool isShowing = false;
-  final Color menuItemColor = NartusColor.primary;
-
-  @override
-  void initState() {
-    widget.controller.addListener(() {
-      setState(() {
-        isShowing = !isShowing;
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IDCircularMenuView(
-      items: <IDCircularMenuItemData>[
-        IDCircularMenuItemData(
-            IDCircleMenuButton(
-              backgroundColor: menuItemColor,
-              iconPath: IDIcons.pencil,
-              isShowing: isShowing,
-            ),
-            210.0),
-        IDCircularMenuItemData(
-            IDCircleMenuButton(
-              backgroundColor: menuItemColor,
-              iconPath: IDIcons.camera,
-              isShowing: isShowing,
-            ),
-            250.0),
-        IDCircularMenuItemData(
-            IDCircleMenuButton(
-              backgroundColor: menuItemColor,
-              iconPath: IDIcons.micro,
-              isShowing: isShowing,
-            ),
-            290.0),
-        IDCircularMenuItemData(
-            IDCircleMenuButton(
-              backgroundColor: menuItemColor,
-              iconPath: IDIcons.smile,
-              isShowing: isShowing,
-            ),
-            330.0),
-      ],
-      controller: widget.controller,
-    );
-  }
-}
-
 class IDCircleMenuButton extends StatelessWidget {
-  final Color backgroundColor;
   final String iconPath;
-  final bool isShowing;
+
+  /// This is for the case we don't want to show this button size when no popup
+  final bool? isShowing;
   const IDCircleMenuButton(
-      {required this.backgroundColor, required this.iconPath, required this.isShowing, Key? key})
+      {
+      required this.iconPath,
+      this.isShowing = true,
+      Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: isShowing ? null : 0, height: isShowing ? null : 0,
+      width: isShowing! ? null : 0,
+      height: isShowing! ? null : 0,
       decoration: BoxDecoration(
-          color: backgroundColor,
+          color: NartusColor.primary,
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white, width: 2)),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.24),

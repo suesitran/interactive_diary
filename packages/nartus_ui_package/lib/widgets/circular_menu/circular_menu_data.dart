@@ -1,10 +1,13 @@
 part of 'circular_menu.dart';
 
+typedef OnMenuItemPressed = void Function();
+
 class IDCircularMenuItemData {
   final Widget item;
 
   /// Position of item on circle as degree measurement of circle
   final double degree;
+  final OnMenuItemPressed onPressed;
 
-  IDCircularMenuItemData(this.item, this.degree);
+  IDCircularMenuItemData({required this.item, required this.degree, required this.onPressed});
 }

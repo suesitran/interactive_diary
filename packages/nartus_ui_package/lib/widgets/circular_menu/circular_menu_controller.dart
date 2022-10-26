@@ -14,14 +14,14 @@ class IDCircularMenuController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void closeMenu() {
+  void close() {
     if (_isShowing) {
       _isShowing = false;
       notifyListeners();
     }
   }
 
-  void openMenu() {
+  void open() {
     if (!_isShowing) {
       _isShowing = true;
       notifyListeners();
