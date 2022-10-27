@@ -7,15 +7,14 @@ class _ButtonContent extends StatelessWidget {
   final ButtonType buttonType;
   final bool isEnable;
 
-  const _ButtonContent(
-      {required this.label,
-      required this.icon,
-        required this.buttonType,
-        required this.isEnable,
-      Key? key,
-      this.iconPosition = IconPosition.left,
-      })
-      : super(key: key);
+  const _ButtonContent({
+    required this.label,
+    required this.icon,
+    required this.buttonType,
+    required this.isEnable,
+    Key? key,
+    this.iconPosition = IconPosition.left,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Row(
@@ -29,7 +28,9 @@ class _ButtonContent extends StatelessWidget {
                     icon,
                     width: 20,
                     height: 20,
-                      color: isEnable ? _getEnableColor(buttonType) : _getDisableColor(buttonType),
+                    color: isEnable
+                        ? _getEnableColor(buttonType)
+                        : _getDisableColor(buttonType),
                   ),
                 ),
                 Text(label)
@@ -42,11 +43,15 @@ class _ButtonContent extends StatelessWidget {
                     icon,
                     width: 20,
                     height: 20,
-                    color: isEnable ? _getEnableColor(buttonType) : _getDisableColor(buttonType),
+                    color: isEnable
+                        ? _getEnableColor(buttonType)
+                        : _getDisableColor(buttonType),
                   ),
                 )
               ],
       );
-  Color _getEnableColor(ButtonType type) => type == ButtonType.primary ? NartusColor.white : NartusColor.primary;
-  Color _getDisableColor(ButtonType type) => type == ButtonType.primary ? NartusColor.white : NartusColor.grey;
+  Color _getEnableColor(ButtonType type) =>
+      type == ButtonType.primary ? NartusColor.white : NartusColor.primary;
+  Color _getDisableColor(ButtonType type) =>
+      type == ButtonType.primary ? NartusColor.white : NartusColor.grey;
 }

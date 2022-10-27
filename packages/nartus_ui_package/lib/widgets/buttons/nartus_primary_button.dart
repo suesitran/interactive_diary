@@ -13,12 +13,11 @@ class _NartusPrimaryButton extends StatelessWidget {
       this.icon,
       this.onPressed,
       this.iconPosition = IconPosition.left,
-        this.sizeType = SizeType.large})
+      this.sizeType = SizeType.large})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     if (icon != null && label != null) {
       return ElevatedButton(
         onPressed: onPressed,
@@ -32,9 +31,23 @@ class _NartusPrimaryButton extends StatelessWidget {
         ),
       );
     } else if (icon == null) {
-      return ElevatedButton(onPressed: onPressed, style: sizeType == SizeType.large ? null : _buttonStyleTextSmall, child: Text(label!),);
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: sizeType == SizeType.large ? null : _buttonStyleTextSmall,
+        child: Text(label!),
+      );
     } else {
-      return ElevatedButton(onPressed: onPressed, style: sizeType == SizeType.large ? _iconOnlyButtonStyleLarge : _iconOnlyButtonStyleSmall, child: SvgPicture.asset(icon!, width: NartusDimens.padding20, height: NartusDimens.padding20, color: NartusColor.white,));
+      return ElevatedButton(
+          onPressed: onPressed,
+          style: sizeType == SizeType.large
+              ? _iconOnlyButtonStyleLarge
+              : _iconOnlyButtonStyleSmall,
+          child: SvgPicture.asset(
+            icon!,
+            width: NartusDimens.padding20,
+            height: NartusDimens.padding20,
+            color: NartusColor.white,
+          ));
     }
   }
 }

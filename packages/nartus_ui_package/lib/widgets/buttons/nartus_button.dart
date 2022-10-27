@@ -37,25 +37,25 @@ class NartusButton extends StatelessWidget {
 
   const NartusButton.secondary(
       {Key? key,
-        this.label,
-        this.iconPath,
-        this.onPressed,
-        this.iconPosition = IconPosition.left,
-        this.sizeType = SizeType.large})
+      this.label,
+      this.iconPath,
+      this.onPressed,
+      this.iconPosition = IconPosition.left,
+      this.sizeType = SizeType.large})
       : assert(label != null || iconPath != null,
-  'either label or icon must not be null'),
+            'either label or icon must not be null'),
         buttonType = ButtonType.secondary,
         super(key: key);
 
   const NartusButton.text(
       {Key? key,
-        this.label,
-        this.iconPath,
-        this.onPressed,
-        this.iconPosition = IconPosition.left,
-        this.sizeType = SizeType.large})
+      this.label,
+      this.iconPath,
+      this.onPressed,
+      this.iconPosition = IconPosition.left,
+      this.sizeType = SizeType.large})
       : assert(label != null || iconPath != null,
-  'either label or icon must not be null'),
+            'either label or icon must not be null'),
         buttonType = ButtonType.text,
         super(key: key);
 
@@ -68,7 +68,7 @@ class NartusButton extends StatelessWidget {
           icon: iconPath,
           onPressed: onPressed,
           iconPosition: iconPosition,
-            sizeType: sizeType,
+          sizeType: sizeType,
         );
       case ButtonType.secondary:
         return _NartusSecondaryButton(
@@ -76,7 +76,7 @@ class NartusButton extends StatelessWidget {
           icon: iconPath,
           onPressed: onPressed,
           iconPosition: iconPosition,
-            sizeType: sizeType,
+          sizeType: sizeType,
         );
       case ButtonType.text:
         return _NartusTextButton(

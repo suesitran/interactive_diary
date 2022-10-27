@@ -15,5 +15,5 @@ ThemeData lightTheme = ThemeData(
     fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
     cardTheme: cardTheme,
     elevatedButtonTheme: primaryButtonThemeData,
-outlinedButtonTheme: secondaryButtonThemeData,
-textButtonTheme: textButtonThemeData);
+    outlinedButtonTheme: secondaryButtonThemeData,
+    textButtonTheme: textButtonThemeData);

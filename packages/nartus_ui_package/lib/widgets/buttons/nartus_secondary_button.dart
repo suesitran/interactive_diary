@@ -13,7 +13,7 @@ class _NartusSecondaryButton extends StatelessWidget {
       this.icon,
       this.onPressed,
       this.iconPosition = IconPosition.left,
-        this.sizeType = SizeType.large})
+      this.sizeType = SizeType.large})
       : super(key: key);
 
   @override
@@ -30,9 +30,23 @@ class _NartusSecondaryButton extends StatelessWidget {
         ),
       );
     } else if (icon == null) {
-      return OutlinedButton(onPressed: onPressed, style: sizeType == SizeType.large ? null : _buttonStyleTextSmall, child: Text(label!),);
+      return OutlinedButton(
+        onPressed: onPressed,
+        style: sizeType == SizeType.large ? null : _buttonStyleTextSmall,
+        child: Text(label!),
+      );
     } else {
-      return OutlinedButton(onPressed: onPressed, style: sizeType == SizeType.large ? _iconOnlyButtonStyleLarge : _iconOnlyButtonStyleSmall, child: SvgPicture.asset(icon!, width: NartusDimens.padding20, height: NartusDimens.padding20,color: onPressed == null ? NartusColor.grey : NartusColor.primary,));
+      return OutlinedButton(
+          onPressed: onPressed,
+          style: sizeType == SizeType.large
+              ? _iconOnlyButtonStyleLarge
+              : _iconOnlyButtonStyleSmall,
+          child: SvgPicture.asset(
+            icon!,
+            width: NartusDimens.padding20,
+            height: NartusDimens.padding20,
+            color: onPressed == null ? NartusColor.grey : NartusColor.primary,
+          ));
     }
   }
 }
