@@ -7,7 +7,7 @@ class TextAndErrorLabel extends StatefulWidget {
   final bool _showError;
 
   const TextAndErrorLabel(
-      {Key? key, required String label, String? error, bool showError = false})
+      {required String label, Key? key, String? error, bool showError = false})
       : _label = label,
         _error = error ?? '',
         _showError = showError,
@@ -52,7 +52,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
   }
 
   @override
-  Widget build(BuildContext context) {      
+  Widget build(BuildContext context) {
     return Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(NartusDimens.padding24)),
@@ -63,7 +63,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           _labelWidget(),
           _errorWidget(),
         ],
@@ -72,7 +72,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
   }
 
   Widget _labelWidget() => Builder(
-        builder: (context) => Container(
+        builder: (BuildContext context) => Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,

@@ -49,6 +49,7 @@ dependencies:
     path: packages/nartus_authentication
   nartus_connectivity:
     path: packages/nartus_connectivity
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,6 +58,7 @@ dev_dependencies:
   build_runner: ^2.2.0
   firebase_core_platform_interface: ^4.5.1
   intl_utils: ^2.7.0
+  flutter_gen_runner: ^5.0.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

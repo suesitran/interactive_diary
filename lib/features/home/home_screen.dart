@@ -1,13 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:interactive_diary/constants/dimens.dart';
 import 'package:interactive_diary/constants/resources.dart';
+import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
-import 'package:nartus_ui_package/theme/nartus_color.dart';
-
 
 class IDHome extends StatefulWidget {
   const IDHome({
@@ -30,7 +29,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
   Future<List<Marker>> generateListMarkers(
       double latitude, double longitude) async {
-    List<Marker> markers = [];
+    List<Marker> markers = <Marker>[];
     final BitmapDescriptor icon = isAnimation == true
         ? await BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(24, 24)),
@@ -83,171 +82,160 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<LocationBloc, LocationState>(
-        builder: (BuildContext context, LocationState state) {
-          if (state is LocationReadyState) {
-            futureListMarker = generateListMarkers(
-                state.currentLocation.latitude,
-                state.currentLocation.longitude);
+  Widget build(BuildContext context) => Scaffold(
+        body: BlocBuilder<LocationBloc, LocationState>(
+          builder: (BuildContext context, LocationState state) {
+            if (state is LocationReadyState) {
+              futureListMarker = generateListMarkers(
+                  state.currentLocation.latitude,
+                  state.currentLocation.longitude);
 
-            return Stack(
-              children: <Widget>[
-                FutureBuilder<List<Marker>>(
-                    future: futureListMarker,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Marker>> snapshot) {
-                      if (snapshot.hasData) {
-                        return GoogleMap(
-                          onMapCreated: (GoogleMapController controller) =>
-                              mapCtrl = controller,
-                          onCameraMoveStarted: () => _closeMenuIfOpening(),
-                          onTap: (_) => _closeMenuIfOpening(),
-                          initialCameraPosition: CameraPosition(
-                              target: LatLng(state.currentLocation.latitude,
-                                  state.currentLocation.longitude),
-                              zoom: 15),
-                          markers:
-                              Set<Marker>.of(snapshot.data as Iterable<Marker>),
+              return Stack(
+                children: <Widget>[
+                  FutureBuilder<List<Marker>>(
+                      future: futureListMarker,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Marker>> snapshot) {
+                        if (snapshot.hasData) {
+                          return GoogleMap(
+                              onMapCreated: (GoogleMapController controller) =>
+                                  mapCtrl = controller,
+                              onCameraMoveStarted: () => _closeMenuIfOpening(),
+                              onTap: (_) => _closeMenuIfOpening(),
+                              initialCameraPosition: CameraPosition(
+                                  target: LatLng(state.currentLocation.latitude,
+                                      state.currentLocation.longitude),
+                                  zoom: 15),
+                              markers: Set<Marker>.of(
+                                  snapshot.data as Iterable<Marker>));
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
                         );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }),
-                Positioned(
-                  left: (markerXCoordinate - (menuIconSize.width / 2)).toDouble(),
-                  top: (markerYCoordinate - (menuIconSize.height / 2)).toDouble(),
-                  child: IDCircularMenuView(
-                    items: <IDCircularMenuItemData>[
-                      IDCircularMenuItemData(
-                        item: IDCircleMenuButton(
-                          key: menuIconWidgetKey, iconPath: IDIcons.pencil),
-                        degree: 210.0,
+                      }),
+                  Positioned(
+                      left: (markerXCoordinate - (menuIconSize.width / 2))
+                          .toDouble(),
+                      top: (markerYCoordinate - (menuIconSize.height / 2))
+                          .toDouble(),
+                      child: IDCircularMenuView(
+                        items: <IDCircularMenuItemData>[
+                          IDCircularMenuItemData(
+                              item: IDCircleMenuButton(
+                                  key: menuIconWidgetKey,
+                                  iconPath: IDIcons.pencil),
+                              degree: 210.0,
+                              onPressed: () {
+                                print('PENCIL');
+                              }),
+                          IDCircularMenuItemData(
+                              item: const IDCircleMenuButton(
+                                  iconPath: IDIcons.camera),
+                              degree: 250.0,
+                              onPressed: () {
+                                print('PENCIL');
+                              }),
+                          IDCircularMenuItemData(
+                              item: const IDCircleMenuButton(
+                                  iconPath: IDIcons.micro),
+                              degree: 290.0,
+                              onPressed: () {}),
+                          IDCircularMenuItemData(
+                              item: const IDCircleMenuButton(
+                                  iconPath: IDIcons.smile),
+                              degree: 330.0,
+                              onPressed: () {}),
+                        ],
+                        controller: menuCtrl,
+                      )),
+                  SafeArea(
+                      child: Align(
+                    alignment: Alignment.topCenter,
+                    child: DateLabelView(
+                      dateLabel: state.dateDisplay,
+                      profileSemanticLabel: S.of(context).anonymous_profile,
+                    ),
+                  ))
+                ],
+              );
+            }
+
+            if (state is LocationInitial) {
+              context.read<LocationBloc>().add(RequestCurrentLocationEvent());
+            }
+
+            if (state is LocationPermissionDeniedState) {
+              context.showDialogAdaptive(
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
+                  actions: <Widget>[
+                    TextButton(
                         onPressed: () {
-                          print('PENCIL');
-                        }
-                      ),
-                      IDCircularMenuItemData(
-                        item: const IDCircleMenuButton(iconPath: IDIcons.camera),
-                        degree: 250.0,
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(ShowDialogRequestPermissionEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                            S.of(context).locationPermissionDialogAllowButton)),
+                    TextButton(
                         onPressed: () {
-                          print('PENCIL');
-                        }
-                      ),
-                      IDCircularMenuItemData(
-                        item: const IDCircleMenuButton(iconPath: IDIcons.micro),
-                        degree: 290.0,
-                        onPressed: () {}
-                      ),
-                      IDCircularMenuItemData(
-                        item: const IDCircleMenuButton(iconPath: IDIcons.smile),
-                        degree: 330.0,
-                        onPressed: () {}
-                      ),
-                    ],
-                    controller: menuCtrl,
-                  )
-                ),
-                // SafeArea(
-                //     child: Align(
-                //   alignment: Alignment.topCenter,
-                //   child: Card(
-                //     margin: const EdgeInsets.only(top: Dimension.spacing16),
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius:
-                //             BorderRadius.circular(Dimension.spacing16)),
-                //     elevation: 4.0,
-                //     child: Padding(
-                //       padding: const EdgeInsets.symmetric(
-                //           horizontal: Dimension.spacing16,
-                //           vertical: Dimension.spacing8),
-                //       child: Text(
-                //         state.dateDisplay,
-                //         style: const TextStyle(fontWeight: FontWeight.w600),
-                //       ),
-                //     ),
-                //   ),
-                // ))
-              ],
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context
+                              .read<LocationBloc>()
+                              .add(RequestDefaultLocationEvent());
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogContinueButton)),
+                  ]);
+            }
+
+            if (state is LocationPermissionDeniedForeverState) {
+              context.showDialogAdaptive(
+                  title: Text(S.of(context).locationPermissionDialogTitle),
+                  content: Text(S.of(context).locationPermissionDialogMessage),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('show dialog');
+                          context
+                              .read<LocationBloc>()
+                              .add(OpenAppSettingsEvent());
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogOpenSettingsButton)),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('click continue button');
+                          Navigator.of(context).pop();
+                          context
+                              .read<LocationBloc>()
+                              .add(RequestDefaultLocationEvent());
+                        },
+                        child: Text(S
+                            .of(context)
+                            .locationPermissionDialogContinueButton)),
+                  ]);
+            }
+
+            if (state is AwaitLocationPermissionFromAppSettingState) {
+              WidgetsBinding.instance.addObserver(this);
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-
-          if (state is LocationInitial) {
-            context.read<LocationBloc>().add(RequestCurrentLocationEvent());
-          }
-
-          if (state is LocationPermissionDeniedState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(ShowDialogRequestPermissionEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                          S.of(context).locationPermissionDialogAllowButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
-          }
-
-          if (state is LocationPermissionDeniedForeverState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(OpenAppSettingsEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogOpenSettingsButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
-          }
-
-          if (state is AwaitLocationPermissionFromAppSettingState) {
-            WidgetsBinding.instance.addObserver(this);
-          }
-
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+          },
+        ),
       );
 
   @override
@@ -281,10 +269,7 @@ class IDCircleMenuButton extends StatelessWidget {
   /// This is for the case we don't want to show this button size when no popup
   final bool? isShowing;
   const IDCircleMenuButton(
-      {
-      required this.iconPath,
-      this.isShowing = true,
-      Key? key})
+      {required this.iconPath, this.isShowing = true, Key? key})
       : super(key: key);
 
   @override

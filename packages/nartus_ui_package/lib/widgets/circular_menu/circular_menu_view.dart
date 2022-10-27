@@ -70,11 +70,11 @@ class _IDCircularMenuViewState extends State<IDCircularMenuView>
           onTap: () => item.onPressed.call(),
           child: Transform.translate(
             offset: Offset.fromDirection(
-                CircularMenuUtils.getRadiansFromDegree(item.degree),
+                item.radiansFromDegree,
                 distance),
             child: Transform(
                 transform: Matrix4.rotationZ(
-                    CircularMenuUtils.getRadiansFromDegree(rotationAnimation.value))
+                    item.radiansFromDegree)
                   ..scale(degOneTranslationAnimation.value),
                 alignment: Alignment.center,
                 child: item.item),
