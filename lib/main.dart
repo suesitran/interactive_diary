@@ -10,6 +10,7 @@ import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
+// ignore_for_file: always_specify_types
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -23,8 +24,12 @@ void main() async {
   }
 
   runApp(MaterialApp(
-    home: BlocProvider<LocationBloc>(
-      create: (BuildContext context) => LocationBloc(),
+    home: MultiBlocProvider(
+      providers: [
+        BlocProvider<LocationBloc>(
+          create: (BuildContext context) => LocationBloc(),
+        ),
+      ],
       child: const IDHome(),
     ),
     title: 'Interactive Diary',
