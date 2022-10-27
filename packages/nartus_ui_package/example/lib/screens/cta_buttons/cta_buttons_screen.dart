@@ -24,21 +24,21 @@ class CTAButtonsScreen extends StatelessWidget {
                 '52px - primary button - left icon - active',
                 NartusButton.primary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook.png'),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                 )),
             _demoButton(
                 '52px - primary button - right icon - active',
                 NartusButton.primary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook.png'),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 )),
             _demoButton(
                 '52px - primary button - icon only - active',
                 NartusButton.primary(
-                  icon: Image.asset('assets/facebook.png',),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 )),
@@ -51,7 +51,7 @@ class CTAButtonsScreen extends StatelessWidget {
                 '44px - primary button - left icon - active',
                 NartusButton.primary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook.png', ),
+                    iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                     sizeType: SizeType.small
                 )),
@@ -59,7 +59,7 @@ class CTAButtonsScreen extends StatelessWidget {
                 '44px - primary button - right icon - active',
                 NartusButton.primary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook.png'),
+                    iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                     sizeType: SizeType.small
@@ -67,7 +67,7 @@ class CTAButtonsScreen extends StatelessWidget {
             _demoButton(
                 '44px - primary button - icon only - active',
                 NartusButton.primary(
-                  icon: Image.asset('assets/facebook.png',),
+                    iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                     sizeType: SizeType.small
@@ -81,21 +81,21 @@ class CTAButtonsScreen extends StatelessWidget {
                 '52px - secondary button - left icon - active',
                 NartusButton.secondary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                 )),
             _demoButton(
                 '52px - secondary button - right icon - active',
                 NartusButton.secondary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 )),
             _demoButton(
                 '52px - secondary button - icon only - active',
                 NartusButton.secondary(
-                  icon: Image.asset('assets/facebook_color.png',),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 )),
@@ -108,7 +108,7 @@ class CTAButtonsScreen extends StatelessWidget {
                 '44px - secondary button - left icon - active',
                 NartusButton.secondary(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png', ),
+                    iconPath: 'assets/facebook.svg',
                     onPressed: () {},
                     sizeType: SizeType.small
                 )),
@@ -116,7 +116,7 @@ class CTAButtonsScreen extends StatelessWidget {
                 '44px - secondary button - right icon - active',
                 NartusButton.secondary(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png'),
+                    iconPath: 'assets/facebook.svg',
                     onPressed: () {},
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
@@ -124,7 +124,7 @@ class CTAButtonsScreen extends StatelessWidget {
             _demoButton(
                 '44px - secondary button - icon only - active',
                 NartusButton.secondary(
-                    icon: Image.asset('assets/facebook_color.png',),
+                    iconPath: 'assets/facebook.svg',
                     onPressed: () {},
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
@@ -138,21 +138,21 @@ class CTAButtonsScreen extends StatelessWidget {
                 '52px - text button - left icon - active',
                 NartusButton.text(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                 )),
             _demoButton(
                 '52px - text button - right icon - active',
                 NartusButton.text(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 )),
             _demoButton(
                 '52px - text button - icon only - active',
                 NartusButton.text(
-                  icon: Image.asset('assets/facebook_color.png',),
+                  iconPath: 'assets/facebook.svg',
                   onPressed: () {},
                   iconPosition: IconPosition.right,
                 )),
@@ -165,7 +165,7 @@ class CTAButtonsScreen extends StatelessWidget {
                 '44px - text button - left icon - active',
                 NartusButton.text(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png', ),
+                    iconPath: 'assets/facebook.svg',
                     onPressed: () {},
                     sizeType: SizeType.small
                 )),
@@ -173,7 +173,7 @@ class CTAButtonsScreen extends StatelessWidget {
                 '44px - text button - right icon - active',
                 NartusButton.text(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png'),
+                    iconPath: 'assets/facebook.svg',
                     onPressed: () {},
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
@@ -181,7 +181,7 @@ class CTAButtonsScreen extends StatelessWidget {
             _demoButton(
                 '44px - text button - icon only - active',
                 NartusButton.text(
-                    icon: Image.asset('assets/facebook_color.png',),
+                    iconPath: 'assets/facebook.svg',
                     onPressed: () {},
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
@@ -193,21 +193,21 @@ class CTAButtonsScreen extends StatelessWidget {
                 const NartusButton.primary(label: 'Button')),
             _demoButton(
                 '52px - primary button - left icon - disable',
-                NartusButton.primary(
+                const NartusButton.primary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook.png'),
+                  iconPath: 'assets/facebook.svg',
                 )),
             _demoButton(
                 '52px - primary button - right icon - disable',
-                NartusButton.primary(
+                const NartusButton.primary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook.png'),
+                  iconPath: 'assets/facebook.svg',
                   iconPosition: IconPosition.right,
                 )),
             _demoButton(
                 '52px - primary button - icon only - disable',
-                NartusButton.primary(
-                  icon: Image.asset('assets/facebook.png',),
+                const NartusButton.primary(
+                  iconPath: 'assets/facebook.svg',
                   iconPosition: IconPosition.right,
                 )),
             /// ------------------------------------------------------------
@@ -217,23 +217,23 @@ class CTAButtonsScreen extends StatelessWidget {
                 const NartusButton.primary(label: 'Button', sizeType: SizeType.small,)),
             _demoButton(
                 '44px - primary button - left icon - disable',
-                NartusButton.primary(
+                const NartusButton.primary(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook.png', ),
+                    iconPath: 'assets/facebook.svg',
                     sizeType: SizeType.small
                 )),
             _demoButton(
                 '44px - primary button - right icon - disable',
-                NartusButton.primary(
+                const NartusButton.primary(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook.png'),
+                    iconPath: 'assets/facebook.svg',
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
             _demoButton(
                 '44px - primary button - icon only - disable',
-                NartusButton.primary(
-                    icon: Image.asset('assets/facebook.png',),
+                const NartusButton.primary(
+                    iconPath: 'assets/facebook.svg',
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
@@ -244,21 +244,21 @@ class CTAButtonsScreen extends StatelessWidget {
                 const NartusButton.secondary(label: 'Button')),
             _demoButton(
                 '52px - secondary button - left icon - disable',
-                NartusButton.secondary(
+                const NartusButton.secondary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                 )),
             _demoButton(
                 '52px - secondary button - right icon - disable',
-                NartusButton.secondary(
+                const NartusButton.secondary(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                   iconPosition: IconPosition.right,
                 )),
             _demoButton(
                 '52px - secondary button - icon only - disable',
-                NartusButton.secondary(
-                  icon: Image.asset('assets/facebook_color.png',),
+                const NartusButton.secondary(
+                  iconPath: 'assets/facebook.svg',
                   iconPosition: IconPosition.right,
                 )),
             /// ------------------------------------------------------------
@@ -268,23 +268,23 @@ class CTAButtonsScreen extends StatelessWidget {
                 const NartusButton.secondary(label: 'Button', sizeType: SizeType.small,)),
             _demoButton(
                 '44px - secondary button - left icon - disable',
-                NartusButton.secondary(
+                const NartusButton.secondary(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png', ),
+                    iconPath: 'assets/facebook.svg',
                     sizeType: SizeType.small
                 )),
             _demoButton(
                 '44px - secondary button - right icon - disable',
-                NartusButton.secondary(
+                const NartusButton.secondary(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png'),
+                    iconPath: 'assets/facebook.svg',
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
             _demoButton(
                 '44px - secondary button - icon only - disable',
-                NartusButton.secondary(
-                    icon: Image.asset('assets/facebook_color.png',),
+                const NartusButton.secondary(
+                    iconPath: 'assets/facebook.svg',
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
@@ -295,21 +295,21 @@ class CTAButtonsScreen extends StatelessWidget {
                 const NartusButton.text(label: 'Button')),
             _demoButton(
                 '52px - text button - left icon - disable',
-                NartusButton.text(
+                const NartusButton.text(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                 )),
             _demoButton(
                 '52px - text button - right icon - disable',
-                NartusButton.text(
+                const NartusButton.text(
                   label: 'Button',
-                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPath: 'assets/facebook.svg',
                   iconPosition: IconPosition.right,
                 )),
             _demoButton(
                 '52px - text button - icon only - disable',
-                NartusButton.text(
-                  icon: Image.asset('assets/facebook_color.png',),
+                const NartusButton.text(
+                  iconPath: 'assets/facebook.svg',
                   iconPosition: IconPosition.right,
                 )),
             /// ------------------------------------------------------------
@@ -319,23 +319,23 @@ class CTAButtonsScreen extends StatelessWidget {
                 const NartusButton.text(label: 'Button', sizeType: SizeType.small,)),
             _demoButton(
                 '44px - text button - left icon - disable',
-                NartusButton.text(
+                const NartusButton.text(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png', ),
+                    iconPath: 'assets/facebook.svg',
                     sizeType: SizeType.small
                 )),
             _demoButton(
                 '44px - text button - right icon - disable',
-                NartusButton.text(
+                const NartusButton.text(
                     label: 'Button',
-                    icon: Image.asset('assets/facebook_color.png'),
+                    iconPath: 'assets/facebook.svg',
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
             _demoButton(
                 '44px - text button - icon only - disable',
-                NartusButton.text(
-                    icon: Image.asset('assets/facebook_color.png',),
+                const NartusButton.text(
+                    iconPath: 'assets/facebook.svg',
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),

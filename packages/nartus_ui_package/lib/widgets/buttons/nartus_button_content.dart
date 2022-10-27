@@ -2,14 +2,19 @@ part of 'nartus_button.dart';
 
 class _ButtonContent extends StatelessWidget {
   final String label;
-  final Widget icon;
+  final String icon;
   final IconPosition iconPosition;
+  final ButtonType buttonType;
+  final bool isEnable;
 
   const _ButtonContent(
       {required this.label,
       required this.icon,
+        required this.buttonType,
+        required this.isEnable,
       Key? key,
-      this.iconPosition = IconPosition.left})
+      this.iconPosition = IconPosition.left,
+      })
       : super(key: key);
 
   @override
@@ -20,7 +25,12 @@ class _ButtonContent extends StatelessWidget {
             ? <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: NartusDimens.padding14),
-                  child: icon,
+                  child: SvgPicture.asset(
+                    icon,
+                    width: 20,
+                    height: 20,
+                      color: isEnable ? _getEnableColor(buttonType) : _getDisableColor(buttonType),
+                  ),
                 ),
                 Text(label)
               ]
@@ -28,8 +38,15 @@ class _ButtonContent extends StatelessWidget {
                 Text(label),
                 Padding(
                   padding: const EdgeInsets.only(left: NartusDimens.padding14),
-                  child: icon,
+                  child: SvgPicture.asset(
+                    icon,
+                    width: 20,
+                    height: 20,
+                    color: isEnable ? _getEnableColor(buttonType) : _getDisableColor(buttonType),
+                  ),
                 )
               ],
       );
+  Color _getEnableColor(ButtonType type) => type == ButtonType.primary ? NartusColor.white : NartusColor.primary;
+  Color _getDisableColor(ButtonType type) => type == ButtonType.primary ? NartusColor.white : NartusColor.grey;
 }
