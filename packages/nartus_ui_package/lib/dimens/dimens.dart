@@ -10,6 +10,7 @@ class NartusDimens {
   static const double padding18 = 18.0;
   static const double padding20 = 20.0;
   static const double padding24 = 24.0;
+  static const double padding44 = 44.0;
   static const double padding52 = 52.0;
   static const double padding54 = 54.0;
 

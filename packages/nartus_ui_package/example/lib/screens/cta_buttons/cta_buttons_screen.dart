@@ -15,6 +15,8 @@ class CTAButtonsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            /// ------------------------------------------------------------
+            /// large primary button
             _demoButton(
                 '52px - primary button - text only - active',
                 NartusButton.primary(label: 'Button', onPressed: () {})),
@@ -39,6 +41,36 @@ class CTAButtonsScreen extends StatelessWidget {
                   icon: Image.asset('assets/facebook.png',),
                   onPressed: () {},
                   iconPosition: IconPosition.right,
+                )),
+            /// ------------------------------------------------------------
+            /// small primary button
+            _demoButton(
+                '44px - primary button - text only - active',
+                NartusButton.primary(label: 'Button', onPressed: () {}, sizeType: SizeType.small,)),
+            _demoButton(
+                '44px - primary button - left icon - active',
+                NartusButton.primary(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook.png', ),
+                  onPressed: () {},
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - primary button - right icon - active',
+                NartusButton.primary(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook.png'),
+                  onPressed: () {},
+                  iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - primary button - icon only - active',
+                NartusButton.primary(
+                  icon: Image.asset('assets/facebook.png',),
+                  onPressed: () {},
+                  iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
                 ))
           ],
         ),

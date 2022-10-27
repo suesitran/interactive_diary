@@ -6,13 +6,15 @@ class _NartusSecondaryButton extends StatelessWidget {
   final IconPosition iconPosition;
   final VoidCallback? onPressed;
   final ButtonType buttonType;
+  final SizeType sizeType;
 
   const _NartusSecondaryButton(
       {Key? key,
       this.label,
       this.icon,
       this.onPressed,
-      this.iconPosition = IconPosition.left})
+      this.iconPosition = IconPosition.left,
+        this.sizeType = SizeType.large})
       : buttonType = ButtonType.primary,
         super(key: key);
 
@@ -30,7 +32,7 @@ class _NartusSecondaryButton extends StatelessWidget {
     } else if (icon == null) {
       return OutlinedButton(onPressed: onPressed, child: Text(label!));
     } else {
-      return OutlinedButton(onPressed: onPressed, style: _iconOnlyButtonStyle, child: SizedBox(
+      return OutlinedButton(onPressed: onPressed, style: sizeType == SizeType.large ? _iconOnlyButtonStyleLarge : _iconOnlyButtonStyleSmall, child: SizedBox(
         width: NartusDimens.padding20,
         height: NartusDimens.padding20,
         child: icon!,

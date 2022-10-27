@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
 part 'nartus_primary_button.dart';
 part 'nartus_button_content.dart';
 part 'nartus_secondary_button.dart';
 part 'nartus_text_button.dart';
+part 'nartus_button_styles.dart';
 
 enum ButtonType { primary, secondary, text }
 
@@ -41,6 +43,7 @@ class NartusButton extends StatelessWidget {
           icon: icon,
           onPressed: onPressed,
           iconPosition: iconPosition,
+            sizeType: sizeType,
         );
       case ButtonType.secondary:
         return _NartusSecondaryButton(
@@ -48,6 +51,7 @@ class NartusButton extends StatelessWidget {
           icon: icon,
           onPressed: onPressed,
           iconPosition: iconPosition,
+            sizeType: sizeType,
         );
       case ButtonType.text:
         return _NartusTextButton(
@@ -55,12 +59,8 @@ class NartusButton extends StatelessWidget {
           icon: icon,
           onPressed: onPressed,
           iconPosition: iconPosition,
+          sizeType: sizeType,
         );
     }
   }
 }
-
-const ButtonStyle _iconOnlyButtonStyle = ButtonStyle(
-    padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(NartusDimens.padding16)),
-    minimumSize: MaterialStatePropertyAll<Size>(Size(NartusDimens.padding52, NartusDimens.padding52))
-);

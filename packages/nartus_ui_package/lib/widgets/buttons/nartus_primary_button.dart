@@ -6,13 +6,15 @@ class _NartusPrimaryButton extends StatelessWidget {
   final IconPosition iconPosition;
   final VoidCallback? onPressed;
   final ButtonType buttonType;
+  final SizeType sizeType;
 
   const _NartusPrimaryButton(
       {Key? key,
       this.label,
       this.icon,
       this.onPressed,
-      this.iconPosition = IconPosition.left})
+      this.iconPosition = IconPosition.left,
+        this.sizeType = SizeType.large})
       : buttonType = ButtonType.primary,
         super(key: key);
 
@@ -22,6 +24,7 @@ class _NartusPrimaryButton extends StatelessWidget {
     if (icon != null && label != null) {
       return ElevatedButton(
         onPressed: onPressed,
+        style: sizeType == SizeType.large ? null : _buttonStyleTextSmall,
         child: _ButtonContent(
           label: label!,
           icon: icon!,
@@ -29,9 +32,9 @@ class _NartusPrimaryButton extends StatelessWidget {
         ),
       );
     } else if (icon == null) {
-      return ElevatedButton(onPressed: onPressed, child: Text(label!),);
+      return ElevatedButton(onPressed: onPressed, style: sizeType == SizeType.large ? null : _buttonStyleTextSmall, child: Text(label!),);
     } else {
-      return ElevatedButton(onPressed: onPressed, style: _iconOnlyButtonStyle, child: SizedBox(
+      return ElevatedButton(onPressed: onPressed, style: sizeType == SizeType.large ? _iconOnlyButtonStyleLarge : _iconOnlyButtonStyleSmall, child: SizedBox(
         width: NartusDimens.padding20,
         height: NartusDimens.padding20,
         child: icon!,
