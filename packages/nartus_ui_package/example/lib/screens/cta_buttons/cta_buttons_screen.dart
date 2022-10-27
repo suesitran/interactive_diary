@@ -16,7 +16,7 @@ class CTAButtonsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             /// ------------------------------------------------------------
-            /// large primary button
+            /// default - large primary button
             _demoButton(
                 '52px - primary button - text only - active',
                 NartusButton.primary(label: 'Button', onPressed: () {})),
@@ -43,7 +43,7 @@ class CTAButtonsScreen extends StatelessWidget {
                   iconPosition: IconPosition.right,
                 )),
             /// ------------------------------------------------------------
-            /// small primary button
+            /// default - small primary button
             _demoButton(
                 '44px - primary button - text only - active',
                 NartusButton.primary(label: 'Button', onPressed: () {}, sizeType: SizeType.small,)),
@@ -73,7 +73,7 @@ class CTAButtonsScreen extends StatelessWidget {
                     sizeType: SizeType.small
                 )),
             /// ------------------------------------------------------------
-            /// large secondary button
+            /// default - large secondary button
             _demoButton(
                 '52px - secondary button - text only - active',
                 NartusButton.secondary(label: 'Button', onPressed: () {})),
@@ -100,7 +100,7 @@ class CTAButtonsScreen extends StatelessWidget {
                   iconPosition: IconPosition.right,
                 )),
             /// ------------------------------------------------------------
-            /// small secondary button
+            /// default - small secondary button
             _demoButton(
                 '44px - secondary button - text only - active',
                 NartusButton.secondary(label: 'Button', onPressed: () {}, sizeType: SizeType.small,)),
@@ -130,7 +130,7 @@ class CTAButtonsScreen extends StatelessWidget {
                     sizeType: SizeType.small
                 )),
             /// ------------------------------------------------------------
-            /// large text button
+            /// default - large text button
             _demoButton(
                 '52px - text button - text only - active',
                 NartusButton.text(label: 'Button', onPressed: () {})),
@@ -157,7 +157,7 @@ class CTAButtonsScreen extends StatelessWidget {
                   iconPosition: IconPosition.right,
                 )),
             /// ------------------------------------------------------------
-            /// small text button
+            /// default - small text button
             _demoButton(
                 '44px - secondary button - text only - active',
                 NartusButton.text(label: 'Button', onPressed: () {}, sizeType: SizeType.small,)),
