@@ -9,7 +9,7 @@ void main() {
     (WidgetTester widgetTester) async {
       final IDCircularMenuController controller = IDCircularMenuController();
       IDCircularMenuView menu = IDCircularMenuView(
-        items: [
+        items: <IDCircularMenuItemData>[
           IDCircularMenuItemData(
             item: const Icon(Icons.call),
             onPressed: () {},
@@ -31,7 +31,7 @@ void main() {
       final GlobalKey iconKey = GlobalKey();
       final IDCircularMenuController controller = IDCircularMenuController();
       IDCircularMenuView menu = IDCircularMenuView(
-        items: [
+        items: <IDCircularMenuItemData>[
           IDCircularMenuItemData(
             item: Icon(Icons.call, key: iconKey,),
             onPressed: () {},
@@ -63,7 +63,7 @@ void main() {
       final GlobalKey iconKey = GlobalKey();
       final IDCircularMenuController controller = IDCircularMenuController();
       IDCircularMenuView menu = IDCircularMenuView(
-        items: [
+        items: <IDCircularMenuItemData>[
           IDCircularMenuItemData(
             item: Icon(Icons.call, key: iconKey,),
             onPressed: () {},

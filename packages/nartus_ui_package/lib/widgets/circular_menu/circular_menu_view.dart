@@ -7,10 +7,10 @@ class IDCircularMenuView extends StatefulWidget {
       : super(key: key);
 
   @override
-  _IDCircularMenuViewState createState() => _IDCircularMenuViewState();
+  IDCircularMenuViewState createState() => IDCircularMenuViewState();
 }
 
-class _IDCircularMenuViewState extends State<IDCircularMenuView>
+class IDCircularMenuViewState extends State<IDCircularMenuView>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> degOneTranslationAnimation;
