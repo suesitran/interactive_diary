@@ -21,3 +21,12 @@ const OutlinedButtonThemeData secondaryButtonThemeData = OutlinedButtonThemeData
       width: 1,
     ))
   ),);
+
+const TextButtonThemeData textButtonThemeData = TextButtonThemeData(
+  style: ButtonStyle(
+      padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 24, vertical: 14)),
+      textStyle: MaterialStatePropertyAll<TextStyle>(_titleMedium),
+      shape: MaterialStatePropertyAll<OutlinedBorder>(RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(999))
+      ))
+  ),);

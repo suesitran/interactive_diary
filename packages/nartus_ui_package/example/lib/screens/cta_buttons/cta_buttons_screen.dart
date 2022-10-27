@@ -129,6 +129,63 @@ class CTAButtonsScreen extends StatelessWidget {
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
+            /// ------------------------------------------------------------
+            /// large text button
+            _demoButton(
+                '52px - text button - text only - active',
+                NartusButton.text(label: 'Button', onPressed: () {})),
+            _demoButton(
+                '52px - text button - left icon - active',
+                NartusButton.text(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook_color.png'),
+                  onPressed: () {},
+                )),
+            _demoButton(
+                '52px - text button - right icon - active',
+                NartusButton.text(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook_color.png'),
+                  onPressed: () {},
+                  iconPosition: IconPosition.right,
+                )),
+            _demoButton(
+                '52px - text button - icon only - active',
+                NartusButton.text(
+                  icon: Image.asset('assets/facebook_color.png',),
+                  onPressed: () {},
+                  iconPosition: IconPosition.right,
+                )),
+            /// ------------------------------------------------------------
+            /// small text button
+            _demoButton(
+                '44px - secondary button - text only - active',
+                NartusButton.text(label: 'Button', onPressed: () {}, sizeType: SizeType.small,)),
+            _demoButton(
+                '44px - text button - left icon - active',
+                NartusButton.text(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook_color.png', ),
+                    onPressed: () {},
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - text button - right icon - active',
+                NartusButton.text(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook_color.png'),
+                    onPressed: () {},
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - text button - icon only - active',
+                NartusButton.text(
+                    icon: Image.asset('assets/facebook_color.png',),
+                    onPressed: () {},
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
           ],
         ),
       ),
