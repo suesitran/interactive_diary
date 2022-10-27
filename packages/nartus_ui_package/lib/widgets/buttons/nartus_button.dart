@@ -34,6 +34,30 @@ class NartusButton extends StatelessWidget {
         buttonType = ButtonType.primary,
         super(key: key);
 
+  const NartusButton.secondary(
+      {Key? key,
+        this.label,
+        this.icon,
+        this.onPressed,
+        this.iconPosition = IconPosition.left,
+        this.sizeType = SizeType.large})
+      : assert(label != null || icon != null,
+  'either label or icon must not be null'),
+        buttonType = ButtonType.secondary,
+        super(key: key);
+
+  const NartusButton.text(
+      {Key? key,
+        this.label,
+        this.icon,
+        this.onPressed,
+        this.iconPosition = IconPosition.left,
+        this.sizeType = SizeType.large})
+      : assert(label != null || icon != null,
+  'either label or icon must not be null'),
+        buttonType = ButtonType.text,
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     switch (buttonType) {
