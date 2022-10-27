@@ -186,6 +186,159 @@ class CTAButtonsScreen extends StatelessWidget {
                     iconPosition: IconPosition.right,
                     sizeType: SizeType.small
                 )),
+            /// ------------------------------------------------------------
+            /// disable - large primary button
+            _demoButton(
+                '52px - primary button - text only - disable',
+                const NartusButton.primary(label: 'Button')),
+            _demoButton(
+                '52px - primary button - left icon - disable',
+                NartusButton.primary(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook.png'),
+                )),
+            _demoButton(
+                '52px - primary button - right icon - disable',
+                NartusButton.primary(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook.png'),
+                  iconPosition: IconPosition.right,
+                )),
+            _demoButton(
+                '52px - primary button - icon only - disable',
+                NartusButton.primary(
+                  icon: Image.asset('assets/facebook.png',),
+                  iconPosition: IconPosition.right,
+                )),
+            /// ------------------------------------------------------------
+            /// default - small primary button
+            _demoButton(
+                '44px - primary button - text only - disable',
+                const NartusButton.primary(label: 'Button', sizeType: SizeType.small,)),
+            _demoButton(
+                '44px - primary button - left icon - disable',
+                NartusButton.primary(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook.png', ),
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - primary button - right icon - disable',
+                NartusButton.primary(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook.png'),
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - primary button - icon only - disable',
+                NartusButton.primary(
+                    icon: Image.asset('assets/facebook.png',),
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            /// ------------------------------------------------------------
+            /// disable - large secondary button
+            _demoButton(
+                '52px - secondary button - text only - disable',
+                const NartusButton.secondary(label: 'Button')),
+            _demoButton(
+                '52px - secondary button - left icon - disable',
+                NartusButton.secondary(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook_color.png'),
+                )),
+            _demoButton(
+                '52px - secondary button - right icon - disable',
+                NartusButton.secondary(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPosition: IconPosition.right,
+                )),
+            _demoButton(
+                '52px - secondary button - icon only - disable',
+                NartusButton.secondary(
+                  icon: Image.asset('assets/facebook_color.png',),
+                  iconPosition: IconPosition.right,
+                )),
+            /// ------------------------------------------------------------
+            /// default - small secondary button
+            _demoButton(
+                '44px - secondary button - text only - disable',
+                const NartusButton.secondary(label: 'Button', sizeType: SizeType.small,)),
+            _demoButton(
+                '44px - secondary button - left icon - disable',
+                NartusButton.secondary(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook_color.png', ),
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - secondary button - right icon - disable',
+                NartusButton.secondary(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook_color.png'),
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - secondary button - icon only - disable',
+                NartusButton.secondary(
+                    icon: Image.asset('assets/facebook_color.png',),
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            /// ------------------------------------------------------------
+            /// disable - large text button
+            _demoButton(
+                '52px - text button - text only - disable',
+                const NartusButton.text(label: 'Button')),
+            _demoButton(
+                '52px - text button - left icon - disable',
+                NartusButton.text(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook_color.png'),
+                )),
+            _demoButton(
+                '52px - text button - right icon - disable',
+                NartusButton.text(
+                  label: 'Button',
+                  icon: Image.asset('assets/facebook_color.png'),
+                  iconPosition: IconPosition.right,
+                )),
+            _demoButton(
+                '52px - text button - icon only - disable',
+                NartusButton.text(
+                  icon: Image.asset('assets/facebook_color.png',),
+                  iconPosition: IconPosition.right,
+                )),
+            /// ------------------------------------------------------------
+            /// disable - small text button
+            _demoButton(
+                '44px - secondary button - text only - disable',
+                const NartusButton.text(label: 'Button', sizeType: SizeType.small,)),
+            _demoButton(
+                '44px - text button - left icon - disable',
+                NartusButton.text(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook_color.png', ),
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - text button - right icon - disable',
+                NartusButton.text(
+                    label: 'Button',
+                    icon: Image.asset('assets/facebook_color.png'),
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
+            _demoButton(
+                '44px - text button - icon only - disable',
+                NartusButton.text(
+                    icon: Image.asset('assets/facebook_color.png',),
+                    iconPosition: IconPosition.right,
+                    sizeType: SizeType.small
+                )),
           ],
         ),
       ),
