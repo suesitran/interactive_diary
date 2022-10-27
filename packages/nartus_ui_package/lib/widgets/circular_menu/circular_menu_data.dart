@@ -11,7 +11,7 @@ class IDCircularMenuItemData {
 
   IDCircularMenuItemData({required this.item, required this.degree, required this.onPressed});
 
-  double get radiansFromDegree {
+  double getRadiansFromDegree(double degree) {
     double unitRadian = 57.295779513;
     return degree / unitRadian;
   }

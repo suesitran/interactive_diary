@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:interactive_diary/constants/resources.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+
+import '../../gen/assets.gen.dart';
 
 class IDHome extends StatefulWidget {
   const IDHome({
@@ -125,26 +126,22 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                           IDCircularMenuItemData(
                               item: IDCircleMenuButton(
                                   key: menuIconWidgetKey,
-                                  iconPath: IDIcons.pencil),
+                                  iconPath: Assets.images.idPencilIcon),
                               degree: 210.0,
-                              onPressed: () {
-                                print('PENCIL');
-                              }),
+                              onPressed: () {}),
                           IDCircularMenuItemData(
-                              item: const IDCircleMenuButton(
-                                  iconPath: IDIcons.camera),
+                              item: IDCircleMenuButton(
+                                  iconPath: Assets.images.idCameraIcon),
                               degree: 250.0,
-                              onPressed: () {
-                                print('PENCIL');
-                              }),
+                              onPressed: () {}),
                           IDCircularMenuItemData(
-                              item: const IDCircleMenuButton(
-                                  iconPath: IDIcons.micro),
+                              item: IDCircleMenuButton(
+                                  iconPath: Assets.images.idMicroIcon),
                               degree: 290.0,
                               onPressed: () {}),
                           IDCircularMenuItemData(
-                              item: const IDCircleMenuButton(
-                                  iconPath: IDIcons.smile),
+                              item: IDCircleMenuButton(
+                                  iconPath: Assets.images.idSmileIcon),
                               degree: 330.0,
                               onPressed: () {}),
                         ],
