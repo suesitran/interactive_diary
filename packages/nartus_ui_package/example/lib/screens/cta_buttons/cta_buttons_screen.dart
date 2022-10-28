@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
 part 'cta_button_type_screen.dart';
 

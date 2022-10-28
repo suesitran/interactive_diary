@@ -4,7 +4,6 @@ import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.
 import 'package:interactive_diary/features/signup/signup_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flutter/material.dart';
 import '../../mock_firebase.dart';
 import '../../widget_tester_extension.dart';
 import 'signup_screen_test.mocks.dart';

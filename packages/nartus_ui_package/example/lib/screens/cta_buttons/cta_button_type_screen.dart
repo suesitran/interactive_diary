@@ -33,13 +33,13 @@ class ButtonsDemoPage extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             tabs: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Default',
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text('Disabled'),
               ),
             ],
@@ -47,7 +47,7 @@ class ButtonsDemoPage extends StatelessWidget {
           automaticallyImplyLeading: false,
         ),
         body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             ListButtonsTab(contents: defaults),
             ListButtonsTab(contents: disabled)

@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
 class IDSignUp extends StatelessWidget {
   const IDSignUp({Key? key}) : super(key: key);
