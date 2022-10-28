@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -18,10 +17,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
-  }
 
   runApp(MaterialApp(
     home: MultiBlocProvider(
