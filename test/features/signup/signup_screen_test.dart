@@ -39,22 +39,6 @@ void main() {
       expect(googleButton, findsOneWidget);
     });
 
-    testWidgets(
-        'When State is GoogleSigningUpState, '
-        'then the Google button is showed with loading status',
-        (WidgetTester widgetTester) async {
-      Widget googleButton = const IDGoogleSignInButton();
-      when(mockSignUpBloc.stream).thenAnswer(
-          (_) => Stream<GoogleSignupState>.value(GoogleSigningUpState()));
-      when(mockSignUpBloc.state).thenAnswer((_) => GoogleSigningUpState());
-
-      await widgetTester.blocWrapAndPump<GoogleSignupBloc>(
-          mockSignUpBloc, googleButton,
-          infiniteAnimationWidget: true);
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
-
     /// TODO : Re-test after enable navigation/ showDialog
     // testWidgets('When State is GoogleSignupFailedState, '
     //   'then show failed signup dialog',
