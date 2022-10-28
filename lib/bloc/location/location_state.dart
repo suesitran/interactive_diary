@@ -24,7 +24,7 @@ class AwaitLocationPermissionFromAppSettingState extends LocationState {}
 class UnknownLocationErrorState extends LocationState {}
 
 class LocationReadyState extends LocationState {
-  final LocationDetails currentLocation;
+  final LatLng currentLocation;
   final String dateDisplay;
 
   LocationReadyState(this.currentLocation, this.dateDisplay);
