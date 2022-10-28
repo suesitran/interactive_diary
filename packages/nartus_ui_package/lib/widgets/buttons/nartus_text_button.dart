@@ -45,7 +45,7 @@ class _NartusTextButton extends StatelessWidget {
           icon!,
           width: NartusDimens.padding20,
           height: NartusDimens.padding20,
-          color: onPressed == null ? NartusColor.grey : NartusColor.primary,
+          color: onPressed == null ? NartusColor.grey.withOpacity(0.5) : NartusColor.primary,
         ),
       );
     }

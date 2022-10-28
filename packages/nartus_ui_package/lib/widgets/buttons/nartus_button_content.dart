@@ -53,5 +53,5 @@ class _ButtonContent extends StatelessWidget {
   Color _getEnableColor(ButtonType type) =>
       type == ButtonType.primary ? NartusColor.white : NartusColor.primary;
   Color _getDisableColor(ButtonType type) =>
-      type == ButtonType.primary ? NartusColor.white : NartusColor.grey;
+      type == ButtonType.primary ? NartusColor.white : NartusColor.grey.withOpacity(0.5);
 }
