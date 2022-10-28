@@ -18,6 +18,7 @@ enum SizeType { large, small }
 class NartusButton extends StatelessWidget {
   final String? label;
   final String? iconPath;
+  final String? iconSemanticLabel;
   final IconPosition iconPosition;
   final VoidCallback? onPressed;
   final ButtonType buttonType;
@@ -27,11 +28,13 @@ class NartusButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.iconPath,
+        this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
       : assert(label != null || iconPath != null,
             'either label or icon must not be null'),
+  assert(iconPath == null || iconSemanticLabel != null),
         buttonType = ButtonType.primary,
         super(key: key);
 
@@ -39,11 +42,13 @@ class NartusButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.iconPath,
+        this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
       : assert(label != null || iconPath != null,
             'either label or icon must not be null'),
+        assert(iconPath == null || iconSemanticLabel != null),
         buttonType = ButtonType.secondary,
         super(key: key);
 
@@ -51,11 +56,13 @@ class NartusButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.iconPath,
+        this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
       : assert(label != null || iconPath != null,
             'either label or icon must not be null'),
+        assert(iconPath == null || iconSemanticLabel != null),
         buttonType = ButtonType.text,
         super(key: key);
 
@@ -66,6 +73,7 @@ class NartusButton extends StatelessWidget {
         return _NartusPrimaryButton(
           label: label,
           icon: iconPath,
+          iconSemanticLabel: iconSemanticLabel,
           onPressed: onPressed,
           iconPosition: iconPosition,
           sizeType: sizeType,
@@ -74,6 +82,7 @@ class NartusButton extends StatelessWidget {
         return _NartusSecondaryButton(
           label: label,
           icon: iconPath,
+          iconSemanticLabel: iconSemanticLabel,
           onPressed: onPressed,
           iconPosition: iconPosition,
           sizeType: sizeType,
@@ -82,6 +91,7 @@ class NartusButton extends StatelessWidget {
         return _NartusTextButton(
           label: label,
           icon: iconPath,
+          iconSemanticLabel: iconSemanticLabel,
           onPressed: onPressed,
           iconPosition: iconPosition,
           sizeType: sizeType,

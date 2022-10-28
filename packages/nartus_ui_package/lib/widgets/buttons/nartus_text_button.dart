@@ -3,6 +3,7 @@ part of 'nartus_button.dart';
 class _NartusTextButton extends StatelessWidget {
   final String? label;
   final String? icon;
+  final String? iconSemanticLabel;
   final IconPosition iconPosition;
   final VoidCallback? onPressed;
   final SizeType sizeType;
@@ -11,6 +12,7 @@ class _NartusTextButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.icon,
+        this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
@@ -24,6 +26,7 @@ class _NartusTextButton extends StatelessWidget {
         child: _ButtonContent(
           label: label!,
           icon: icon!,
+          iconSemanticLabel: iconSemanticLabel!,
           buttonType: ButtonType.text,
           isEnable: onPressed != null,
           iconPosition: iconPosition,
@@ -48,6 +51,7 @@ class _NartusTextButton extends StatelessWidget {
           color: onPressed == null
               ? NartusColor.grey.withOpacity(0.5)
               : NartusColor.primary,
+          semanticsLabel: iconSemanticLabel,
         ),
       );
     }
