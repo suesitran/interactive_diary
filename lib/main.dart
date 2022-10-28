@@ -19,9 +19,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
-  }
+  // if (defaultTargetPlatform == TargetPlatform.android) {
+  //   AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  // }
 
   runApp(MaterialApp(
     home: MultiBlocProvider(
