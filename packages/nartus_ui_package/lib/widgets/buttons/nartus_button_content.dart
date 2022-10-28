@@ -3,7 +3,6 @@ part of 'nartus_button.dart';
 class _ButtonContent extends StatelessWidget {
   final String label;
   final String icon;
-  final String iconSemanticLabel;
   final IconPosition iconPosition;
   final ButtonType buttonType;
   final bool isEnable;
@@ -11,7 +10,6 @@ class _ButtonContent extends StatelessWidget {
   const _ButtonContent({
     required this.label,
     required this.icon,
-    required this.iconSemanticLabel,
     required this.buttonType,
     required this.isEnable,
     Key? key,

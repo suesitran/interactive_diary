@@ -21,15 +21,22 @@ class _NartusTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (icon != null && label != null) {
-      return TextButton(
-        onPressed: onPressed,
-        child: _ButtonContent(
-          label: label!,
-          icon: icon!,
-          iconSemanticLabel: iconSemanticLabel!,
-          buttonType: ButtonType.text,
-          isEnable: onPressed != null,
-          iconPosition: iconPosition,
+      return Semantics(
+        explicitChildNodes: false,
+        excludeSemantics: true,
+        label: iconPosition == IconPosition.left ? '$iconSemanticLabel, $label' : '$label, $iconSemanticLabel',
+        button: true,
+        enabled: onPressed != null,
+        onTap: onPressed,
+        child: TextButton(
+          onPressed: onPressed,
+          child: _ButtonContent(
+            label: label!,
+            icon: icon!,
+            buttonType: ButtonType.text,
+            isEnable: onPressed != null,
+            iconPosition: iconPosition,
+          ),
         ),
       );
     } else if (icon == null) {
@@ -39,19 +46,26 @@ class _NartusTextButton extends StatelessWidget {
         child: Text(label!),
       );
     } else {
-      return TextButton(
-        onPressed: onPressed,
-        style: sizeType == SizeType.large
-            ? _iconOnlyButtonStyleLarge
-            : _iconOnlyButtonStyleSmall,
-        child: SvgPicture.asset(
-          icon!,
-          width: NartusDimens.padding20,
-          height: NartusDimens.padding20,
-          color: onPressed == null
-              ? NartusColor.grey.withOpacity(0.5)
-              : NartusColor.primary,
-          semanticsLabel: iconSemanticLabel,
+      return Semantics(
+        explicitChildNodes: false,
+        excludeSemantics: true,
+        label: iconSemanticLabel,
+        button: true,
+        enabled: onPressed != null,
+        onTap: onPressed,
+        child: TextButton(
+          onPressed: onPressed,
+          style: sizeType == SizeType.large
+              ? _iconOnlyButtonStyleLarge
+              : _iconOnlyButtonStyleSmall,
+          child: SvgPicture.asset(
+            icon!,
+            width: NartusDimens.padding20,
+            height: NartusDimens.padding20,
+            color: onPressed == null
+                ? NartusColor.grey.withOpacity(0.5)
+                : NartusColor.primary,
+          ),
         ),
       );
     }

@@ -41,11 +41,11 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   title: 'Primary large',
                   defaults: [
                     _demoButton('52px - primary button - text only - active',
-                        NartusButton.primary(label: 'Button', onPressed: () {})),
+                        NartusButton.primary(label: 'Demo button', onPressed: () {})),
                     _demoButton(
                         '52px - primary button - left icon - active',
                         NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -53,7 +53,7 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                     _demoButton(
                         '52px - primary button - right icon - active',
                         NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -70,18 +70,18 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   ],
                   disabled: [
                     _demoButton('52px - primary button - text only - disable',
-                        const NartusButton.primary(label: 'Button')),
+                        const NartusButton.primary(label: 'Demo button')),
                     _demoButton(
                         '52px - primary button - left icon - disable',
                         const NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                         )),
                     _demoButton(
                         '52px - primary button - right icon - disable',
                         const NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           iconPosition: IconPosition.right,
@@ -100,14 +100,14 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - primary button - text only - active',
                       NartusButton.primary(
-                        label: 'Button',
+                        label: 'Demo button',
                         onPressed: () {},
                         sizeType: SizeType.small,
                       )),
                   _demoButton(
                       '44px - primary button - left icon - active',
                       NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -115,7 +115,7 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - primary button - right icon - active',
                       NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -133,20 +133,20 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - primary button - text only - disable',
                       const NartusButton.primary(
-                        label: 'Button',
+                        label: 'Demo button',
                         sizeType: SizeType.small,
                       )),
                   _demoButton(
                       '44px - primary button - left icon - disable',
                       const NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           sizeType: SizeType.small)),
                   _demoButton(
                       '44px - primary button - right icon - disable',
                       const NartusButton.primary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           iconPosition: IconPosition.right,
@@ -162,11 +162,11 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                 // secondary large
                 ButtonsDemoPage(title: 'Secondary large', defaults: [
                   _demoButton('52px - secondary button - text only - active',
-                      NartusButton.secondary(label: 'Button', onPressed: () {})),
+                      NartusButton.secondary(label: 'Demo button', onPressed: () {})),
                   _demoButton(
                       '52px - secondary button - left icon - active',
                       NartusButton.secondary(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         onPressed: () {},
@@ -174,7 +174,7 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '52px - secondary button - right icon - active',
                       NartusButton.secondary(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         onPressed: () {},
@@ -190,18 +190,18 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                       )),
                 ], disabled: [
                   _demoButton('52px - secondary button - text only - disable',
-                      const NartusButton.secondary(label: 'Button')),
+                      const NartusButton.secondary(label: 'Demo button')),
                   _demoButton(
                       '52px - secondary button - left icon - disable',
                       const NartusButton.secondary(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                       )),
                   _demoButton(
                       '52px - secondary button - right icon - disable',
                       const NartusButton.secondary(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         iconPosition: IconPosition.right,
@@ -219,14 +219,14 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - secondary button - text only - active',
                       NartusButton.secondary(
-                        label: 'Button',
+                        label: 'Demo button',
                         onPressed: () {},
                         sizeType: SizeType.small,
                       )),
                   _demoButton(
                       '44px - secondary button - left icon - active',
                       NartusButton.secondary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -234,7 +234,7 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - secondary button - right icon - active',
                       NartusButton.secondary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -252,20 +252,20 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - secondary button - text only - disable',
                       const NartusButton.secondary(
-                        label: 'Button',
+                        label: 'Demo button',
                         sizeType: SizeType.small,
                       )),
                   _demoButton(
                       '44px - secondary button - left icon - disable',
                       const NartusButton.secondary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           sizeType: SizeType.small)),
                   _demoButton(
                       '44px - secondary button - right icon - disable',
                       const NartusButton.secondary(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           iconPosition: IconPosition.right,
@@ -281,11 +281,11 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                 // text large
                 ButtonsDemoPage(title: 'Text large', defaults: [
                   _demoButton('52px - text button - text only - active',
-                      NartusButton.text(label: 'Button', onPressed: () {})),
+                      NartusButton.text(label: 'Demo button', onPressed: () {})),
                   _demoButton(
                       '52px - text button - left icon - active',
                       NartusButton.text(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         onPressed: () {},
@@ -293,7 +293,7 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '52px - text button - right icon - active',
                       NartusButton.text(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         onPressed: () {},
@@ -309,18 +309,18 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                       )),
                 ], disabled: [
                   _demoButton('52px - text button - text only - disable',
-                      const NartusButton.text(label: 'Button')),
+                      const NartusButton.text(label: 'Demo button')),
                   _demoButton(
                       '52px - text button - left icon - disable',
                       const NartusButton.text(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                       )),
                   _demoButton(
                       '52px - text button - right icon - disable',
                       const NartusButton.text(
-                        label: 'Button',
+                        label: 'Demo button',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         iconPosition: IconPosition.right,
@@ -338,14 +338,14 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - secondary button - text only - active',
                       NartusButton.text(
-                        label: 'Button',
+                        label: 'Demo button',
                         onPressed: () {},
                         sizeType: SizeType.small,
                       )),
                   _demoButton(
                       '44px - text button - left icon - active',
                       NartusButton.text(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -353,7 +353,7 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - text button - right icon - active',
                       NartusButton.text(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           onPressed: () {},
@@ -371,20 +371,20 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
                   _demoButton(
                       '44px - secondary button - text only - disable',
                       const NartusButton.text(
-                        label: 'Button',
+                        label: 'Demo button',
                         sizeType: SizeType.small,
                       )),
                   _demoButton(
                       '44px - text button - left icon - disable',
                       const NartusButton.text(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           sizeType: SizeType.small)),
                   _demoButton(
                       '44px - text button - right icon - disable',
                       const NartusButton.text(
-                          label: 'Button',
+                          label: 'Demo button',
                           iconPath: 'assets/facebook.svg',
                           iconSemanticLabel: 'Facebook',
                           iconPosition: IconPosition.right,
