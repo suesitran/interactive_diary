@@ -34,7 +34,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late ScreenCoordinate coordinate;
   bool isShow = false;
 
-  Future<void> StartAnimationMarker(LatLng latLng) async {
+  Future<void> startAnimationMarker(LatLng latLng) async {
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(
             CameraPosition(target: latLng, zoom: 15)))
@@ -56,7 +56,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
           widget.currentLocation.latitude,
           widget.currentLocation.longitude,
         );
-        StartAnimationMarker(latLng);
+        startAnimationMarker(latLng);
       });
 
     // generate marker icon
@@ -68,7 +68,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
     return StreamBuilder<Uint8List>(
       stream: markerData,
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-        final data = snapshot.data;
+        final Uint8List? data = snapshot.data;
         final BitmapDescriptor icon = data == null
             ? BitmapDescriptor.defaultMarker
             : BitmapDescriptor.fromBytes(data);
@@ -134,10 +134,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   // draw complete marker with angle
-  void _computeMarker(
-      {ScreenCoordinate? coordinate,
-      double angleInDegree = 0,
-      bool isShowMenu = false}) async {
+  void _computeMarker({
+    double angleInDegree = 0,
+  }) async {
     const double markerSize = 100.0;
 
     // create canvas to draw
@@ -203,7 +202,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
             .endRecording()
             .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
-    Uint8List data = Uint8List.view(pngBytes!.buffer);
     if (pngBytes != null) {
       _streamController.sink.add(Uint8List.view(pngBytes.buffer));
     }
