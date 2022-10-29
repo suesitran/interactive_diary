@@ -40,6 +40,8 @@ class NartusColor {
   static const Color onOrange = Color(0xFF1C2025);
   static const Color orangeContainer = Color(0xFFFEF3E3);
   static const Color onOrangeContainer = Color(0xFF1C2025);
+
+  static const Color dark = Color(0xFF1C2025);
 }
 
 const ColorScheme lightColorScheme = ColorScheme(

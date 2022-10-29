@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/route/map_route.dart' as routes;
@@ -30,7 +31,8 @@ void main() async {
           create: (BuildContext context) => LocationBloc(),
         ),
       ],
-      child: const IDHome(),
+      // child: const IDHome(),
+      child: NoConnectionScreen(),
     ),
     title: 'Interactive Diary',
     theme: lightTheme,
