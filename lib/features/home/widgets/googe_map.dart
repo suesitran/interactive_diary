@@ -180,7 +180,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
         .toByteData(format: ImageByteFormat.png);
 
     if (pngBytes != null) {
-      _streamController.sink.add(Uint8List.view(pngBytes.buffer));
+      if (!_streamController.isClosed) {
+        _streamController.sink.add(Uint8List.view(pngBytes.buffer));
+      }
     }
   }
 }
