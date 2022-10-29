@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
@@ -41,7 +40,7 @@ void main() {
               findsOneWidget);
         });
 
-    testWidgets('given platform text scale factor is 2.5, when open MainPage, then textScaleFactor is max at 1.25', (widgetTester) async {
+    testWidgets('given platform text scale factor is 2.5, when open MainPage, then textScaleFactor is max at 1.25', (WidgetTester widgetTester) async {
       final TestWidgetsFlutterBinding testBinding = widgetTester.binding;
       testBinding.window.platformDispatcher.textScaleFactorTestValue = 2.5;
 
@@ -60,7 +59,7 @@ void main() {
       expect(mediaQuery.data.textScaleFactor, 1.25);
     });
 
-    testWidgets('given platform text scale factor is 0.5, when open MainPage, then textScaleFactor is min at 0.8', (widgetTester) async {
+    testWidgets('given platform text scale factor is 0.5, when open MainPage, then textScaleFactor is min at 0.8', (WidgetTester widgetTester) async {
       final TestWidgetsFlutterBinding testBinding = widgetTester.binding;
       testBinding.window.platformDispatcher.textScaleFactorTestValue = 0.5;
 
@@ -79,7 +78,7 @@ void main() {
       expect(mediaQuery.data.textScaleFactor, 0.8);
     });
 
-    testWidgets('given platform text scale factor is 1.1, when open MainPage, then textScaleFactor is set at 1.1', (widgetTester) async {
+    testWidgets('given platform text scale factor is 1.1, when open MainPage, then textScaleFactor is set at 1.1', (WidgetTester widgetTester) async {
       final TestWidgetsFlutterBinding testBinding = widgetTester.binding;
       testBinding.window.platformDispatcher.textScaleFactorTestValue = 1.1;
 
