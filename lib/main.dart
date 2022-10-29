@@ -32,7 +32,7 @@ void main() async {
         ),
       ],
       // child: const IDHome(),
-      child: NoConnectionScreen(),
+      child: const NoConnectionScreen(),
     ),
     title: 'Interactive Diary',
     theme: lightTheme,

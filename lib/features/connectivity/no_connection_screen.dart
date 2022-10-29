@@ -10,6 +10,7 @@ class NoConnectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -19,14 +20,14 @@ class NoConnectionScreen extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Stack(
-                children: [
+                children: <Widget>[
                   Align(
                     alignment: Alignment.topCenter,
-                    child: SvgPicture.asset(Assets.images.noConnectionBg),
+                    child: SvgPicture.asset(Assets.images.noConnectionBg, width: width, fit: BoxFit.fitWidth,),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: SvgPicture.asset(Assets.images.noConnection),
+                    child: SvgPicture.asset(Assets.images.noConnection, width: width, fit: BoxFit.fitWidth,),
                   ),
                 ],
               ),
