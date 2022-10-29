@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
+import 'package:interactive_diary/features/home/widgets/googe_map.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -16,63 +16,16 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
-  bool isAnimation = false;
-  late Future<List<Marker>> futureListMarker;
-
-  Future<List<Marker>> generateListMarkers(
-      double latitude, double longitude) async {
-    List<Marker> markers = <Marker>[];
-    final BitmapDescriptor icon = isAnimation == true
-        ? await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(24, 24)),
-            'assets/images/marker_ontap.png')
-        : await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(24, 24)),
-            'assets/images/marker_nonetap.png');
-
-    final Marker marker = Marker(
-        markerId: MarkerId(latitude.toString()),
-        position: LatLng(latitude, longitude),
-        icon: icon,
-        onTap: () {
-          setState(() {
-            isAnimation = !isAnimation;
-          });
-        });
-    markers.add(marker);
-    return markers;
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         body: BlocBuilder<LocationBloc, LocationState>(
           builder: (BuildContext context, LocationState state) {
             if (state is LocationReadyState) {
-              futureListMarker = generateListMarkers(
-                  state.currentLocation.latitude,
-                  state.currentLocation.longitude);
-
               return Stack(
                 children: <Widget>[
-                  FutureBuilder<List<Marker>>(
-                      future: futureListMarker,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<Marker>> snapshot) {
-                        if (snapshot.hasData) {
-                          return GoogleMap(
-                              initialCameraPosition: CameraPosition(
-                                  target: LatLng(state.currentLocation.latitude,
-                                      state.currentLocation.longitude),
-                                  zoom: 15),
-                              markers: Set<Marker>.of(
-                                  snapshot.data as Iterable<Marker>));
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }),
+                  GoogleMapView(
+                    currentLocation: state.currentLocation,
+                  ),
                   SafeArea(
                       child: Align(
                     alignment: Alignment.topCenter,
