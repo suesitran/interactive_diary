@@ -9,7 +9,9 @@ flutter pub run build_runner build --delete-conflicting-outputs
 flutter test --coverage
 lcov --remove coverage/lcov.info -o coverage/lcov.info \
 	'lib/generated/**' \
-	'lib/firebase_options.dart'
+	'lib/firebase_options.dart' \
+	'lib/main.dart'
+
 cat coverage/lcov.info > coverage/lcov.base.info
 
 for d in $(ls packages)

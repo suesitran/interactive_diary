@@ -18,3 +18,4 @@ coverage:
           - "lib/generated"  # ignore folders and all its contents
           - "lib/firebase_options.dart"
           - "lib/gen"
+          - "lib/main.dart"
