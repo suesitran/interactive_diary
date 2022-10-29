@@ -30,7 +30,7 @@ void main() async {
           create: (BuildContext context) => LocationBloc(),
         ),
       ],
-      child: MainPage(),
+      child: const MainPage(),
     ),
     title: 'Interactive Diary',
     theme: lightTheme,
