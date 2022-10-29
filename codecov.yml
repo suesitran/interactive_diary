@@ -16,3 +16,5 @@ coverage:
         target: 80%
         ignore:
           - "lib/generated"  # ignore folders and all its contents
+          - "lib/firebase_options.dart"
+          - "lib/gen"
