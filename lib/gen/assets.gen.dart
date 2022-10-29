@@ -35,7 +35,7 @@ class $AssetsImagesGen {
   AssetGenImage get markerOntap =>
       const AssetGenImage('assets/images/marker_ontap.png');
 
-  /// List of all assetss
+  /// List of all assets
   List<dynamic> get values => [
         anonymous,
         arrowDown,
@@ -43,7 +43,7 @@ class $AssetsImagesGen {
         markerAdd,
         markerBase,
         markerNonetap,
-        markerOntap,
+        markerOntap
       ];
 }
 
