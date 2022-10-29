@@ -6,20 +6,25 @@ import 'package:interactive_diary/features/home/widgets/googe_map.dart';
 import '../../../widget_tester_extension.dart';
 
 void main() {
-  testWidgets('when load GoogleMapView, then show GoogleMap widget inside AnimatedBuilder', (WidgetTester widgetTester) async {
-    GoogleMapView widget = const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
+  testWidgets(
+      'when load GoogleMapView, then show GoogleMap widget inside AnimatedBuilder',
+      (WidgetTester widgetTester) async {
+    GoogleMapView widget =
+        const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
 
     await widgetTester.wrapAndPump(Directionality(
       textDirection: TextDirection.ltr,
       child: widget,
     ));
 
-    expect(find.ancestor(of: find.byType(GoogleMap), matching: find.byType(AnimatedBuilder)), findsOneWidget);
+    expect(
+        find.ancestor(
+            of: find.byType(GoogleMap), matching: find.byType(AnimatedBuilder)),
+        findsOneWidget);
 
     GoogleMap map = widgetTester.widget(find.byType(GoogleMap)) as GoogleMap;
 
     expect(map.markers.length, 1);
     expect(map.markers.first.position, const LatLng(0.0, 0.0));
-
   });
 }

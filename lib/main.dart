@@ -42,15 +42,15 @@ void main() async {
   ));
 }
 
-
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    return MediaQuery(data: MediaQuery.of(context).copyWith(
-      textScaleFactor: textScaleFactor.clamp(0.8, 1.25)
-    ), child: const IDHome());
+    return MediaQuery(
+        data: MediaQuery.of(context)
+            .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+        child: const IDHome());
   }
 }
