@@ -10,12 +10,11 @@ class NoConnectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          SvgPicture.asset(Assets.images.noConnection, width: width, fit: BoxFit.fitWidth,),
+          SvgPicture.asset(Assets.images.noConnection, fit: BoxFit.fitWidth,),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
