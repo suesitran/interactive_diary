@@ -31,7 +31,7 @@ void main() async {
           create: (BuildContext context) => LocationBloc(),
         ),
       ],
-      child: const IDHome(),
+      child: const MainPage(),
     ),
     title: 'Interactive Diary',
     theme: lightTheme,
@@ -41,4 +41,17 @@ void main() async {
     ],
     supportedLocales: S.delegate.supportedLocales,
   ));
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    return MediaQuery(
+        data: MediaQuery.of(context)
+            .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+        child: const IDHome());
+  }
 }
