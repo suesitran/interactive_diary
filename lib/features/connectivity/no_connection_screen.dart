@@ -15,26 +15,8 @@ class NoConnectionScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          SvgPicture.asset(Assets.images.noConnection, width: width, fit: BoxFit.fitWidth,),
           Expanded(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: SvgPicture.asset(Assets.images.noConnectionBg, width: width, fit: BoxFit.fitWidth,),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SvgPicture.asset(Assets.images.noConnection, width: width, fit: BoxFit.fitWidth,),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

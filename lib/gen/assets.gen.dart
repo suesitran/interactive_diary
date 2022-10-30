@@ -38,9 +38,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/no_connection.svg
   String get noConnection => 'assets/images/no_connection.svg';
 
-  /// File path: assets/images/no_connection_bg.svg
-  String get noConnectionBg => 'assets/images/no_connection_bg.svg';
-
   /// List of all assets
   List<dynamic> get values => [
         anonymous,
@@ -50,8 +47,7 @@ class $AssetsImagesGen {
         markerBase,
         markerNonetap,
         markerOntap,
-        noConnection,
-        noConnectionBg
+        noConnection
       ];
 }
 
