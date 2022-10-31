@@ -14,8 +14,6 @@ extension WidgetExtension on WidgetTester {
     } else {
       await pumpAndSettle();
     }
-
-    await pumpFrames(widget, const Duration(milliseconds: 500));
   }
 
   Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(
