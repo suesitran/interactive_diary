@@ -13,11 +13,11 @@ extension BuildContextExtension on BuildContext {
         showCupertinoDialog(
             context: this,
             builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: title,
-                  content: content,
-                  actions: actions ?? <Widget>[],
-                  insetAnimationCurve: Curves.easeIn,
-                ),
+              title: title,
+              content: content,
+              actions: actions ?? <Widget>[],
+              insetAnimationCurve: Curves.easeIn,
+            ),
             barrierDismissible: barrierDismissible);
       } else {
         showDialog(

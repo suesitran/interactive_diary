@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/route/map_route.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:interactive_diary/route/map_route.dart' as routes;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
@@ -23,34 +23,21 @@ void main() async {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
 
-  runApp(MaterialApp(
-    home: MultiBlocProvider(
-      providers: [
-        BlocProvider<LocationBloc>(
-          create: (BuildContext context) => LocationBloc(),
-        ),
-      ],
-      child: const MainPage(),
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<LocationBloc>(
+      create: (BuildContext context) => LocationBloc(),
     ),
-    title: 'Interactive Diary',
-    theme: lightTheme,
-    routes: routes.appRoute,
-    localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-      S.delegate,
-    ],
-    supportedLocales: S.delegate.supportedLocales,
+  ],
+    child: MaterialApp.router(
+      routerConfig: appRoute,
+      title: 'Interactive Diary',
+      theme: lightTheme,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        S.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+    ),
   ));
 }
 
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    return MediaQuery(
-        data: MediaQuery.of(context)
-            .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-        child: const IDHome());
-  }
-}
