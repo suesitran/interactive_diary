@@ -35,6 +35,9 @@ class $AssetsImagesGen {
   AssetGenImage get markerOntap =>
       const AssetGenImage('assets/images/marker_ontap.png');
 
+  /// File path: assets/images/no_connection.svg
+  String get noConnection => 'assets/images/no_connection.svg';
+
   /// List of all assets
   List<dynamic> get values => [
         anonymous,
@@ -43,7 +46,8 @@ class $AssetsImagesGen {
         markerAdd,
         markerBase,
         markerNonetap,
-        markerOntap
+        markerOntap,
+        noConnection
       ];
 }
 

@@ -9,15 +9,19 @@ extension BuildContextExtension on BuildContext {
       List<Widget>? actions,
       bool barrierDismissible = false}) {
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      double textScaleFactor = MediaQuery.of(this).textScaleFactor;
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         showCupertinoDialog(
             context: this,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: title,
-              content: content,
-              actions: actions ?? <Widget>[],
-              insetAnimationCurve: Curves.easeIn,
-            ),
+            builder: (BuildContext context) => MediaQuery(
+                data: MediaQuery.of(this).copyWith(
+                    textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+                child: CupertinoAlertDialog(
+                  title: title,
+                  content: content,
+                  actions: actions ?? <Widget>[],
+                  insetAnimationCurve: Curves.easeIn,
+                )),
             barrierDismissible: barrierDismissible);
       } else {
         showDialog(

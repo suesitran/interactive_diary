@@ -18,8 +18,8 @@ void main() {
     ));
 
     expect(
-        find.ancestor(
-            of: find.byType(GoogleMap), matching: find.byType(AnimatedBuilder)),
+        find.descendant(
+            of: find.byType(AnimatedBuilder), matching: find.byType(GoogleMap)),
         findsOneWidget);
 
     GoogleMap map = widgetTester.widget(find.byType(GoogleMap)) as GoogleMap;

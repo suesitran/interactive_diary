@@ -7,7 +7,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
-import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
 // ignore_for_file: always_specify_types
@@ -23,11 +22,12 @@ void main() async {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
 
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider<LocationBloc>(
-      create: (BuildContext context) => LocationBloc(),
-    ),
-  ],
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<LocationBloc>(
+        create: (BuildContext context) => LocationBloc(),
+      ),
+    ],
     child: MaterialApp.router(
       routerConfig: appRoute,
       title: 'Interactive Diary',
@@ -39,5 +39,3 @@ void main() async {
     ),
   ));
 }
-
-
