@@ -37,18 +37,20 @@ void main() {
         findsAtLeastNWidgets(1));
   });
 
-  testWidgets('When State is LocationReadyState, then GoogleMapView is presented',
+  testWidgets(
+      'When State is LocationReadyState, then GoogleMapView is presented',
       (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
-    final LocationReadyState state = LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022');
+    final LocationReadyState state =
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022');
 
-    when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        state));
-    when(mockLocationBloc.state).thenAnswer(
-        (_) => state);
+    when(mockLocationBloc.stream)
+        .thenAnswer((_) => Stream<LocationState>.value(state));
+    when(mockLocationBloc.state).thenAnswer((_) => state);
 
-    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget, infiniteAnimationWidget: true);
+    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
 
     expect(find.byType(GoogleMapView), findsOneWidget);
   });
