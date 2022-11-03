@@ -4,7 +4,6 @@ import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.
 import 'package:interactive_diary/features/signup/signup_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flutter/material.dart';
 import '../../mock_firebase.dart';
 import '../../widget_tester_extension.dart';
 import 'signup_screen_test.mocks.dart';
@@ -37,22 +36,6 @@ void main() {
           infiniteAnimationWidget: true);
 
       expect(googleButton, findsOneWidget);
-    });
-
-    testWidgets(
-        'When State is GoogleSigningUpState, '
-        'then the Google button is showed with loading status',
-        (WidgetTester widgetTester) async {
-      Widget googleButton = const IDGoogleSignInButton();
-      when(mockSignUpBloc.stream).thenAnswer(
-          (_) => Stream<GoogleSignupState>.value(GoogleSigningUpState()));
-      when(mockSignUpBloc.state).thenAnswer((_) => GoogleSigningUpState());
-
-      await widgetTester.blocWrapAndPump<GoogleSignupBloc>(
-          mockSignUpBloc, googleButton,
-          infiniteAnimationWidget: true);
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
     /// TODO : Re-test after enable navigation/ showDialog
