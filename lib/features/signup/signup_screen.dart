@@ -55,8 +55,8 @@ class _IDAppleSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IDButton(
-        text: 'Continue with Apple', onPressed: () => _signUpByApple(context));
+    return NartusButton.primary(
+        label: 'Continue with Apple', onPressed: () => _signUpByApple(context));
   }
 
   void _signUpByApple(BuildContext context) => () {};
@@ -69,10 +69,9 @@ class IDGoogleSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<GoogleSignupBloc, GoogleSignupState>(
       builder: (BuildContext stateContext, GoogleSignupState googleState) {
-        return IDButton(
-          text: 'Continue with Google',
+        return NartusButton.primary(
+          label: 'Continue with Google',
           onPressed: () => _signUpByGoogle(stateContext),
-          isBusy: googleState.isSigningUp,
         );
       },
       listener: (BuildContext stateContext, GoogleSignupState googleState) {
@@ -105,7 +104,7 @@ class _IDRegisterForm extends StatelessWidget {
           hint: 'Password',
         ),
         const Gap.v20(),
-        IDButton(text: 'Register', onPressed: () => _register())
+        NartusButton.primary(label: 'Register', onPressed: () => _register())
       ],
     ));
   }
