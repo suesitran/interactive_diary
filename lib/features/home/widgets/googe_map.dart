@@ -50,7 +50,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
       stream: markerData,
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         final Uint8List? data = snapshot.data;
-        final BitmapDescriptor icon = data == null
+        final BitmapDescriptor icon = data == null || data.isEmpty
             ? BitmapDescriptor.defaultMarker
             : BitmapDescriptor.fromBytes(data);
 
