@@ -22,6 +22,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
     with TickerProviderStateMixin {
   static final StreamController<Uint8List> _streamController =
       StreamController<Uint8List>.broadcast();
+
+  static final StreamController<Uint8List> _menuCameraCtrl =
+    StreamController<Uint8List>.broadcast();
+  Stream<Uint8List> menuCamera = _menuCameraCtrl.stream;
+
   Stream<Uint8List> markerData = _streamController.stream;
 
   // to draw marker with animation
@@ -30,14 +35,29 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   late final AnimationController _controller;
 
+  late bool isShowingMenu;
+
   @override
   void initState() {
     super.initState();
+
+    isShowingMenu = false;
 
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300))
       ..addListener(() {
         _computeMarker(angleInDegree: _controller.value * 45);
+
+        /// Open & close menu
+        if (_controller.value > 0) {
+          setState(() {
+            isShowingMenu = true;
+          });
+        } else {
+          setState(() {
+            isShowingMenu = false;
+          });
+        }
       });
 
     // generate marker icon
@@ -47,16 +67,19 @@ class _GoogleMapViewState extends State<GoogleMapView>
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Uint8List>(
-      stream: markerData,
-      builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-        final Uint8List? data = snapshot.data;
-        final BitmapDescriptor icon = data == null
-            ? BitmapDescriptor.defaultMarker
-            : BitmapDescriptor.fromBytes(data);
+      stream: menuCamera,
+      builder: (BuildContext menuCtx, AsyncSnapshot<Uint8List> menuCameraSnapshot) {
+        return StreamBuilder<Uint8List>(
+          stream: markerData,
+          builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+            final Uint8List? data = snapshot.data;
+            final BitmapDescriptor icon = data == null
+                ? BitmapDescriptor.defaultMarker
+                : BitmapDescriptor.fromBytes(data);
 
-        return AnimatedBuilder(
-            animation: _controller,
-            builder: (BuildContext context, Widget? child) => GoogleMap(
+            return AnimatedBuilder(
+                animation: _controller,
+                builder: (BuildContext context, Widget? child) => GoogleMap(
                     initialCameraPosition: CameraPosition(
                         target: LatLng(widget.currentLocation.latitude,
                             widget.currentLocation.longitude),
@@ -72,10 +95,29 @@ class _GoogleMapViewState extends State<GoogleMapView>
                             } else {
                               _controller.forward();
                             }
-                          })
-                    }));
-      },
-      initialData: Uint8List(0),
+                          }),
+                      if (menuCameraSnapshot.hasData && menuCameraSnapshot.data!.isNotEmpty) ...[
+                        Marker(
+                            markerId: const MarkerId('menuCameraMarkerLocation'),
+                            position: widget.currentLocation,
+                            icon: BitmapDescriptor.fromBytes(menuCameraSnapshot.data!),
+                            anchor: Offset(4, 4),
+                            onTap: () {
+                              if (_controller.value == 1) {
+                                _controller.reverse();
+                              } else {
+                                _controller.forward();
+                              }
+                            }
+                        ),
+                      ]
+                    }
+                )
+            );
+          },
+          initialData: Uint8List(0),
+        );
+      }
     );
   }
 
@@ -161,8 +203,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
           canvas,
           Rect.fromPoints(
               const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+
       // unlock canvas
       canvas.restore();
+
+      await _popUpMenu(canvas, recorder);
     } else {
       // do normal drawing
       markerAddDrawableRoot.scaleCanvasToViewBox(
@@ -184,5 +229,37 @@ class _GoogleMapViewState extends State<GoogleMapView>
         _streamController.sink.add(Uint8List.view(pngBytes.buffer));
       }
     }
+  }
+
+  Future<void> _popUpMenu(Canvas parentCanvas, PictureRecorder parentRecorder) async {
+    final String menuCamera =
+        await rootBundle.loadString(Assets.images.anonymous);
+
+    final PictureRecorder recorder = PictureRecorder();
+    final Canvas canvas = Canvas(
+        recorder,
+        Rect.fromPoints(
+            const Offset(0.0, 0.0), const Offset(40, 40)));
+
+    final DrawableRoot menuCameraDrawable = await svg.fromSvgString(menuCamera, Assets.images.anonymous);
+
+    menuCameraDrawable.scaleCanvasToViewBox(canvas, const Size(40, 40));
+    menuCameraDrawable.clipCanvasToViewBox(canvas);
+    menuCameraDrawable.draw(
+        canvas,
+        Rect.fromPoints(
+            const Offset(0.0, 0.0), const Offset(40, 40)));
+
+    final ByteData? pngBytes = await (await recorder
+        .endRecording()
+        .toImage(40, 40))
+        .toByteData(format: ImageByteFormat.png);
+
+    if (pngBytes != null) {
+      if (!_menuCameraCtrl.isClosed) {
+        _menuCameraCtrl.sink.add(Uint8List.view(pngBytes.buffer));
+      }
+    }
+
   }
 }
