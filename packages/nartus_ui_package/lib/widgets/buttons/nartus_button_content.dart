@@ -18,38 +18,38 @@ class _ButtonContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
-    children: iconPosition == IconPosition.left
-        ? <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(right: NartusDimens.padding14),
-        child: SvgPicture.asset(
-          icon,
-          width: 20,
-          height: 20,
-          color: isEnable
-              ? _getEnableColor(buttonType)
-              : _getDisableColor(buttonType),
-        ),
-      ),
-      Text(label)
-    ]
-        : <Widget>[
-      Text(label),
-      Padding(
-        padding: const EdgeInsets.only(left: NartusDimens.padding14),
-        child: SvgPicture.asset(
-          icon,
-          width: 20,
-          height: 20,
-          color: isEnable
-              ? _getEnableColor(buttonType)
-              : _getDisableColor(buttonType),
-        ),
-      )
-    ],
-  );
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: iconPosition == IconPosition.left
+            ? <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: NartusDimens.padding14),
+                  child: SvgPicture.asset(
+                    icon,
+                    width: 20,
+                    height: 20,
+                    color: isEnable
+                        ? _getEnableColor(buttonType)
+                        : _getDisableColor(buttonType),
+                  ),
+                ),
+                Text(label)
+              ]
+            : <Widget>[
+                Text(label),
+                Padding(
+                  padding: const EdgeInsets.only(left: NartusDimens.padding14),
+                  child: SvgPicture.asset(
+                    icon,
+                    width: 20,
+                    height: 20,
+                    color: isEnable
+                        ? _getEnableColor(buttonType)
+                        : _getDisableColor(buttonType),
+                  ),
+                )
+              ],
+      );
   Color _getEnableColor(ButtonType type) =>
       type == ButtonType.primary ? NartusColor.white : NartusColor.primary;
   Color _getDisableColor(ButtonType type) => type == ButtonType.primary

@@ -87,7 +87,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot = await _createDrawableRoot(Assets.images.markerBase);
+    baseMarkerDrawableRoot =
+        await _createDrawableRoot(Assets.images.markerBase);
     markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
 
     return _computeMarker();
@@ -96,8 +97,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   // generate marker base drawable from SVG asset
   Future<DrawableRoot> _createDrawableRoot(String assetName) async {
     // load the base marker svg string from asset
-    final String baseMarkerSvgString =
-    await rootBundle.loadString(assetName);
+    final String baseMarkerSvgString = await rootBundle.loadString(assetName);
     // load the base marker from svg
     return svg.fromSvgString(baseMarkerSvgString, assetName);
   }
