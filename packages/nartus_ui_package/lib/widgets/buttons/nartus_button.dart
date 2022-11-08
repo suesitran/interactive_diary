@@ -28,13 +28,13 @@ class NartusButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.iconPath,
-        this.iconSemanticLabel,
+      this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
       : assert(label != null || iconPath != null,
             'either label or icon must not be null'),
-  assert(iconPath == null || iconSemanticLabel != null),
+        assert(iconPath == null || iconSemanticLabel != null),
         buttonType = ButtonType.primary,
         super(key: key);
 
@@ -42,7 +42,7 @@ class NartusButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.iconPath,
-        this.iconSemanticLabel,
+      this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
@@ -56,7 +56,7 @@ class NartusButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.iconPath,
-        this.iconSemanticLabel,
+      this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})

@@ -50,7 +50,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
       stream: markerData,
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         final Uint8List? data = snapshot.data;
-        final BitmapDescriptor icon = data == null
+        final BitmapDescriptor icon = data == null || data.isEmpty
             ? BitmapDescriptor.defaultMarker
             : BitmapDescriptor.fromBytes(data);
 
@@ -87,28 +87,19 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
-    markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
+    baseMarkerDrawableRoot =
+        await _createDrawableRoot(Assets.images.markerBase);
+    markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
 
     return _computeMarker();
   }
 
   // generate marker base drawable from SVG asset
-  Future<DrawableRoot> _createBaseMarkerDrawableRoot() async {
+  Future<DrawableRoot> _createDrawableRoot(String assetName) async {
     // load the base marker svg string from asset
-    final String baseMarkerSvgString =
-        await rootBundle.loadString(Assets.images.markerBase);
+    final String baseMarkerSvgString = await rootBundle.loadString(assetName);
     // load the base marker from svg
-    return svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
-  }
-
-  // generate center marker from SVG asset
-  Future<DrawableRoot> _createCenterMarkerDrawableRoot() async {
-    // load add/close icon from svg string
-    final String markerCenterSvgString =
-        await rootBundle.loadString(Assets.images.markerAdd);
-    // load marker add into drawable root from svg
-    return svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
+    return svg.fromSvgString(baseMarkerSvgString, assetName);
   }
 
   // draw complete marker with angle

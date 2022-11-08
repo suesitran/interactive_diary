@@ -24,23 +24,25 @@ void main() {
 
   group('Test MediaQuery for TextScaleFactor', () {
     testWidgets('given when MainPage is shown, then MediaQuery widget is used',
-            (WidgetTester widgetTester) async {
-          const MainPage widget = MainPage();
+        (WidgetTester widgetTester) async {
+      const MainPage widget = MainPage();
 
-          await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
+      await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
 
-          expect(
-              find.ancestor(
-                // ancestor of IDHome
-                  of: find.byType(IDHome),
-                  // descendant of MultiBlocProvider
-                  matching: find.descendant(
-                      of: find.byType(MainPage),
-                      matching: find.byType(MediaQuery))),
-              findsOneWidget);
-        });
+      expect(
+          find.ancestor(
+              // ancestor of IDHome
+              of: find.byType(IDHome),
+              // descendant of MultiBlocProvider
+              matching: find.descendant(
+                  of: find.byType(MainPage),
+                  matching: find.byType(MediaQuery))),
+          findsOneWidget);
+    });
 
-    testWidgets('given platform text scale factor is 2.5, when open MainPage, then textScaleFactor is max at 1.25', (WidgetTester widgetTester) async {
+    testWidgets(
+        'given platform text scale factor is 2.5, when open MainPage, then textScaleFactor is max at 1.25',
+        (WidgetTester widgetTester) async {
       final TestWidgetsFlutterBinding testBinding = widgetTester.binding;
       testBinding.window.platformDispatcher.textScaleFactorTestValue = 2.5;
 
@@ -49,17 +51,18 @@ void main() {
       await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
-        // ancestor of IDHome
+          // ancestor of IDHome
           of: find.byType(IDHome),
           // descendant of MainPage
           matching: find.descendant(
-              of: find.byType(MainPage),
-              matching: find.byType(MediaQuery))));
+              of: find.byType(MainPage), matching: find.byType(MediaQuery))));
 
       expect(mediaQuery.data.textScaleFactor, 1.25);
     });
 
-    testWidgets('given platform text scale factor is 0.5, when open MainPage, then textScaleFactor is min at 0.8', (WidgetTester widgetTester) async {
+    testWidgets(
+        'given platform text scale factor is 0.5, when open MainPage, then textScaleFactor is min at 0.8',
+        (WidgetTester widgetTester) async {
       final TestWidgetsFlutterBinding testBinding = widgetTester.binding;
       testBinding.window.platformDispatcher.textScaleFactorTestValue = 0.5;
 
@@ -68,17 +71,18 @@ void main() {
       await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
-        // ancestor of IDHome
+          // ancestor of IDHome
           of: find.byType(IDHome),
           // descendant of MainPage
           matching: find.descendant(
-              of: find.byType(MainPage),
-              matching: find.byType(MediaQuery))));
+              of: find.byType(MainPage), matching: find.byType(MediaQuery))));
 
       expect(mediaQuery.data.textScaleFactor, 0.8);
     });
 
-    testWidgets('given platform text scale factor is 1.1, when open MainPage, then textScaleFactor is set at 1.1', (WidgetTester widgetTester) async {
+    testWidgets(
+        'given platform text scale factor is 1.1, when open MainPage, then textScaleFactor is set at 1.1',
+        (WidgetTester widgetTester) async {
       final TestWidgetsFlutterBinding testBinding = widgetTester.binding;
       testBinding.window.platformDispatcher.textScaleFactorTestValue = 1.1;
 
@@ -87,12 +91,11 @@ void main() {
       await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
-        // ancestor of IDHome
+          // ancestor of IDHome
           of: find.byType(IDHome),
           // descendant of MainPage
           matching: find.descendant(
-              of: find.byType(MainPage),
-              matching: find.byType(MediaQuery))));
+              of: find.byType(MainPage), matching: find.byType(MediaQuery))));
 
       expect(mediaQuery.data.textScaleFactor, 1.1);
     });

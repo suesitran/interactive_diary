@@ -15,7 +15,10 @@ class NoConnectionScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SvgPicture.asset(Assets.images.noConnection, fit: BoxFit.fitWidth,),
+          SvgPicture.asset(
+            Assets.images.noConnection,
+            fit: BoxFit.fitWidth,
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

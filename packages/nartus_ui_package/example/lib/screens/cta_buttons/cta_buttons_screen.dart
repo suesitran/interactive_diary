@@ -10,7 +10,8 @@ class CTAButtonsScreen extends StatefulWidget {
   State<CTAButtonsScreen> createState() => _CTAButtonsScreenState();
 }
 
-class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerProviderStateMixin {
+class _CTAButtonsScreenState extends State<CTAButtonsScreen>
+    with SingleTickerProviderStateMixin {
   final int _numDots = 6;
   late final TabController _controller;
 
@@ -26,387 +27,385 @@ class _CTAButtonsScreenState extends State<CTAButtonsScreen> with SingleTickerPr
         appBar: AppBar(
           title: const Text('CTA Buttons demo'),
         ),
-        body: Stack(
-          children: [
-            PageView(
-              onPageChanged: (index) {
-                setState(() {
-                  _controller.index = index;
-                });
-              },
-              children: [
-                // primary large
-                ButtonsDemoPage(
-                  title: 'Primary large',
-                  defaults: [
-                    _demoButton('52px - primary button - text only - active',
-                        NartusButton.primary(label: 'Demo', onPressed: () {})),
-                    _demoButton(
-                        '52px - primary button - left icon - active',
-                        NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                        )),
-                    _demoButton(
-                        '52px - primary button - right icon - active',
-                        NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                        )),
-                    _demoButton(
-                        '52px - primary button - icon only - active',
-                        NartusButton.primary(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                        )),
-                  ],
-                  disabled: [
-                    _demoButton('52px - primary button - text only - disable',
-                        const NartusButton.primary(label: 'Demo')),
-                    _demoButton(
-                        '52px - primary button - left icon - disable',
-                        const NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                        )),
-                    _demoButton(
-                        '52px - primary button - right icon - disable',
-                        const NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                        )),
-                    _demoButton(
-                        '52px - primary button - icon only - disable',
-                        const NartusButton.primary(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                        )),
-                  ],
-                ),
-                // primary small
-                ButtonsDemoPage(title: 'Primary small', defaults: [
+        body: Stack(children: [
+          PageView(
+            onPageChanged: (index) {
+              setState(() {
+                _controller.index = index;
+              });
+            },
+            children: [
+              // primary large
+              ButtonsDemoPage(
+                title: 'Primary large',
+                defaults: [
+                  _demoButton('52px - primary button - text only - active',
+                      NartusButton.primary(label: 'Demo', onPressed: () {})),
                   _demoButton(
-                      '44px - primary button - text only - active',
+                      '52px - primary button - left icon - active',
                       NartusButton.primary(
                         label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
                         onPressed: () {},
-                        sizeType: SizeType.small,
                       )),
                   _demoButton(
-                      '44px - primary button - left icon - active',
+                      '52px - primary button - right icon - active',
                       NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          sizeType: SizeType.small)),
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                      )),
                   _demoButton(
-                      '44px - primary button - right icon - active',
+                      '52px - primary button - icon only - active',
                       NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                      )),
+                ],
+                disabled: [
+                  _demoButton('52px - primary button - text only - disable',
+                      const NartusButton.primary(label: 'Demo')),
                   _demoButton(
-                      '44px - primary button - icon only - active',
-                      NartusButton.primary(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                ], disabled: [
-                  _demoButton(
-                      '44px - primary button - text only - disable',
+                      '52px - primary button - left icon - disable',
                       const NartusButton.primary(
                         label: 'Demo',
-                        sizeType: SizeType.small,
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
                       )),
                   _demoButton(
-                      '44px - primary button - left icon - disable',
+                      '52px - primary button - right icon - disable',
                       const NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          sizeType: SizeType.small)),
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                      )),
                   _demoButton(
-                      '44px - primary button - right icon - disable',
+                      '52px - primary button - icon only - disable',
                       const NartusButton.primary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - primary button - icon only - disable',
-                      const NartusButton.primary(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                ]),
-                // secondary large
-                ButtonsDemoPage(title: 'Secondary large', defaults: [
-                  _demoButton('52px - secondary button - text only - active',
-                      NartusButton.secondary(label: 'Demo', onPressed: () {})),
-                  _demoButton(
-                      '52px - secondary button - left icon - active',
-                      NartusButton.secondary(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        onPressed: () {},
-                      )),
-                  _demoButton(
-                      '52px - secondary button - right icon - active',
-                      NartusButton.secondary(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        onPressed: () {},
-                        iconPosition: IconPosition.right,
-                      )),
-                  _demoButton(
-                      '52px - secondary button - icon only - active',
-                      NartusButton.secondary(
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        onPressed: () {},
-                        iconPosition: IconPosition.right,
-                      )),
-                ], disabled: [
-                  _demoButton('52px - secondary button - text only - disable',
-                      const NartusButton.secondary(label: 'Demo')),
-                  _demoButton(
-                      '52px - secondary button - left icon - disable',
-                      const NartusButton.secondary(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                      )),
-                  _demoButton(
-                      '52px - secondary button - right icon - disable',
-                      const NartusButton.secondary(
-                        label: 'Demo',
                         iconPath: 'assets/facebook.svg',
                         iconSemanticLabel: 'Facebook',
                         iconPosition: IconPosition.right,
                       )),
-                  _demoButton(
-                      '52px - secondary button - icon only - disable',
-                      const NartusButton.secondary(
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        iconPosition: IconPosition.right,
-                      )),
-                ]),
-                // secondary small
-                ButtonsDemoPage(title: 'Secondary small', defaults: [
-                  _demoButton(
-                      '44px - secondary button - text only - active',
-                      NartusButton.secondary(
-                        label: 'Demo',
-                        onPressed: () {},
-                        sizeType: SizeType.small,
-                      )),
-                  _demoButton(
-                      '44px - secondary button - left icon - active',
-                      NartusButton.secondary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - secondary button - right icon - active',
-                      NartusButton.secondary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - secondary button - icon only - active',
-                      NartusButton.secondary(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                ], disabled: [
-                  _demoButton(
-                      '44px - secondary button - text only - disable',
-                      const NartusButton.secondary(
-                        label: 'Demo',
-                        sizeType: SizeType.small,
-                      )),
-                  _demoButton(
-                      '44px - secondary button - left icon - disable',
-                      const NartusButton.secondary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - secondary button - right icon - disable',
-                      const NartusButton.secondary(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - secondary button - icon only - disable',
-                      const NartusButton.secondary(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                ]),
-                // text large
-                ButtonsDemoPage(title: 'Text large', defaults: [
-                  _demoButton('52px - text button - text only - active',
-                      NartusButton.text(label: 'Demo', onPressed: () {})),
-                  _demoButton(
-                      '52px - text button - left icon - active',
-                      NartusButton.text(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        onPressed: () {},
-                      )),
-                  _demoButton(
-                      '52px - text button - right icon - active',
-                      NartusButton.text(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        onPressed: () {},
-                        iconPosition: IconPosition.right,
-                      )),
-                  _demoButton(
-                      '52px - text button - icon only - active',
-                      NartusButton.text(
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        onPressed: () {},
-                        iconPosition: IconPosition.right,
-                      )),
-                ], disabled: [
-                  _demoButton('52px - text button - text only - disable',
-                      const NartusButton.text(label: 'Demo')),
-                  _demoButton(
-                      '52px - text button - left icon - disable',
-                      const NartusButton.text(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                      )),
-                  _demoButton(
-                      '52px - text button - right icon - disable',
-                      const NartusButton.text(
-                        label: 'Demo',
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        iconPosition: IconPosition.right,
-                      )),
-                  _demoButton(
-                      '52px - text button - icon only - disable',
-                      const NartusButton.text(
-                        iconPath: 'assets/facebook.svg',
-                        iconSemanticLabel: 'Facebook',
-                        iconPosition: IconPosition.right,
-                      )),
-                ]),
-                // secondary small
-                ButtonsDemoPage(title: 'Text small', defaults: [
-                  _demoButton(
-                      '44px - secondary button - text only - active',
-                      NartusButton.text(
-                        label: 'Demo',
-                        onPressed: () {},
-                        sizeType: SizeType.small,
-                      )),
-                  _demoButton(
-                      '44px - text button - left icon - active',
-                      NartusButton.text(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - text button - right icon - active',
-                      NartusButton.text(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - text button - icon only - active',
-                      NartusButton.text(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          onPressed: () {},
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                ], disabled: [
-                  _demoButton(
-                      '44px - secondary button - text only - disable',
-                      const NartusButton.text(
-                        label: 'Demo',
-                        sizeType: SizeType.small,
-                      )),
-                  _demoButton(
-                      '44px - text button - left icon - disable',
-                      const NartusButton.text(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - text button - right icon - disable',
-                      const NartusButton.text(
-                          label: 'Demo',
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                  _demoButton(
-                      '44px - text button - icon only - disable',
-                      const NartusButton.text(
-                          iconPath: 'assets/facebook.svg',
-                          iconSemanticLabel: 'Facebook',
-                          iconPosition: IconPosition.right,
-                          sizeType: SizeType.small)),
-                ]),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: TabPageSelector(
-                controller: _controller,
-                color: NartusColor.primary,
+                ],
               ),
-            )
-          ]
-        ));
+              // primary small
+              ButtonsDemoPage(title: 'Primary small', defaults: [
+                _demoButton(
+                    '44px - primary button - text only - active',
+                    NartusButton.primary(
+                      label: 'Demo',
+                      onPressed: () {},
+                      sizeType: SizeType.small,
+                    )),
+                _demoButton(
+                    '44px - primary button - left icon - active',
+                    NartusButton.primary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - primary button - right icon - active',
+                    NartusButton.primary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - primary button - icon only - active',
+                    NartusButton.primary(
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+              ], disabled: [
+                _demoButton(
+                    '44px - primary button - text only - disable',
+                    const NartusButton.primary(
+                      label: 'Demo',
+                      sizeType: SizeType.small,
+                    )),
+                _demoButton(
+                    '44px - primary button - left icon - disable',
+                    const NartusButton.primary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - primary button - right icon - disable',
+                    const NartusButton.primary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - primary button - icon only - disable',
+                    const NartusButton.primary(
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+              ]),
+              // secondary large
+              ButtonsDemoPage(title: 'Secondary large', defaults: [
+                _demoButton('52px - secondary button - text only - active',
+                    NartusButton.secondary(label: 'Demo', onPressed: () {})),
+                _demoButton(
+                    '52px - secondary button - left icon - active',
+                    NartusButton.secondary(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      onPressed: () {},
+                    )),
+                _demoButton(
+                    '52px - secondary button - right icon - active',
+                    NartusButton.secondary(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      onPressed: () {},
+                      iconPosition: IconPosition.right,
+                    )),
+                _demoButton(
+                    '52px - secondary button - icon only - active',
+                    NartusButton.secondary(
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      onPressed: () {},
+                      iconPosition: IconPosition.right,
+                    )),
+              ], disabled: [
+                _demoButton('52px - secondary button - text only - disable',
+                    const NartusButton.secondary(label: 'Demo')),
+                _demoButton(
+                    '52px - secondary button - left icon - disable',
+                    const NartusButton.secondary(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                    )),
+                _demoButton(
+                    '52px - secondary button - right icon - disable',
+                    const NartusButton.secondary(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      iconPosition: IconPosition.right,
+                    )),
+                _demoButton(
+                    '52px - secondary button - icon only - disable',
+                    const NartusButton.secondary(
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      iconPosition: IconPosition.right,
+                    )),
+              ]),
+              // secondary small
+              ButtonsDemoPage(title: 'Secondary small', defaults: [
+                _demoButton(
+                    '44px - secondary button - text only - active',
+                    NartusButton.secondary(
+                      label: 'Demo',
+                      onPressed: () {},
+                      sizeType: SizeType.small,
+                    )),
+                _demoButton(
+                    '44px - secondary button - left icon - active',
+                    NartusButton.secondary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - secondary button - right icon - active',
+                    NartusButton.secondary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - secondary button - icon only - active',
+                    NartusButton.secondary(
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+              ], disabled: [
+                _demoButton(
+                    '44px - secondary button - text only - disable',
+                    const NartusButton.secondary(
+                      label: 'Demo',
+                      sizeType: SizeType.small,
+                    )),
+                _demoButton(
+                    '44px - secondary button - left icon - disable',
+                    const NartusButton.secondary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - secondary button - right icon - disable',
+                    const NartusButton.secondary(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - secondary button - icon only - disable',
+                    const NartusButton.secondary(
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+              ]),
+              // text large
+              ButtonsDemoPage(title: 'Text large', defaults: [
+                _demoButton('52px - text button - text only - active',
+                    NartusButton.text(label: 'Demo', onPressed: () {})),
+                _demoButton(
+                    '52px - text button - left icon - active',
+                    NartusButton.text(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      onPressed: () {},
+                    )),
+                _demoButton(
+                    '52px - text button - right icon - active',
+                    NartusButton.text(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      onPressed: () {},
+                      iconPosition: IconPosition.right,
+                    )),
+                _demoButton(
+                    '52px - text button - icon only - active',
+                    NartusButton.text(
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      onPressed: () {},
+                      iconPosition: IconPosition.right,
+                    )),
+              ], disabled: [
+                _demoButton('52px - text button - text only - disable',
+                    const NartusButton.text(label: 'Demo')),
+                _demoButton(
+                    '52px - text button - left icon - disable',
+                    const NartusButton.text(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                    )),
+                _demoButton(
+                    '52px - text button - right icon - disable',
+                    const NartusButton.text(
+                      label: 'Demo',
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      iconPosition: IconPosition.right,
+                    )),
+                _demoButton(
+                    '52px - text button - icon only - disable',
+                    const NartusButton.text(
+                      iconPath: 'assets/facebook.svg',
+                      iconSemanticLabel: 'Facebook',
+                      iconPosition: IconPosition.right,
+                    )),
+              ]),
+              // secondary small
+              ButtonsDemoPage(title: 'Text small', defaults: [
+                _demoButton(
+                    '44px - secondary button - text only - active',
+                    NartusButton.text(
+                      label: 'Demo',
+                      onPressed: () {},
+                      sizeType: SizeType.small,
+                    )),
+                _demoButton(
+                    '44px - text button - left icon - active',
+                    NartusButton.text(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - text button - right icon - active',
+                    NartusButton.text(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - text button - icon only - active',
+                    NartusButton.text(
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        onPressed: () {},
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+              ], disabled: [
+                _demoButton(
+                    '44px - secondary button - text only - disable',
+                    const NartusButton.text(
+                      label: 'Demo',
+                      sizeType: SizeType.small,
+                    )),
+                _demoButton(
+                    '44px - text button - left icon - disable',
+                    const NartusButton.text(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - text button - right icon - disable',
+                    const NartusButton.text(
+                        label: 'Demo',
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+                _demoButton(
+                    '44px - text button - icon only - disable',
+                    const NartusButton.text(
+                        iconPath: 'assets/facebook.svg',
+                        iconSemanticLabel: 'Facebook',
+                        iconPosition: IconPosition.right,
+                        sizeType: SizeType.small)),
+              ]),
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: TabPageSelector(
+              controller: _controller,
+              color: NartusColor.primary,
+            ),
+          )
+        ]));
   }
 
   Widget _demoButton(String label, Widget widget) => Padding(
