@@ -21,6 +21,18 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/id_camera_icon.svg
+  String get idCameraIcon => 'assets/images/id_camera_icon.svg';
+
+  /// File path: assets/images/id_micro_icon.svg
+  String get idMicroIcon => 'assets/images/id_micro_icon.svg';
+
+  /// File path: assets/images/id_pencil_icon.svg
+  String get idPencilIcon => 'assets/images/id_pencil_icon.svg';
+
+  /// File path: assets/images/id_smile_icon.svg
+  String get idSmileIcon => 'assets/images/id_smile_icon.svg';
+
   /// File path: assets/images/marker_add.svg
   String get markerAdd => 'assets/images/marker_add.svg';
 
@@ -43,6 +55,10 @@ class $AssetsImagesGen {
         anonymous,
         arrowDown,
         calendar,
+        idCameraIcon,
+        idMicroIcon,
+        idPencilIcon,
+        idSmileIcon,
         markerAdd,
         markerBase,
         markerNonetap,
