@@ -20,6 +20,10 @@ class GoogleMapView extends StatefulWidget {
 
 class _GoogleMapViewState extends State<GoogleMapView>
     with TickerProviderStateMixin {
+
+  /// We specified baseAnchor here to avoid hidden default value of Marker's anchor = Offset(0.5, 1.0)
+  final Offset baseAnchor = const Offset(0.0, 0.0);
+
   static final StreamController<Uint8List> _streamController =
       StreamController<Uint8List>.broadcast();
 
@@ -77,11 +81,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
         }
       });
 
-    // Specify circular menu icon's animation
-    popupPenAnimation = _declareMenuIconsAnimation(start: const Offset(0.5, 1.0), end: const Offset(3, 3), controler: _controller);
-    popupEmojiAnimation = _declareMenuIconsAnimation(start: const Offset(0.5, 1.0), end: const Offset(0, 3), controler: _controller);
-    popupCameraAnimation = _declareMenuIconsAnimation(start: const Offset(0.5, 1.0), end: const Offset(-1, 3), controler: _controller);
-    popupVoiceAnimation = _declareMenuIconsAnimation(start: const Offset(0.5, 1.0), end: const Offset(-2, 3), controler: _controller);
+    _specifyCircularMenuIconsAnimation(_controller, baseAnchor);
 
     // generate marker icon
     _generateMarkerIcon();
@@ -112,11 +112,17 @@ class _GoogleMapViewState extends State<GoogleMapView>
                               target: LatLng(widget.currentLocation.latitude,
                                   widget.currentLocation.longitude),
                               zoom: 15),
+                          onCameraMoveStarted: () => _closeMenuIfOpening(),
+                          onCameraMove: (_)  => _closeMenuIfOpening(),
+                          onTap: (_) => _closeMenuIfOpening(),
                           markers: <Marker>{
                             Marker(
                                 markerId: const MarkerId('currentLocation'),
                                 position: widget.currentLocation,
                                 icon: icon,
+                                // anchor: baseAnchor,
+                                anchor: baseAnchor,
+                                zIndex: 1,
                                 onTap: () {
                                   if (_controller.value == 1) {
                                     _controller.reverse();
@@ -124,18 +130,19 @@ class _GoogleMapViewState extends State<GoogleMapView>
                                     _controller.forward();
                                   }
                                 }),
-                            if (isShowingMenu)...[
+                            // if (isShowingMenu)...[
                               Marker(
                                   markerId: const MarkerId('menuCameraMarkerLocation'),
                                   position: widget.currentLocation,
                                   icon: (() {
                                     if (menuCamera.data != null) {
                                       return BitmapDescriptor.fromBytes(
-                                        Uint8List.view(menuCamera.data!.buffer));
+                                          Uint8List.view(menuCamera.data!.buffer));
                                     }
                                     return BitmapDescriptor.defaultMarker;
                                   } ()),
                                   anchor: popupCameraAnimation.value,
+                                  // anchor: baseAnchor,
                                   onTap: () {
                                     print('ABC');
                                   }
@@ -146,7 +153,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                                   icon: (() {
                                     if (penData.data != null) {
                                       return BitmapDescriptor.fromBytes(
-                                        Uint8List.view(penData.data!.buffer));
+                                          Uint8List.view(penData.data!.buffer));
                                     }
                                     return BitmapDescriptor.defaultMarker;
                                   } ()),
@@ -161,7 +168,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                                   icon: (() {
                                     if (emojiData.data != null) {
                                       return BitmapDescriptor.fromBytes(
-                                        Uint8List.view(emojiData.data!.buffer));
+                                          Uint8List.view(emojiData.data!.buffer));
                                     }
                                     return BitmapDescriptor.defaultMarker;
                                   } ()),
@@ -176,7 +183,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                                   icon: (() {
                                     if (voiceData.data != null) {
                                       return BitmapDescriptor.fromBytes(
-                                        Uint8List.view(voiceData.data!.buffer));
+                                          Uint8List.view(voiceData.data!.buffer));
                                     }
                                     return BitmapDescriptor.defaultMarker;
                                   } ()),
@@ -185,7 +192,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                                     print('PEN');
                                   }
                               ),
-                            ]
+                            // ],
                           }
                       )
                   );
@@ -198,10 +205,20 @@ class _GoogleMapViewState extends State<GoogleMapView>
     );
   }
 
+  void _closeMenuIfOpening() {
+    if (_controller.value == 1) {
+      _controller.reverse();
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     _streamController.close();
+    _menuCameraCtrl.close();
+    _menuEmojiCtrl.close();
+    _menuPenCtrl.close();
+    _menuVoiceCtrl.close();
     super.dispose();
   }
 
@@ -308,63 +325,56 @@ class _GoogleMapViewState extends State<GoogleMapView>
     }
   }
 
-  // Future<void> _drawCircularMenuIcons() async {
-  //   const double menuIconSize = 100.0;
-  //   final String menuCamera =
-  //       await rootBundle.loadString(Assets.images.idCameraIcon);
-  //
-  //   final PictureRecorder recorder = PictureRecorder();
-  //   final Canvas canvas = Canvas(
-  //       recorder,
-  //       Rect.fromPoints(
-  //           const Offset(0.0, 0.0), const Offset(menuIconSize, menuIconSize)));
-  //
-  //   final DrawableRoot menuCameraDrawable = await svg.fromSvgString(menuCamera, Assets.images.idCameraIcon, theme: SvgTheme(currentColor: Colors.red));
-  //
-  //   menuCameraDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
-  //   menuCameraDrawable.clipCanvasToViewBox(canvas);
-  //   menuCameraDrawable.draw(
-  //       canvas,
-  //       Rect.fromPoints(
-  //           const Offset(0.0, 0.0), const Offset(40, 40)));
-  //
-  //   final ByteData? pngBytes = await (await recorder
-  //       .endRecording()
-  //       .toImage(menuIconSize.toInt(), menuIconSize.toInt()))
-  //       .toByteData(format: ImageByteFormat.png);
-  //
-  //   if (pngBytes != null) {
-  //     if (!_menuCameraCtrl.isClosed) {
-  //       _menuCameraCtrl.sink.add(Uint8List.view(pngBytes.buffer));
-  //     }
-  //   }
-  // }
+  void _specifyCircularMenuIconsAnimation(AnimationController controller, Offset baseAnchor) {
+    const double diameter = 1.5;
+    const double penDegree = 30.0;
+    const double emojiDegree = 70.0;
+    const double cameraDegree = 110.0;
+    const double voiceDegree = 150.0;
+
+    final double xPen = cos(penDegree * pi /180) * diameter;
+    final double yPen = sin(penDegree * pi/ 180) * diameter;
+
+    final double xEmoji = cos(emojiDegree * pi /180) * diameter;
+    final double yEmoji = sin(emojiDegree * pi/ 180) * diameter;
+
+    final double xCamera = cos(cameraDegree * pi /180) * diameter;
+    final double yCamera = sin(cameraDegree * pi/ 180) * diameter;
+
+    final double xVoice = cos(voiceDegree * pi /180) * diameter;
+    final double yVoice = sin(voiceDegree * pi/ 180) * diameter;
+
+    popupPenAnimation = _declareMenuIconsAnimation(
+      start: baseAnchor, end: Offset(xPen, yPen), controler: controller);
+    popupEmojiAnimation = _declareMenuIconsAnimation(
+      start: baseAnchor, end: Offset(xEmoji, yEmoji), controler: controller);
+    popupCameraAnimation = _declareMenuIconsAnimation(
+      start: baseAnchor, end: Offset(xCamera, yCamera), controler: controller);
+    popupVoiceAnimation = _declareMenuIconsAnimation(
+      start: baseAnchor, end: Offset(xVoice, yVoice), controler: controller);
+  }
 
   void _generateCircularMenuIcons() async {
-    const double menuIconSize = 100.0;
+    const double menuIconSize = 200.0;
     final List<MapEntry<String, String>> menuIcons = <MapEntry<String, String>>[
-      MapEntry<String, String>(Assets.images.idCameraIcon, await rootBundle.loadString(Assets.images.idCameraIcon)),
-      MapEntry<String, String>(Assets.images.idMicroIcon, await rootBundle.loadString(Assets.images.idMicroIcon)),
-      MapEntry<String, String>(Assets.images.idSmileIcon, await rootBundle.loadString(Assets.images.idSmileIcon)),
-      MapEntry<String, String>(Assets.images.idPencilIcon, await rootBundle.loadString(Assets.images.idPencilIcon)),
+      MapEntry<String, String>(Assets.images.idCircularIconCamera, await rootBundle.loadString(Assets.images.idCircularIconCamera)),
+      MapEntry<String, String>(Assets.images.idCircularIconMicro, await rootBundle.loadString(Assets.images.idCircularIconMicro)),
+      MapEntry<String, String>(Assets.images.idCircularIconEmoji, await rootBundle.loadString(Assets.images.idCircularIconEmoji)),
+      MapEntry<String, String>(Assets.images.idCircularIconPencil, await rootBundle.loadString(Assets.images.idCircularIconPencil)),
     ];
 
     final List<ByteData?> iconsPngByte = [];
     for (MapEntry<String, String> icon in menuIcons) {
       final PictureRecorder recorder = PictureRecorder();
-      final Canvas canvas = Canvas(
-          recorder,
-          Rect.fromPoints(
-              const Offset(0.0, 0.0), const Offset(menuIconSize, menuIconSize)));
+      final Canvas canvas = Canvas(recorder);
 
       final DrawableRoot iconDrawable = await svg.fromSvgString(icon.value, icon.key);
 
       iconDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
       iconDrawable.clipCanvasToViewBox(canvas);
       iconDrawable.draw(
-          canvas,
-          Rect.fromPoints(
-              const Offset(0.0, 0.0), const Offset(80, 80)));
+          canvas, Rect.fromPoints(
+          const Offset(0.0, 0.0), const Offset(0.0, 0.0)));
 
       final ByteData? pngBytes = await (await recorder
           .endRecording()
@@ -396,94 +406,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
         _menuPenCtrl.sink.add(Uint8List.view(iconsPngByte[3]!.buffer));
       }
     }
-
   }
-
-  // void _generateCircularMenuIcons() async {
-  //   const double menuIconSize = 100.0;
-  //   final String menuCamera = await rootBundle.loadString(Assets.images.idCameraIcon);
-  //   final String menuVoice = await rootBundle.loadString(Assets.images.idMicroIcon);
-  //   final String menuEmoji = await rootBundle.loadString(Assets.images.idSmileIcon);
-  //   final String menuPencil = await rootBundle.loadString(Assets.images.idPencilIcon);
-  //
-  //   final DrawableRoot menuCameraDrawable = await svg.fromSvgString(menuCamera, Assets.images.idCameraIcon);
-  //   final DrawableRoot menuEmojiDrawable = await svg.fromSvgString(menuEmoji, Assets.images.idSmileIcon);
-  //   final DrawableRoot menuVoiceDrawable = await svg.fromSvgString(menuVoice, Assets.images.idMicroIcon);
-  //   final DrawableRoot menuPencilDrawable = await svg.fromSvgString(menuPencil, Assets.images.idPencilIcon);
-  //
-  //   final PictureRecorder recorder = PictureRecorder();
-  //   final Canvas canvas = Canvas(recorder, Rect.fromPoints(const Offset(0.0, 0.0), const Offset(menuIconSize, menuIconSize)));
-  //
-  //   menuCameraDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
-  //   menuCameraDrawable.clipCanvasToViewBox(canvas);
-  //   menuCameraDrawable.draw(canvas, Rect.fromPoints(const Offset(0.0, 0.0), const Offset(40, 40)));
-  //
-  //   // final ByteData? cameraPngBytes = await (await recorder
-  //   //   .endRecording()
-  //   //   .toImage(menuIconSize.toInt(), menuIconSize.toInt()))
-  //   //   .toByteData(format: ImageByteFormat.png);
-  //   //
-  //   // if (cameraPngBytes != null) {
-  //   //   if (!_menuCameraCtrl.isClosed) {
-  //   //     _menuCameraCtrl.sink.add(Uint8List.view(cameraPngBytes.buffer));
-  //   //   }
-  //   // }
-  //
-  //   // try {
-  //     menuEmojiDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
-  //     menuEmojiDrawable.clipCanvasToViewBox(canvas);
-  //     menuEmojiDrawable.draw(canvas, Rect.fromPoints(const Offset(0.0, 0.0), const Offset(40, 40)));
-  //   //
-  //   //   final ByteData? emojiPngBytes = await (await recorder
-  //   //       .endRecording()
-  //   //       .toImage(menuIconSize.toInt(), menuIconSize.toInt()))
-  //   //       .toByteData(format: ImageByteFormat.png);
-  //   //
-  //   //   if (emojiPngBytes != null) {
-  //   //     if (!_menuEmojiCtrl.isClosed) {
-  //   //       _menuEmojiCtrl.sink.add(Uint8List.view(emojiPngBytes.buffer));
-  //   //     }
-  //   //   }
-  //   // } catch (e, trace) {
-  //   //   print('ERR : ${e.toString()}');
-  //   //   print('TRACE : ${trace.toString()}');
-  //   // }
-  //
-  //   menuVoiceDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
-  //   menuVoiceDrawable.clipCanvasToViewBox(canvas);
-  //   menuVoiceDrawable.draw(canvas, Rect.fromPoints(const Offset(0.0, 0.0), const Offset(40, 40)));
-  //
-  //   // final ByteData? voicePngBytes = await (await recorder
-  //   //     .endRecording()
-  //   //     .toImage(menuIconSize.toInt(), menuIconSize.toInt()))
-  //   //     .toByteData(format: ImageByteFormat.png);
-  //   //
-  //   // if (voicePngBytes != null) {
-  //   //   if (!_menuVoiceCtrl.isClosed) {
-  //   //     _menuVoiceCtrl.sink.add(Uint8List.view(voicePngBytes.buffer));
-  //   //   }
-  //   // }
-  //
-  //   menuPencilDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
-  //   menuPencilDrawable.clipCanvasToViewBox(canvas);
-  //   menuPencilDrawable.draw(canvas, Rect.fromPoints(const Offset(0.0, 0.0), const Offset(40, 40)));
-  //
-  //   final ByteData? pencilPngBytes = await (await recorder
-  //       .endRecording()
-  //       .toImage(menuIconSize.toInt(), menuIconSize.toInt()))
-  //       .toByteData(format: ImageByteFormat.png);
-  //
-  //   if (pencilPngBytes != null) {
-  //     if (!_menuPenCtrl.isClosed) {
-  //       _menuPenCtrl.sink.add(Uint8List.view(pencilPngBytes.buffer));
-  //     }
-  //   }
-  // }
-
 
   Animation<Offset> _declareMenuIconsAnimation({required Offset start, required Offset end, required AnimationController controler}) {
     return Tween<Offset>(begin: start, end: end).animate(CurvedAnimation(
-        parent: controler, curve: Curves.bounceOut));
+        parent: controler, curve: Curves.elasticOut));
   }
 
 }
