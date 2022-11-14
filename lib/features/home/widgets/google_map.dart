@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 
 class GoogleMapView extends StatefulWidget {
@@ -29,6 +29,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late final DrawableRoot markerAddDrawableRoot;
 
   late final AnimationController _controller;
+  late GoogleMapController mapController;
 
   @override
   void initState() {
@@ -44,23 +45,32 @@ class _GoogleMapViewState extends State<GoogleMapView>
     _generateMarkerIcon();
   }
 
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    mapController.setMapStyle(MapStyle.paper.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Uint8List>(
       stream: markerData,
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         final Uint8List? data = snapshot.data;
-        final BitmapDescriptor icon = data == null
+        final BitmapDescriptor icon = data == null || data.isEmpty
             ? BitmapDescriptor.defaultMarker
             : BitmapDescriptor.fromBytes(data);
 
         return AnimatedBuilder(
             animation: _controller,
             builder: (BuildContext context, Widget? child) => GoogleMap(
+                    onMapCreated: (GoogleMapController controller) =>
+                        _onMapCreated(controller),
                     initialCameraPosition: CameraPosition(
                         target: LatLng(widget.currentLocation.latitude,
                             widget.currentLocation.longitude),
                         zoom: 15),
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
                     markers: <Marker>{
                       Marker(
                           markerId: const MarkerId('currentLocation'),
@@ -87,28 +97,19 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
-    markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
+    baseMarkerDrawableRoot =
+        await _createDrawableRoot(Assets.images.markerBase);
+    markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
 
     return _computeMarker();
   }
 
   // generate marker base drawable from SVG asset
-  Future<DrawableRoot> _createBaseMarkerDrawableRoot() async {
+  Future<DrawableRoot> _createDrawableRoot(String assetName) async {
     // load the base marker svg string from asset
-    final String baseMarkerSvgString =
-        await rootBundle.loadString(Assets.images.markerBase);
+    final String baseMarkerSvgString = await rootBundle.loadString(assetName);
     // load the base marker from svg
-    return svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
-  }
-
-  // generate center marker from SVG asset
-  Future<DrawableRoot> _createCenterMarkerDrawableRoot() async {
-    // load add/close icon from svg string
-    final String markerCenterSvgString =
-        await rootBundle.loadString(Assets.images.markerAdd);
-    // load marker add into drawable root from svg
-    return svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
+    return svg.fromSvgString(baseMarkerSvgString, assetName);
   }
 
   // draw complete marker with angle

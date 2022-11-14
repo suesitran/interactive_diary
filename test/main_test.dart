@@ -57,7 +57,6 @@ void main() {
           matching: find.descendant(
               of: find.byType(MainAppScreen),
               matching: find.byType(MediaQuery))));
-
       expect(mediaQuery.data.textScaleFactor, 1.25);
     });
 
