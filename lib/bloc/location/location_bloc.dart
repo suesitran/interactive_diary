@@ -7,7 +7,8 @@ import 'package:nartus_location/nartus_location.dart';
 part 'location_event.dart';
 part 'location_state.dart';
 
-const LatLng _defaultLocation = LatLng(10.7840007, 106.7034988);
+const LatLng _defaultLocation =
+    LatLng(10.7725, 106.6980); //location nhà thờ đức bà
 const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {

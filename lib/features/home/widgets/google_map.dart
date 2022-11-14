@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 
 class GoogleMapView extends StatefulWidget {
@@ -29,6 +29,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late final DrawableRoot markerAddDrawableRoot;
 
   late final AnimationController _controller;
+  late GoogleMapController mapController;
 
   @override
   void initState() {
@@ -44,6 +45,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
     _generateMarkerIcon();
   }
 
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    mapController.setMapStyle(MapStyle.paper.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Uint8List>(
@@ -57,10 +63,14 @@ class _GoogleMapViewState extends State<GoogleMapView>
         return AnimatedBuilder(
             animation: _controller,
             builder: (BuildContext context, Widget? child) => GoogleMap(
+                    onMapCreated: (GoogleMapController controller) =>
+                        _onMapCreated(controller),
                     initialCameraPosition: CameraPosition(
                         target: LatLng(widget.currentLocation.latitude,
                             widget.currentLocation.longitude),
                         zoom: 15),
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
                     markers: <Marker>{
                       Marker(
                           markerId: const MarkerId('currentLocation'),
