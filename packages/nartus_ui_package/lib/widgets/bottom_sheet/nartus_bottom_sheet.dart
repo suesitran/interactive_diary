@@ -68,10 +68,11 @@ class NartusBottomSheet extends StatelessWidget {
               onPressed: onPrimaryButtonSelected,
             ),
           ),
-          NartusButton.secondary(
-            label: secondaryButtonText,
-            onPressed: onSecondButtonSelected,
-          )
+          if (secondaryButtonText != null)
+            NartusButton.secondary(
+              label: secondaryButtonText,
+              onPressed: onSecondButtonSelected,
+            )
         ],
       ),
     );
@@ -92,10 +93,7 @@ extension IdBottomSheet on BuildContext {
         context: this,
         isDismissible: isDismissible,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20)
-          )
-        ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         builder: (BuildContext builder) {
           return NartusBottomSheet(
             iconPath: iconPath,
