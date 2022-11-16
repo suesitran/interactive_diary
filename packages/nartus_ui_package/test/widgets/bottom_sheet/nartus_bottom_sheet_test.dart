@@ -5,9 +5,9 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import '../../widget_tester_extension.dart';
 
 void main() {
-  group('Test bottom sheet', () {
+  group('Test nartus bottom sheet', () {
     testWidgets(
-        'given optional field - icon path, when bottom sheet shown, then show bottom sheet with icon',
+        'given icon and no secondary button, when bottom sheet shown, then show bottom sheet with icon and without secondary button',
         (WidgetTester widgetTester) async {
       // given
       int count = 0;
@@ -26,12 +26,14 @@ void main() {
       expect(find.text('content'), findsOneWidget);
       expect(find.text('primaryButtonText'), findsOneWidget);
       expect(find.text('secondaryButtonText'), findsNothing);
-      expect(count, 1);
       expect(find.byType(SvgPicture), findsOneWidget);
+
+      await widgetTester.tap(find.text('primaryButtonText'));
+      expect(count, 1);
     });
 
     testWidgets(
-        'given no icon, when bottom sheet shown, then show bottom sheet without icon',
+        'given no icon and no secondary button, when bottom sheet shown, then show bottom sheet without icon and secondary button',
         (WidgetTester widgetTester) async {
       // given
       int count = 0;
@@ -49,12 +51,14 @@ void main() {
       expect(find.text('content'), findsOneWidget);
       expect(find.text('primaryButtonText'), findsOneWidget);
       expect(find.text('secondaryButtonText'), findsNothing);
-      expect(count, 1);
       expect(find.byType(SvgPicture), findsNothing);
+
+      await widgetTester.tap(find.text('primaryButtonText'));
+      expect(count, 1);
     });
 
     testWidgets(
-        'given optional field - icon and secondary btn, when bottom sheet shown, then show bottom sheet with icon and secondary btn',
+        'given icon and secondary btn, when bottom sheet shown, then show bottom sheet with icon and secondary btn',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
@@ -79,13 +83,14 @@ void main() {
       expect(find.text('content'), findsOneWidget);
       expect(find.text('primaryButtonText'), findsOneWidget);
       expect(find.text('secondaryButtonText'), findsOneWidget);
-      expect(count1, 1);
-      expect(count2, 1);
       expect(find.byType(SvgPicture), findsOneWidget);
+
+      await widgetTester.tap(find.text('secondaryButtonText'));
+      expect(count2, 1);
     });
 
     testWidgets(
-        'given optional field - secondary btn, when bottom sheet shown, then show bottom sheet without icon and secondary btn',
+        'given no icon and secondary btn, when bottom sheet shown, then show bottom sheet without icon and secondary btn',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
@@ -109,9 +114,10 @@ void main() {
       expect(find.text('content'), findsOneWidget);
       expect(find.text('primaryButtonText'), findsOneWidget);
       expect(find.text('secondaryButtonText'), findsOneWidget);
-      expect(count1, 1);
-      expect(count2, 1);
       expect(find.byType(SvgPicture), findsNothing);
+
+      await widgetTester.tap(find.text('secondaryButtonText'));
+      expect(count2, 1);
     });
   });
 }

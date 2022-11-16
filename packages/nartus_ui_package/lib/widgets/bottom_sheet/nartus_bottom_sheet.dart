@@ -55,7 +55,7 @@ class NartusBottomSheet extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.only(bottom: NartusDimens.padding24),
               child: Text(
-                title,
+                content,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -83,11 +83,11 @@ extension IdBottomSheet on BuildContext {
   void showIDBottomSheet(
       {required String title,
       required String content,
-      required String primaryBtnText,
-      required VoidCallback onPrimaryBtnSelected,
+      required String primaryButtonText,
+      required VoidCallback onPrimaryButtonSelected,
       String? iconPath,
-      String? secondaryBtnText,
-      VoidCallback? onSecondaryBtnSelected,
+      String? secondaryButtonText,
+      VoidCallback? onSecondaryButtonSelected,
       bool isDismissible = true}) {
     showModalBottomSheet(
         context: this,
@@ -99,10 +99,10 @@ extension IdBottomSheet on BuildContext {
             iconPath: iconPath,
             title: title,
             content: content,
-            primaryButtonText: primaryBtnText,
-            onPrimaryButtonSelected: onPrimaryBtnSelected,
-            secondaryButtonText: secondaryBtnText,
-            onSecondButtonSelected: onSecondaryBtnSelected,
+            primaryButtonText: primaryButtonText,
+            onPrimaryButtonSelected: onPrimaryButtonSelected,
+            secondaryButtonText: secondaryButtonText,
+            onSecondButtonSelected: onSecondaryButtonSelected,
           );
         });
   }
