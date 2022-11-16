@@ -8,10 +8,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 
-const String menuCameraMarkerLocationId = 'menuCameraMarkerLocation';
-const String menuPencilMarkerLocationId = 'menuPencilMarkerLocation';
-const String menuEmojiMarkerLocationId = 'menuEmojiMarkerLocation';
+const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
+const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
+const String menuEmojiMarkerLocationId = 'menuEmojiMarkerLocationId';
 const String menuVoiceMarkerLocationId = 'menuVoiceMarkerLocationId';
+const String baseMarkerCurrentLocationId = 'currentLocationId';
 
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
@@ -204,12 +205,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
     if (pngBytes != null) {
       if (!_streamController.isClosed) {
         markers.add(Marker(
-            markerId: const MarkerId('currentLocation'),
+            markerId: const MarkerId(baseMarkerCurrentLocationId),
             position: widget.currentLocation,
             icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
             zIndex: 1,
             onTap: () {
-              print('BASE MARKER CLICKED');
               if (_controller.value == 1) {
                 _controller.reverse();
               } else {
@@ -260,41 +260,37 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   void _generateCircularMenuIcons() async {
     markers.removeWhere(
-            (Marker element) => element.markerId.value != 'currentLocation');
+            (Marker element) => element.markerId.value != baseMarkerCurrentLocationId);
     if (_controller.status != AnimationStatus.dismissed) {
       markers.addAll(<Marker>{
         Marker(
-            markerId: const MarkerId(menuCameraMarkerLocationId),
-            position: widget.currentLocation,
-            icon: cameraMarkerBitmap,
-            anchor: popupCameraAnimation.value,
-            onTap: () {
-              print('menuCameraMarkerLocation');
-            }),
+          markerId: const MarkerId(menuCameraMarkerLocationId),
+          position: widget.currentLocation,
+          icon: cameraMarkerBitmap,
+          anchor: popupCameraAnimation.value,
+          onTap: () {}
+        ),
         Marker(
-            markerId: const MarkerId(menuPencilMarkerLocationId),
-            position: widget.currentLocation,
-            icon: penMarkerBitmap,
-            anchor: popupPenAnimation.value,
-            onTap: () {
-              print('menuPencilMarkerLocation');
-            }),
+          markerId: const MarkerId(menuPencilMarkerLocationId),
+          position: widget.currentLocation,
+          icon: penMarkerBitmap,
+          anchor: popupPenAnimation.value,
+          onTap: () {}
+        ),
         Marker(
-            markerId: const MarkerId(menuEmojiMarkerLocationId),
-            position: widget.currentLocation,
-            icon: emojiMarkerBitmap,
-            anchor: popupEmojiAnimation.value,
-            onTap: () {
-              print('menuEmojiMarkerLocation');
-            }),
+          markerId: const MarkerId(menuEmojiMarkerLocationId),
+          position: widget.currentLocation,
+          icon: emojiMarkerBitmap,
+          anchor: popupEmojiAnimation.value,
+          onTap: () {}
+        ),
         Marker(
-            markerId: const MarkerId(menuVoiceMarkerLocationId),
-            position: widget.currentLocation,
-            icon: voiceMarkerBitmap,
-            anchor: popupVoiceAnimation.value,
-            onTap: () {
-              print('menuVoiceMarkerLocation');
-            }),
+          markerId: const MarkerId(menuVoiceMarkerLocationId),
+          position: widget.currentLocation,
+          icon: voiceMarkerBitmap,
+          anchor: popupVoiceAnimation.value,
+          onTap: () {}
+        ),
       });
     }
     _streamController.sink.add(markers);
