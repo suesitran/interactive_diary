@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocation';
@@ -35,6 +35,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late final DrawableRoot markerAddDrawableRoot;
 
   late final AnimationController _controller;
+  late GoogleMapController mapController;
 
   late Animation<Offset> popupPenAnimation;
   late Animation<Offset> popupEmojiAnimation;
@@ -72,6 +73,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
     _generateMarkerIcon().then((_) => _generateMenuBitmap());
   }
 
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    mapController.setMapStyle(MapStyle.paper.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Set<Marker>>(
@@ -83,6 +89,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   target: LatLng(widget.currentLocation.latitude,
                       widget.currentLocation.longitude),
                   zoom: 15),
+              onMapCreated: (GoogleMapController controller) =>
+                  _onMapCreated(controller),
               onCameraMoveStarted: () => _closeMenuIfOpening(),
               onCameraMove: (_) => _closeMenuIfOpening(),
               onTap: (_) => _closeMenuIfOpening(),
@@ -110,9 +118,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot =
-    await _createDrawableRoot(Assets.images.markerBase);
-    markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
+    baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
+    markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
 
     return _computeMarker();
   }
@@ -177,8 +184,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
       // unlock canvas
       canvas.restore();
-
-      // await _drawCircularMenuIcons(canvas, recorder);
     } else {
       // do normal drawing
       markerAddDrawableRoot.scaleCanvasToViewBox(

@@ -49,6 +49,7 @@ dependencies:
     path: packages/nartus_authentication
   nartus_connectivity:
     path: packages/nartus_connectivity
+  go_router: ^5.1.1
 
 dev_dependencies:
   flutter_test:
