@@ -8,6 +8,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 
+const String menuCameraMarkerLocationId = 'menuCameraMarkerLocation';
+const String menuPencilMarkerLocationId = 'menuPencilMarkerLocation';
+const String menuEmojiMarkerLocationId = 'menuEmojiMarkerLocation';
+const String menuVoiceMarkerLocationId = 'menuVoiceMarkerLocationId';
+
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
 
@@ -20,30 +25,10 @@ class GoogleMapView extends StatefulWidget {
 
 class _GoogleMapViewState extends State<GoogleMapView>
     with TickerProviderStateMixin {
+  static final StreamController<Set<Marker>> _streamController =
+  StreamController<Set<Marker>>.broadcast();
 
-  /// We specified baseAnchor here to avoid hidden default value of Marker's anchor = Offset(0.5, 1.0)
-  final Offset baseAnchor = const Offset(0.0, 0.0);
-
-  static final StreamController<Uint8List> _streamController =
-      StreamController<Uint8List>.broadcast();
-
-  static final StreamController<Uint8List> _menuCameraCtrl =
-    StreamController<Uint8List>.broadcast();
-  Stream<Uint8List> menuCameraData = _menuCameraCtrl.stream;
-
-  static final StreamController<Uint8List> _menuVoiceCtrl =
-    StreamController<Uint8List>.broadcast();
-  Stream<Uint8List> menuVoiceData = _menuVoiceCtrl.stream;
-
-  static final StreamController<Uint8List> _menuEmojiCtrl =
-    StreamController<Uint8List>.broadcast();
-  Stream<Uint8List> menuEmojiData = _menuEmojiCtrl.stream;
-
-  static final StreamController<Uint8List> _menuPenCtrl =
-    StreamController<Uint8List>.broadcast();
-  Stream<Uint8List> menuPenData = _menuPenCtrl.stream;
-
-  Stream<Uint8List> markerData = _streamController.stream;
+  Stream<Set<Marker>> markerData = _streamController.stream;
 
   // to draw marker with animation
   late final DrawableRoot baseMarkerDrawableRoot;
@@ -51,158 +36,64 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   late final AnimationController _controller;
 
-  late Animation<Offset> popupPenAnimation, popupEmojiAnimation,
-      popupCameraAnimation, popupVoiceAnimation;
+  late Animation<Offset> popupPenAnimation;
+  late Animation<Offset> popupEmojiAnimation;
+  late Animation<Offset> popupCameraAnimation;
+  late Animation<Offset> popupVoiceAnimation;
 
-  late bool isShowingMenu;
+  late Animation<double> currentLocationAnimation;
+
+  late final BitmapDescriptor penMarkerBitmap;
+  late final BitmapDescriptor emojiMarkerBitmap;
+  late final BitmapDescriptor cameraMarkerBitmap;
+  late final BitmapDescriptor voiceMarkerBitmap;
+
+  late final Set<Marker> markers = <Marker>{};
 
   @override
   void initState() {
     super.initState();
 
-    isShowingMenu = false;
-
-    _generateCircularMenuIcons();
-
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300))
-      ..addListener(() {
-        _computeMarker(angleInDegree: _controller.value * 45);
-
-        /// Open & close menu
-        if (_controller.value > 0) {
-          setState(() {
-            isShowingMenu = true;
-          });
-        } else {
-          setState(() {
-            isShowingMenu = false;
-          });
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.dismissed) {
+          _controller.reset();
         }
+      })
+      ..addListener(() {
+        _computeMarker(angleInDegree: currentLocationAnimation.value * 45)
+            .then((_) => _generateCircularMenuIcons());
       });
 
-    _specifyCircularMenuIconsAnimation(_controller, baseAnchor);
+    _specifyCircularMenuIconsAnimation(_controller);
 
     // generate marker icon
-    _generateMarkerIcon();
+    _generateMarkerIcon().then((_) => _generateMenuBitmap());
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Uint8List>(
-      stream: menuPenData,
-      builder: (_, AsyncSnapshot<Uint8List> penData) => StreamBuilder<Uint8List>(
-        stream: menuVoiceData,
-        builder: (_, AsyncSnapshot<Uint8List> voiceData) => StreamBuilder<Uint8List>(
-          stream: menuEmojiData,
-          builder: (_, AsyncSnapshot<Uint8List> emojiData) => StreamBuilder<Uint8List>(
-              stream: menuCameraData,
-              builder: (_, AsyncSnapshot<Uint8List> menuCamera) => StreamBuilder<Uint8List>(
-                stream: markerData,
-                builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-                  final Uint8List? data = snapshot.data;
-                  final BitmapDescriptor icon = data == null
-                      ? BitmapDescriptor.defaultMarker
-                      : BitmapDescriptor.fromBytes(data);
-
-                  return AnimatedBuilder(
-                      animation: _controller,
-                      builder: (BuildContext context, Widget? child) => GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                              target: LatLng(widget.currentLocation.latitude,
-                                  widget.currentLocation.longitude),
-                              zoom: 15),
-                          onCameraMoveStarted: () => _closeMenuIfOpening(),
-                          onCameraMove: (_)  => _closeMenuIfOpening(),
-                          onTap: (_) => _closeMenuIfOpening(),
-                          markers: <Marker>{
-                            Marker(
-                                markerId: const MarkerId('currentLocation'),
-                                position: widget.currentLocation,
-                                icon: icon,
-                                // anchor: baseAnchor,
-                                anchor: baseAnchor,
-                                zIndex: 1,
-                                onTap: () {
-                                  if (_controller.value == 1) {
-                                    _controller.reverse();
-                                  } else {
-                                    _controller.forward();
-                                  }
-                                }),
-                            // if (isShowingMenu)...[
-                              Marker(
-                                  markerId: const MarkerId('menuCameraMarkerLocation'),
-                                  position: widget.currentLocation,
-                                  icon: (() {
-                                    if (menuCamera.data != null) {
-                                      return BitmapDescriptor.fromBytes(
-                                          Uint8List.view(menuCamera.data!.buffer));
-                                    }
-                                    return BitmapDescriptor.defaultMarker;
-                                  } ()),
-                                  anchor: popupCameraAnimation.value,
-                                  // anchor: baseAnchor,
-                                  onTap: () {
-                                    print('ABC');
-                                  }
-                              ),
-                              Marker(
-                                  markerId: const MarkerId('menuPencilMarkerLocation'),
-                                  position: widget.currentLocation,
-                                  icon: (() {
-                                    if (penData.data != null) {
-                                      return BitmapDescriptor.fromBytes(
-                                          Uint8List.view(penData.data!.buffer));
-                                    }
-                                    return BitmapDescriptor.defaultMarker;
-                                  } ()),
-                                  anchor: popupPenAnimation.value,
-                                  onTap: () {
-                                    print('PEN');
-                                  }
-                              ),
-                              Marker(
-                                  markerId: const MarkerId('menuEmojiMarkerLocation'),
-                                  position: widget.currentLocation,
-                                  icon: (() {
-                                    if (emojiData.data != null) {
-                                      return BitmapDescriptor.fromBytes(
-                                          Uint8List.view(emojiData.data!.buffer));
-                                    }
-                                    return BitmapDescriptor.defaultMarker;
-                                  } ()),
-                                  anchor: popupEmojiAnimation.value,
-                                  onTap: () {
-                                    print('PEN');
-                                  }
-                              ),
-                              Marker(
-                                  markerId: const MarkerId('menuVoiceMarkerLocation'),
-                                  position: widget.currentLocation,
-                                  icon: (() {
-                                    if (voiceData.data != null) {
-                                      return BitmapDescriptor.fromBytes(
-                                          Uint8List.view(voiceData.data!.buffer));
-                                    }
-                                    return BitmapDescriptor.defaultMarker;
-                                  } ()),
-                                  anchor: popupVoiceAnimation.value,
-                                  onTap: () {
-                                    print('PEN');
-                                  }
-                              ),
-                            // ],
-                          }
-                      )
-                  );
-                },
-                initialData: Uint8List(0),
-              )
-          )
-        )
-      )
-    );
+    return StreamBuilder<Set<Marker>>(
+        stream: markerData,
+        builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
+          animation: _controller,
+          builder: (BuildContext context, Widget? child) => GoogleMap(
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(widget.currentLocation.latitude,
+                      widget.currentLocation.longitude),
+                  zoom: 15),
+              onCameraMoveStarted: () => _closeMenuIfOpening(),
+              onCameraMove: (_) => _closeMenuIfOpening(),
+              onTap: (_) => _closeMenuIfOpening(),
+              onLongPress: (_) => _closeMenuIfOpening(),
+              markers: data.data ?? <Marker>{},
+              myLocationEnabled: false,
+              zoomControlsEnabled: false,
+              mapToolbarEnabled: false,
+              compassEnabled: false,
+              myLocationButtonEnabled: false),
+        ));
   }
 
   void _closeMenuIfOpening() {
@@ -215,58 +106,44 @@ class _GoogleMapViewState extends State<GoogleMapView>
   void dispose() {
     _controller.dispose();
     _streamController.close();
-    _menuCameraCtrl.close();
-    _menuEmojiCtrl.close();
-    _menuPenCtrl.close();
-    _menuVoiceCtrl.close();
     super.dispose();
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
-    markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
+    baseMarkerDrawableRoot =
+    await _createDrawableRoot(Assets.images.markerBase);
+    markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
 
     return _computeMarker();
   }
 
   // generate marker base drawable from SVG asset
-  Future<DrawableRoot> _createBaseMarkerDrawableRoot() async {
+  Future<DrawableRoot> _createDrawableRoot(String svgPath) async {
     // load the base marker svg string from asset
-    final String baseMarkerSvgString =
-        await rootBundle.loadString(Assets.images.markerBase);
+    final String baseMarkerSvgString = await rootBundle.loadString(svgPath);
     // load the base marker from svg
-    return svg.fromSvgString(baseMarkerSvgString, Assets.images.markerBase);
-  }
-
-  // generate center marker from SVG asset
-  Future<DrawableRoot> _createCenterMarkerDrawableRoot() async {
-    // load add/close icon from svg string
-    final String markerCenterSvgString =
-        await rootBundle.loadString(Assets.images.markerAdd);
-    // load marker add into drawable root from svg
-    return svg.fromSvgString(markerCenterSvgString, Assets.images.markerAdd);
+    return svg.fromSvgString(baseMarkerSvgString, svgPath);
   }
 
   // draw complete marker with angle
-  void _computeMarker({double angleInDegree = 0}) async {
-    const double markerSize = 100.0;
-
+  Future<void> _computeMarker(
+      {double angleInDegree = 0, double markerSize = 150.0}) async {
     // create canvas to draw
     final PictureRecorder recorder = PictureRecorder();
     final Canvas canvas = Canvas(
         recorder,
         Rect.fromPoints(
-            const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+            const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
     // draw baseMarker on canvas
     const double markerAddSize = 24;
     baseMarkerDrawableRoot.scaleCanvasToViewBox(
-        canvas, const Size(markerSize, markerSize));
+        canvas, Size(markerSize, markerSize));
     baseMarkerDrawableRoot.clipCanvasToViewBox(canvas);
     baseMarkerDrawableRoot.draw(
         canvas,
         Rect.fromPoints(
-            const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+            const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
     // draw marker add
     // translate to desired location on canvas
@@ -296,7 +173,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
       markerAddDrawableRoot.draw(
           canvas,
           Rect.fromPoints(
-              const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+              const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
       // unlock canvas
       canvas.restore();
@@ -310,107 +187,166 @@ class _GoogleMapViewState extends State<GoogleMapView>
       markerAddDrawableRoot.draw(
           canvas,
           Rect.fromPoints(
-              const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+              const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
     }
 
     final ByteData? pngBytes = await (await recorder
-            .endRecording()
-            .toImage(markerSize.toInt(), markerSize.toInt()))
+        .endRecording()
+        .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
 
     if (pngBytes != null) {
       if (!_streamController.isClosed) {
-        _streamController.sink.add(Uint8List.view(pngBytes.buffer));
+        markers.add(Marker(
+            markerId: const MarkerId('currentLocation'),
+            position: widget.currentLocation,
+            icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
+            zIndex: 1,
+            onTap: () {
+              print('BASE MARKER CLICKED');
+              if (_controller.value == 1) {
+                _controller.reverse();
+              } else {
+                _controller.forward();
+              }
+            }));
       }
     }
   }
 
-  void _specifyCircularMenuIconsAnimation(AnimationController controller, Offset baseAnchor) {
-    const double diameter = 1.5;
-    const double penDegree = 30.0;
-    const double emojiDegree = 70.0;
-    const double cameraDegree = 110.0;
-    const double voiceDegree = 150.0;
+  void _specifyCircularMenuIconsAnimation(AnimationController controller) {
+    /// Offset(0.5, 1.0) : Is default anchor of Marker
+    const Offset baseAnchor = Offset(0.5, 1.0);
 
-    final double xPen = cos(penDegree * pi /180) * diameter;
-    final double yPen = sin(penDegree * pi/ 180) * diameter;
+    const double diameter = 1.0;
+    const double penDegree = 15.0;
+    const double cameraDegree = 65.0;
+    const double voiceDegree = 115.0;
+    const double emojiDegree = 165.0;
 
-    final double xEmoji = cos(emojiDegree * pi /180) * diameter;
-    final double yEmoji = sin(emojiDegree * pi/ 180) * diameter;
+    const double baseX = 0.5;
+    const double baseY = 0.5;
 
-    final double xCamera = cos(cameraDegree * pi /180) * diameter;
-    final double yCamera = sin(cameraDegree * pi/ 180) * diameter;
+    final double xPen = cos(penDegree * pi / 180) * diameter + baseX;
+    final double yPen = sin(penDegree * pi / 180) * diameter + baseY;
 
-    final double xVoice = cos(voiceDegree * pi /180) * diameter;
-    final double yVoice = sin(voiceDegree * pi/ 180) * diameter;
+    final double xEmoji = cos(emojiDegree * pi / 180) * diameter + baseX;
+    final double yEmoji = sin(emojiDegree * pi / 180) * diameter + baseY;
+
+    final double xCamera = cos(cameraDegree * pi / 180) * diameter + baseX;
+    final double yCamera = sin(cameraDegree * pi / 180) * diameter + baseY;
+
+    final double xVoice = cos(voiceDegree * pi / 180) * diameter + baseX;
+    final double yVoice = sin(voiceDegree * pi / 180) * diameter + baseY;
 
     popupPenAnimation = _declareMenuIconsAnimation(
-      start: baseAnchor, end: Offset(xPen, yPen), controler: controller);
+        start: baseAnchor, end: Offset(xPen, yPen), controller: controller);
     popupEmojiAnimation = _declareMenuIconsAnimation(
-      start: baseAnchor, end: Offset(xEmoji, yEmoji), controler: controller);
+        start: baseAnchor, end: Offset(xEmoji, yEmoji), controller: controller);
     popupCameraAnimation = _declareMenuIconsAnimation(
-      start: baseAnchor, end: Offset(xCamera, yCamera), controler: controller);
+        start: baseAnchor, end: Offset(xCamera, yCamera), controller: controller);
     popupVoiceAnimation = _declareMenuIconsAnimation(
-      start: baseAnchor, end: Offset(xVoice, yVoice), controler: controller);
+        start: baseAnchor, end: Offset(xVoice, yVoice), controller: controller);
+
+    currentLocationAnimation = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
   }
 
   void _generateCircularMenuIcons() async {
-    const double menuIconSize = 200.0;
-    final List<MapEntry<String, String>> menuIcons = <MapEntry<String, String>>[
-      MapEntry<String, String>(Assets.images.idCircularIconCamera, await rootBundle.loadString(Assets.images.idCircularIconCamera)),
-      MapEntry<String, String>(Assets.images.idCircularIconMicro, await rootBundle.loadString(Assets.images.idCircularIconMicro)),
-      MapEntry<String, String>(Assets.images.idCircularIconEmoji, await rootBundle.loadString(Assets.images.idCircularIconEmoji)),
-      MapEntry<String, String>(Assets.images.idCircularIconPencil, await rootBundle.loadString(Assets.images.idCircularIconPencil)),
-    ];
-
-    final List<ByteData?> iconsPngByte = [];
-    for (MapEntry<String, String> icon in menuIcons) {
-      final PictureRecorder recorder = PictureRecorder();
-      final Canvas canvas = Canvas(recorder);
-
-      final DrawableRoot iconDrawable = await svg.fromSvgString(icon.value, icon.key);
-
-      iconDrawable.scaleCanvasToViewBox(canvas, const Size(menuIconSize, menuIconSize));
-      iconDrawable.clipCanvasToViewBox(canvas);
-      iconDrawable.draw(
-          canvas, Rect.fromPoints(
-          const Offset(0.0, 0.0), const Offset(0.0, 0.0)));
-
-      final ByteData? pngBytes = await (await recorder
-          .endRecording()
-          .toImage(menuIconSize.toInt(), menuIconSize.toInt()))
-          .toByteData(format: ImageByteFormat.png);
-      iconsPngByte.add(pngBytes);
+    markers.removeWhere(
+            (Marker element) => element.markerId.value != 'currentLocation');
+    if (_controller.status != AnimationStatus.dismissed) {
+      markers.addAll(<Marker>{
+        Marker(
+            markerId: const MarkerId(menuCameraMarkerLocationId),
+            position: widget.currentLocation,
+            icon: cameraMarkerBitmap,
+            anchor: popupCameraAnimation.value,
+            onTap: () {
+              print('menuCameraMarkerLocation');
+            }),
+        Marker(
+            markerId: const MarkerId(menuPencilMarkerLocationId),
+            position: widget.currentLocation,
+            icon: penMarkerBitmap,
+            anchor: popupPenAnimation.value,
+            onTap: () {
+              print('menuPencilMarkerLocation');
+            }),
+        Marker(
+            markerId: const MarkerId(menuEmojiMarkerLocationId),
+            position: widget.currentLocation,
+            icon: emojiMarkerBitmap,
+            anchor: popupEmojiAnimation.value,
+            onTap: () {
+              print('menuEmojiMarkerLocation');
+            }),
+        Marker(
+            markerId: const MarkerId(menuVoiceMarkerLocationId),
+            position: widget.currentLocation,
+            icon: voiceMarkerBitmap,
+            anchor: popupVoiceAnimation.value,
+            onTap: () {
+              print('menuVoiceMarkerLocation');
+            }),
+      });
     }
-
-    if (iconsPngByte[0] != null) {
-      if (!_menuCameraCtrl.isClosed) {
-        _menuCameraCtrl.sink.add(Uint8List.view(iconsPngByte[0]!.buffer));
-      }
-    }
-
-    if (iconsPngByte[1] != null) {
-      if (!_menuVoiceCtrl.isClosed) {
-        _menuVoiceCtrl.sink.add(Uint8List.view(iconsPngByte[1]!.buffer));
-      }
-    }
-
-    if (iconsPngByte[2] != null) {
-      if (!_menuEmojiCtrl.isClosed) {
-        _menuEmojiCtrl.sink.add(Uint8List.view(iconsPngByte[2]!.buffer));
-      }
-    }
-
-    if (iconsPngByte[3] != null) {
-      if (!_menuPenCtrl.isClosed) {
-        _menuPenCtrl.sink.add(Uint8List.view(iconsPngByte[3]!.buffer));
-      }
-    }
+    _streamController.sink.add(markers);
   }
 
-  Animation<Offset> _declareMenuIconsAnimation({required Offset start, required Offset end, required AnimationController controler}) {
-    return Tween<Offset>(begin: start, end: end).animate(CurvedAnimation(
-        parent: controler, curve: Curves.elasticOut));
+  Future<void> _generateMenuBitmap() async {
+    penMarkerBitmap =
+    await _createDrawableRoot(Assets.images.idCircularIconPencil)
+        .then((DrawableRoot value) => _computeMenuMarker(value));
+    emojiMarkerBitmap =
+    await _createDrawableRoot(Assets.images.idCircularIconEmoji)
+        .then((DrawableRoot value) => _computeMenuMarker(value));
+    cameraMarkerBitmap =
+    await _createDrawableRoot(Assets.images.idCircularIconCamera)
+        .then((DrawableRoot value) => _computeMenuMarker(value));
+    voiceMarkerBitmap =
+    await _createDrawableRoot(Assets.images.idCircularIconMicro)
+        .then((DrawableRoot value) => _computeMenuMarker(value));
+
+    return _generateCircularMenuIcons();
   }
 
+  Future<BitmapDescriptor> _computeMenuMarker(DrawableRoot drawableRoot) async {
+    const double markerSize = 300;
+
+    // create canvas to draw
+    final PictureRecorder recorder = PictureRecorder();
+    final Canvas canvas = Canvas(
+        recorder,
+        Rect.fromPoints(
+            const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+
+    // draw baseMarker on canvas
+    drawableRoot.scaleCanvasToViewBox(
+        canvas, const Size(markerSize, markerSize));
+    drawableRoot.clipCanvasToViewBox(canvas);
+    drawableRoot.draw(
+        canvas,
+        Rect.fromPoints(
+            const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+
+    final ByteData? pngBytes = await (await recorder
+        .endRecording()
+        .toImage(markerSize.toInt(), markerSize.toInt()))
+        .toByteData(format: ImageByteFormat.png);
+
+    if (pngBytes != null) {
+      return BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer));
+    }
+
+    return BitmapDescriptor.defaultMarker;
+  }
+
+  Animation<Offset> _declareMenuIconsAnimation(
+      {required Offset start,
+        required Offset end,
+        required AnimationController controller}) {
+    return Tween<Offset>(begin: start, end: end)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
+  }
 }
