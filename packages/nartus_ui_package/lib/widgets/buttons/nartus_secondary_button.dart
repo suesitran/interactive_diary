@@ -12,7 +12,7 @@ class _NartusSecondaryButton extends StatelessWidget {
       {Key? key,
       this.label,
       this.icon,
-        this.iconSemanticLabel,
+      this.iconSemanticLabel,
       this.onPressed,
       this.iconPosition = IconPosition.left,
       this.sizeType = SizeType.large})
@@ -22,12 +22,14 @@ class _NartusSecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (icon != null && label != null) {
       return Semantics(
-            explicitChildNodes: false,
-            excludeSemantics: true,
-            label: iconPosition == IconPosition.left ? '$iconSemanticLabel, $label' : '$label, $iconSemanticLabel',
-            button: true,
-            enabled: onPressed != null,
-            onTap: onPressed,
+        explicitChildNodes: false,
+        excludeSemantics: true,
+        label: iconPosition == IconPosition.left
+            ? '$iconSemanticLabel, $label'
+            : '$label, $iconSemanticLabel',
+        button: true,
+        enabled: onPressed != null,
+        onTap: onPressed,
         child: OutlinedButton(
           onPressed: onPressed,
           child: _ButtonContent(

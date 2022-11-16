@@ -7,8 +7,11 @@ import '../../widget_tester_extension.dart';
 
 void main() {
   group('Test primary buttons', () {
-    testWidgets('primary button - label only', (WidgetTester widgetTester) async {
-      const NartusButton primary = NartusButton.primary(label: 'Primary',);
+    testWidgets('primary button - label only',
+        (WidgetTester widgetTester) async {
+      const NartusButton primary = NartusButton.primary(
+        label: 'Primary',
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -19,8 +22,12 @@ void main() {
       expect(find.byType(SvgPicture), findsNothing);
     });
 
-    testWidgets('primary button - icon only', (WidgetTester widgetTester) async {
-      const NartusButton primary = NartusButton.primary(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample',);
+    testWidgets('primary button - icon only',
+        (WidgetTester widgetTester) async {
+      const NartusButton primary = NartusButton.primary(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -31,8 +38,14 @@ void main() {
       expect(find.byType(Text), findsNothing);
     });
 
-    testWidgets('primary button - label and icon, icon position left', (WidgetTester widgetTester) async {
-      const NartusButton primary = NartusButton.primary(label: 'Primary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.left,);
+    testWidgets('primary button - label and icon, icon position left',
+        (WidgetTester widgetTester) async {
+      const NartusButton primary = NartusButton.primary(
+        label: 'Primary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.left,
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -42,8 +55,14 @@ void main() {
       expect(find.bySemanticsLabel('Sample, Primary'), findsOneWidget);
     });
 
-    testWidgets('primary button - label and icon, icon position right', (WidgetTester widgetTester) async {
-      const NartusButton primary = NartusButton.primary(label: 'Primary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.right,);
+    testWidgets('primary button - label and icon, icon position right',
+        (WidgetTester widgetTester) async {
+      const NartusButton primary = NartusButton.primary(
+        label: 'Primary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.right,
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -54,9 +73,15 @@ void main() {
     });
 
     // onPress action
-    testWidgets('primary button - label only - onPress action', (WidgetTester widgetTester) async {
+    testWidgets('primary button - label only - onPress action',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton primary = NartusButton.primary(label: 'Primary', onPressed: () { count++; },);
+      final NartusButton primary = NartusButton.primary(
+        label: 'Primary',
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -65,9 +90,16 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('primary button - icon only - onPress action', (WidgetTester widgetTester) async {
+    testWidgets('primary button - icon only - onPress action',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton primary = NartusButton.primary(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', onPressed: () { count++; },);
+      final NartusButton primary = NartusButton.primary(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -76,9 +108,19 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('primary button - label and icon, icon position left, onPress action', (WidgetTester widgetTester) async {
+    testWidgets(
+        'primary button - label and icon, icon position left, onPress action',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton primary = NartusButton.primary(label: 'Primary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.left, onPressed: () { count++; },);
+      final NartusButton primary = NartusButton.primary(
+        label: 'Primary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.left,
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -87,9 +129,19 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('primary button - label and icon, icon position right, onPress action', (WidgetTester widgetTester) async {
+    testWidgets(
+        'primary button - label and icon, icon position right, onPress action',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton primary = NartusButton.primary(label: 'Primary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.right, onPressed: () { count++; },);
+      final NartusButton primary = NartusButton.primary(
+        label: 'Primary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.right,
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(primary);
 
@@ -100,8 +152,11 @@ void main() {
   });
 
   group('Test secondary buttons', () {
-    testWidgets('secondary button - label only', (WidgetTester widgetTester) async {
-      const NartusButton secondary = NartusButton.secondary(label: 'Secondary',);
+    testWidgets('secondary button - label only',
+        (WidgetTester widgetTester) async {
+      const NartusButton secondary = NartusButton.secondary(
+        label: 'Secondary',
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -112,8 +167,12 @@ void main() {
       expect(find.byType(SvgPicture), findsNothing);
     });
 
-    testWidgets('secondary button - icon only', (WidgetTester widgetTester) async {
-      const NartusButton secondary = NartusButton.secondary(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample',);
+    testWidgets('secondary button - icon only',
+        (WidgetTester widgetTester) async {
+      const NartusButton secondary = NartusButton.secondary(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -124,8 +183,14 @@ void main() {
       expect(find.byType(Text), findsNothing);
     });
 
-    testWidgets('secondary button - label and icon, icon position left', (WidgetTester widgetTester) async {
-      const NartusButton secondary = NartusButton.secondary(label: 'Secondary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.left,);
+    testWidgets('secondary button - label and icon, icon position left',
+        (WidgetTester widgetTester) async {
+      const NartusButton secondary = NartusButton.secondary(
+        label: 'Secondary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.left,
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -135,8 +200,14 @@ void main() {
       expect(find.bySemanticsLabel('Sample, Secondary'), findsOneWidget);
     });
 
-    testWidgets('secondary button - label and icon, icon position right', (WidgetTester widgetTester) async {
-      const NartusButton secondary = NartusButton.secondary(label: 'Secondary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.right,);
+    testWidgets('secondary button - label and icon, icon position right',
+        (WidgetTester widgetTester) async {
+      const NartusButton secondary = NartusButton.secondary(
+        label: 'Secondary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.right,
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -147,9 +218,15 @@ void main() {
     });
 
     // onPress test
-    testWidgets('secondary button - label only - onPress', (WidgetTester widgetTester) async {
+    testWidgets('secondary button - label only - onPress',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton secondary = NartusButton.secondary(label: 'Secondary', onPressed: () { count++; },);
+      final NartusButton secondary = NartusButton.secondary(
+        label: 'Secondary',
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -158,9 +235,16 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('secondary button - icon only - onPress', (WidgetTester widgetTester) async {
+    testWidgets('secondary button - icon only - onPress',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton secondary = NartusButton.secondary(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', onPressed: () { count++; },);
+      final NartusButton secondary = NartusButton.secondary(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -169,9 +253,19 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('secondary button - label and icon, icon position left - onPress', (WidgetTester widgetTester) async {
+    testWidgets(
+        'secondary button - label and icon, icon position left - onPress',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton secondary = NartusButton.secondary(label: 'Secondary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.left, onPressed: () { count++; },);
+      final NartusButton secondary = NartusButton.secondary(
+        label: 'Secondary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.left,
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -180,9 +274,18 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('secondary button - label and icon, icon position right', (WidgetTester widgetTester) async {
+    testWidgets('secondary button - label and icon, icon position right',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton secondary = NartusButton.secondary(label: 'Secondary', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.right, onPressed: () { count++; },);
+      final NartusButton secondary = NartusButton.secondary(
+        label: 'Secondary',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.right,
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(secondary);
 
@@ -193,8 +296,11 @@ void main() {
   });
 
   group('Test text buttons', () {
-    testWidgets('text button - label only - enable', (WidgetTester widgetTester) async {
-      const NartusButton text = NartusButton.text(label: 'Text',);
+    testWidgets('text button - label only - enable',
+        (WidgetTester widgetTester) async {
+      const NartusButton text = NartusButton.text(
+        label: 'Text',
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -205,8 +311,13 @@ void main() {
       expect(find.byType(SvgPicture), findsNothing);
     });
 
-    testWidgets('text button - icon only - enable', (WidgetTester widgetTester) async {
-      final NartusButton text = NartusButton.text(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', onPressed: () {},);
+    testWidgets('text button - icon only - enable',
+        (WidgetTester widgetTester) async {
+      final NartusButton text = NartusButton.text(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        onPressed: () {},
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -222,8 +333,12 @@ void main() {
       expect(svgPicture.height, 20);
     });
 
-    testWidgets('text button - icon only - disable', (WidgetTester widgetTester) async {
-      const NartusButton text = NartusButton.text(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample',);
+    testWidgets('text button - icon only - disable',
+        (WidgetTester widgetTester) async {
+      const NartusButton text = NartusButton.text(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -239,8 +354,14 @@ void main() {
       expect(svgPicture.height, 20);
     });
 
-    testWidgets('text button - label and icon, icon position left', (WidgetTester widgetTester) async {
-      const NartusButton text = NartusButton.text(label: 'Text', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.left,);
+    testWidgets('text button - label and icon, icon position left',
+        (WidgetTester widgetTester) async {
+      const NartusButton text = NartusButton.text(
+        label: 'Text',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.left,
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -250,8 +371,14 @@ void main() {
       expect(find.bySemanticsLabel('Sample, Text'), findsOneWidget);
     });
 
-    testWidgets('secondary button - label and icon, icon position right', (WidgetTester widgetTester) async {
-      const NartusButton text = NartusButton.text(label: 'Text', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.right,);
+    testWidgets('secondary button - label and icon, icon position right',
+        (WidgetTester widgetTester) async {
+      const NartusButton text = NartusButton.text(
+        label: 'Text',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.right,
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -262,9 +389,15 @@ void main() {
     });
 
     // onPress
-    testWidgets('text button - label only - enable - onPress', (WidgetTester widgetTester) async {
+    testWidgets('text button - label only - enable - onPress',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton text = NartusButton.text(label: 'Text', onPressed: () { count++; },);
+      final NartusButton text = NartusButton.text(
+        label: 'Text',
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -273,9 +406,16 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('text button - icon only - enable - onPress', (WidgetTester widgetTester) async {
+    testWidgets('text button - icon only - enable - onPress',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton text = NartusButton.text(iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', onPressed: () {count++;},);
+      final NartusButton text = NartusButton.text(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -284,9 +424,18 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('text button - label and icon, icon position left', (WidgetTester widgetTester) async {
+    testWidgets('text button - label and icon, icon position left',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton text = NartusButton.text(label: 'Text', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.left, onPressed: () { count++; },);
+      final NartusButton text = NartusButton.text(
+        label: 'Text',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.left,
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 
@@ -295,9 +444,18 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('secondary button - label and icon, icon position right', (WidgetTester widgetTester) async {
+    testWidgets('secondary button - label and icon, icon position right',
+        (WidgetTester widgetTester) async {
       int count = 0;
-      final NartusButton text = NartusButton.text(label: 'Text', iconPath: 'assets/facebook.svg', iconSemanticLabel: 'Sample', iconPosition: IconPosition.right, onPressed: () { count++; },);
+      final NartusButton text = NartusButton.text(
+        label: 'Text',
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+        iconPosition: IconPosition.right,
+        onPressed: () {
+          count++;
+        },
+      );
 
       await widgetTester.wrapMaterialAndPump(text);
 

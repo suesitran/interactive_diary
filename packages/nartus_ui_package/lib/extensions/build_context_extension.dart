@@ -14,15 +14,15 @@ extension BuildContextExtension on BuildContext {
         showCupertinoDialog(
             context: this,
             builder: (BuildContext context) => MediaQuery(
-              data: MediaQuery.of(this).copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-          child: CupertinoAlertDialog(
-            title: title,
-            content: content,
-            actions: actions ?? <Widget>[],
-            insetAnimationCurve: Curves.easeIn,
-          )),
-            barrierDismissible: barrierDismissible
-        );
+                data: MediaQuery.of(this).copyWith(
+                    textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+                child: CupertinoAlertDialog(
+                  title: title,
+                  content: content,
+                  actions: actions ?? <Widget>[],
+                  insetAnimationCurve: Curves.easeIn,
+                )),
+            barrierDismissible: barrierDismissible);
       } else {
         showDialog(
             context: this,

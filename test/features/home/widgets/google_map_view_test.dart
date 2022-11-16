@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:interactive_diary/features/home/widgets/googe_map.dart';
+import 'package:interactive_diary/features/home/widgets/google_map.dart';
 
 import '../../../widget_tester_extension.dart';
 
