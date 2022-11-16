@@ -118,8 +118,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot = await _createBaseMarkerDrawableRoot();
-    markerAddDrawableRoot = await _createCenterMarkerDrawableRoot();
+    baseMarkerDrawableRoot =
+      await _createDrawableRoot(Assets.images.markerBase);
+    markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
 
     return _computeMarker();
   }
