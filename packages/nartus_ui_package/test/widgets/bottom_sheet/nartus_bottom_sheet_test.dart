@@ -85,6 +85,9 @@ void main() {
       expect(find.text('secondaryButtonText'), findsOneWidget);
       expect(find.byType(SvgPicture), findsOneWidget);
 
+      await widgetTester.tap(find.text('primaryButtonText'));
+      expect(count1, 1);
+
       await widgetTester.tap(find.text('secondaryButtonText'));
       expect(count2, 1);
     });
@@ -115,6 +118,9 @@ void main() {
       expect(find.text('primaryButtonText'), findsOneWidget);
       expect(find.text('secondaryButtonText'), findsOneWidget);
       expect(find.byType(SvgPicture), findsNothing);
+
+      await widgetTester.tap(find.text('primaryButtonText'));
+      expect(count1, 1);
 
       await widgetTester.tap(find.text('secondaryButtonText'));
       expect(count2, 1);
