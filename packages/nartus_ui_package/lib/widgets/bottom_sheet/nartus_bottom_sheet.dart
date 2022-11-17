@@ -12,6 +12,8 @@ class NartusBottomSheet extends StatelessWidget {
   final VoidCallback onPrimaryButtonSelected;
   final String? secondaryButtonText;
   final VoidCallback? onSecondButtonSelected;
+  final String? textButtonText;
+  final VoidCallback? onTextButtonSelected;
 
   const NartusBottomSheet(
       {required this.title,
@@ -21,7 +23,9 @@ class NartusBottomSheet extends StatelessWidget {
       Key? key,
       this.iconPath,
       this.secondaryButtonText,
-      this.onSecondButtonSelected})
+      this.onSecondButtonSelected,
+      this.textButtonText,
+      this.onTextButtonSelected})
       : super(key: key);
 
   @override
@@ -72,6 +76,11 @@ class NartusBottomSheet extends StatelessWidget {
             NartusButton.secondary(
               label: secondaryButtonText,
               onPressed: onSecondButtonSelected,
+            ),
+          if (textButtonText != null)
+            NartusButton.text(
+              label: textButtonText,
+              onPressed: onTextButtonSelected,
             )
         ],
       ),
@@ -88,6 +97,8 @@ extension IdBottomSheet on BuildContext {
       String? iconPath,
       String? secondaryButtonText,
       VoidCallback? onSecondaryButtonSelected,
+      String? textButtonText,
+      VoidCallback? onTextButtonSelected,
       bool isDismissible = true}) {
     showModalBottomSheet(
         context: this,
@@ -103,6 +114,8 @@ extension IdBottomSheet on BuildContext {
             onPrimaryButtonSelected: onPrimaryButtonSelected,
             secondaryButtonText: secondaryButtonText,
             onSecondButtonSelected: onSecondaryButtonSelected,
+            textButtonText: textButtonText,
+            onTextButtonSelected: onTextButtonSelected,
           );
         });
   }
