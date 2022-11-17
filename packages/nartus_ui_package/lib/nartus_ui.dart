@@ -29,3 +29,5 @@ export 'package:flutter/src/material/progress_indicator_theme.dart';
 export 'extensions/build_context_extension.dart';
 export 'widgets/widgets.dart';
 export 'theme/nartus_theme.dart';
+
+export 'widgets/bottom_sheet/nartus_bottom_sheet.dart';
