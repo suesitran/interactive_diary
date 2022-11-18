@@ -140,7 +140,28 @@ class BottomSheetDemo extends StatelessWidget {
                       },
                       iconPath: 'assets/location.svg');
                 },
-                child: const Text('3 buttons With icon'))
+                child: const Text('3 buttons With icon')),
+            TextButton(
+                onPressed: () {
+                  context.showIDBottomSheet(
+                      title: 'Title',
+                      content: 'This ID bottom sheet has an icon',
+                      primaryButtonText: 'Primary',
+                      onPrimaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      secondaryButtonText: 'Secondary button',
+                      onSecondaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      textButtonText: 'Text button',
+                      onTextButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      isDismissible: false,
+                      iconPath: 'assets/location.svg');
+                },
+                child: const Text('Persistent bottom sheet - 3 buttons With icon'))
           ],
         ),
       );

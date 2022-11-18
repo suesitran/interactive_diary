@@ -114,20 +114,24 @@ extension IdBottomSheet on BuildContext {
     showModalBottomSheet(
         context: this,
         isDismissible: isDismissible,
+        enableDrag: isDismissible,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         builder: (BuildContext builder) {
-          return NartusBottomSheet(
-            iconPath: iconPath,
-            title: title,
-            content: content,
-            primaryButtonText: primaryButtonText,
-            onPrimaryButtonSelected: onPrimaryButtonSelected,
-            secondaryButtonText: secondaryButtonText,
-            onSecondButtonSelected: onSecondaryButtonSelected,
-            textButtonText: textButtonText,
-            onTextButtonSelected: onTextButtonSelected,
+          return WillPopScope(
+            onWillPop: () => Future<bool>.value(isDismissible),
+            child: NartusBottomSheet(
+              iconPath: iconPath,
+              title: title,
+              content: content,
+              primaryButtonText: primaryButtonText,
+              onPrimaryButtonSelected: onPrimaryButtonSelected,
+              secondaryButtonText: secondaryButtonText,
+              onSecondButtonSelected: onSecondaryButtonSelected,
+              textButtonText: textButtonText,
+              onTextButtonSelected: onTextButtonSelected,
+            ),
           );
         });
   }
