@@ -31,60 +31,76 @@ class NartusBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(32, 40, 32, 58),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          if (iconPath != null)
-            ExcludeSemantics(
-                child: Padding(
-              padding: const EdgeInsets.only(bottom: NartusDimens.padding24),
-              child: SvgPicture.asset(
-                iconPath!,
-                fit: BoxFit.scaleDown,
-                width: NartusDimens.size80,
-                height: NartusDimens.size80,
-              ),
-            )),
-          Padding(
-              padding: const EdgeInsets.only(bottom: NartusDimens.padding8),
-              child: Text(
-                title,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineLarge
-                    ?.copyWith(color: NartusColor.dark),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(bottom: NartusDimens.padding24),
-              child: Text(
-                content,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: NartusColor.dark),
-              )),
-          Padding(
-            padding: const EdgeInsets.only(bottom: NartusDimens.padding30),
-            child: NartusButton.primary(
-              label: primaryButtonText,
-              onPressed: onPrimaryButtonSelected,
-            ),
+        padding: const EdgeInsets.fromLTRB(32, 40, 32, 58),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (iconPath != null)
+                ExcludeSemantics(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: NartusDimens.padding24),
+                  child: SvgPicture.asset(
+                    iconPath!,
+                    fit: BoxFit.scaleDown,
+                    width: NartusDimens.size80,
+                    height: NartusDimens.size80,
+                  ),
+                )),
+              Padding(
+                  padding: const EdgeInsets.only(bottom: NartusDimens.padding8),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge
+                        ?.copyWith(color: NartusColor.dark),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: NartusDimens.padding24),
+                  child: Text(
+                    content,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: NartusColor.dark),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: NartusDimens.padding30),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: NartusButton.primary(
+                      label: primaryButtonText,
+                      onPressed: onPrimaryButtonSelected,
+                    ),
+                  )),
+              if (secondaryButtonText != null)
+                Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: NartusDimens.padding16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: NartusButton.secondary(
+                        label: secondaryButtonText,
+                        onPressed: onSecondButtonSelected,
+                      ),
+                    )),
+              if (textButtonText != null)
+                SizedBox(
+                    width: double.infinity,
+                    child: NartusButton.text(
+                      label: textButtonText,
+                      onPressed: onTextButtonSelected,
+                    )),
+            ],
           ),
-          if (secondaryButtonText != null)
-            NartusButton.secondary(
-              label: secondaryButtonText,
-              onPressed: onSecondButtonSelected,
-            ),
-          if (textButtonText != null)
-            NartusButton.text(
-              label: textButtonText,
-              onPressed: onTextButtonSelected,
-            )
-        ],
-      ),
-    );
+        ));
   }
 }
 
@@ -103,19 +119,24 @@ extension IdBottomSheet on BuildContext {
     showModalBottomSheet(
         context: this,
         isDismissible: isDismissible,
+        enableDrag: isDismissible,
+        isScrollControlled: true,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         builder: (BuildContext builder) {
-          return NartusBottomSheet(
-            iconPath: iconPath,
-            title: title,
-            content: content,
-            primaryButtonText: primaryButtonText,
-            onPrimaryButtonSelected: onPrimaryButtonSelected,
-            secondaryButtonText: secondaryButtonText,
-            onSecondButtonSelected: onSecondaryButtonSelected,
-            textButtonText: textButtonText,
-            onTextButtonSelected: onTextButtonSelected,
+          return WillPopScope(
+            onWillPop: () => Future<bool>.value(isDismissible),
+            child: NartusBottomSheet(
+              iconPath: iconPath,
+              title: title,
+              content: content,
+              primaryButtonText: primaryButtonText,
+              onPrimaryButtonSelected: onPrimaryButtonSelected,
+              secondaryButtonText: secondaryButtonText,
+              onSecondButtonSelected: onSecondaryButtonSelected,
+              textButtonText: textButtonText,
+              onTextButtonSelected: onTextButtonSelected,
+            ),
           );
         });
   }

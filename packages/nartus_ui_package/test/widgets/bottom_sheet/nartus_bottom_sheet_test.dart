@@ -105,8 +105,7 @@ void main() {
       expect(count2, 1);
     });
 
-    testWidgets(
-        'nartus bottom sheet - icon and secondary btn and text button',
+    testWidgets('nartus bottom sheet - icon and secondary btn and text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
