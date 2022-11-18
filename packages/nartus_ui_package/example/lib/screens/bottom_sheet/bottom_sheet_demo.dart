@@ -86,7 +86,7 @@ class BottomSheetDemo extends StatelessWidget {
                       onPrimaryButtonSelected: () {
                         Navigator.of(context).pop();
                       },
-                      iconPath: 'assets/danger.svg');
+                      iconPath: 'assets/location.svg');
                 },
                 child: const Text('Primary button With icon')),
             TextButton(
@@ -102,7 +102,7 @@ class BottomSheetDemo extends StatelessWidget {
                       onSecondaryButtonSelected: () {
                         Navigator.of(context).pop();
                       },
-                      iconPath: 'assets/danger.svg');
+                      iconPath: 'assets/location.svg');
                 },
                 child: const Text('Primary & secondary button With icon')),
             TextButton(
@@ -118,7 +118,7 @@ class BottomSheetDemo extends StatelessWidget {
                       onTextButtonSelected: () {
                         Navigator.of(context).pop();
                       },
-                      iconPath: 'assets/danger.svg');
+                      iconPath: 'assets/location.svg');
                 },
                 child: const Text('Primary & Text button With icon')),
             TextButton(
@@ -138,7 +138,7 @@ class BottomSheetDemo extends StatelessWidget {
                       onTextButtonSelected: () {
                         Navigator.of(context).pop();
                       },
-                      iconPath: 'assets/danger.svg');
+                      iconPath: 'assets/location.svg');
                 },
                 child: const Text('3 buttons With icon'))
           ],
