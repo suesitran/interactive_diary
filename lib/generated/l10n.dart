@@ -49,6 +49,86 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `Location Permission not granted`
+  String get locationPermissionDialogTitle {
+    return Intl.message(
+      'Location Permission not granted',
+      name: 'locationPermissionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog`
+  String get locationPermissionDialogMessage {
+    return Intl.message(
+      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog',
+      name: 'locationPermissionDialogMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow`
+  String get locationPermissionDialogAllowButton {
+    return Intl.message(
+      'Allow',
+      name: 'locationPermissionDialogAllowButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get locationPermissionDialogContinueButton {
+    return Intl.message(
+      'Continue',
+      name: 'locationPermissionDialogContinueButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Settings`
+  String get locationPermissionDialogOpenSettingsButton {
+    return Intl.message(
+      'Open Settings',
+      name: 'locationPermissionDialogOpenSettingsButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Anonymous Profile. Please login to use all features.`
+  String get anonymous_profile {
+    return Intl.message(
+      'Anonymous Profile. Please login to use all features.',
+      name: 'anonymous_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Whoops!`
+  String get noConnectionTitle {
+    return Intl.message(
+      'Whoops!',
+      name: 'noConnectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slow or no internet connections.\nPlease check your internet settings`
+  String get noConnectionMessage {
+    return Intl.message(
+      'Slow or no internet connections.\nPlease check your internet settings',
+      name: 'noConnectionMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

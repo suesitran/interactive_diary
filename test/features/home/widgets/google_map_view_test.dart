@@ -15,7 +15,8 @@ void main() {
     await widgetTester.wrapAndPump(Directionality(
       textDirection: TextDirection.ltr,
       child: widget,
-    ));
+    ),
+    infiniteAnimationWidget: true);
 
     expect(
         find.descendant(
@@ -24,8 +25,8 @@ void main() {
 
     GoogleMap map = widgetTester.widget(find.byType(GoogleMap)) as GoogleMap;
 
-    expect(map.markers.length, 1);
-    expect(map.markers.first.position, const LatLng(0.0, 0.0));
+    // at this time, there's no marker in the list yet
+    expect(map.markers.length, 0);
   });
 
   group('Test circular menu', () {
