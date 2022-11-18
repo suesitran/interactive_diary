@@ -59,57 +59,88 @@ class BottomSheetDemo extends StatelessWidget {
                 child: const Text('Primary & Text button')),
             TextButton(
               onPressed: () {
-                context.showIDBottomSheet(title: 'Title', content: 'This ID bottom sheet has all 3 buttons', primaryButtonText: 'Primary button', onPrimaryButtonSelected: () {
-                  Navigator.of(context).pop();
-                },
-                secondaryButtonText: 'Secondary button', onSecondaryButtonSelected: () {
+                context.showIDBottomSheet(
+                    title: 'Title',
+                    content: 'This ID bottom sheet has all 3 buttons',
+                    primaryButtonText: 'Primary button',
+                    onPrimaryButtonSelected: () {
                       Navigator.of(context).pop();
                     },
-                textButtonText: 'Text button', onTextButtonSelected: () {
+                    secondaryButtonText: 'Secondary button',
+                    onSecondaryButtonSelected: () {
+                      Navigator.of(context).pop();
+                    },
+                    textButtonText: 'Text button',
+                    onTextButtonSelected: () {
                       Navigator.of(context).pop();
                     });
               },
               child: const Text('3 buttons'),
             ),
-            TextButton(onPressed: () {
-              context.showIDBottomSheet(title: 'Title', content: 'This ID bottom sheet has an icon', primaryButtonText: 'Primary', onPrimaryButtonSelected: () {
-                Navigator.of(context).pop();
-              }, iconPath: 'assets/danger.svg');
-            }, child: Text('Primary button With icon')),
-            TextButton(onPressed: () {
-              context.showIDBottomSheet(title: 'Title', content: 'This ID bottom sheet has an icon',primaryButtonText: 'Primary', onPrimaryButtonSelected: () {
-                Navigator.of(context).pop();
-              },
-                  secondaryButtonText: 'Secondary button',
-                  onSecondaryButtonSelected: () {
-                Navigator.of(context).pop();
-                  },
-                  iconPath: 'assets/danger.svg');
-            }, child: Text('Primary & secondary button With icon')),
-            TextButton(onPressed: () {
-              context.showIDBottomSheet(title: 'Title', content: 'This ID bottom sheet has an icon', primaryButtonText: 'Primary', onPrimaryButtonSelected: () {
-                Navigator.of(context).pop();
-              },
-                  textButtonText: 'Text button',
-                  onTextButtonSelected: () {
-                Navigator.of(context).pop();
-                  },
-                  iconPath: 'assets/danger.svg');
-            }, child: Text('Primary & Text button With icon')),
-            TextButton(onPressed: () {
-              context.showIDBottomSheet(title: 'Title', content: 'This ID bottom sheet has an icon', primaryButtonText: 'Primary', onPrimaryButtonSelected: () {
-                Navigator.of(context).pop();
-              },
-                  secondaryButtonText: 'Secondary button',
-                  onSecondaryButtonSelected: () {
-                    Navigator.of(context).pop();
-                  },
-                  textButtonText: 'Text button',
-                  onTextButtonSelected: () {
-                    Navigator.of(context).pop();
-                  },
-                  iconPath: 'assets/danger.svg');
-            }, child: Text('3 buttons With icon'))
+            TextButton(
+                onPressed: () {
+                  context.showIDBottomSheet(
+                      title: 'Title',
+                      content: 'This ID bottom sheet has an icon',
+                      primaryButtonText: 'Primary',
+                      onPrimaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      iconPath: 'assets/danger.svg');
+                },
+                child: const Text('Primary button With icon')),
+            TextButton(
+                onPressed: () {
+                  context.showIDBottomSheet(
+                      title: 'Title',
+                      content: 'This ID bottom sheet has an icon',
+                      primaryButtonText: 'Primary',
+                      onPrimaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      secondaryButtonText: 'Secondary button',
+                      onSecondaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      iconPath: 'assets/danger.svg');
+                },
+                child: const Text('Primary & secondary button With icon')),
+            TextButton(
+                onPressed: () {
+                  context.showIDBottomSheet(
+                      title: 'Title',
+                      content: 'This ID bottom sheet has an icon',
+                      primaryButtonText: 'Primary',
+                      onPrimaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      textButtonText: 'Text button',
+                      onTextButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      iconPath: 'assets/danger.svg');
+                },
+                child: const Text('Primary & Text button With icon')),
+            TextButton(
+                onPressed: () {
+                  context.showIDBottomSheet(
+                      title: 'Title',
+                      content: 'This ID bottom sheet has an icon',
+                      primaryButtonText: 'Primary',
+                      onPrimaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      secondaryButtonText: 'Secondary button',
+                      onSecondaryButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      textButtonText: 'Text button',
+                      onTextButtonSelected: () {
+                        Navigator.of(context).pop();
+                      },
+                      iconPath: 'assets/danger.svg');
+                },
+                child: const Text('3 buttons With icon'))
           ],
         ),
       );
