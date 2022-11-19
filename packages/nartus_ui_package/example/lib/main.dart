@@ -1,3 +1,4 @@
+import 'package:example/screens/bottom_sheet/bottom_sheet_demo.dart';
 import 'package:example/screens/cta_buttons/cta_buttons_screen.dart';
 import 'package:example/screens/text_and_error_label_screen.dart';
 import 'package:example/screens/theme_demo/theme_demo_screen.dart';
@@ -34,7 +35,8 @@ class WidgetCatalog extends StatelessWidget {
         children: [
           const WidgetTile('Theme demo', ThemeDemoScreen()),
           WidgetTile('Text and error label', TextAndErrorLabelScreen()),
-          const WidgetTile('CTA Buttons', CTAButtonsScreen())
+          const WidgetTile('CTA Buttons', CTAButtonsScreen()),
+          const WidgetTile('Bottom Sheet demo', BottomSheetDemo()),
         ],
       );
 }
