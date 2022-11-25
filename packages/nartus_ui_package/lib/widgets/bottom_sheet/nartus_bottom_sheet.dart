@@ -72,7 +72,7 @@ class NartusBottomSheet extends StatelessWidget {
                   )),
               Padding(
                   padding:
-                      const EdgeInsets.only(bottom: NartusDimens.padding30),
+                      const EdgeInsets.only(bottom: NartusDimens.padding16),
                   child: SizedBox(
                     width: double.infinity,
                     child: NartusButton.primary(

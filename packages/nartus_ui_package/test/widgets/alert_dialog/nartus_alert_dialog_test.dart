@@ -5,13 +5,13 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import '../../widget_tester_extension.dart';
 
 void main() {
-  group('Test nartus bottom sheet', () {
+  group('Test nartus alert dialog', () {
     testWidgets(
-        'nartus bottom sheet - icon and no secondary button and no text button',
+        'nartus alert dialog - icon and no secondary button and no text button',
         (WidgetTester widgetTester) async {
       // given
       int count = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
           iconPath: 'assets/facebook.svg',
           title: 'title',
           content: 'content',
@@ -20,7 +20,7 @@ void main() {
             count++;
           });
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -34,12 +34,12 @@ void main() {
     });
 
     testWidgets(
-        'nartus bottom sheet - icon and secondary btn and no text button',
+        'nartus alert dialog - icon and secondary btn and no text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
         iconPath: 'assets/facebook.svg',
         title: 'title',
         content: 'content',
@@ -53,7 +53,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -70,12 +70,12 @@ void main() {
     });
 
     testWidgets(
-        'nartus bottom sheet - icon and no secondary btn and text button',
+        'nartus alert dialog - icon and no secondary btn and text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
         iconPath: 'assets/facebook.svg',
         title: 'title',
         content: 'content',
@@ -89,7 +89,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -105,13 +105,13 @@ void main() {
       expect(count2, 1);
     });
 
-    testWidgets('nartus bottom sheet - icon and secondary btn and text button',
+    testWidgets('nartus alert dialog - icon and secondary btn and text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
       int count2 = 0;
       int count3 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
         iconPath: 'assets/facebook.svg',
         title: 'title',
         content: 'content',
@@ -129,7 +129,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -149,12 +149,12 @@ void main() {
     });
 
     testWidgets(
-        'nartus bottom sheet - no icon and secondary btn and no text button',
+        'nartus alert dialog - no icon and secondary btn and no text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
         title: 'title',
         content: 'content',
         primaryButtonText: 'primaryButtonText',
@@ -167,7 +167,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -184,13 +184,13 @@ void main() {
     });
 
     testWidgets(
-        'nartus bottom sheet - no icon and secondary btn and text button',
+        'nartus alert dialog - no icon and secondary btn and text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
       int count2 = 0;
       int count3 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
         title: 'title',
         content: 'content',
         primaryButtonText: 'primaryButtonText',
@@ -207,7 +207,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -227,12 +227,12 @@ void main() {
     });
 
     testWidgets(
-        'nartus bottom sheet - no icon and no secondary btn and text button',
+        'nartus alert dialog - no icon and no secondary btn and text button',
         (WidgetTester widgetTester) async {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
         title: 'title',
         content: 'content',
         primaryButtonText: 'primaryButtonText',
@@ -245,7 +245,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -262,11 +262,11 @@ void main() {
     });
 
     testWidgets(
-        'nartus bottom sheet - no icon and no secondary button and no text button',
+        'nartus alert dialog - no icon and no secondary button and no text button',
         (WidgetTester widgetTester) async {
       // given
       int count = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusAlertDialog alertDialog = NartusAlertDialog(
           title: 'title',
           content: 'content',
           primaryButtonText: 'primaryButtonText',
@@ -274,7 +274,7 @@ void main() {
             count++;
           });
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(alertDialog);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
