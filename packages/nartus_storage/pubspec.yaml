@@ -8,8 +8,13 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  build_runner: ^2.3.2
   flutter:
     sdk: flutter
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.0
+  intl: ^0.17.0
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
