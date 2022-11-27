@@ -71,30 +71,30 @@ class NartusAlertDialog extends StatelessWidget {
               )),
           Padding(
               padding: const EdgeInsets.only(bottom: NartusDimens.padding10),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-                  NartusButton.primary(
+              child: SizedBox(
+                  width: double.infinity,
+                  child: NartusButton.primary(
                     label: primaryButtonText,
                     onPressed: onPrimaryButtonSelected,
-                  )
-                ],
-              )),
+                  ))),
           if (secondaryButtonText != null)
             Padding(
                 padding: const EdgeInsets.only(bottom: NartusDimens.padding10),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-                    NartusButton.secondary(
+                child: SizedBox(
+                    width: double.infinity,
+                    child: NartusButton.secondary(
                       label: secondaryButtonText,
                       onPressed: onSecondButtonSelected,
-                    )
-                  ],
-                )),
+                    ))),
           if (textButtonText != null)
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-              NartusButton.text(
-                label: textButtonText,
-                onPressed: onTextButtonSelected,
-              )
-            ]),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  NartusButton.text(
+                    label: textButtonText,
+                    onPressed: onTextButtonSelected,
+                  )
+                ]),
         ],
       ),
     );
@@ -118,7 +118,8 @@ extension IdAlertDialog on BuildContext {
         builder: (BuildContext builder) {
           return Dialog(
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(20))),
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20), bottom: Radius.circular(20))),
             child: WillPopScope(
               onWillPop: () => Future<bool>.value(isDismissible),
               child: NartusAlertDialog(

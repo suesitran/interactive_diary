@@ -77,8 +77,9 @@ class AlertDialogDemo extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   context.showIDAlertDialog(
-                      title: 'Warning Headline',
-                      content: 'This ID bottom sheet has all 3 buttons',
+                      title: 'Warning Headline very very very very very very very long long long',
+                      content:
+                      'This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,, This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,',
                       primaryButtonText: 'Primary button',
                       onPrimaryButtonSelected: () {
                         Navigator.of(context).pop();
@@ -141,8 +142,9 @@ class AlertDialogDemo extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     context.showIDAlertDialog(
-                        title: 'Warning Headline',
-                        content: 'Mi ut pretium, convansi, gravida impresdte',
+                        title: 'Warning Headline very very very very very very very long long long',
+                        content:
+                        'This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,, This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,',
                         primaryButtonText: 'Primary',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
