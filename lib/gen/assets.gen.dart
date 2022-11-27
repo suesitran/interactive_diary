@@ -21,6 +21,32 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/id_camera_icon.svg
+  String get idCameraIcon => 'assets/images/id_camera_icon.svg';
+
+  /// File path: assets/images/id_circular_icon_camera.svg
+  String get idCircularIconCamera =>
+      'assets/images/id_circular_icon_camera.svg';
+
+  /// File path: assets/images/id_circular_icon_emoji.svg
+  String get idCircularIconEmoji => 'assets/images/id_circular_icon_emoji.svg';
+
+  /// File path: assets/images/id_circular_icon_micro.svg
+  String get idCircularIconMicro => 'assets/images/id_circular_icon_micro.svg';
+
+  /// File path: assets/images/id_circular_icon_pencil.svg
+  String get idCircularIconPencil =>
+      'assets/images/id_circular_icon_pencil.svg';
+
+  /// File path: assets/images/id_micro_icon.svg
+  String get idMicroIcon => 'assets/images/id_micro_icon.svg';
+
+  /// File path: assets/images/id_pencil_icon.svg
+  String get idPencilIcon => 'assets/images/id_pencil_icon.svg';
+
+  /// File path: assets/images/id_smile_icon.svg
+  String get idSmileIcon => 'assets/images/id_smile_icon.svg';
+
   /// File path: assets/images/marker_add.svg
   String get markerAdd => 'assets/images/marker_add.svg';
 
@@ -43,6 +69,14 @@ class $AssetsImagesGen {
         anonymous,
         arrowDown,
         calendar,
+        idCameraIcon,
+        idCircularIconCamera,
+        idCircularIconEmoji,
+        idCircularIconMicro,
+        idCircularIconPencil,
+        idMicroIcon,
+        idPencilIcon,
+        idSmileIcon,
         markerAdd,
         markerBase,
         markerNonetap,
