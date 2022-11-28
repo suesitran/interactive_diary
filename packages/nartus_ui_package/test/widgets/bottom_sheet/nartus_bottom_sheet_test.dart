@@ -11,7 +11,7 @@ void main() {
         (WidgetTester widgetTester) async {
       // given
       int count = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
           iconPath: 'assets/facebook.svg',
           title: 'title',
           content: 'content',
@@ -20,7 +20,7 @@ void main() {
             count++;
           });
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -39,7 +39,7 @@ void main() {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
         iconPath: 'assets/facebook.svg',
         title: 'title',
         content: 'content',
@@ -53,7 +53,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -75,7 +75,7 @@ void main() {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
         iconPath: 'assets/facebook.svg',
         title: 'title',
         content: 'content',
@@ -89,7 +89,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -111,7 +111,7 @@ void main() {
       int count1 = 0;
       int count2 = 0;
       int count3 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
         iconPath: 'assets/facebook.svg',
         title: 'title',
         content: 'content',
@@ -129,7 +129,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -154,7 +154,7 @@ void main() {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
         title: 'title',
         content: 'content',
         primaryButtonText: 'primaryButtonText',
@@ -167,7 +167,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -190,7 +190,7 @@ void main() {
       int count1 = 0;
       int count2 = 0;
       int count3 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
         title: 'title',
         content: 'content',
         primaryButtonText: 'primaryButtonText',
@@ -207,7 +207,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -232,7 +232,7 @@ void main() {
       // given
       int count1 = 0;
       int count2 = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
         title: 'title',
         content: 'content',
         primaryButtonText: 'primaryButtonText',
@@ -245,7 +245,7 @@ void main() {
         },
       );
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
@@ -266,7 +266,7 @@ void main() {
         (WidgetTester widgetTester) async {
       // given
       int count = 0;
-      final NartusBottomSheet buttonSheet = NartusBottomSheet(
+      final NartusBottomSheet btmSheetWithIcon = NartusBottomSheet(
           title: 'title',
           content: 'content',
           primaryButtonText: 'primaryButtonText',
@@ -274,7 +274,7 @@ void main() {
             count++;
           });
 
-      await widgetTester.wrapMaterialAndPump(buttonSheet);
+      await widgetTester.wrapMaterialAndPump(btmSheetWithIcon);
 
       expect(find.text('title'), findsOneWidget);
       expect(find.text('content'), findsOneWidget);
