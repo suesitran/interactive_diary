@@ -33,6 +33,7 @@ class NartusAlertDialog extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           if (iconPath != null)
@@ -71,30 +72,22 @@ class NartusAlertDialog extends StatelessWidget {
               )),
           Padding(
               padding: const EdgeInsets.only(bottom: NartusDimens.padding10),
-              child: SizedBox(
-                  width: double.infinity,
-                  child: NartusButton.primary(
-                    label: primaryButtonText,
-                    onPressed: onPrimaryButtonSelected,
-                  ))),
+              child: NartusButton.primary(
+                label: primaryButtonText,
+                onPressed: onPrimaryButtonSelected,
+              )),
           if (secondaryButtonText != null)
             Padding(
                 padding: const EdgeInsets.only(bottom: NartusDimens.padding10),
-                child: SizedBox(
-                    width: double.infinity,
-                    child: NartusButton.secondary(
-                      label: secondaryButtonText,
-                      onPressed: onSecondButtonSelected,
-                    ))),
+                child: NartusButton.secondary(
+                  label: secondaryButtonText,
+                  onPressed: onSecondButtonSelected,
+                )),
           if (textButtonText != null)
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  NartusButton.text(
-                    label: textButtonText,
-                    onPressed: onTextButtonSelected,
-                  )
-                ]),
+            NartusButton.text(
+              label: textButtonText,
+              onPressed: onTextButtonSelected,
+            )
         ],
       ),
     );
