@@ -31,7 +31,7 @@ class AlertDialogDemo extends StatelessWidget {
                     context.showIDAlertDialog(
                         title: 'Warning Headline',
                         content:
-                            'This ID bottom sheet has primary and secondary button',
+                            'This ID alert dialog has primary and secondary button',
                         primaryButtonText: 'Primary button',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
@@ -47,7 +47,7 @@ class AlertDialogDemo extends StatelessWidget {
                     context.showIDAlertDialog(
                         title: 'Warning Headline',
                         content:
-                            'This ID bottom sheet has primary and text button',
+                            'This ID alert dialog has primary and text button',
                         primaryButtonText: 'Primary button',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
@@ -63,7 +63,7 @@ class AlertDialogDemo extends StatelessWidget {
                     context.showIDAlertDialog(
                         title: 'Warning Headline very very very very very very very long long long',
                         content:
-                        'This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,, This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,',
+                        'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
                         primaryButtonText: 'Primary button',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
@@ -79,7 +79,7 @@ class AlertDialogDemo extends StatelessWidget {
                   context.showIDAlertDialog(
                       title: 'Warning Headline very very very very very very very long long long',
                       content:
-                      'This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,, This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,',
+                      'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
                       primaryButtonText: 'Primary button',
                       onPrimaryButtonSelected: () {
                         Navigator.of(context).pop();
@@ -144,7 +144,7 @@ class AlertDialogDemo extends StatelessWidget {
                     context.showIDAlertDialog(
                         title: 'Warning Headline very very very very very very very long long long',
                         content:
-                        'This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,, This ID bottom sheet has primary and text button, This ID bottom sheet has primary and text button,',
+                        'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
                         primaryButtonText: 'Primary',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
@@ -181,7 +181,7 @@ class AlertDialogDemo extends StatelessWidget {
                         iconPath: 'assets/danger.svg');
                   },
                   child: const Text(
-                      'Persistent bottom sheet - 3 buttons With icon')),
+                      'Persistent alert dialog - 3 buttons With icon')),
             ],
           ),
         ),
