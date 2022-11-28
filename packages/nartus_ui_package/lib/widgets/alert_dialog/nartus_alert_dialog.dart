@@ -67,7 +67,7 @@ class NartusAlertDialog extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
-                    ?.copyWith(color: NartusColor.dark),
+                    ?.copyWith(color: NartusColor.grey),
               )),
           Padding(
               padding: const EdgeInsets.only(bottom: NartusDimens.padding10),
