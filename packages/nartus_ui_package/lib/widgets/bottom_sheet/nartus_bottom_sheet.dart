@@ -133,10 +133,28 @@ extension IdBottomSheet on BuildContext {
               primaryButtonText: primaryButtonText,
               onPrimaryButtonSelected: onPrimaryButtonSelected,
               secondaryButtonText: secondaryButtonText,
-              onSecondButtonSelected: onSecondaryButtonSelected,
+              onSecondButtonSelected:  onSecondaryButtonSelected,
               textButtonText: textButtonText,
               onTextButtonSelected: onTextButtonSelected,
             ),
+          );
+        });
+  }
+
+  void showIDBottomSheetCustom({
+    required Widget dialog,
+    bool isDismissible = true,
+    bool enableDrag = true
+  }) {
+    showBottomSheet(
+        context: this,
+        enableDrag: enableDrag,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        builder: (BuildContext builder) {
+          return WillPopScope(
+            onWillPop: () => Future<bool>.value(isDismissible),
+            child: dialog,
           );
         });
   }

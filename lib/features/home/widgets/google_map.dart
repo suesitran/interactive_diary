@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/constants/dimens.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -103,6 +105,59 @@ class _GoogleMapViewState extends State<GoogleMapView>
               compassEnabled: false,
               myLocationButtonEnabled: false),
         ));
+  }
+
+  void _openContentList(BuildContext context) {
+    const screenEdgeSpacing = 16.0;
+    context.showIDBottomSheetCustom(
+        dialog: DraggableScrollableSheet(
+          // initialChildSize: 0.2,
+          // minChildSize: 0.2,
+          // maxChildSize: 0.7,
+          builder: (_, ScrollController controller) {
+            return Container(
+              // color: Colors.red,
+              width: double.infinity,
+              color: Colors.white,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Gap.v12(),
+                    Container(
+                      height: 2,
+                      width: MediaQuery.of(context).size.width * .2,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[500],
+                          borderRadius: BorderRadius.circular(4.0)
+                      ),
+                    ),
+                    const Gap.v12(),
+                    SafeArea(
+                      bottom: true,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing, bottom: MediaQuery.of(context).viewPadding.bottom),
+                        child: LocationAddressBoxView(
+                          address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing),
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (_, idx) => const ContentItemView(screenEdgeSpacing: screenEdgeSpacing,),
+                          separatorBuilder: (_, idx) => const Gap.v12(),
+                          itemCount: 5
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+        )
+    );
   }
 
   void _closeMenuIfOpening() {
@@ -213,6 +268,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
               if (_controller.value == 1) {
                 _controller.reverse();
               } else {
+                _openContentList(context);
                 _controller.forward();
               }
             }));
@@ -350,5 +406,223 @@ class _GoogleMapViewState extends State<GoogleMapView>
         required AnimationController controller}) {
     return Tween<Offset>(begin: start, end: end)
         .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
+  }
+}
+
+class ContentItemView extends StatelessWidget {
+  final double screenEdgeSpacing;
+  const ContentItemView({required this.screenEdgeSpacing, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final String text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+    final List<String> images = [
+      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+    ];
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                child: Image.network('https://ps.w.org/user-avatar-reloaded/assets/icon-128x128.png?rev=2540745'),
+              ),
+              const Gap.h12(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hoang Nguyen', style: Theme.of(context).textTheme.titleSmall,),
+                  const Gap.v04(),
+                  Row(
+                    children: [
+                      Text('Sep 3, 2022 at 10:12 PM', style: Theme.of(context).textTheme.bodySmall,),
+                      const Gap.h04(),
+                      const _DotView(),
+                      const Gap.h04(),
+                      // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
+                      SvgPicture.asset(
+                        Assets.images.idProfileUserIconPadding, color: NartusColor.grey,
+                      )
+                    ],
+                  )
+                ],
+              ),
+              const Spacer(),
+              // Icon(Icons.menu, color: NartusColor.grey,)
+              SvgPicture.asset(Assets.images.idMoreIcon)
+            ],
+          ),
+          const Gap.v08(),
+          if (text.isNotEmpty)...[
+            _textAndImageView(text, images, context, screenEdgeSpacing)
+          ] else if (images.isNotEmpty)...[
+
+          ],
+          const Gap.v16(),
+          Row(
+            children: [
+              // Icon(Icons.heart_broken),
+              SvgPicture.asset(Assets.images.idHeartIconPadding),
+              const Gap.h16(),
+              // Icon(Icons.heart_broken),
+              SvgPicture.asset(Assets.images.idMessageIconPadding),
+              const Gap.h16(),
+              // Icon(Icons.heart_broken),
+              SvgPicture.asset(Assets.images.idShareIconPadding),
+              Spacer(),
+              Text('5 likes', style: Theme.of(context).textTheme.bodySmall,),
+              const Gap.h04(),
+              const _DotView(),
+              const Gap.h04(),
+              Text('4 comments', style: Theme.of(context).textTheme.bodySmall,),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+  
+  Widget _textAndImageView(String text, List<String> images, BuildContext context, double screenEdgeSpacing) {
+    const int itemsEachRow = 3;
+    const double imageSpacing = 4;
+    final Size size = MediaQuery.of(context).size;
+    final double imageWidth = (size.width - (2 * screenEdgeSpacing) - ((itemsEachRow - 1) * imageSpacing)) / itemsEachRow;
+    final bool isHaveMoreImagesThanItemsEachRow = images.length > itemsEachRow;
+    final List<String> displayImages = isHaveMoreImagesThanItemsEachRow ? images.take(itemsEachRow).toList() : images;
+    return Column(
+      children: [
+        Text(text, style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.7),),
+        if (images.isNotEmpty)...[
+          const Gap.v12(),
+          Row(
+            children: [
+              ...displayImages.asMap().entries.map((e) {
+                print('INDEX : ${e.key} | ${e.value}');
+                // print('INDEX EQUAL : ${images.indexOf(e) == (itemsEachRow - 1)}');
+                // print('HAVE MORE IMAGES : ${isHaveMoreImagesThanItemsEachRow}');
+                // print('TOTAL : ${images.indexOf(e) == (itemsEachRow - 1) && isHaveMoreImagesThanItemsEachRow}');
+                print('================================');
+                return Container(
+                  padding: e.key == (itemsEachRow - 1)
+                      ? EdgeInsets.zero : const EdgeInsets.only(right: imageSpacing),
+                  width: imageWidth,
+                  child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(e.value),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            if (e.key == (itemsEachRow - 1) && isHaveMoreImagesThanItemsEachRow)...[
+                              Positioned(
+                                  top: 0, bottom: 0, left: 0, right: 0,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    color: Colors.grey.shade300.withOpacity(0.5),
+                                    alignment: Alignment.center,
+                                    child: Text('+ ${images.length - itemsEachRow}', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: NartusColor.white),),
+                                  )
+                              )
+                            ]
+                          ],
+                        ),
+                      )
+                  ),
+                );
+              }),
+              // ...displayImages.map((e) => Stack(
+              //   children: [
+              //     Container(
+              //       padding: images.indexOf(e) == (itemsEachRow - 1)
+              //           ? EdgeInsets.zero : const EdgeInsets.only(right: imageSpacing),
+              //       width: imageWidth,
+              //       child: AspectRatio(
+              //         aspectRatio: 1,
+              //         child: Container(
+              //           decoration: BoxDecoration(
+              //             image: DecorationImage(
+              //               image: NetworkImage(e),
+              //               fit: BoxFit.contain
+              //             )
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     // AspectRatio(
+              //     //   aspectRatio: 1,
+              //     //   child: ,
+              //     // ),
+              //     if (images.indexOf(e) == (itemsEachRow - 1) && isHaveMoreImagesThanItemsEachRow)...[
+              //       Container(
+              //         color: Colors.grey.shade300,
+              //         child: Text('+ ${images.length - itemsEachRow}', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: NartusColor.white),),
+              //       )
+              //     ]
+              //   ],)
+              // )
+            ],
+          )
+        ]
+      ],
+    );
+  }
+}
+
+class _DotView extends StatelessWidget {
+  const _DotView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 3, width: 3,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: NartusColor.grey,
+      ),
+    );
+  }
+}
+
+
+class LocationAddressBoxView extends StatelessWidget {
+  final String address;
+  const LocationAddressBoxView({required this.address, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: NartusColor.gradient,
+        borderRadius: BorderRadius.circular(12)
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 15, width: 15,
+            child: SvgPicture.asset(Assets.images.markerBase, semanticsLabel: 'Current location address : $address',),
+          ),
+          const Gap.h08(),
+          Expanded(
+            child: Text(address, style: Theme.of(context).textTheme.bodySmall,)
+          )
+        ],
+      ),
+    );
   }
 }
