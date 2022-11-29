@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/route/route_extension.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -276,7 +277,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
             position: widget.currentLocation,
             icon: penMarkerBitmap,
             anchor: popupPenAnimation.value,
-            onTap: () {}),
+            onTap: () => context.gotoWriteDiaryScreen()),
         Marker(
             markerId: const MarkerId(menuEmojiMarkerLocationId),
             position: widget.currentLocation,
