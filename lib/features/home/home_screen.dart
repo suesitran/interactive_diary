@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
+import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -26,17 +27,18 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.showIDBottomSheet(
-        title: 'Turn on your location',
-        content: 'Interactive Diary needs permission to access your location. Please go to Settings > Privacy > Location and enable.',
-        primaryButtonText: 'Go to Settings',
-        textButtonText: 'Continue with default location',
-        // secondaryButtonText: 'Continue with default location',
-        onPrimaryButtonSelected: () {},
-        onTextButtonSelected: () => Navigator.of(context).pop()
-      );
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   final LocationService locationService = LocationService();
+    //   context.showIDBottomSheet(
+    //     title: 'Turn on your location',
+    //     content: 'Interactive Diary needs permission to access your location. Please go to Settings > Privacy > Location and enable.',
+    //     primaryButtonText: 'Go to Settings',
+    //     textButtonText: 'Continue with default location',
+    //     // secondaryButtonText: 'Continue with default location',
+    //     onPrimaryButtonSelected: () => locationService.requestOpenAppSettings(),
+    //     onTextButtonSelected: () => Navigator.of(context).pop()
+    //   );
+    // });
 
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
@@ -64,33 +66,44 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
           }
 
           if (state is LocationPermissionDeniedState) {
-            context.showDialogAdaptive(
-                title: Text(S.of(context).locationPermissionDialogTitle),
-                content: Text(S.of(context).locationPermissionDialogMessage),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('show dialog');
-                        context
-                            .read<LocationBloc>()
-                            .add(ShowDialogRequestPermissionEvent());
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                          S.of(context).locationPermissionDialogAllowButton)),
-                  TextButton(
-                      onPressed: () {
-                        debugPrint('click continue button');
-                        Navigator.of(context).pop();
-                        context
-                            .read<LocationBloc>()
-                            .add(RequestDefaultLocationEvent());
-                      },
-                      child: Text(S
-                          .of(context)
-                          .locationPermissionDialogContinueButton)),
-                ]);
+            context.showIDBottomSheet(
+              title: S.of(context).locationTurnOnSuggestionTitle,
+              content: S.of(context).locationTurnOnSuggestionDescription,
+              primaryButtonText: S.of(context).ctaGoToSettings,
+              textButtonText: S.of(context).ctaLocationTurnOnContinueDefaultLocation,
+              onPrimaryButtonSelected: () => LocationService().requestOpenAppSettings(),
+              onTextButtonSelected: () {
+                Navigator.of(context).pop();
+                // context.read<LocationBloc>().add(RequestDefaultLocationEvent());
+              }
+            );
+            // context.showDialogAdaptive(
+            //     title: Text(S.of(context).locationPermissionDialogTitle),
+            //     content: Text(S.of(context).locationPermissionDialogMessage),
+            //     actions: <Widget>[
+            //       TextButton(
+            //           onPressed: () {
+            //             debugPrint('show dialog');
+            //             context
+            //                 .read<LocationBloc>()
+            //                 .add(ShowDialogRequestPermissionEvent());
+            //
+            //             Navigator.of(context).pop();
+            //           },
+            //           child: Text(
+            //               S.of(context).locationPermissionDialogAllowButton)),
+            //       TextButton(
+            //           onPressed: () {
+            //             debugPrint('click continue button');
+            //             Navigator.of(context).pop();
+            //             context
+            //                 .read<LocationBloc>()
+            //                 .add(RequestDefaultLocationEvent());
+            //           },
+            //           child: Text(S
+            //               .of(context)
+            //               .locationPermissionDialogContinueButton)),
+            //     ]);
           }
 
           if (state is LocationPermissionDeniedForeverState) {

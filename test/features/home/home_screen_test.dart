@@ -8,6 +8,7 @@ import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
@@ -186,4 +187,56 @@ void main() {
 
     verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
   });
+
+  group('Test location device permission request', () {
+    testWidgets('given location permission was denied, then show bottom sheet suggesting enable location on device', (WidgetTester widgetTester) async {
+      const IDHome widget = IDHome();
+
+      when(mockLocationBloc.stream).thenAnswer((_) =>
+      Stream<LocationState>.value(LocationPermissionDeniedState()));
+      when(mockLocationBloc.state)
+          .thenAnswer((_) => LocationPermissionDeniedState());
+
+      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+          infiniteAnimationWidget: true);
+
+      expect(find.text('Go to Settings'), findsOneWidget);
+
+    });
+
+    testWidgets('given initial location state, then bottom sheet suggesting will not be shown', (WidgetTester widgetTester) async {
+      const IDHome widget = IDHome();
+
+      when(mockLocationBloc.stream).thenAnswer((_) =>
+        Stream<LocationState>.value(LocationInitial(PermissionStatusDiary.granted)));
+      when(mockLocationBloc.state)
+          .thenAnswer((_) => LocationInitial(PermissionStatusDiary.granted));
+
+      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+          infiniteAnimationWidget: true);
+
+      expect(find.byType(NartusBottomSheet), findsNothing);
+
+    });
+
+    testWidgets('given location permission was denied and the bottom sheet suggesting enable location is being shown, '
+      'then when user tap on Go to settings button, user will be redirect to settings screen on device', (WidgetTester widgetTester) async {
+      const IDHome widget = IDHome();
+
+      when(mockLocationBloc.stream).thenAnswer((_) =>
+      Stream<LocationState>.value(LocationPermissionDeniedState()));
+      when(mockLocationBloc.state)
+          .thenAnswer((_) => LocationPermissionDeniedState());
+
+      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+          infiniteAnimationWidget: true);
+
+      await widgetTester.tap(find.text('Go to Settings'));
+
+      expect(find.byType(IDHome), findsNothing);
+
+    });
+
+  });
+
 }
