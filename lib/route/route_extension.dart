@@ -10,6 +10,6 @@ extension RouterExtension on BuildContext {
   ///
 
   void gotoWriteDiaryScreen() {
-    GoRouter.of(this).go(writeDiaryRoute);
+    GoRouter.of(this).push(writeDiaryRoute);
   }
 }
