@@ -1,7 +1,7 @@
 part of '../../storage_service.dart';
 
 class CloudStorageServiceImpl extends StorageService {
-  CloudStorageServiceImpl() : super._(Type.cloud);
+  CloudStorageServiceImpl() : super._(StorageType.cloud);
 
   @override
   Future<bool> deleteDiary(int timestamp) {

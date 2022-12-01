@@ -27,7 +27,8 @@ for d in $(ls packages)
   lcov --remove coverage/lcov.info -o coverage/lcov.info \
 	'lib/generated/**' \
 	'lib/**/*.g.dart' \
-	'lib/**/data/**'
+	'lib/**/data/**' \
+	'lib/**/hive/*_adapters.dart'
 
 	dir=$(pwd)
 

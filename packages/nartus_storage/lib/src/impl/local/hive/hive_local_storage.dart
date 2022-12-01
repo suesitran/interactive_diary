@@ -1,10 +1,14 @@
+// ignore_for_file: depend_on_referenced_packages, implementation_imports
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_storage/src/impl/local/hive/hive_adapters.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:hive/src/box/default_key_comparator.dart';
+import 'package:hive/src/box/default_compaction_strategy.dart';
 
 /// Actual implementation of local storage using Hive database
 class HiveLocalStorage {
@@ -13,20 +17,10 @@ class HiveLocalStorage {
 
   final String _userBox = 'user';
 
-  HiveLocalStorage() {
-    _init();
-  }
-
-  Future<void> _init() async {
-    final Directory directory = await getApplicationSupportDirectory();
-    await Hive.initFlutter(directory.path);
-
-    Hive.registerAdapter(HiveDiaryAdapter());
-    Hive.registerAdapter(HiveLatLngAdapter());
-    Hive.registerAdapter(HiveTextDiaryAdapter());
-    Hive.registerAdapter(HiveImageDiaryAdapter());
-    Hive.registerAdapter(HiveVideoDiaryAdapter());
-    Hive.registerAdapter(HiveUserAdapter());
+  final HiveHelper _hiveHelper;
+  HiveLocalStorage({HiveHelper? hiveHelper})
+      : _hiveHelper = hiveHelper ?? HiveHelper() {
+    _hiveHelper.init();
   }
 
   Future<bool> deleteDiary(int timestamp) async {
@@ -34,7 +28,7 @@ class HiveLocalStorage {
 
     final String monthCollectionName = _getCollectionName(timestamp);
 
-    final BoxCollection collection = await BoxCollection.open(
+    final BoxCollection collection = await _hiveHelper.open(
         _diariesByMonthCollection, <String>{monthCollectionName},
         path: directory.path);
 
@@ -64,7 +58,7 @@ class HiveLocalStorage {
     final String monthCollectionName =
         _getCollectionName(month.millisecondsSinceEpoch);
 
-    final BoxCollection collection = await BoxCollection.open(
+    final BoxCollection collection = await _hiveHelper.open(
         _diariesByMonthCollection, <String>{monthCollectionName},
         path: directory.path);
 
@@ -90,7 +84,7 @@ class HiveLocalStorage {
 
     // save diary into month collection
     final String monthCollectionName = _getCollectionName(diary.timestamp);
-    final BoxCollection collection = await BoxCollection.open(
+    final BoxCollection collection = await _hiveHelper.open(
         _diariesByMonthCollection, <String>{monthCollectionName},
         path: directory.path);
 
@@ -116,7 +110,7 @@ class HiveLocalStorage {
     final Directory directory = await getApplicationSupportDirectory();
 
     final Box<HiveUser> userBox =
-        await Hive.openBox(_userBox, path: directory.path);
+        await _hiveHelper.openBox(_userBox, path: directory.path);
 
     bool result = false;
 
@@ -134,7 +128,7 @@ class HiveLocalStorage {
     final Directory directory = await getApplicationSupportDirectory();
 
     final Box<HiveUser> userBox =
-        await Hive.openBox(_userBox, path: directory.path);
+        await _hiveHelper.openBox(_userBox, path: directory.path);
 
     HiveUser? hiveUser = userBox.get(user.uid);
 
@@ -150,7 +144,7 @@ class HiveLocalStorage {
     final Directory directory = await getApplicationSupportDirectory();
 
     final Box<HiveUser> userBox =
-        await Hive.openBox(_userBox, path: directory.path);
+        await _hiveHelper.openBox(_userBox, path: directory.path);
 
     bool result = false;
 
@@ -168,7 +162,7 @@ class HiveLocalStorage {
     final Directory directory = await getApplicationSupportDirectory();
 
     final Box<HiveUser> userBox =
-        await Hive.openBox(_userBox, path: directory.path);
+        await _hiveHelper.openBox(_userBox, path: directory.path);
 
     HiveUser? hiveUser = userBox.get(uid);
 
@@ -177,5 +171,47 @@ class HiveLocalStorage {
     }
 
     return hiveUser.toUser();
+  }
+}
+
+class HiveHelper {
+  Future<void> init() async {
+    final Directory directory = await getApplicationSupportDirectory();
+    await Hive.initFlutter(directory.path);
+
+    Hive.registerAdapter(HiveDiaryAdapter());
+    Hive.registerAdapter(HiveLatLngAdapter());
+    Hive.registerAdapter(HiveTextDiaryAdapter());
+    Hive.registerAdapter(HiveImageDiaryAdapter());
+    Hive.registerAdapter(HiveVideoDiaryAdapter());
+    Hive.registerAdapter(HiveUserAdapter());
+  }
+
+  Future<BoxCollection> open(
+    String name,
+    Set<String> boxNames, {
+    String? path,
+    HiveCipher? key,
+  }) =>
+      BoxCollection.open(name, boxNames, path: path, key: key);
+
+  Future<Box<E>> openBox<E>(
+    String name, {
+    HiveCipher? encryptionCipher,
+    KeyComparator? keyComparator,
+    CompactionStrategy? compactionStrategy,
+    bool crashRecovery = true,
+    String? path,
+    Uint8List? bytes,
+    String? collection,
+  }) {
+    return Hive.openBox(name,
+        encryptionCipher: encryptionCipher,
+        keyComparator: keyComparator ?? defaultKeyComparator,
+        compactionStrategy: compactionStrategy ?? defaultCompactionStrategy,
+        crashRecovery: crashRecovery,
+        path: path,
+        bytes: bytes,
+        collection: collection);
   }
 }
