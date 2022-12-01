@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   hive_flutter: ^1.1.0
-  hive_generator: ^2.0.0
   intl: ^0.17.0
   path_provider: ^2.0.11
 
@@ -19,6 +18,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  hive_generator: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
