@@ -12,7 +12,8 @@ class ConnectivityPlusServiceImpl extends ConnectivityService {
   Stream<bool> get onConnectivityChange => _connectivityChange.stream;
 
   /// implementation
-  final StreamController<bool> _connectivityChange = StreamController();
+  final StreamController<bool> _connectivityChange =
+      StreamController<bool>.broadcast();
 
   late final Connectivity _connectivity;
 
