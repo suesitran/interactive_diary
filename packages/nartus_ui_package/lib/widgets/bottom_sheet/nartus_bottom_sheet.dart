@@ -146,8 +146,10 @@ extension IdBottomSheet on BuildContext {
     bool isDismissible = true,
     bool enableDrag = true
   }) {
-    showBottomSheet(
+    showModalBottomSheet(
         context: this,
+        barrierColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         enableDrag: enableDrag,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

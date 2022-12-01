@@ -111,17 +111,16 @@ class _GoogleMapViewState extends State<GoogleMapView>
     const screenEdgeSpacing = 16.0;
     context.showIDBottomSheetCustom(
         dialog: DraggableScrollableSheet(
-          // initialChildSize: 0.2,
-          // minChildSize: 0.2,
-          // maxChildSize: 0.7,
+          initialChildSize: 0.2,
+          minChildSize: 0.2,
+          maxChildSize: 0.7,
           builder: (_, ScrollController controller) {
             return Container(
               // color: Colors.red,
               width: double.infinity,
               color: Colors.white,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+              child: ListView(
+                controller: controller,
                   children: [
                     const Gap.v12(),
                     Container(
@@ -153,7 +152,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
                     )
                   ],
                 ),
-              ),
             );
           }
         )
