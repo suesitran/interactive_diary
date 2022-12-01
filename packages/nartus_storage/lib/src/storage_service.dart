@@ -19,9 +19,9 @@ abstract class StorageService {
   factory StorageService(Type type) {
     switch (type) {
       case Type.local:
-        return _LocalStorageServiceImpl();
+        return LocalStorageServiceImpl();
       case Type.cloud:
-        return _CloudStorageServiceImpl();
+        return CloudStorageServiceImpl();
     }
   }
 
