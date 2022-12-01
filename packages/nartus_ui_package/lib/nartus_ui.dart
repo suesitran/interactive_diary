@@ -31,3 +31,4 @@ export 'widgets/widgets.dart';
 export 'theme/nartus_theme.dart';
 
 export 'widgets/bottom_sheet/nartus_bottom_sheet.dart';
+export 'widgets/alert_dialog/nartus_alert_dialog.dart';
