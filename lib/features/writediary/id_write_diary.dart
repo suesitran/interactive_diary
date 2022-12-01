@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:interactive_diary/features/writediary/location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 
 class IDWriteDiary extends StatefulWidget {
   const IDWriteDiary({super.key});
@@ -12,10 +14,10 @@ class _IDWriteDiaryState extends State<IDWriteDiary> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Add text',
+      title: S.of(context).addText,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Add text',
+          title: Text(S.of(context).addText,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
@@ -24,29 +26,24 @@ class _IDWriteDiaryState extends State<IDWriteDiary> {
           leading: const BackButton(
             color: NartusColor.backButtonColor,
           ),
-          actions: [
-            TextButton(
-                onPressed: null,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 22),
-                  child: Text('Save',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(color: NartusColor.primary)),
-                )),
+          actions: <Widget>[
+            NartusButton.text(onPressed: () {}, label: S.of(context).save),
           ],
         ),
-        body: Column(children: const [
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const LocationView(currentLocation: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               autofocus: true,
               showCursor: true,
               maxLines: null,
+              decoration: const InputDecoration(border: InputBorder.none),
+              style: Theme.of(context).textTheme.bodyText2,
               keyboardType: TextInputType.multiline,
             ),
-          )
+          ))
         ]),
       ),
     );

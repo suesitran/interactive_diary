@@ -7,5 +7,7 @@
   "locationPermissionDialogOpenSettingsButton": "Open Settings",
   "anonymous_profile" : "Anonymous Profile. Please login to use all features.",
   "noConnectionTitle" :"Whoops!",
-  "noConnectionMessage": "Slow or no internet connections.\nPlease check your internet settings"
+  "noConnectionMessage": "Slow or no internet connections.\nPlease check your internet settings",
+  "save" :"Save",
+  "addText" :"Add text"
 }
