@@ -68,11 +68,11 @@ class NartusBottomSheet extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
-                        ?.copyWith(color: NartusColor.dark),
+                        ?.copyWith(color: NartusColor.grey),
                   )),
               Padding(
                   padding:
-                      const EdgeInsets.only(bottom: NartusDimens.padding30),
+                      const EdgeInsets.only(bottom: NartusDimens.padding16),
                   child: SizedBox(
                     width: double.infinity,
                     child: NartusButton.primary(
