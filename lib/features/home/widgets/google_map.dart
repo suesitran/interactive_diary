@@ -3,12 +3,16 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
+
+import 'dot_view.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -108,6 +112,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   void _openContentList(BuildContext context) {
+    context.read<GetContentsBloc>().getContents();
     const screenEdgeSpacing = 16.0;
     context.showIDBottomSheetCustom(
         dialog: DraggableScrollableSheet(
@@ -116,7 +121,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
           maxChildSize: 0.7,
           builder: (_, ScrollController controller) {
             return Container(
-              // color: Colors.red,
               width: double.infinity,
               color: Colors.white,
               child: ListView(
@@ -135,20 +139,18 @@ class _GoogleMapViewState extends State<GoogleMapView>
                     SafeArea(
                       bottom: true,
                       child: Padding(
-                        padding: EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing, bottom: MediaQuery.of(context).viewPadding.bottom),
+                        padding: EdgeInsets.only(
+                          left: screenEdgeSpacing, right: screenEdgeSpacing,
+                          bottom: MediaQuery.of(context).viewPadding.bottom
+                        ),
                         child: LocationAddressBoxView(
                           address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing),
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (_, idx) => const ContentItemView(screenEdgeSpacing: screenEdgeSpacing,),
-                          separatorBuilder: (_, idx) => const Gap.v12(),
-                          itemCount: 5
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing),
+                      child: ContentsView(screenEdgeSpacing: screenEdgeSpacing,),
                     )
                   ],
                 ),
@@ -407,9 +409,40 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 }
 
+class ContentsView extends StatelessWidget {
+  final double screenEdgeSpacing;
+  const ContentsView({required this.screenEdgeSpacing, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GetContentsBloc, GetContentsState>(
+      builder: (_, GetContentsState state) {
+        if (state.isGettingContentsState) {
+          return const LoadingIndicator();
+        } else if (state.isDataEmptyState) {
+          return const SizedBox();
+        } else if (state.isGetContentsFailedState) {
+          return ErrorView(error: state.getContentsError,);
+        }
+        return ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (_, int idx) => ContentItemView(
+            screenEdgeSpacing: screenEdgeSpacing,
+            content: state.getContents[idx],
+          ),
+          separatorBuilder: (_, int idx) => const Gap.v12(),
+          itemCount: state.getContents.length
+        );
+      },
+    );
+  }
+}
+
+
 class ContentItemView extends StatelessWidget {
   final double screenEdgeSpacing;
-  const ContentItemView({required this.screenEdgeSpacing, Key? key}) : super(key: key);
+  final dynamic content;
+  const ContentItemView({required this.screenEdgeSpacing, required this.content, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -438,7 +471,7 @@ class ContentItemView extends StatelessWidget {
                     children: [
                       Text('Sep 3, 2022 at 10:12 PM', style: Theme.of(context).textTheme.bodySmall,),
                       const Gap.h04(),
-                      const _DotView(),
+                      const DotView(),
                       const Gap.h04(),
                       // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
                       SvgPicture.asset(
@@ -473,7 +506,7 @@ class ContentItemView extends StatelessWidget {
               Spacer(),
               Text('5 likes', style: Theme.of(context).textTheme.bodySmall,),
               const Gap.h04(),
-              const _DotView(),
+              const DotView(),
               const Gap.h04(),
               Text('4 comments', style: Theme.of(context).textTheme.bodySmall,),
             ],
@@ -498,11 +531,11 @@ class ContentItemView extends StatelessWidget {
           Row(
             children: [
               ...displayImages.asMap().entries.map((e) {
-                print('INDEX : ${e.key} | ${e.value}');
+                // print('INDEX : ${e.key} | ${e.value}');
                 // print('INDEX EQUAL : ${images.indexOf(e) == (itemsEachRow - 1)}');
                 // print('HAVE MORE IMAGES : ${isHaveMoreImagesThanItemsEachRow}');
                 // print('TOTAL : ${images.indexOf(e) == (itemsEachRow - 1) && isHaveMoreImagesThanItemsEachRow}');
-                print('================================');
+                // print('================================');
                 return Container(
                   padding: e.key == (itemsEachRow - 1)
                       ? EdgeInsets.zero : const EdgeInsets.only(right: imageSpacing),
@@ -580,20 +613,7 @@ class ContentItemView extends StatelessWidget {
   }
 }
 
-class _DotView extends StatelessWidget {
-  const _DotView({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 3, width: 3,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: NartusColor.grey,
-      ),
-    );
-  }
-}
 
 
 class LocationAddressBoxView extends StatelessWidget {

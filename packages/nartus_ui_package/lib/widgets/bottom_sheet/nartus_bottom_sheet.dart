@@ -148,6 +148,7 @@ extension IdBottomSheet on BuildContext {
   }) {
     showModalBottomSheet(
         context: this,
+        anchorPoint: Offset(20, 15),
         barrierColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         enableDrag: enableDrag,

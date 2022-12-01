@@ -9,6 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
+import 'bloc/get_contents/get_contents_bloc.dart';
+
 // ignore_for_file: always_specify_types
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +29,9 @@ void main() async {
       BlocProvider<LocationBloc>(
         create: (BuildContext context) => LocationBloc(),
       ),
+      BlocProvider<GetContentsBloc>(
+        create: (BuildContext context) => GetContentsBloc(),
+      )
     ],
     child: MaterialApp.router(
       routerConfig: appRoute,
