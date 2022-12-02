@@ -121,6 +121,8 @@ class HiveLocalStorage {
       await userBox.delete(uid);
     }
 
+    await userBox.close();
+
     return result;
   }
 
@@ -133,11 +135,15 @@ class HiveLocalStorage {
     HiveUser? hiveUser = userBox.get(user.uid);
 
     if (hiveUser != null) {
+      await userBox.close();
+
       throw HiveError(
           'User is available in storage. Please use update user detail');
     }
 
     await userBox.put(user.uid, HiveUser.fromUser(user));
+
+    await userBox.close();
   }
 
   Future<bool> updateUserDetail(User user) async {
@@ -152,9 +158,10 @@ class HiveLocalStorage {
 
     if (hiveUser != null) {
       result = true;
-      await userBox.delete(user.uid);
+      await userBox.put(user.uid, HiveUser.fromUser(user));
     }
 
+    await userBox.close();
     return result;
   }
 
@@ -166,10 +173,11 @@ class HiveLocalStorage {
 
     HiveUser? hiveUser = userBox.get(uid);
 
+    await userBox.close();
+
     if (hiveUser == null) {
       throw HiveError('User with $uid is not found in database');
     }
-
     return hiveUser.toUser();
   }
 }
