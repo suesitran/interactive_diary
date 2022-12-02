@@ -12,11 +12,12 @@ void main() {
     GoogleMapView widget =
         const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
 
-    await widgetTester.wrapAndPump(Directionality(
-      textDirection: TextDirection.ltr,
-      child: widget,
-    ),
-    infiniteAnimationWidget: true);
+    await widgetTester.wrapAndPump(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: widget,
+        ),
+        infiniteAnimationWidget: true);
 
     expect(
         find.descendant(
@@ -31,25 +32,29 @@ void main() {
 
   group('Test circular menu', () {
     testWidgets(
-      'when circular menu is closing, then circular menu items will not be shown on screen',
+        'when circular menu is closing, then circular menu items will not be shown on screen',
         (WidgetTester widgetTester) async {
-          GoogleMapView widget =
-            const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
+      GoogleMapView widget =
+          const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
 
-          await widgetTester.wrapAndPump(Directionality(
-            textDirection: TextDirection.ltr,
-            child: widget,
-          ));
+      await widgetTester.wrapAndPump(Directionality(
+        textDirection: TextDirection.ltr,
+        child: widget,
+      ));
 
-          GoogleMap map = widgetTester.widget(find.byType(GoogleMap)) as GoogleMap;
+      GoogleMap map = widgetTester.widget(find.byType(GoogleMap)) as GoogleMap;
 
-          bool isShowingMenu = map.markers.contains(const Marker(markerId: MarkerId(menuCameraMarkerLocationId)));
-          isShowingMenu = map.markers.contains(const Marker(markerId: MarkerId(menuEmojiMarkerLocationId)));
-          isShowingMenu = map.markers.contains(const Marker(markerId: MarkerId(menuVoiceMarkerLocationId)));
-          isShowingMenu = map.markers.contains(const Marker(markerId: MarkerId(menuPencilMarkerLocationId)));
+      bool isShowingMenu = map.markers.contains(
+          const Marker(markerId: MarkerId(menuCameraMarkerLocationId)));
+      isShowingMenu = map.markers.contains(
+          const Marker(markerId: MarkerId(menuEmojiMarkerLocationId)));
+      isShowingMenu = map.markers.contains(
+          const Marker(markerId: MarkerId(menuVoiceMarkerLocationId)));
+      isShowingMenu = map.markers.contains(
+          const Marker(markerId: MarkerId(menuPencilMarkerLocationId)));
 
-          expect(isShowingMenu, false);
-      });
+      expect(isShowingMenu, false);
+    });
 
     /// Can't simulate tapping on screen to open/ close menu. Because google map view
     /// is native view. And testWidgets is on flutter layer -> Not work

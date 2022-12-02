@@ -5,7 +5,7 @@ import 'package:nartus_storage/src/impl/local/hive/hive_local_storage.dart';
 part 'impl/local/local_storage_service_impl.dart';
 part 'impl/cloud/cloud_storage_service_impl.dart';
 
-enum Type { local, cloud }
+enum StorageType { local, cloud }
 
 class StorageException implements Exception {
   final String message;
@@ -16,17 +16,17 @@ class StorageException implements Exception {
 abstract class StorageService {
   StorageService._(this.type);
 
-  factory StorageService(Type type) {
+  factory StorageService(StorageType type) {
     switch (type) {
-      case Type.local:
-        return _LocalStorageServiceImpl();
-      case Type.cloud:
-        return _CloudStorageServiceImpl();
+      case StorageType.local:
+        return LocalStorageServiceImpl();
+      case StorageType.cloud:
+        return CloudStorageServiceImpl();
     }
   }
 
   /// implementation
-  final Type type;
+  final StorageType type;
 
   /// Diary implementation
   Future<void> saveDiary(Diary diary);

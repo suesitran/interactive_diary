@@ -1,9 +1,9 @@
 part of '../../storage_service.dart';
 
-class _LocalStorageServiceImpl extends StorageService {
-  _LocalStorageServiceImpl({HiveLocalStorage? storage})
+class LocalStorageServiceImpl extends StorageService {
+  LocalStorageServiceImpl({HiveLocalStorage? storage})
       : _hiveLocalStorage = storage ?? HiveLocalStorage(),
-        super._(Type.local);
+        super._(StorageType.local);
 
   final HiveLocalStorage _hiveLocalStorage;
 
