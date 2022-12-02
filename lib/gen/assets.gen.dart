@@ -18,6 +18,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/arrow_down.svg
   String get arrowDown => 'assets/images/arrow_down.svg';
 
+  /// File path: assets/images/back.svg
+  String get back => 'assets/images/back.svg';
+
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
@@ -71,6 +74,7 @@ class $AssetsImagesGen {
   List<dynamic> get values => [
         anonymous,
         arrowDown,
+        back,
         calendar,
         idCameraIcon,
         idCircularIconCamera,

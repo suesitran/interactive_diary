@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
@@ -32,8 +33,10 @@ class _WriteDiaryBody extends StatelessWidget {
                 .titleSmall
                 ?.copyWith(color: NartusColor.dark)),
         backgroundColor: NartusColor.background,
-        leading: const BackButton(
-          color: NartusColor.backButtonColor,
+        leading: NartusButton.text(
+          iconPath: Assets.images.back,
+          iconSemanticLabel: S.of(context).back,
+          onPressed: () => Navigator.of(context).pop(),
         ),
         elevation: 0.0,
         actions: <Widget>[

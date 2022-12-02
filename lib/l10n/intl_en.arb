@@ -9,5 +9,6 @@
   "noConnectionTitle" :"Whoops!",
   "noConnectionMessage": "Slow or no internet connections.\nPlease check your internet settings",
   "save" :"Save",
-  "addText" :"Add text"
+  "addText" :"Add text",
+  "back" : "Back"
 }
