@@ -94,7 +94,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   onMapCreated: (GoogleMapController controller) =>
                       _onMapCreated(controller),
                   onCameraMoveStarted: () => _closeMenuIfOpening(),
-                  onCameraMove: (_) => _closeMenuIfOpening(),
                   onTap: (_) => _closeMenuIfOpening(),
                   onLongPress: (_) => _closeMenuIfOpening(),
                   markers: data.data ?? <Marker>{},
