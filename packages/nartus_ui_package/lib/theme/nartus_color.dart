@@ -46,7 +46,6 @@ class NartusColor {
   static const Color dark = Color(0xFF1C2025);
 
   static const Color backButtonColor = Color(0xFF292D32);
-
 }
 
 const ColorScheme lightColorScheme = ColorScheme(

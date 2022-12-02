@@ -6,6 +6,4 @@ abstract class WriteDiaryState extends Equatable {
   List<Object?> get props => <Object?>[];
 }
 
-class WriteDiaryInitial extends WriteDiaryState {
-
-}
+class WriteDiaryInitial extends WriteDiaryState {}
