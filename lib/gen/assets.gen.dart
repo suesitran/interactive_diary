@@ -38,6 +38,9 @@ class $AssetsImagesGen {
   String get idCircularIconPencil =>
       'assets/images/id_circular_icon_pencil.svg';
 
+  /// File path: assets/images/id_location_icon.svg
+  String get idLocationIcon => 'assets/images/id_location_icon.svg';
+
   /// File path: assets/images/id_micro_icon.svg
   String get idMicroIcon => 'assets/images/id_micro_icon.svg';
 
@@ -64,9 +67,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/no_connection.svg
   String get noConnection => 'assets/images/no_connection.svg';
 
-  /// File path: assets/images/id_location_icon.svg
-  String get location => 'assets/images/id_location_icon.svg';
-
   /// List of all assets
   List<dynamic> get values => [
         anonymous,
@@ -77,6 +77,7 @@ class $AssetsImagesGen {
         idCircularIconEmoji,
         idCircularIconMicro,
         idCircularIconPencil,
+        idLocationIcon,
         idMicroIcon,
         idPencilIcon,
         idSmileIcon,
