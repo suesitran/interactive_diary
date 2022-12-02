@@ -49,6 +49,8 @@ dependencies:
     path: packages/nartus_authentication
   nartus_connectivity:
     path: packages/nartus_connectivity
+  nartus_storage:
+    path: packages/nartus_storage
   go_router: ^5.1.1
 
 dev_dependencies:
