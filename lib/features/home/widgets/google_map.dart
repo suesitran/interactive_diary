@@ -116,6 +116,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   void dispose() {
     _controller.dispose();
     _streamController.close();
+    mapController.dispose();
     super.dispose();
   }
 
