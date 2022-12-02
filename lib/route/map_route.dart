@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -23,9 +24,20 @@ final GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: writeDiaryRoute,
-      builder: (BuildContext context, GoRouterState state) {
-        return WriteDiaryScreen(latLng: state.extra as LatLng);
-      },
+      pageBuilder: (BuildContext context, GoRouterState state) =>
+          CustomTransitionPage<Offset>(
+              child: WriteDiaryScreen(latLng: state.extra as LatLng),
+              transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) =>
+                  SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.0, 1.0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  )),
     ),
     // add other 1st level route
   ],
