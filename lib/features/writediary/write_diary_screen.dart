@@ -60,31 +60,33 @@ class WriteDiaryScreen extends StatelessWidget {
                     label: S.of(context).save)),
           ],
         ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-          const LocationView(
-              currentLocation:
-                  'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: textController,
-              autofocus: true,
-              showCursor: true,
-              maxLines: null,
-              decoration: const InputDecoration(border: InputBorder.none),
-              style: Theme.of(context).textTheme.bodyText2,
-              keyboardType: TextInputType.multiline,
-              onChanged: (String text) {
-                final bool textAvailable = text.isNotEmpty;
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const LocationView(
+                  currentLocation:
+                      'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: textController,
+                  autofocus: true,
+                  showCursor: true,
+                  maxLines: null,
+                  decoration: const InputDecoration(border: InputBorder.none),
+                  style: Theme.of(context).textTheme.bodyText2,
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (String text) {
+                    final bool textAvailable = text.isNotEmpty;
 
-                if (_isTextWritten.value != textAvailable) {
-                  _isTextWritten.value = textAvailable;
-                }
-              },
-            ),
-          ))
-        ]),
+                    if (_isTextWritten.value != textAvailable) {
+                      _isTextWritten.value = textAvailable;
+                    }
+                  },
+                ),
+              ))
+            ]),
       ),
     );
   }
