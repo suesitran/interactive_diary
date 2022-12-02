@@ -10,8 +10,8 @@ part 'storage_state.dart';
 class StorageBloc extends Bloc<StorageEvent, StorageState> {
   late final StorageService service;
 
-  StorageBloc() : super(StorageInitial()) {
-    service = StorageService(StorageType.local);
+  StorageBloc({StorageService? storageService}) : super(StorageInitial()) {
+    service = storageService ?? StorageService(StorageType.local);
 
     // initialise storage service
     on<RequestSaveTextDiaryEvent>(

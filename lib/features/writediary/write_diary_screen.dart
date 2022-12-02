@@ -64,7 +64,7 @@ class WriteDiaryScreen extends StatelessWidget {
                     label: S.of(context).save)),
           ],
         ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           const LocationView(
               currentLocation:
                   'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
