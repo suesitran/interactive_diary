@@ -7,3 +7,7 @@ abstract class WriteDiaryState extends Equatable {
 }
 
 class WriteDiaryInitial extends WriteDiaryState {}
+
+class SaveDiarySucceeded extends WriteDiaryState {}
+
+class SaveDiaryFailed extends WriteDiaryState {}
