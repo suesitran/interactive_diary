@@ -41,8 +41,8 @@ class _WriteDiaryBody extends StatelessWidget {
 
             /// TODO this is a cheat.
             /// We need to wait for keyboard to be fully dismissed before returning to previous page
-            Future<void>.delayed(const Duration(milliseconds: 500)).then((_) => Navigator.of(context).pop());
-
+            Future<void>.delayed(const Duration(milliseconds: 500))
+                .then((_) => Navigator.of(context).pop());
           },
         ),
         elevation: 0.0,
