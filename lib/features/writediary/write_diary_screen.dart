@@ -11,11 +11,16 @@ class WriteDiaryScreen extends StatelessWidget {
   const WriteDiaryScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(create: (_) => WriteDiaryCubit(), child: const _WriteDiaryBody(),);
+  Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
+        create: (_) => WriteDiaryCubit(),
+        child: _WriteDiaryBody(),
+      );
 }
 
 class _WriteDiaryBody extends StatelessWidget {
-  const _WriteDiaryBody({Key? key}): super(key: key);
+  _WriteDiaryBody({Key? key}) : super(key: key);
+
+  final ValueNotifier<bool> _isTextWritten = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +35,37 @@ class _WriteDiaryBody extends StatelessWidget {
         leading: const BackButton(
           color: NartusColor.backButtonColor,
         ),
+        elevation: 0.0,
         actions: <Widget>[
-          NartusButton.text(onPressed: () {}, label: S.of(context).save),
+          ValueListenableBuilder<bool>(
+              valueListenable: _isTextWritten,
+              builder: (_, bool enable, __) => NartusButton.text(
+                  onPressed: enable ? () {} : null, label: S.of(context).save)),
         ],
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const LocationView(currentLocation: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
+        const LocationView(
+            currentLocation:
+                'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
         Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                autofocus: true,
-                showCursor: true,
-                maxLines: null,
-                decoration: const InputDecoration(border: InputBorder.none),
-                style: Theme.of(context).textTheme.bodyText2,
-                keyboardType: TextInputType.multiline,
-              ),
-            ))
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: TextField(
+            autofocus: true,
+            showCursor: true,
+            maxLines: null,
+            decoration: const InputDecoration(border: InputBorder.none),
+            style: Theme.of(context).textTheme.bodyText2,
+            keyboardType: TextInputType.multiline,
+            onChanged: (String text) {
+              final bool textAvailable = text.isNotEmpty;
+
+              if (_isTextWritten.value != textAvailable) {
+                _isTextWritten.value = textAvailable;
+              }
+            },
+          ),
+        ))
       ]),
     );
   }
