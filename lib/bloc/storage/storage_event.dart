@@ -5,12 +5,14 @@ abstract class StorageEvent extends Equatable {
 }
 
 class RequestSaveTextDiaryEvent extends StorageEvent {
-  final String text;
+  final String title;
+  final String textContent;
+  final LatLng latLng;
 
-  const RequestSaveTextDiaryEvent(this.text);
+  const RequestSaveTextDiaryEvent(
+      {required this.title, required this.textContent, required this.latLng});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => <Object?>[text];
-
+  List<Object?> get props =>
+      <Object?>[title, textContent, latLng.lat, latLng.long];
 }

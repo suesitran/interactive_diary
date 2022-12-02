@@ -281,7 +281,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
             icon: penMarkerBitmap,
             anchor: popupPenAnimation.value,
             onTap: () {
-              context.gotoWriteDiaryScreen();
+              context.gotoWriteDiaryScreen(widget.currentLocation);
               _closeMenuIfOpening();
             }),
         Marker(

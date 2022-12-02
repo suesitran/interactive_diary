@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
@@ -9,7 +10,9 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/features/writediary/location.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  WriteDiaryScreen({Key? key}) : super(key: key);
+  WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
+
+  final LatLng latLng;
 
   final ValueNotifier<bool> _isTextWritten = ValueNotifier<bool>(false);
   final TextEditingController textController = TextEditingController();
@@ -51,7 +54,11 @@ class WriteDiaryScreen extends StatelessWidget {
                         ? () {
                             context
                                 .read<StorageBloc>()
-                                .add(RequestSaveTextDiaryEvent(textController.text));
+                                .add(RequestSaveTextDiaryEvent(
+                                  title: '',
+                                  textContent: textController.text,
+                                  latLng: latLng,
+                                ));
                           }
                         : null,
                     label: S.of(context).save)),
