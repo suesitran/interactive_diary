@@ -16,7 +16,7 @@ class LocationView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(18, 17, 11, 25),
             child: SvgPicture.asset(
-              Assets.images.location,
+              Assets.images.idLocationIcon,
               width: 13,
               height: 15,
             ),
