@@ -25,10 +25,6 @@ class WriteDiaryScreen extends StatelessWidget {
           _returnToPreviousPage(context);
           return;
         }
-
-        if (state is StorageSaveTextDiaryFail) {
-          // show toast message
-        }
       },
       child: Scaffold(
         appBar: AppBar(

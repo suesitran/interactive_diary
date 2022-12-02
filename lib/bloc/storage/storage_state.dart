@@ -17,5 +17,3 @@ class StorageSaveTextDiarySuccess extends StorageState {
   @override
   List<int> get props => <int>[timestamp];
 }
-
-class StorageSaveTextDiaryFail extends StorageState {}
