@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
+import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
@@ -9,31 +9,21 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/features/writediary/location.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  const WriteDiaryScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
-        create: (_) => WriteDiaryCubit(),
-        child: _WriteDiaryBody(),
-      );
-}
-
-class _WriteDiaryBody extends StatelessWidget {
-  _WriteDiaryBody({Key? key}) : super(key: key);
+  WriteDiaryScreen({Key? key}) : super(key: key);
 
   final ValueNotifier<bool> _isTextWritten = ValueNotifier<bool>(false);
   final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<WriteDiaryCubit, WriteDiaryState>(
-      listener: (BuildContext context, WriteDiaryState state) {
-        if (state is SaveDiarySucceeded) {
+    return BlocListener<StorageBloc, StorageState>(
+      listener: (BuildContext context, StorageState state) {
+        if (state is StorageSaveTextDiarySuccess) {
           _returnToPreviousPage(context);
           return;
         }
 
-        if (state is SaveDiaryFailed) {
+        if (state is StorageSaveTextDiaryFail) {
           // show toast message
         }
       },
@@ -60,8 +50,8 @@ class _WriteDiaryBody extends StatelessWidget {
                     onPressed: enable
                         ? () {
                             context
-                                .read<WriteDiaryCubit>()
-                                .saveTextDiary(textController.text);
+                                .read<StorageBloc>()
+                                .add(RequestSaveTextDiaryEvent(textController.text));
                           }
                         : null,
                     label: S.of(context).save)),

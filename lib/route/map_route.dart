@@ -23,7 +23,7 @@ final GoRouter appRoute = GoRouter(
     GoRoute(
       path: writeDiaryRoute,
       builder: (BuildContext context, GoRouterState state) {
-        return const WriteDiaryScreen();
+        return WriteDiaryScreen();
       },
     ),
     // add other 1st level route
