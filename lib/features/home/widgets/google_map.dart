@@ -267,30 +267,42 @@ class _GoogleMapViewState extends State<GoogleMapView>
     if (_controller.status != AnimationStatus.dismissed) {
       markers.addAll(<Marker>{
         Marker(
-            markerId: const MarkerId(menuCameraMarkerLocationId),
-            position: widget.currentLocation,
-            icon: cameraMarkerBitmap,
-            anchor: popupCameraAnimation.value,
-            onTap: () {}),
+          markerId: const MarkerId(menuCameraMarkerLocationId),
+          position: widget.currentLocation,
+          icon: cameraMarkerBitmap,
+          anchor: popupCameraAnimation.value,
+          onTap: () {
+            _closeMenuIfOpening();
+          }
+        ),
         Marker(
           markerId: const MarkerId(menuPencilMarkerLocationId),
           position: widget.currentLocation,
           icon: penMarkerBitmap,
           anchor: popupPenAnimation.value,
-          onTap: () => context.gotoWriteDiaryScreen()
+          onTap: () {
+            context.gotoWriteDiaryScreen();
+            _closeMenuIfOpening();
+          }
         ),
         Marker(
-            markerId: const MarkerId(menuEmojiMarkerLocationId),
-            position: widget.currentLocation,
-            icon: emojiMarkerBitmap,
-            anchor: popupEmojiAnimation.value,
-            onTap: () {}),
+          markerId: const MarkerId(menuEmojiMarkerLocationId),
+          position: widget.currentLocation,
+          icon: emojiMarkerBitmap,
+          anchor: popupEmojiAnimation.value,
+          onTap: () {
+            _closeMenuIfOpening();
+          }
+        ),
         Marker(
-            markerId: const MarkerId(menuVoiceMarkerLocationId),
-            position: widget.currentLocation,
-            icon: voiceMarkerBitmap,
-            anchor: popupVoiceAnimation.value,
-            onTap: () {}),
+          markerId: const MarkerId(menuVoiceMarkerLocationId),
+          position: widget.currentLocation,
+          icon: voiceMarkerBitmap,
+          anchor: popupVoiceAnimation.value,
+          onTap: () {
+            _closeMenuIfOpening();
+          }
+        ),
       });
     }
     _streamController.sink.add(markers);
