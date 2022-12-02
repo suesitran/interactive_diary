@@ -36,7 +36,14 @@ class _WriteDiaryBody extends StatelessWidget {
         leading: NartusButton.text(
           iconPath: Assets.images.back,
           iconSemanticLabel: S.of(context).back,
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
+            /// TODO this is a cheat.
+            /// We need to wait for keyboard to be fully dismissed before returning to previous page
+            Future<void>.delayed(const Duration(milliseconds: 500)).then((_) => Navigator.of(context).pop());
+
+          },
         ),
         elevation: 0.0,
         actions: <Widget>[
