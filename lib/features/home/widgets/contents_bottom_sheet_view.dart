@@ -18,7 +18,7 @@ class MapBottomSheetView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: 500,
+      height: MediaQuery.of(context).size.height,
       child: Column(
         // controller: controller,
         children: [

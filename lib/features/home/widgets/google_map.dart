@@ -62,9 +62,28 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   late final Set<Marker> markers = <Marker>{};
 
+  /// [SHOW BOTTOM SHEET FUNCTION VERSION]
+  /// AnimationController showModalBottomSheet : We used this to guess user's interaction
+  /// via AnimationStatus of modalBottomSheet. So we can decide what to do when
+  /// modalBottomSheet changed.
+  /// For example : In this case, we sync open/ close status of circular menu with
+  /// open/close status of modalBottomSheet
+  late final AnimationController _bottomSheetCtrl;
+
   @override
   void initState() {
     super.initState();
+
+    _bottomSheetCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+
+    /// [SHOW BOTTOM SHEET FUNCTION VERSION]
+    /// Listen to animation change
+    _bottomSheetCtrl.addStatusListener((status) {
+      if (status == AnimationStatus.forward || status == AnimationStatus.dismissed) {
+        _onMapTab();
+      }
+    });
+    /// [SHOW BOTTOM SHEET FUNCTION VERSION]
 
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300))
@@ -89,8 +108,10 @@ class _GoogleMapViewState extends State<GoogleMapView>
     mapController.setMapStyle(MapStyle.paper.value);
   }
 
-  final List<double> snaps = [1, 0.85, 0.5, 0.2];
-  int currentPos = 0;
+  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+  // final List<double> snaps = [1, 0.85, 0.5, 0.2];
+  // int currentPos = 0;
+  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +131,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   onMapCreated: (GoogleMapController controller) =>
                       _onMapCreated(controller),
                   onCameraMoveStarted: () => _onMapTab(),
-                  onCameraMove: (_) => _onMapTab(),
+                  // onCameraMove: (_) => _onMapTab(),
                   onTap: (_) => _onMapTab(),
                   onLongPress: (_) => _onMapTab(),
                   markers: data.data ?? <Marker>{},
@@ -119,102 +140,105 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   myLocationButtonEnabled: false),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onPanEnd: (details) {
-                      if (details.velocity.pixelsPerSecond.dy > -100) {
-                        if (currentPos > 0) {
-                          setState(() {
-                            currentPos = currentPos - 1;
-                          });
-                        }
-                      } else {
-                        if (currentPos < snaps.length - 1) {
-                          setState(() {
-                            currentPos = currentPos + 1;
-                          });
-                        }
-                      }
-                    },
-                    // child: CustomBottomSheet(height: size.height - (size.height * snaps[currentPos]),)
-                    child: AnimatedContainer(
-                      height: size.height - (size.height * snaps[currentPos]),
-                      width: size.width,
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
-                      duration: const Duration(milliseconds: 200),
-                      child: Align(alignment: Alignment.topCenter,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Gap.v12(),
-                              Container(
-                                height: 4,
-                                width: MediaQuery.of(context).size.width * .2,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[500],
-                                  borderRadius: BorderRadius.circular(4.0)
-                                ),
-                              ),
-                              const Gap.v12(),
-                              Container(
-                                margin: const EdgeInsets.only(
-                                  left: 12, right: 12,
-                                  // bottom: MediaQuery.of(context).viewPadding.bottom
-                                ),
-                                child: const LocationAddressBoxView(
-                                  address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                                ),
-                              ),
-                              if (currentPos > 1)...[
-                                Flexible(
-                                    child: Container(
-                                      padding: const EdgeInsets.only(left: 16, right: 16),
-                                      child: BlocBuilder<GetContentsBloc, GetContentsState>(
-                                        builder: (_, GetContentsState state) {
-                                          if (state.isGettingContentsState) {
-                                            return Container(
-                                              margin: const EdgeInsets.only(top: 12),
-                                              child: const LoadingIndicator(),
-                                            );
-                                          } else if (state.isDataEmptyState) {
-                                            return const SizedBox();
-                                          } else if (state.isGetContentsFailedState) {
-                                            return ErrorView(error: state.getContentsError,);
-                                          } else if (state.isGetContentsSucceedState) {
-                                            return ListView.separated(
-                                                cacheExtent: 200,
-                                                shrinkWrap: true,
-                                                itemBuilder: (_, int idx) => Column(
-                                                  children: [
-                                                    ContentCardView(
-                                                      screenEdgeSpacing: 16,
-                                                      content: state.getContents[idx],
-                                                    ),
-                                                    if (idx == state.getContents.length - 1)...[
-                                                      const Gap.v16()
-                                                    ]
-                                                  ],
-                                                ),
-                                                separatorBuilder: (_, int idx) => const Gap.v12(),
-                                                itemCount: state.getContents.length
-                                            );
-                                          }
-                                          return const SizedBox();
-                                        },
-                                      ),
-                                    )
-                                )
-                              ]
-                            ],
-                          )
-                      ),
-                    ),
-                  ),
-                ),
+
+                /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: GestureDetector(
+                //     onPanEnd: (details) {
+                //       if (details.velocity.pixelsPerSecond.dy > -100) {
+                //         if (currentPos > 0) {
+                //           setState(() {
+                //             currentPos = currentPos - 1;
+                //           });
+                //         }
+                //       } else {
+                //         if (currentPos < snaps.length - 1) {
+                //           setState(() {
+                //             currentPos = currentPos + 1;
+                //           });
+                //         }
+                //       }
+                //     },
+                //     // child: CustomBottomSheet(height: size.height - (size.height * snaps[currentPos]),)
+                //     child: AnimatedContainer(
+                //       height: size.height - (size.height * snaps[currentPos]),
+                //       width: size.width,
+                //       decoration: const BoxDecoration(
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.only(
+                //               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+                //       duration: const Duration(milliseconds: 200),
+                //       child: Align(alignment: Alignment.topCenter,
+                //           child: Column(
+                //             mainAxisSize: MainAxisSize.min,
+                //             children: [
+                //               const Gap.v12(),
+                //               Container(
+                //                 height: 4,
+                //                 width: MediaQuery.of(context).size.width * .2,
+                //                 decoration: BoxDecoration(
+                //                   color: Colors.grey[500],
+                //                   borderRadius: BorderRadius.circular(4.0)
+                //                 ),
+                //               ),
+                //               const Gap.v12(),
+                //               Container(
+                //                 margin: const EdgeInsets.only(
+                //                   left: 12, right: 12,
+                //                   // bottom: MediaQuery.of(context).viewPadding.bottom
+                //                 ),
+                //                 child: const LocationAddressBoxView(
+                //                   address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                //                 ),
+                //               ),
+                //               if (currentPos > 1)...[
+                //                 Flexible(
+                //                     child: Container(
+                //                       padding: const EdgeInsets.only(left: 16, right: 16),
+                //                       child: BlocBuilder<GetContentsBloc, GetContentsState>(
+                //                         builder: (_, GetContentsState state) {
+                //                           if (state.isGettingContentsState) {
+                //                             return Container(
+                //                               margin: const EdgeInsets.only(top: 12),
+                //                               child: const LoadingIndicator(),
+                //                             );
+                //                           } else if (state.isDataEmptyState) {
+                //                             return const SizedBox();
+                //                           } else if (state.isGetContentsFailedState) {
+                //                             return ErrorView(error: state.getContentsError,);
+                //                           } else if (state.isGetContentsSucceedState) {
+                //                             return ListView.separated(
+                //                                 cacheExtent: 200,
+                //                                 shrinkWrap: true,
+                //                                 itemBuilder: (_, int idx) => Column(
+                //                                   children: [
+                //                                     ContentCardView(
+                //                                       screenEdgeSpacing: 16,
+                //                                       content: state.getContents[idx],
+                //                                     ),
+                //                                     if (idx == state.getContents.length - 1)...[
+                //                                       const Gap.v16()
+                //                                     ]
+                //                                   ],
+                //                                 ),
+                //                                 separatorBuilder: (_, int idx) => const Gap.v12(),
+                //                                 itemCount: state.getContents.length
+                //                             );
+                //                           }
+                //                           return const SizedBox();
+                //                         },
+                //                       ),
+                //                     )
+                //                 )
+                //               ]
+                //             ],
+                //           )
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
                 // AnimatedPositioned(
                 //     curve: Curves.decelerate,
                 //     top: size.height * snaps[currentPos],
@@ -312,6 +336,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                 //       ),
                 //     )
                 // ),
+                /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
               ],
             );
           }
@@ -321,7 +346,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
   void _openContentList(BuildContext context) {
     context.read<GetContentsBloc>().getContents();
     context.showIDBottomSheetCustom(
-      dialog: MapBottomSheetView()
+      controller: _bottomSheetCtrl,
+      dialog: ContentsBottomSheetView()
     );
   }
 
@@ -329,7 +355,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
     if (_controller.value == 1) {
       _controller.reverse();
     }
-    _closeContentsBottomSheet();
+
+    /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+    // _closeContentsBottomSheet();
   }
 
   @override
@@ -433,10 +461,13 @@ class _GoogleMapViewState extends State<GoogleMapView>
           onTap: () {
             if (_controller.value == 1) {
               _controller.reverse();
-              _closeContentsBottomSheet();
+              /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+              // _closeContentsBottomSheet();
             } else {
+              /// [SHOW BOTTOM SHEET FUNCTION VERSION]
               _openContentList(context);
               _controller.forward();
+              /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
               // _openContentsBottomSheet();
             }
           }));
@@ -444,20 +475,24 @@ class _GoogleMapViewState extends State<GoogleMapView>
     }
   }
 
-  void _openContentsBottomSheet() {
-    context.read<GetContentsBloc>().getContents();
-    setState(() {
-      if (currentPos == 0) {
-        currentPos = 1;
-      }
-    });
-  }
+  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+  // void _openContentsBottomSheet() {
+  //   context.read<GetContentsBloc>().getContents();
+  //   setState(() {
+  //     if (currentPos == 0) {
+  //       currentPos = 1;
+  //     }
+  //   });
+  // }
+  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
 
-  void _closeContentsBottomSheet() {
-    setState(() {
-      currentPos = 0;
-    });
-  }
+  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+  // void _closeContentsBottomSheet() {
+  //   setState(() {
+  //     currentPos = 0;
+  //   });
+  // }
+  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
 
   void _specifyCircularMenuIconsAnimation(AnimationController controller) {
     /// Offset(0.5, 1.0) : Is default anchor of Marker
@@ -591,37 +626,37 @@ class _GoogleMapViewState extends State<GoogleMapView>
         .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
   }
 }
-//
-// class ContentsBottomSheetView extends StatefulWidget {
-//   const ContentsBottomSheetView({Key? key}) : super(key: key);
-//
-//   @override
-//   _ContentsBottomSheetViewState createState() => _ContentsBottomSheetViewState();
-// }
-//
-// class _ContentsBottomSheetViewState extends State<ContentsBottomSheetView> {
-//
-//   final List<double> snapSizes = <double>[0.1, 0.5, 0.8];
-//   int currentSnapPos = 0;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     const screenEdgeSpacing = 16.0;
-//     final Size size = MediaQuery.of(context).size;
-//     return Container(
-//       height: size.height * snapSizes[currentSnapPos],
-//       child: DraggableScrollableSheet(
-//           initialChildSize: 0.1,
-//           minChildSize: 0.1,
-//           maxChildSize: 0.8,
-//           snap: true,
-//           snapSizes: snapSizes,
-//           builder: (_, ScrollController controller) {
-//             return MapBottomSheetView(
-//                 screenEdgeSpacing: screenEdgeSpacing, controller: controller);
-//           }
-//       ),
-//     );
-//   }
-// }
+
+class ContentsBottomSheetView extends StatefulWidget {
+  const ContentsBottomSheetView({Key? key}) : super(key: key);
+
+  @override
+  _ContentsBottomSheetViewState createState() => _ContentsBottomSheetViewState();
+}
+
+class _ContentsBottomSheetViewState extends State<ContentsBottomSheetView> {
+
+  final List<double> snapSizes = <double>[0.2, 0.5, 0.8];
+  int currentSnapPos = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    const screenEdgeSpacing = 16.0;
+    final Size size = MediaQuery.of(context).size;
+    return Container(
+      height: size.height * snapSizes[currentSnapPos],
+      child: DraggableScrollableSheet(
+          initialChildSize: 0.1,
+          minChildSize: 0.1,
+          maxChildSize: 0.8,
+          snap: true,
+          snapSizes: snapSizes,
+          builder: (_, ScrollController controller) {
+            return MapBottomSheetView(
+                );
+          }
+      ),
+    );
+  }
+}
 

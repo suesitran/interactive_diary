@@ -98,11 +98,6 @@ class ContentCardView extends StatelessWidget {
           Row(
             children: [
               ...displayImages.asMap().entries.map((e) {
-                // print('INDEX : ${e.key} | ${e.value}');
-                // print('INDEX EQUAL : ${images.indexOf(e) == (itemsEachRow - 1)}');
-                // print('HAVE MORE IMAGES : ${isHaveMoreImagesThanItemsEachRow}');
-                // print('TOTAL : ${images.indexOf(e) == (itemsEachRow - 1) && isHaveMoreImagesThanItemsEachRow}');
-                // print('================================');
                 return Container(
                   padding: e.key == (itemsEachRow - 1)
                       ? EdgeInsets.zero : const EdgeInsets.only(right: imageSpacing),

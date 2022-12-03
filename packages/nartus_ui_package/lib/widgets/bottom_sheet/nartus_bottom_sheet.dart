@@ -148,9 +148,11 @@ extension IdBottomSheet on BuildContext {
     bool enableDrag = true,
     AnimationController? controller
   }) {
+    /// [SHOW BOTTOM SHEET FUNCTION VERSION]
     /// Couldn't customize the barrier
     showModalBottomSheet(
         context: this,
+        transitionAnimationController: controller,
         clipBehavior: Clip.hardEdge,
         // anchorPoint: Offset(20, 15),
         // barrierColor: Colors.transparent,
