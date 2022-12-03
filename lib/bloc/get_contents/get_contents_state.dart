@@ -4,6 +4,7 @@ abstract class GetContentsState extends Equatable {
   const GetContentsState();
 
   bool get isGettingContentsState => this is GettingContentsState;
+  bool get isGettContentsInitialState => this is GetContentsInitialState;
   bool get isGetContentsSucceedState => this is GetContentsSucceedState;
   bool get isGetContentsFailedState => this is GetContentsFailedState;
   bool get isDataEmptyState => this is GetContentsEmptyState;

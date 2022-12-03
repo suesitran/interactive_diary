@@ -10,6 +10,7 @@ import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
 import 'bloc/get_contents/get_contents_bloc.dart';
+import 'features/home/widgets/location_address_box_view.dart';
 
 // ignore_for_file: always_specify_types
 void main() async {

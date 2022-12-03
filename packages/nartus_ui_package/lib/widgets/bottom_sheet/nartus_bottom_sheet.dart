@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
@@ -144,12 +145,18 @@ extension IdBottomSheet on BuildContext {
   void showIDBottomSheetCustom({
     required Widget dialog,
     bool isDismissible = true,
-    bool enableDrag = true
+    bool enableDrag = true,
+    AnimationController? controller
   }) {
+    /// Couldn't customize the barrier
     showModalBottomSheet(
         context: this,
-        anchorPoint: Offset(20, 15),
-        barrierColor: Colors.transparent,
+        clipBehavior: Clip.hardEdge,
+        // anchorPoint: Offset(20, 15),
+        // barrierColor: Colors.transparent,
+        barrierColor: Colors.red.withOpacity(0.3),
+        // backgroundColor: Colors.transparent,
+        isScrollControlled: true,
         backgroundColor: Colors.transparent,
         enableDrag: enableDrag,
         shape: const RoundedRectangleBorder(
@@ -160,5 +167,29 @@ extension IdBottomSheet on BuildContext {
             child: dialog,
           );
         });
+
+    /// Couldn't find a way to customize the height
+    /// Tap outside didn't close the bottom sheet
+    // showBottomSheet(
+    //   constraints: BoxConstraints(
+    //     maxHeight: 700,
+    //   ),
+    //     context: this,
+    //     clipBehavior: Clip.hardEdge,
+    //     // anchorPoint: Offset(20, 15),
+    //     // barrierColor: Colors.transparent,
+    //     // barrierColor: Colors.red.withOpacity(0.3),
+    //     // backgroundColor: Colors.transparent,
+    //     // isScrollControlled: true,
+    //     backgroundColor: Colors.transparent,
+    //     enableDrag: enableDrag,
+    //     shape: const RoundedRectangleBorder(
+    //         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    //     builder: (BuildContext builder) {
+    //       return WillPopScope(
+    //         onWillPop: () => Future<bool>.value(isDismissible),
+    //         child: dialog,
+    //       );
+    //     });
   }
 }

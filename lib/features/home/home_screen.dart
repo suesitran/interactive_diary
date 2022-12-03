@@ -8,6 +8,8 @@ import 'package:interactive_diary/generated/l10n.dart';
 
 import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 
+import '../../main.dart';
+
 class IDHome extends StatefulWidget {
   const IDHome({
     Key? key,
@@ -19,7 +21,8 @@ class IDHome extends StatefulWidget {
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (BuildContext context, LocationState state) {
           if (state is LocationReadyState) {
@@ -29,13 +32,13 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   currentLocation: state.currentLocation,
                 ),
                 SafeArea(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: DateLabelView(
-                      dateLabel: state.dateDisplay,
-                      profileSemanticLabel: S.of(context).anonymous_profile,
-                    ),
-                  ))
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: DateLabelView(
+                        dateLabel: state.dateDisplay,
+                        profileSemanticLabel: S.of(context).anonymous_profile,
+                      ),
+                    ))
               ],
             );
           }
@@ -114,7 +117,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
           );
         },
       ),
-  );
+    );
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
