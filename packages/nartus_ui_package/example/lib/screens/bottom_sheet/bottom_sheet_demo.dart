@@ -161,7 +161,8 @@ class BottomSheetDemo extends StatelessWidget {
                       isDismissible: false,
                       iconPath: 'assets/location.svg');
                 },
-                child: const Text('Persistent bottom sheet - 3 buttons With icon'))
+                child:
+                    const Text('Persistent bottom sheet - 3 buttons With icon'))
           ],
         ),
       );
