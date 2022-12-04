@@ -9,7 +9,7 @@ void main() {
   testWidgets(
       'given location string, when location view rendered, then show exactly location details',
       (WidgetTester tester) async {
-    const location =
+    const String location =
         'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia';
     const LocationView widget = LocationView(currentLocation: location);
 
