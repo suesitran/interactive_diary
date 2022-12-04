@@ -169,29 +169,5 @@ extension IdBottomSheet on BuildContext {
             child: dialog,
           );
         });
-
-    /// Couldn't find a way to customize the height
-    /// Tap outside didn't close the bottom sheet
-    // showBottomSheet(
-    //   constraints: BoxConstraints(
-    //     maxHeight: 700,
-    //   ),
-    //     context: this,
-    //     clipBehavior: Clip.hardEdge,
-    //     // anchorPoint: Offset(20, 15),
-    //     // barrierColor: Colors.transparent,
-    //     // barrierColor: Colors.red.withOpacity(0.3),
-    //     // backgroundColor: Colors.transparent,
-    //     // isScrollControlled: true,
-    //     backgroundColor: Colors.transparent,
-    //     enableDrag: enableDrag,
-    //     shape: const RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-    //     builder: (BuildContext builder) {
-    //       return WillPopScope(
-    //         onWillPop: () => Future<bool>.value(isDismissible),
-    //         child: dialog,
-    //       );
-    //     });
   }
 }

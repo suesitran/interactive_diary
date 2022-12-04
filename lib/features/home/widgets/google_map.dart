@@ -1,22 +1,17 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
-import 'package:interactive_diary/constants/dimens.dart';
 import 'package:interactive_diary/constants/map_style.dart';
-import 'package:interactive_diary/features/home/widgets/contents_bottom_sheet_view.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-import '../../../main.dart';
-import 'content_card_view.dart';
-import 'dot_view.dart';
-import 'location_address_box_view.dart';
+import 'package:interactive_diary/features/home/widgets/content_card_view.dart';
+import 'package:interactive_diary/features/home/widgets/location_address_box_view.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -636,26 +631,105 @@ class ContentsBottomSheetView extends StatefulWidget {
 
 class _ContentsBottomSheetViewState extends State<ContentsBottomSheetView> {
 
-  final List<double> snapSizes = <double>[0.2, 0.5, 0.8];
-  int currentSnapPos = 2;
+  // final List<double> snapSizes = <double>[0.2, 0.5, 0.6];
+  // int currentSnapPos = 2;
+
+  final DraggableScrollableController controller = DraggableScrollableController();
+  final StreamController<double> heightStreamController = StreamController<double>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      print('CTRL : ${controller.pixels}');
+      print('CTRL : ${controller.size}');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     const screenEdgeSpacing = 16.0;
     final Size size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height * snapSizes[currentSnapPos],
-      child: DraggableScrollableSheet(
-          initialChildSize: 0.1,
-          minChildSize: 0.1,
-          maxChildSize: 0.8,
-          snap: true,
-          snapSizes: snapSizes,
-          builder: (_, ScrollController controller) {
-            return MapBottomSheetView(
-                );
-          }
-      ),
+    return StreamBuilder<double>(
+      stream: heightStreamController.stream,
+      builder: (_, AsyncSnapshot<double> data) {
+        print('DATA : ${data.data}');
+        return Container(
+          color: Colors.yellow,
+          height: size.height * (data.data ?? 0.25),
+          child: NotificationListener<DraggableScrollableNotification>(
+            onNotification: (DraggableScrollableNotification notification) {
+              print('notification : $notification');
+              heightStreamController.sink.add(notification.extent);
+              return true;
+            },
+            child: DraggableScrollableSheet(
+              initialChildSize: 0.25,
+              minChildSize: 0.25,
+                maxChildSize: 0.8,
+                controller: controller,
+                // snap: true,
+                // snapSizes: const [0.25, 0.5, 0.8],
+                builder: (_, ScrollController controller) {
+                  // print('controller | POSITION : ${controller.position}');
+                  // print('controller | POSITIONS : ${controller.positions}');
+                  // print('controller | initialScrollOffset : ${controller.initialScrollOffset}');
+                  // print('controller | offset : ${controller.offset}');
+                  return ListView(
+                    controller: controller,
+                    children: [
+                      const Gap.v12(),
+                      Container(
+                        height: 4,
+                        width: MediaQuery.of(context).size.width * .2,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[500],
+                            borderRadius: BorderRadius.circular(4.0)
+                        ),
+                      ),
+                      const Gap.v12(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: screenEdgeSpacing, right: screenEdgeSpacing,
+                            bottom: MediaQuery.of(context).viewPadding.bottom
+                        ),
+                        child: const LocationAddressBoxView(
+                          address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing),
+                        child: BlocBuilder<GetContentsBloc, GetContentsState>(
+                          builder: (_, GetContentsState state) {
+                            if (state.isGettingContentsState) {
+                              return const LoadingIndicator();
+                            } else if (state.isDataEmptyState) {
+                              return const SizedBox();
+                            } else if (state.isGetContentsFailedState) {
+                              return ErrorView(error: state.getContentsError,);
+                            } else if (state.isGetContentsSucceedState) {
+                              return ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (_, int idx) => ContentCardView(
+                                    screenEdgeSpacing: screenEdgeSpacing,
+                                    content: state.getContents[idx],
+                                  ),
+                                  separatorBuilder: (_, int idx) => const Gap.v12(),
+                                  itemCount: state.getContents.length
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                }
+            ),
+          ),
+        );
+      }
     );
   }
 }
