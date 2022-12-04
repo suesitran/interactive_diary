@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
-import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
+import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -29,22 +29,17 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
             });
             if (state is ChangeConnectedState) {
               debugPrint('change to connect');
-              Navigator.of(context).pop();
             }
             if (state is ChangeDisonnectedState) {
               debugPrint('change to Disconnect');
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      const NoConnectionScreen()));
+              context.push('/noConnection');
             }
             if (state is ConnectedState) {
               debugPrint('connected');
             }
             if (state is DisconnectedState) {
               debugPrint('disconnected');
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      const NoConnectionScreen()));
+              context.push('/noConnection');
             }
           },
           child: BlocBuilder<LocationBloc, LocationState>(

@@ -10,8 +10,8 @@ part 'connectivity_event.dart';
 part 'connectivity_state.dart';
 
 class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
-  final ConnectivityPlusServiceImpl _connectivity;
-  ConnectivityBloc({ConnectivityPlusServiceImpl? connectivity})
+  final ConnectivityService _connectivity;
+  ConnectivityBloc({ConnectivityService? connectivity})
       : _connectivity = connectivity ?? ConnectivityPlusServiceImpl(),
         super(ConnectivityState()) {
     on<ConnectedConnectivityEvent>(
@@ -28,7 +28,6 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   // late StreamSubscription connectivitySubscription;
 
   Future<void> _checkConnectivity(Emitter<ConnectivityState> emit) async {
-    print("12345678");
     await _connectivity.isConnected.then((bool value) {
       if (value == true) {
         emit(ConnectedState());
