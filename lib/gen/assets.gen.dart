@@ -84,7 +84,8 @@ class $AssetsImagesGen {
         markerBase,
         markerNonetap,
         markerOntap,
-        noConnection
+        noConnection,
+        location
       ];
 }
 
