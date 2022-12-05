@@ -10,8 +10,10 @@ import '../../widget_tester_extension.dart';
 
 void main() {
   testWidgets('verify UI write diary screen',
-  (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = WriteDiaryScreen(latLng: const LatLng(long: 0.0, lat: 0.0),);
+      (WidgetTester widgetTester) async {
+    WriteDiaryScreen widget = WriteDiaryScreen(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
+    );
 
     await widgetTester.wrapAndPump(widget);
 

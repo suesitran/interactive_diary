@@ -1,4 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,11 @@ class LocationView extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(18, 17, 11, 25),
+            padding: const EdgeInsets.fromLTRB(
+                NartusDimens.padding16,
+                NartusDimens.padding16,
+                NartusDimens.padding8,
+                NartusDimens.padding16),
             child: SvgPicture.asset(
               Assets.images.idLocationIcon,
               width: 13,
@@ -24,7 +29,10 @@ class LocationView extends StatelessWidget {
           ),
           Flexible(
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+                  padding: const EdgeInsets.only(
+                      right: NartusDimens.padding16,
+                      bottom: NartusDimens.padding16,
+                      top: NartusDimens.padding16),
                   child: Text(
                     currentLocation,
                     maxLines: 2,
