@@ -7,7 +7,7 @@ import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
 import 'package:interactive_diary/generated/l10n.dart';
-import 'package:interactive_diary/features/writediary/location.dart';
+import 'package:interactive_diary/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
   WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
