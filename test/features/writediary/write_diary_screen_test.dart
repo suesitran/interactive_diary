@@ -39,4 +39,40 @@ void main() {
     expect(find.byType(LocationView), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
   });
+
+  testWidgets('given text field is empty, then Save button should be disable', (WidgetTester widgetTester) async {
+    WriteDiaryScreen widget = WriteDiaryScreen(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
+    );
+
+    when(storageBloc.state).thenAnswer((_) => StorageInitial());
+    when(storageBloc.stream).thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
+
+    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+
+    // there's no string in text field, Save button should be disabled
+    NartusButton saveButton = widgetTester.widget(find.ancestor(of: find.byType(Text), matching: find.byType(NartusButton)));
+    expect(saveButton.onPressed, isNull);
+  });
+
+  testWidgets('given text field has text, then save button should be enabled', (WidgetTester widgetTester) async {
+    WriteDiaryScreen widget = WriteDiaryScreen(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
+    );
+
+    when(storageBloc.state).thenAnswer((_) => StorageInitial());
+    when(storageBloc.stream).thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
+
+    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+
+    // enter text, and expect Save button to be enabled
+    await widgetTester.enterText(find.byType(TextField), 'sample text');
+    TextField textField = widgetTester.widget(find.byType(TextField)) as TextField;
+    expect(textField.controller?.text, 'sample text');
+    await widgetTester.pump();
+
+    // get SaveButton, and check
+    NartusButton saveButton = widgetTester.widget(find.ancestor(of: find.byType(Text), matching: find.byType(NartusButton)));
+    expect(saveButton.onPressed, isNotNull);
+  });
 }
