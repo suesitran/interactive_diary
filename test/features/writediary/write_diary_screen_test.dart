@@ -12,7 +12,7 @@ import 'package:nartus_ui_package/widgets/widgets.dart';
 import '../../widget_tester_extension.dart';
 import 'write_diary_screen_test.mocks.dart';
 
-@GenerateMocks([StorageBloc])
+@GenerateMocks(<Type>[StorageBloc])
 void main() {
   final MockStorageBloc storageBloc = MockStorageBloc();
 
