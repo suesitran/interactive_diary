@@ -9,7 +9,8 @@
   "noConnectionTitle" :"Whoops!",
   "noConnectionMessage": "Slow or no internet connections.\nPlease check your internet settings",
   "locationTurnOnSuggestionTitle": "Turn on your location",
-  "locationTurnOnSuggestionDescription": "Interactive Diary needs permission to access your location. Please go to Settings > Privacy > Location and enable.",
+  "locationTurnOnSuggestionDescription": "Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.",
   "ctaLocationTurnOnContinueDefaultLocation": "Continue with default location",
-  "ctaGoToSettings": "Go to Settings"
+  "ctaGoToSettings": "Go to Settings",
+  "appName": "Inner ME"
 }

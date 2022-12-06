@@ -189,26 +189,12 @@ void main() {
   });
 
   group('Test location device permission request', () {
-    testWidgets('given location permission was denied, then show bottom sheet suggesting enable location on device', (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
-
-      when(mockLocationBloc.stream).thenAnswer((_) =>
-      Stream<LocationState>.value(LocationPermissionDeniedState()));
-      when(mockLocationBloc.state)
-          .thenAnswer((_) => LocationPermissionDeniedState());
-
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
-
-      expect(find.text('Go to Settings'), findsOneWidget);
-
-    });
 
     testWidgets('given initial location state, then bottom sheet suggesting will not be shown', (WidgetTester widgetTester) async {
       const IDHome widget = IDHome();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
-        Stream<LocationState>.value(LocationInitial(PermissionStatusDiary.granted)));
+      Stream<LocationState>.value(LocationInitial(PermissionStatusDiary.granted)));
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationInitial(PermissionStatusDiary.granted));
 
@@ -219,8 +205,9 @@ void main() {
 
     });
 
-    testWidgets('given location permission was denied and the bottom sheet suggesting enable location is being shown, '
-      'then when user tap on Go to settings button, user will be redirect to settings screen on device', (WidgetTester widgetTester) async {
+    testWidgets('given location permission was denied, '
+      'then show bottom sheet suggesting enable location on device',
+      (WidgetTester widgetTester) async {
       const IDHome widget = IDHome();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
@@ -231,12 +218,34 @@ void main() {
       await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
           infiniteAnimationWidget: true);
 
-      await widgetTester.tap(find.text('Go to Settings'));
-
-      expect(find.byType(IDHome), findsNothing);
+      expect(find.text('Turn on your location'), findsOneWidget);
+      expect(find.text('Inner ME needs permission to access your location. '
+          'Please go to Settings > Privacy > Location and enable.'), findsOneWidget);
+      expect(find.text('Go to Settings'), findsOneWidget);
+      expect(find.text('Continue with default location'), findsOneWidget);
 
     });
 
+    testWidgets('given location permission was denied forever, '
+      'then show bottom sheet suggesting enable location on device',
+          (WidgetTester widgetTester) async {
+        const IDHome widget = IDHome();
+
+        when(mockLocationBloc.stream).thenAnswer((_) =>
+        Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
+        when(mockLocationBloc.state)
+            .thenAnswer((_) => LocationPermissionDeniedForeverState());
+
+        await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+            infiniteAnimationWidget: true);
+
+        expect(find.text('Turn on your location'), findsOneWidget);
+        expect(find.text('Inner ME needs permission to access your location. '
+            'Please go to Settings > Privacy > Location and enable.'), findsOneWidget);
+        expect(find.text('Go to Settings'), findsOneWidget);
+        expect(find.text('Continue with default location'), findsOneWidget);
+      }
+    );
   });
 
 }

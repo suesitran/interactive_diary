@@ -38,6 +38,9 @@ class $AssetsImagesGen {
   String get idCircularIconPencil =>
       'assets/images/id_circular_icon_pencil.svg';
 
+  /// File path: assets/images/id_location_img.svg
+  String get idLocationImg => 'assets/images/id_location_img.svg';
+
   /// File path: assets/images/id_micro_icon.svg
   String get idMicroIcon => 'assets/images/id_micro_icon.svg';
 
@@ -74,6 +77,7 @@ class $AssetsImagesGen {
         idCircularIconEmoji,
         idCircularIconMicro,
         idCircularIconPencil,
+        idLocationImg,
         idMicroIcon,
         idPencilIcon,
         idSmileIcon,
