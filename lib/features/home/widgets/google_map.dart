@@ -37,7 +37,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late final DrawableRoot markerAddDrawableRoot;
 
   late final AnimationController _controller;
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
 
   late Animation<Offset> popupPenAnimation;
   late Animation<Offset> popupEmojiAnimation;
@@ -77,7 +77,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    mapController.setMapStyle(MapStyle.paper.value);
+    mapController?.setMapStyle(MapStyle.paper.value);
   }
 
   @override
@@ -115,7 +115,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   void dispose() {
     _controller.dispose();
     _streamController.close();
-    mapController.dispose();
+    mapController?.dispose();
     super.dispose();
   }
 
