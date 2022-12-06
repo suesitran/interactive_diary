@@ -92,7 +92,7 @@ class ContentCardView extends StatelessWidget {
     final List<String> displayImages = isHaveMoreImagesThanItemsEachRow ? images.take(itemsEachRow).toList() : images;
     return Column(
       children: [
-        Text(text, style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.7),),
+        Text(text, style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.7), textAlign: TextAlign.justify,),
         if (images.isNotEmpty)...[
           const Gap.v12(),
           Row(

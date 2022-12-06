@@ -13,6 +13,8 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/home/widgets/content_card_view.dart';
 import 'package:interactive_diary/features/home/widgets/location_address_box_view.dart';
 
+import 'contents_bottom_panel_view.dart';
+
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
 const String menuEmojiMarkerLocationId = 'menuEmojiMarkerLocationId';
@@ -57,28 +59,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   late final Set<Marker> markers = <Marker>{};
 
-  /// [SHOW BOTTOM SHEET FUNCTION VERSION]
-  /// AnimationController showModalBottomSheet : We used this to guess user's interaction
-  /// via AnimationStatus of modalBottomSheet. So we can decide what to do when
-  /// modalBottomSheet changed.
-  /// For example : In this case, we sync open/ close status of circular menu with
-  /// open/close status of modalBottomSheet
-  late final AnimationController _bottomSheetCtrl;
-
   @override
   void initState() {
     super.initState();
-
-    _bottomSheetCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
-
-    /// [SHOW BOTTOM SHEET FUNCTION VERSION]
-    /// Listen to animation change
-    _bottomSheetCtrl.addStatusListener((status) {
-      if (status == AnimationStatus.forward || status == AnimationStatus.dismissed) {
-        _onMapTab();
-      }
-    });
-    /// [SHOW BOTTOM SHEET FUNCTION VERSION]
 
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300))
@@ -103,10 +86,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
     mapController.setMapStyle(MapStyle.paper.value);
   }
 
-  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-  // final List<double> snaps = [1, 0.85, 0.5, 0.2];
-  // int currentPos = 0;
-  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+  final List<double> snaps = <double>[1, 0.85, 0.5, 0.2];
+  int currentPos = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -135,104 +116,106 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   myLocationButtonEnabled: false),
-
-                /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: GestureDetector(
-                //     onPanEnd: (details) {
-                //       if (details.velocity.pixelsPerSecond.dy > -100) {
-                //         if (currentPos > 0) {
-                //           setState(() {
-                //             currentPos = currentPos - 1;
-                //           });
-                //         }
-                //       } else {
-                //         if (currentPos < snaps.length - 1) {
-                //           setState(() {
-                //             currentPos = currentPos + 1;
-                //           });
-                //         }
-                //       }
-                //     },
-                //     // child: CustomBottomSheet(height: size.height - (size.height * snaps[currentPos]),)
-                //     child: AnimatedContainer(
-                //       height: size.height - (size.height * snaps[currentPos]),
-                //       width: size.width,
-                //       decoration: const BoxDecoration(
-                //           color: Colors.white,
-                //           borderRadius: BorderRadius.only(
-                //               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
-                //       duration: const Duration(milliseconds: 200),
-                //       child: Align(alignment: Alignment.topCenter,
-                //           child: Column(
-                //             mainAxisSize: MainAxisSize.min,
-                //             children: [
-                //               const Gap.v12(),
-                //               Container(
-                //                 height: 4,
-                //                 width: MediaQuery.of(context).size.width * .2,
-                //                 decoration: BoxDecoration(
-                //                   color: Colors.grey[500],
-                //                   borderRadius: BorderRadius.circular(4.0)
-                //                 ),
-                //               ),
-                //               const Gap.v12(),
-                //               Container(
-                //                 margin: const EdgeInsets.only(
-                //                   left: 12, right: 12,
-                //                   // bottom: MediaQuery.of(context).viewPadding.bottom
-                //                 ),
-                //                 child: const LocationAddressBoxView(
-                //                   address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                //                 ),
-                //               ),
-                //               if (currentPos > 1)...[
-                //                 Flexible(
-                //                     child: Container(
-                //                       padding: const EdgeInsets.only(left: 16, right: 16),
-                //                       child: BlocBuilder<GetContentsBloc, GetContentsState>(
-                //                         builder: (_, GetContentsState state) {
-                //                           if (state.isGettingContentsState) {
-                //                             return Container(
-                //                               margin: const EdgeInsets.only(top: 12),
-                //                               child: const LoadingIndicator(),
-                //                             );
-                //                           } else if (state.isDataEmptyState) {
-                //                             return const SizedBox();
-                //                           } else if (state.isGetContentsFailedState) {
-                //                             return ErrorView(error: state.getContentsError,);
-                //                           } else if (state.isGetContentsSucceedState) {
-                //                             return ListView.separated(
-                //                                 cacheExtent: 200,
-                //                                 shrinkWrap: true,
-                //                                 itemBuilder: (_, int idx) => Column(
-                //                                   children: [
-                //                                     ContentCardView(
-                //                                       screenEdgeSpacing: 16,
-                //                                       content: state.getContents[idx],
-                //                                     ),
-                //                                     if (idx == state.getContents.length - 1)...[
-                //                                       const Gap.v16()
-                //                                     ]
-                //                                   ],
-                //                                 ),
-                //                                 separatorBuilder: (_, int idx) => const Gap.v12(),
-                //                                 itemCount: state.getContents.length
-                //                             );
-                //                           }
-                //                           return const SizedBox();
-                //                         },
-                //                       ),
-                //                     )
-                //                 )
-                //               ]
-                //             ],
-                //           )
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _controller.value == 0
+                    ? SizedBox()
+                    : ContentsBottomPanelViewV2(
+                      onDragClosed: () => _onMapTab(),
+                    ),
+                  // child: GestureDetector(
+                  //   onPanEnd: (DragEndDetails details) {
+                  //     if (details.velocity.pixelsPerSecond.dy > -100) {
+                  //       if (currentPos > 0) {
+                  //         setState(() {
+                  //           currentPos = currentPos - 1;
+                  //         });
+                  //       }
+                  //     } else {
+                  //       if (currentPos < snaps.length - 1) {
+                  //         setState(() {
+                  //           currentPos = currentPos + 1;
+                  //         });
+                  //       }
+                  //     }
+                  //   },
+                  //   child: AnimatedContainer(
+                  //     height: size.height - (size.height * snaps[currentPos]),
+                  //     width: size.width,
+                  //     decoration: const BoxDecoration(
+                  //         color: Colors.white,
+                  //         borderRadius: BorderRadius.only(
+                  //             topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+                  //     duration: const Duration(milliseconds: 200),
+                  //     child: Align(alignment: Alignment.topCenter,
+                  //       child: Column(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: <Widget>[
+                  //           const Gap.v12(),
+                  //           Container(
+                  //             height: 4,
+                  //             width: MediaQuery.of(context).size.width * .2,
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.grey[500],
+                  //               borderRadius: BorderRadius.circular(4.0)
+                  //             ),
+                  //           ),
+                  //           const Gap.v12(),
+                  //           Container(
+                  //             margin: const EdgeInsets.only(
+                  //               left: 12, right: 12,
+                  //               // bottom: MediaQuery.of(context).viewPadding.bottom
+                  //             ),
+                  //             child: const LocationAddressBoxView(
+                  //               address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                  //             ),
+                  //           ),
+                  //           if (currentPos > 1)...<Widget>[
+                  //             Flexible(
+                  //               child: Container(
+                  //                 padding: const EdgeInsets.only(left: 16, right: 16),
+                  //                 child: BlocBuilder<GetContentsBloc, GetContentsState>(
+                  //                   builder: (_, GetContentsState state) {
+                  //                     if (state.isGettingContentsState) {
+                  //                       return Container(
+                  //                         margin: const EdgeInsets.only(top: 12),
+                  //                         child: const LoadingIndicator(),
+                  //                       );
+                  //                     } else if (state.isDataEmptyState) {
+                  //                       return const SizedBox();
+                  //                     } else if (state.isGetContentsFailedState) {
+                  //                       return ErrorView(error: state.getContentsError,);
+                  //                     } else if (state.isGetContentsSucceedState) {
+                  //                       return ListView.separated(
+                  //                         cacheExtent: 200,
+                  //                         shrinkWrap: true,
+                  //                         itemBuilder: (_, int idx) => Column(
+                  //                           children: <Widget>[
+                  //                             ContentCardView(
+                  //                               screenEdgeSpacing: 16,
+                  //                               content: state.getContents[idx],
+                  //                             ),
+                  //                             if (idx == state.getContents.length - 1)...<Widget>[
+                  //                               const Gap.v16()
+                  //                             ]
+                  //                           ],
+                  //                         ),
+                  //                         separatorBuilder: (_, int idx) => const Gap.v12(),
+                  //                         itemCount: state.getContents.length
+                  //                       );
+                  //                     }
+                  //                     return const SizedBox();
+                  //                   },
+                  //                 ),
+                  //               )
+                  //             )
+                  //           ]
+                  //         ],
+                  //       )
+                  //     ),
+                  //   ),
+                  // ),
+                ),
                 /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
                 // AnimatedPositioned(
                 //     curve: Curves.decelerate,
@@ -338,21 +321,12 @@ class _GoogleMapViewState extends State<GoogleMapView>
         ));
   }
 
-  void _openContentList(BuildContext context) {
-    context.read<GetContentsBloc>().getContents();
-    context.showIDBottomSheetCustom(
-      controller: _bottomSheetCtrl,
-      dialog: ContentsBottomSheetView()
-    );
-  }
-
   void _onMapTab() {
     if (_controller.value == 1) {
       _controller.reverse();
     }
 
-    /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-    // _closeContentsBottomSheet();
+    _closeContentsBottomSheet();
   }
 
   @override
@@ -456,38 +430,30 @@ class _GoogleMapViewState extends State<GoogleMapView>
           onTap: () {
             if (_controller.value == 1) {
               _controller.reverse();
-              /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-              // _closeContentsBottomSheet();
+              _closeContentsBottomSheet();
             } else {
-              /// [SHOW BOTTOM SHEET FUNCTION VERSION]
-              _openContentList(context);
               _controller.forward();
-              /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-              // _openContentsBottomSheet();
+              _openContentsBottomSheet();
             }
           }));
       }
     }
   }
 
-  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-  // void _openContentsBottomSheet() {
-  //   context.read<GetContentsBloc>().getContents();
-  //   setState(() {
-  //     if (currentPos == 0) {
-  //       currentPos = 1;
-  //     }
-  //   });
-  // }
-  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+  void _openContentsBottomSheet() {
+    context.read<GetContentsBloc>().getContents();
+    setState(() {
+      if (currentPos == 0) {
+        currentPos = 1;
+      }
+    });
+  }
 
-  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-  // void _closeContentsBottomSheet() {
-  //   setState(() {
-  //     currentPos = 0;
-  //   });
-  // }
-  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+  void _closeContentsBottomSheet() {
+    setState(() {
+      currentPos = 0;
+    });
+  }
 
   void _specifyCircularMenuIconsAnimation(AnimationController controller) {
     /// Offset(0.5, 1.0) : Is default anchor of Marker
@@ -621,116 +587,3 @@ class _GoogleMapViewState extends State<GoogleMapView>
         .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
   }
 }
-
-class ContentsBottomSheetView extends StatefulWidget {
-  const ContentsBottomSheetView({Key? key}) : super(key: key);
-
-  @override
-  _ContentsBottomSheetViewState createState() => _ContentsBottomSheetViewState();
-}
-
-class _ContentsBottomSheetViewState extends State<ContentsBottomSheetView> {
-
-  // final List<double> snapSizes = <double>[0.2, 0.5, 0.6];
-  // int currentSnapPos = 2;
-
-  final DraggableScrollableController controller = DraggableScrollableController();
-  final StreamController<double> heightStreamController = StreamController<double>();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      print('CTRL : ${controller.pixels}');
-      print('CTRL : ${controller.size}');
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const screenEdgeSpacing = 16.0;
-    final Size size = MediaQuery.of(context).size;
-    return StreamBuilder<double>(
-      stream: heightStreamController.stream,
-      builder: (_, AsyncSnapshot<double> data) {
-        print('DATA : ${data.data}');
-        return Container(
-          color: Colors.yellow,
-          height: size.height * (data.data ?? 0.25),
-          child: NotificationListener<DraggableScrollableNotification>(
-            onNotification: (DraggableScrollableNotification notification) {
-              print('notification : $notification');
-              heightStreamController.sink.add(notification.extent);
-              return true;
-            },
-            child: DraggableScrollableSheet(
-              initialChildSize: 0.25,
-              minChildSize: 0.25,
-                maxChildSize: 0.8,
-                controller: controller,
-                // snap: true,
-                // snapSizes: const [0.25, 0.5, 0.8],
-                builder: (_, ScrollController controller) {
-                  // print('controller | POSITION : ${controller.position}');
-                  // print('controller | POSITIONS : ${controller.positions}');
-                  // print('controller | initialScrollOffset : ${controller.initialScrollOffset}');
-                  // print('controller | offset : ${controller.offset}');
-                  return ListView(
-                    controller: controller,
-                    children: [
-                      const Gap.v12(),
-                      Container(
-                        height: 4,
-                        width: MediaQuery.of(context).size.width * .2,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[500],
-                            borderRadius: BorderRadius.circular(4.0)
-                        ),
-                      ),
-                      const Gap.v12(),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: screenEdgeSpacing, right: screenEdgeSpacing,
-                            bottom: MediaQuery.of(context).viewPadding.bottom
-                        ),
-                        child: const LocationAddressBoxView(
-                          address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: screenEdgeSpacing, right: screenEdgeSpacing),
-                        child: BlocBuilder<GetContentsBloc, GetContentsState>(
-                          builder: (_, GetContentsState state) {
-                            if (state.isGettingContentsState) {
-                              return const LoadingIndicator();
-                            } else if (state.isDataEmptyState) {
-                              return const SizedBox();
-                            } else if (state.isGetContentsFailedState) {
-                              return ErrorView(error: state.getContentsError,);
-                            } else if (state.isGetContentsSucceedState) {
-                              return ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (_, int idx) => ContentCardView(
-                                    screenEdgeSpacing: screenEdgeSpacing,
-                                    content: state.getContents[idx],
-                                  ),
-                                  separatorBuilder: (_, int idx) => const Gap.v12(),
-                                  itemCount: state.getContents.length
-                              );
-                            }
-                            return const SizedBox();
-                          },
-                        ),
-                      )
-                    ],
-                  );
-                }
-            ),
-          ),
-        );
-      }
-    );
-  }
-}
-
