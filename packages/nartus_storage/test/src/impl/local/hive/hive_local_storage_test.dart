@@ -13,7 +13,7 @@ import 'package:hive/src/box_collection/box_collection_stub.dart'
 import 'hive_local_storage_test.mocks.dart';
 
 @GenerateMocks(<Type>[HiveHelper, CollectionBox, Box])
-final CollectionBox<HiveDiary> collectionBox = MockCollectionBox<HiveDiary>();
+final MockCollectionBox<HiveDiary> collectionBox = MockCollectionBox<HiveDiary>();
 
 class MockBoxCollection extends Mock implements BoxCollection {
   @override
@@ -47,8 +47,8 @@ void main() {
       contents: <Content>[],
       update: timestamp);
 
-  final HiveHelper hiveHelper = MockHiveHelper();
-  final BoxCollection boxCollection = MockBoxCollection();
+  final MockHiveHelper hiveHelper = MockHiveHelper();
+  final MockBoxCollection boxCollection = MockBoxCollection();
   final HiveDiary hiveDiary = HiveDiary.fromDiary(diary);
 
   test(
@@ -155,8 +155,8 @@ void main() {
 
     // TODO test to save diary and save/update user can't be done
     // Issue filed: https://github.com/dart-lang/mockito/issues/590
-    // verify(collectionBox.put(timestamp.toString(), isInstanceOf<HiveDiary>()));
-    verify(boxCollection.close()).called(1);
+    verify(collectionBox.put(timestamp.toString(), argThat(isInstanceOf<HiveDiary>())));
+    // verify(boxCollection.close()).called(1);
   });
 
   test(
@@ -205,7 +205,7 @@ void main() {
       () async {
     const User user =
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
-    final Box<HiveUser> userBox = MockBox<HiveUser>();
+    final MockBox<HiveUser> userBox = MockBox<HiveUser>();
     when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
         (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid')).thenAnswer((Invocation realInvocation) => null);
@@ -217,7 +217,7 @@ void main() {
 
     // TODO test to save diary and save/update user can't be done
     // Issue filed: https://github.com/dart-lang/mockito/issues/590
-    // verify(userBox.put('uid', argThat(isInstanceOf<HiveUser>()))).called(1);
+    verify(userBox.put('uid', argThat(isInstanceOf<HiveUser>()))).called(1);
     // ensure to close the box
     verify(userBox.close());
   });
@@ -248,7 +248,7 @@ void main() {
       () async {
     const User user =
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
-    final Box<HiveUser> userBox = MockBox<HiveUser>();
+    final MockBox<HiveUser> userBox = MockBox<HiveUser>();
     when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
         (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid')).thenAnswer((Invocation realInvocation) => null);
@@ -260,7 +260,7 @@ void main() {
 
     // TODO test to save diary and save/update user can't be done
     // Issue filed: https://github.com/dart-lang/mockito/issues/590
-    // verifyNever(userBox.put('uid', argThat(isInstanceOf<HiveUser>())));
+    verifyNever(userBox.put('uid', argThat(isInstanceOf<HiveUser>())));
 
     // ensure to close the box
     verify(userBox.close());
@@ -271,7 +271,7 @@ void main() {
     const User user =
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final HiveUser hiveUser = HiveUser.fromUser(user);
-    final Box<HiveUser> userBox = MockBox<HiveUser>();
+    final MockBox<HiveUser> userBox = MockBox<HiveUser>();
     when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
         (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid'))
@@ -284,7 +284,7 @@ void main() {
 
     // TODO test to save diary and save/update user can't be done
     // Issue filed: https://github.com/dart-lang/mockito/issues/590
-    // verify(userBox.put('uid', argThat(isInstanceOf<HiveUser>()))).called(1);
+    verify(userBox.put('uid', argThat(isInstanceOf<HiveUser>()))).called(1);
 
     // ensure to close the box
     verify(userBox.close());
