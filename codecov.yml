@@ -19,3 +19,5 @@ coverage:
           - "lib/firebase_options.dart"
           - "lib/gen"
           - "lib/main.dart"
+          - "lib/constants.dart"
+          - "lib/route.dart"
