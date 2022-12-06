@@ -11,8 +11,8 @@ lcov --remove coverage/lcov.info -o coverage/lcov.info \
 	'lib/generated/**' \
 	'lib/firebase_options.dart' \
 	'lib/main.dart' \
-	'lib/constants.dart' \
-	'lib/route.dart'
+	'lib/constants/**' \
+	'lib/route/**'
 
 cat coverage/lcov.info > coverage/lcov.base.info
 
