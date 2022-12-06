@@ -106,10 +106,10 @@ class _GoogleMapViewState extends State<GoogleMapView>
                       zoom: 15),
                   onMapCreated: (GoogleMapController controller) =>
                       _onMapCreated(controller),
-                  onCameraMoveStarted: () => _onMapTab(),
+                  onCameraMoveStarted: () => _closeMenuIfOpening(),
                   // onCameraMove: (_) => _onMapTab(),
-                  onTap: (_) => _onMapTab(),
-                  onLongPress: (_) => _onMapTab(),
+                  onTap: (_) => _closeMenuIfOpening(),
+                  onLongPress: (_) => _closeMenuIfOpening(),
                   markers: data.data ?? <Marker>{},
                   myLocationEnabled: false,
                   zoomControlsEnabled: false,
@@ -121,7 +121,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   child: _controller.value == 0
                     ? SizedBox()
                     : ContentsBottomPanelViewV2(
-                      onDragClosed: () => _onMapTab(),
+                      onDragClosed: () => _closeMenuIfOpening(),
                     ),
                   // child: GestureDetector(
                   //   onPanEnd: (DragEndDetails details) {
@@ -321,7 +321,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
         ));
   }
 
-  void _onMapTab() {
+  void _closeMenuIfOpening() {
     if (_controller.value == 1) {
       _controller.reverse();
     }
