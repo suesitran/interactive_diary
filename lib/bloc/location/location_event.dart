@@ -18,3 +18,5 @@ class RequestLocationServiceEvent extends LocationEvent {}
 class RequestDefaultLocationEvent extends LocationEvent {}
 
 class ReturnedFromAppSettingsEvent extends LocationEvent {}
+
+class OpenLocationServiceEvent extends LocationEvent {}

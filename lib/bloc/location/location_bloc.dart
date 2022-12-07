@@ -41,6 +41,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         (LocationEvent event, Emitter<LocationState> emit) async {
       await _requestCurrentLocation(emit);
     });
+
+    on<OpenLocationServiceEvent>(
+            (LocationEvent event, Emitter<LocationState> emit) async {
+          await _openLocationServiceSetting(emit);
+        });
   }
 
   Future<void> _requestCurrentLocation(Emitter<LocationState> emit) async {
@@ -84,5 +89,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(AwaitLocationPermissionFromAppSettingState());
 
     await _locationService.requestOpenAppSettings();
+  }
+
+  Future<void> _openLocationServiceSetting(Emitter<LocationState> emit) async {
+
   }
 }

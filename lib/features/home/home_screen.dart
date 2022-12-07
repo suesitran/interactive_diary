@@ -26,7 +26,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   content: S.of(context).locationPermissionDialogMessage,
                   primaryButtonText: S.of(context).locationPermissionDialogOpenSettingsButton,
                   onPrimaryButtonSelected: () {
-                    context.read<LocationBloc>().add(OpenAppSettingsEvent());
+                    context.read<LocationBloc>().add(OpenLocationServiceEvent());
                   },
               textButtonText: S.of(context).locationPermissionDialogContinueButton,
               onTextButtonSelected: () {
