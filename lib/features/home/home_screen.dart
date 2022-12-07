@@ -18,7 +18,22 @@ class IDHome extends StatefulWidget {
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: BlocBuilder<LocationBloc, LocationState>(
+        body: BlocConsumer<LocationBloc, LocationState>(
+          listener: (BuildContext context, LocationState state) {
+            if (state is LocationServiceDisableState) {
+              context.showIDBottomSheet(
+                  title: S.of(context).locationPermissionDialogTitle,
+                  content: S.of(context).locationPermissionDialogMessage,
+                  primaryButtonText: S.of(context).locationPermissionDialogOpenSettingsButton,
+                  onPrimaryButtonSelected: () {
+                    context.read<LocationBloc>().add(OpenAppSettingsEvent());
+                  },
+              textButtonText: S.of(context).locationPermissionDialogContinueButton,
+              onTextButtonSelected: () {
+                    Navigator.of(context).pop();
+              });
+            }
+          },
           builder: (BuildContext context, LocationState state) {
             if (state is LocationReadyState) {
               return Stack(

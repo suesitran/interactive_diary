@@ -50,20 +50,20 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Location Permission not granted`
+  /// `Turn on your location`
   String get locationPermissionDialogTitle {
     return Intl.message(
-      'Location Permission not granted',
+      'Turn on your location',
       name: 'locationPermissionDialogTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog`
+  /// `Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.`
   String get locationPermissionDialogMessage {
     return Intl.message(
-      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog',
+      'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.',
       name: 'locationPermissionDialogMessage',
       desc: '',
       args: [],
@@ -80,20 +80,20 @@ class S {
     );
   }
 
-  /// `Continue`
+  /// `Continue with default location`
   String get locationPermissionDialogContinueButton {
     return Intl.message(
-      'Continue',
+      'Continue with default location',
       name: 'locationPermissionDialogContinueButton',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open Settings`
+  /// `Go to Settings`
   String get locationPermissionDialogOpenSettingsButton {
     return Intl.message(
-      'Open Settings',
+      'Go to Settings',
       name: 'locationPermissionDialogOpenSettingsButton',
       desc: '',
       args: [],
@@ -155,6 +155,16 @@ class S {
     return Intl.message(
       'Back',
       name: 'back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn on your location`
+  String get locationPopupTitle {
+    return Intl.message(
+      'Turn on your location',
+      name: 'locationPopupTitle',
       desc: '',
       args: [],
     );

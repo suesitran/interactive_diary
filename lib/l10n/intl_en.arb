@@ -1,14 +1,15 @@
 {
   "@@locale": "en",
-  "locationPermissionDialogTitle": "Location Permission not granted",
-  "locationPermissionDialogMessage": "Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog",
+  "locationPermissionDialogTitle": "Turn on your location",
+  "locationPermissionDialogMessage": "Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.",
   "locationPermissionDialogAllowButton": "Allow",
-  "locationPermissionDialogContinueButton": "Continue",
-  "locationPermissionDialogOpenSettingsButton": "Open Settings",
+  "locationPermissionDialogContinueButton": "Continue with default location",
+  "locationPermissionDialogOpenSettingsButton": "Go to Settings",
   "anonymous_profile" : "Anonymous Profile. Please login to use all features.",
   "noConnectionTitle" :"Whoops!",
   "noConnectionMessage": "Slow or no internet connections.\nPlease check your internet settings",
   "save" :"Save",
   "addText" :"Add text",
-  "back" : "Back"
+  "back" : "Back",
+  "locationPopupTitle" : "Turn on your location"
 }
