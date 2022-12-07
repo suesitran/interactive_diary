@@ -13,7 +13,8 @@ import 'package:hive/src/box_collection/box_collection_stub.dart'
 import 'hive_local_storage_test.mocks.dart';
 
 @GenerateMocks(<Type>[HiveHelper, CollectionBox, Box])
-final MockCollectionBox<HiveDiary> collectionBox = MockCollectionBox<HiveDiary>();
+final MockCollectionBox<HiveDiary> collectionBox =
+    MockCollectionBox<HiveDiary>();
 
 class MockBoxCollection extends Mock implements BoxCollection {
   @override
@@ -155,7 +156,8 @@ void main() {
 
     // TODO test to save diary and save/update user can't be done
     // Issue filed: https://github.com/dart-lang/mockito/issues/590
-    verify(collectionBox.put(timestamp.toString(), argThat(isInstanceOf<HiveDiary>())));
+    verify(collectionBox.put(
+        timestamp.toString(), argThat(isInstanceOf<HiveDiary>())));
     // verify(boxCollection.close()).called(1);
   });
 
