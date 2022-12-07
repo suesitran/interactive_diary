@@ -14,7 +14,6 @@ import 'write_diary_screen_test.mocks.dart';
 
 @GenerateMocks(<Type>[StorageBloc])
 void main() {
-
   final MockStorageBloc storageBloc = MockStorageBloc();
 
   testWidgets('verify UI write diary screen',
@@ -93,7 +92,9 @@ void main() {
     expect(saveButton.onPressed, isNotNull);
   });
 
-  testWidgets('given diary text not empty, when tap on save, then send RequestSaveTextDiaryEvent', (widgetTester) async {
+  testWidgets(
+      'given diary text not empty, when tap on save, then send RequestSaveTextDiaryEvent',
+      (WidgetTester widgetTester) async {
     WriteDiaryScreen widget = WriteDiaryScreen(
       latLng: const LatLng(long: 0.0, lat: 0.0),
     );
@@ -114,6 +115,7 @@ void main() {
     await widgetTester.pumpAndSettle();
 
     // expect
-    verify(storageBloc.add(argThat(isA<RequestSaveTextDiaryEvent>()))).called(1);
+    verify(storageBloc.add(argThat(isA<RequestSaveTextDiaryEvent>())))
+        .called(1);
   });
 }
