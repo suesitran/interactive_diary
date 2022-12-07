@@ -44,7 +44,7 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
     - name: Install Flutter 
-      uses: subosito/flutter-action@v2.6.2
+      uses: subosito/flutter-action@v2.8.0
       with:
         flutter-version: '3.3.7'
         channel: 'stable'
