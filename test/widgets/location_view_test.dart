@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/widgets/location_view.dart';
 
-import '../../widget_tester_extension.dart';
+import '../widget_tester_extension.dart';
 
 void main() {
   testWidgets(
