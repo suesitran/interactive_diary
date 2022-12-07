@@ -24,14 +24,25 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               context.showIDBottomSheet(
                   title: S.of(context).locationPermissionDialogTitle,
                   content: S.of(context).locationPermissionDialogMessage,
-                  primaryButtonText: S.of(context).locationPermissionDialogOpenSettingsButton,
+                  primaryButtonText:
+                      S.of(context).locationPermissionDialogOpenSettingsButton,
                   onPrimaryButtonSelected: () {
-                    context.read<LocationBloc>().add(OpenLocationServiceEvent());
+                    if (defaultTargetPlatform == TargetPlatform.android) {
+                      // app will open Location Service setting in Android
+                      // but will open Location service guidance in iOS
+                      // so we only dismiss this popup in Android
+                      Navigator.of(context).pop();
+                    }
+                    context
+                        .read<LocationBloc>()
+                        .add(OpenLocationServiceEvent());
                   },
-              textButtonText: S.of(context).locationPermissionDialogContinueButton,
-              onTextButtonSelected: () {
+                  textButtonText:
+                      S.of(context).locationPermissionDialogContinueButton,
+                  onTextButtonSelected: () {
                     Navigator.of(context).pop();
-              });
+                  },
+                  isDismissible: false);
             }
           },
           builder: (BuildContext context, LocationState state) {
