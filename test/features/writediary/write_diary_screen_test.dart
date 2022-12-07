@@ -14,6 +14,7 @@ import 'write_diary_screen_test.mocks.dart';
 
 @GenerateMocks(<Type>[StorageBloc])
 void main() {
+
   final MockStorageBloc storageBloc = MockStorageBloc();
 
   testWidgets('verify UI write diary screen',
@@ -90,5 +91,29 @@ void main() {
     NartusButton saveButton = widgetTester.widget(find.ancestor(
         of: find.byType(Text), matching: find.byType(NartusButton)));
     expect(saveButton.onPressed, isNotNull);
+  });
+
+  testWidgets('given diary text not empty, when tap on save, then send RequestSaveTextDiaryEvent', (widgetTester) async {
+    WriteDiaryScreen widget = WriteDiaryScreen(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
+    );
+
+    when(storageBloc.state).thenAnswer((_) => StorageInitial());
+    when(storageBloc.stream)
+        .thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
+
+    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+
+    // enter text, and expect Save button to be enabled
+    await widgetTester.enterText(find.byType(TextField), 'sample text');
+    await widgetTester.pump();
+
+    // tap on save button
+    await widgetTester.tap(find.ancestor(
+        of: find.text('Save'), matching: find.byType(NartusButton)));
+    await widgetTester.pumpAndSettle();
+
+    // expect
+    verify(storageBloc.add(argThat(isA<RequestSaveTextDiaryEvent>()))).called(1);
   });
 }
