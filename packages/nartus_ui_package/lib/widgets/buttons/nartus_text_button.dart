@@ -45,7 +45,7 @@ class _NartusTextButton extends StatelessWidget {
       return TextButton(
         onPressed: onPressed,
         style: sizeType == SizeType.large ? null : _buttonStyleTextSmall,
-        child: Text(label!),
+        child: Text(label!, textAlign: TextAlign.center,),
       );
     } else {
       return Semantics(
