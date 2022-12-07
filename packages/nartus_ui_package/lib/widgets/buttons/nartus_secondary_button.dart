@@ -45,7 +45,10 @@ class _NartusSecondaryButton extends StatelessWidget {
       return OutlinedButton(
         onPressed: onPressed,
         style: sizeType == SizeType.large ? null : _buttonStyleTextSmall,
-        child: Text(label!, textAlign: TextAlign.center,),
+        child: Text(
+          label!,
+          textAlign: TextAlign.center,
+        ),
       );
     } else {
       return Semantics(
