@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -16,6 +17,7 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: BlocConsumer<LocationBloc, LocationState>(
@@ -27,12 +29,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   primaryButtonText:
                       S.of(context).locationPermissionDialogOpenSettingsButton,
                   onPrimaryButtonSelected: () {
-                    if (defaultTargetPlatform == TargetPlatform.android) {
-                      // app will open Location Service setting in Android
-                      // but will open Location service guidance in iOS
-                      // so we only dismiss this popup in Android
-                      Navigator.of(context).pop();
-                    }
+                    // can't dismiss popup dialog here because ios16 does not allow
+                    // to directly go to Location settings
                     context
                         .read<LocationBloc>()
                         .add(OpenLocationServiceEvent());
@@ -129,7 +127,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   ]);
             }
 
-            if (state is AwaitLocationPermissionFromAppSettingState) {
+            if (state is AwaitLocationPermissionFromAppSettingState
+                || state is AwaitLocationServiceSettingState) {
               WidgetsBinding.instance.addObserver(this);
             }
 
@@ -145,6 +144,11 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       WidgetsBinding.instance.removeObserver(this);
       context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
+
+      final LocationState blocState = context.read<LocationBloc>().state;
+      if (blocState is AwaitLocationServiceSettingState) {
+        Navigator.of(context).pop();
+      }
     }
   }
 }

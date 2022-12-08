@@ -92,7 +92,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _openLocationServiceSetting(Emitter<LocationState> emit) async {
-    emit(AwaitLocationPermissionFromAppSettingState());
+    emit(AwaitLocationServiceSettingState());
 
     await _locationService.requestService();
   }
