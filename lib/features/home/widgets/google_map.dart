@@ -1,19 +1,15 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 import 'package:interactive_diary/constants/map_style.dart';
+import 'package:interactive_diary/features/home/widgets/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:nartus_ui_package/nartus_ui.dart';
-
-import 'package:interactive_diary/features/home/widgets/content_card_view.dart';
-import 'package:interactive_diary/features/home/widgets/location_address_box_view.dart';
-
-import 'contents_bottom_panel_view.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -86,12 +82,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
     mapController.setMapStyle(MapStyle.paper.value);
   }
 
-  final List<double> snaps = <double>[1, 0.85, 0.5, 0.2];
-  int currentPos = 0;
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return StreamBuilder<Set<Marker>>(
         stream: markerData,
         builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
@@ -119,10 +111,13 @@ class _GoogleMapViewState extends State<GoogleMapView>
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: _controller.value == 0
-                    ? SizedBox()
+                    ? const SizedBox()
                     : ContentsBottomPanelViewV2(
-                      onDragClosed: () => _closeMenuIfOpening(),
-                    ),
+                        onDragClosed: () => _closeMenuIfOpening(),
+                      ),
+                    // : ContentsBottomPanelView(
+                    //     onDragClosed: () => _closeMenuIfOpening(),
+                    //   )
                   // child: GestureDetector(
                   //   onPanEnd: (DragEndDetails details) {
                   //     if (details.velocity.pixelsPerSecond.dy > -100) {
@@ -326,7 +321,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
       _controller.reverse();
     }
 
-    _closeContentsBottomSheet();
+    // _closeContentsBottomSheet();
   }
 
   @override
@@ -338,7 +333,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   Future<void> _generateMarkerIcon() async {
     baseMarkerDrawableRoot =
-      await _createDrawableRoot(Assets.images.markerBase);
+        await _createDrawableRoot(Assets.images.markerBase);
     markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
 
     return _computeMarker();
@@ -416,8 +411,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
     }
 
     final ByteData? pngBytes = await (await recorder
-        .endRecording()
-        .toImage(markerSize.toInt(), markerSize.toInt()))
+            .endRecording()
+            .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
 
     if (pngBytes != null) {
@@ -430,30 +425,30 @@ class _GoogleMapViewState extends State<GoogleMapView>
           onTap: () {
             if (_controller.value == 1) {
               _controller.reverse();
-              _closeContentsBottomSheet();
+              // _closeContentsBottomSheet();
             } else {
               _controller.forward();
-              _openContentsBottomSheet();
+              // _openContentsBottomSheet();
             }
           }));
       }
     }
   }
 
-  void _openContentsBottomSheet() {
-    context.read<GetContentsBloc>().getContents();
-    setState(() {
-      if (currentPos == 0) {
-        currentPos = 1;
-      }
-    });
-  }
-
-  void _closeContentsBottomSheet() {
-    setState(() {
-      currentPos = 0;
-    });
-  }
+  // void _openContentsBottomSheet() {
+  //   context.read<GetContentsBloc>().getContents();
+  //   setState(() {
+  //     if (currentPos == 0) {
+  //       currentPos = 1;
+  //     }
+  //   });
+  // }
+  //
+  // void _closeContentsBottomSheet() {
+  //   setState(() {
+  //     currentPos = 0;
+  //   });
+  // }
 
   void _specifyCircularMenuIconsAnimation(AnimationController controller) {
     /// Offset(0.5, 1.0) : Is default anchor of Marker
@@ -485,7 +480,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
     popupEmojiAnimation = _declareMenuIconsAnimation(
         start: baseAnchor, end: Offset(xEmoji, yEmoji), controller: controller);
     popupCameraAnimation = _declareMenuIconsAnimation(
-        start: baseAnchor, end: Offset(xCamera, yCamera), controller: controller);
+        start: baseAnchor,
+        end: Offset(xCamera, yCamera),
+        controller: controller);
     popupVoiceAnimation = _declareMenuIconsAnimation(
         start: baseAnchor, end: Offset(xVoice, yVoice), controller: controller);
 
@@ -494,38 +491,34 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   void _generateCircularMenuIcons() async {
-    markers.removeWhere(
-            (Marker element) => element.markerId.value != baseMarkerCurrentLocationId);
+    markers.removeWhere((Marker element) =>
+        element.markerId.value != baseMarkerCurrentLocationId);
     if (_controller.status != AnimationStatus.dismissed) {
       markers.addAll(<Marker>{
         Marker(
-          markerId: const MarkerId(menuCameraMarkerLocationId),
-          position: widget.currentLocation,
-          icon: cameraMarkerBitmap,
-          anchor: popupCameraAnimation.value,
-          onTap: () {}
-        ),
+            markerId: const MarkerId(menuCameraMarkerLocationId),
+            position: widget.currentLocation,
+            icon: cameraMarkerBitmap,
+            anchor: popupCameraAnimation.value,
+            onTap: () {}),
         Marker(
-          markerId: const MarkerId(menuPencilMarkerLocationId),
-          position: widget.currentLocation,
-          icon: penMarkerBitmap,
-          anchor: popupPenAnimation.value,
-          onTap: () {}
-        ),
+            markerId: const MarkerId(menuPencilMarkerLocationId),
+            position: widget.currentLocation,
+            icon: penMarkerBitmap,
+            anchor: popupPenAnimation.value,
+            onTap: () {}),
         Marker(
-          markerId: const MarkerId(menuEmojiMarkerLocationId),
-          position: widget.currentLocation,
-          icon: emojiMarkerBitmap,
-          anchor: popupEmojiAnimation.value,
-          onTap: () {}
-        ),
+            markerId: const MarkerId(menuEmojiMarkerLocationId),
+            position: widget.currentLocation,
+            icon: emojiMarkerBitmap,
+            anchor: popupEmojiAnimation.value,
+            onTap: () {}),
         Marker(
-          markerId: const MarkerId(menuVoiceMarkerLocationId),
-          position: widget.currentLocation,
-          icon: voiceMarkerBitmap,
-          anchor: popupVoiceAnimation.value,
-          onTap: () {}
-        ),
+            markerId: const MarkerId(menuVoiceMarkerLocationId),
+            position: widget.currentLocation,
+            icon: voiceMarkerBitmap,
+            anchor: popupVoiceAnimation.value,
+            onTap: () {}),
       });
     }
     _streamController.sink.add(markers);
@@ -533,17 +526,17 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   Future<void> _generateMenuBitmap() async {
     penMarkerBitmap =
-    await _createDrawableRoot(Assets.images.idCircularIconPencil)
-        .then((DrawableRoot value) => _computeMenuMarker(value));
+        await _createDrawableRoot(Assets.images.idCircularIconPencil)
+            .then((DrawableRoot value) => _computeMenuMarker(value));
     emojiMarkerBitmap =
-    await _createDrawableRoot(Assets.images.idCircularIconEmoji)
-        .then((DrawableRoot value) => _computeMenuMarker(value));
+        await _createDrawableRoot(Assets.images.idCircularIconEmoji)
+            .then((DrawableRoot value) => _computeMenuMarker(value));
     cameraMarkerBitmap =
-    await _createDrawableRoot(Assets.images.idCircularIconCamera)
-        .then((DrawableRoot value) => _computeMenuMarker(value));
+        await _createDrawableRoot(Assets.images.idCircularIconCamera)
+            .then((DrawableRoot value) => _computeMenuMarker(value));
     voiceMarkerBitmap =
-    await _createDrawableRoot(Assets.images.idCircularIconMicro)
-        .then((DrawableRoot value) => _computeMenuMarker(value));
+        await _createDrawableRoot(Assets.images.idCircularIconMicro)
+            .then((DrawableRoot value) => _computeMenuMarker(value));
 
     return _generateCircularMenuIcons();
   }
@@ -568,8 +561,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     final ByteData? pngBytes = await (await recorder
-        .endRecording()
-        .toImage(markerSize.toInt(), markerSize.toInt()))
+            .endRecording()
+            .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
 
     if (pngBytes != null) {
@@ -581,8 +574,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   Animation<Offset> _declareMenuIconsAnimation(
       {required Offset start,
-        required Offset end,
-        required AnimationController controller}) {
+      required Offset end,
+      required AnimationController controller}) {
     return Tween<Offset>(begin: start, end: end)
         .animate(CurvedAnimation(parent: controller, curve: Curves.elasticOut));
   }

@@ -13,7 +13,11 @@ class ContentCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+    final String text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad '
+      'minim veniam, quis nostrud exercitation ullamco laboris Lorem ipsum dolor sit amet, '
+      'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et '
+      'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
     final List<String> images = [
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
@@ -92,7 +96,11 @@ class ContentCardView extends StatelessWidget {
     final List<String> displayImages = isHaveMoreImagesThanItemsEachRow ? images.take(itemsEachRow).toList() : images;
     return Column(
       children: [
-        Text(text, style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.7), textAlign: TextAlign.justify,),
+        Text(text,
+          maxLines: 5,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            height: 1.7), textAlign: TextAlign.justify,),
         if (images.isNotEmpty)...[
           const Gap.v12(),
           Row(
