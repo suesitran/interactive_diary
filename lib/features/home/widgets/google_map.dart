@@ -93,7 +93,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   onMapCreated: (GoogleMapController controller) =>
                       _onMapCreated(controller),
                   onCameraMoveStarted: () => _closeMenuIfOpening(),
-                  onCameraMove: (_) => _closeMenuIfOpening(),
                   onTap: (_) => _closeMenuIfOpening(),
                   onLongPress: (_) => _closeMenuIfOpening(),
                   markers: data.data ?? <Marker>{},
@@ -209,10 +208,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
             position: widget.currentLocation,
             icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
             zIndex: 1,
-            onTap: () async {
-              /// Move camera to current marker at center
-              await mapController.animateCamera(CameraUpdate.newLatLng(LatLng(
-                  widget.currentLocation.latitude, widget.currentLocation.longitude)));
+            onTap: () {
               if (_controller.value == 1) {
                 _controller.reverse();
               } else {
