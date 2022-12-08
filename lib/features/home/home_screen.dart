@@ -30,8 +30,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<LocationBloc, LocationState>(
-        listener: (_, LocationState state) {
-          if (state is LocationPermissionDeniedState || state is LocationPermissionDeniedForeverState) {
+        listener: (BuildContext context, LocationState state) {
+          if (state is LocationPermissionDeniedForeverState) {
             context.showIDBottomSheet(
               iconPath: Assets.images.idLocationImg,
               title: S.of(context).locationTurnOnSuggestionTitle,
@@ -41,6 +41,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               onPrimaryButtonSelected: () => LocationService().requestOpenAppSettings(),
               onTextButtonSelected: () => Navigator.of(context).pop(),
             );
+          } else if (state is LocationPermissionDeniedState) {
+            context.read<LocationBloc>().add(ShowDialogRequestPermissionEvent());
           }
         },
         builder: (BuildContext context, LocationState state) {

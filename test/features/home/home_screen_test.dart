@@ -130,6 +130,21 @@ void main() {
         expect(find.text('Continue with default location'), findsOneWidget);
       }
     );
+
+    testWidgets('given initial location state, then bottom sheet suggesting will not be shown', (WidgetTester widgetTester) async {
+      const IDHome widget = IDHome();
+
+      when(mockLocationBloc.stream).thenAnswer((_) =>
+      Stream<LocationState>.value(LocationInitial(PermissionStatusDiary.granted)));
+      when(mockLocationBloc.state)
+          .thenAnswer((_) => LocationInitial(PermissionStatusDiary.granted));
+
+      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+          infiniteAnimationWidget: true);
+
+      expect(find.byType(NartusBottomSheet), findsNothing);
+
+    });
   });
 
 }
