@@ -60,7 +60,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               final String textButtonText = S.of(context).locationPermissionDialogContinueButton;
 
               context.showIDBottomSheet(
-                  iconPath: Assets.images.idLocationIcon,
+                  iconPath: Assets.images.idLocationImg,
                   title: title,
                   isDismissible: false,
                   content: content,
