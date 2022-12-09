@@ -2,14 +2,17 @@ import 'package:bloc_test/bloc_test.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 
+import 'connectivity_bloc_test.mocks.dart';
+
+@GenerateMocks(<Type>[ConnectivityService])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final ConnectivityService service =
-      ConnectivityService(ImplType.connectivityPlus);
+  final MockConnectivityService service = MockConnectivityService();
   group('event check connectivity', () {
     blocTest(
       'There is network connection, then return true',
