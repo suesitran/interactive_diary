@@ -41,4 +41,10 @@ void main() {
           <TypeMatcher<ChangeDisonnectedState>>[isA<ChangeDisonnectedState>()],
     );
   });
+
+  test('verify all events has empty props', () {
+    final ChangeConnectConnectivityEvent event = ChangeConnectConnectivityEvent();
+
+    expect(event.props.length, 0);
+  });
 }

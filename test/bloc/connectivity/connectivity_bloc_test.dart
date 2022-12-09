@@ -55,4 +55,15 @@ void main() {
           <TypeMatcher<ChangeDisonnectedState>>[isA<ChangeDisonnectedState>()],
     );
   });
+
+  test('verify all Events has no prop', () {
+    final ConnectivityEvent connectivityEvent = ConnectivityEvent();
+    expect(connectivityEvent.props.length, 0);
+
+    final ChangeConnectConnectivityEvent changeConnectConnectivityEvent = ChangeConnectConnectivityEvent();
+    expect(changeConnectConnectivityEvent.props.length, 0);
+
+    final ConnectedConnectivityEvent connectedConnectivityEvent = ConnectedConnectivityEvent();
+    expect(connectedConnectivityEvent.props.length, 0);
+  });
 }
