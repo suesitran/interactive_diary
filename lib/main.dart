@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
-import 'package:interactive_diary/bloc/no_connection_screen/connection_screen_bloc.dart';
+import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
 import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:intl/date_symbol_data_local.dart';

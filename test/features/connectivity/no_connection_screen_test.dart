@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
-import 'package:interactive_diary/bloc/no_connection_screen/connection_screen_bloc.dart';
+import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
