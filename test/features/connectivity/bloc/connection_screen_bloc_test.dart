@@ -42,7 +42,8 @@ void main() {
   });
 
   test('verify all events has empty props', () {
-    final ChangeConnectConnectivityEvent event = ChangeConnectConnectivityEvent();
+    final ChangeConnectConnectivityEvent event =
+        ChangeConnectConnectivityEvent();
 
     expect(event.props.length, 0);
   });

@@ -29,13 +29,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "locationPermissionDialogAllowButton":
             MessageLookupByLibrary.simpleMessage("Allow"),
         "locationPermissionDialogContinueButton":
-            MessageLookupByLibrary.simpleMessage("Continue"),
+            MessageLookupByLibrary.simpleMessage(
+                "Continue with default location"),
         "locationPermissionDialogMessage": MessageLookupByLibrary.simpleMessage(
-            "Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog"),
+            "Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable."),
         "locationPermissionDialogOpenSettingsButton":
-            MessageLookupByLibrary.simpleMessage("Open Settings"),
-        "locationPermissionDialogTitle": MessageLookupByLibrary.simpleMessage(
-            "Location Permission not granted"),
+            MessageLookupByLibrary.simpleMessage("Go to Settings"),
+        "locationPermissionDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Turn on your location"),
+        "locationPopupTitle":
+            MessageLookupByLibrary.simpleMessage("Turn on your location"),
         "noConnectionMessage": MessageLookupByLibrary.simpleMessage(
             "Slow or no internet connections.\nPlease check your internet settings"),
         "noConnectionTitle": MessageLookupByLibrary.simpleMessage("Whoops!"),

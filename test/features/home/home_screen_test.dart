@@ -9,6 +9,7 @@ import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
@@ -105,13 +106,13 @@ void main() {
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
 
-    expect(find.text('Location Permission not granted'), findsOneWidget);
+    expect(find.text('Turn on your location'), findsOneWidget);
     expect(
         find.text(
-            'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
         findsOneWidget);
     expect(find.text('Allow'), findsOneWidget);
-    expect(find.text('Continue'), findsOneWidget);
+    expect(find.text('Continue with default location'), findsOneWidget);
   });
 
   testWidgets(
@@ -130,13 +131,13 @@ void main() {
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
 
-    expect(find.text('Location Permission not granted'), findsOneWidget);
+    expect(find.text('Turn on your location'), findsOneWidget);
     expect(
         find.text(
-            'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
         findsOneWidget);
-    expect(find.text('Open Settings'), findsOneWidget);
-    expect(find.text('Continue'), findsOneWidget);
+    expect(find.text('Go to Settings'), findsOneWidget);
+    expect(find.text('Continue with default location'), findsOneWidget);
   });
 
   testWidgets(
@@ -176,7 +177,7 @@ void main() {
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
 
-    await widgetTester.tap(find.text('Continue'));
+    await widgetTester.tap(find.text('Continue with default location'));
 
     verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
   });
@@ -197,7 +198,7 @@ void main() {
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
 
-    await widgetTester.tap(find.text('Open Settings'));
+    await widgetTester.tap(find.text('Go to Settings'));
 
     verify(mockLocationBloc.add(OpenAppSettingsEvent()));
   });
@@ -218,7 +219,125 @@ void main() {
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
 
-    await widgetTester.tap(find.text('Continue'));
+    await widgetTester.tap(find.text('Continue with default location'));
+
+    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+  });
+
+  testWidgets(
+      'when state is LocationServiceDisableState, then show bottom sheet popup',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
+
+    expect(find.byType(NartusBottomSheet), findsOneWidget);
+    expect(find.text('Turn on your location'), findsOneWidget);
+    expect(
+        find.text(
+            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
+        findsOneWidget);
+
+    expect(find.text('Go to Settings'), findsOneWidget);
+    expect(find.text('Continue with default location'), findsOneWidget);
+  });
+
+  testWidgets(
+      'when bottom sheet popup is visible because of location service disable, tap out to dismiss will not dismiss popup',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
+
+    expect(find.byType(NartusBottomSheet), findsOneWidget);
+
+    // tap out side popup
+    await widgetTester.tapAt(Offset.zero);
+    await widgetTester.pump();
+
+    expect(find.byType(NartusBottomSheet), findsOneWidget);
+  });
+
+  testWidgets(
+      'when bottom sheet popup is visible because of location service disable, tap on Go to Settings will send event OpenLocationServiceEvent',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
+    // wait for animation to finish
+    await widgetTester.pump(const Duration(seconds: 1));
+
+    await widgetTester.tap(find.ancestor(
+        of: find.text('Go to Settings'), matching: find.byType(NartusButton)));
+
+    verify(mockLocationBloc.add(OpenLocationServiceEvent()));
+  });
+
+  testWidgets(
+      'when bottom sheet popup is visible because of location service disable, tap on Continue with default location will send event RequestDefaultLocationEvent',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
+
+    // wait for animation to finish
+    await widgetTester.pump(const Duration(seconds: 1));
+
+    await widgetTester.tap(find.ancestor(
+        of: find.text('Continue with default location'),
+        matching: find.byType(NartusButton)));
 
     verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
   });

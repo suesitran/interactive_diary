@@ -20,30 +20,66 @@ class IDHome extends StatefulWidget {
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: BlocListener<ConnectivityBloc, ConnectivityState>(
-          listener: (BuildContext context, ConnectivityState state) {
-            WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
-              context
-                  .read<ConnectivityBloc>()
-                  .add(ChangeConnectConnectivityEvent());
-            });
-            if (state is ChangeConnectedState) {
-              debugPrint('change to connect');
-            }
-            if (state is ChangeDisonnectedState) {
-              debugPrint('change to Disconnect');
-              context.push('/noConnection');
-            }
-            if (state is ConnectedState) {
-              debugPrint('connected');
-            }
-            if (state is DisconnectedState) {
-              debugPrint('disconnected');
-              context.push('/noConnection');
-            }
-          },
+        body: MultiBlocListener(
+          // ignore: always_specify_types
+          listeners: [
+            BlocListener<ConnectivityBloc, ConnectivityState>(
+              listener: (BuildContext context, ConnectivityState state) {
+                WidgetsBinding.instance
+                    .addPostFrameCallback((Duration timeStamp) {
+                  context
+                      .read<ConnectivityBloc>()
+                      .add(ChangeConnectConnectivityEvent());
+                });
+                if (state is ChangeConnectedState) {
+                  debugPrint('change to connect');
+                }
+                if (state is ChangeDisonnectedState) {
+                  debugPrint('change to Disconnect');
+                  context.push('/noConnection');
+                }
+                if (state is ConnectedState) {
+                  debugPrint('connected');
+                }
+                if (state is DisconnectedState) {
+                  debugPrint('disconnected');
+                  context.push('/noConnection');
+                }
+              },
+            ),
+            BlocListener<LocationBloc, LocationState>(
+              listener: (BuildContext context, LocationState state) {
+                if (state is LocationServiceDisableState) {
+                  context.showIDBottomSheet(
+                      title: S.of(context).locationPermissionDialogTitle,
+                      content: S.of(context).locationPermissionDialogMessage,
+                      primaryButtonText: S
+                          .of(context)
+                          .locationPermissionDialogOpenSettingsButton,
+                      onPrimaryButtonSelected: () {
+                        // can't dismiss popup dialog here because ios16 does not allow
+                        // to directly go to Location settings
+                        context
+                            .read<LocationBloc>()
+                            .add(OpenLocationServiceEvent());
+                      },
+                      textButtonText:
+                          S.of(context).locationPermissionDialogContinueButton,
+                      onTextButtonSelected: () {
+                        Navigator.of(context).pop();
+                        context
+                            .read<LocationBloc>()
+                            .add(RequestDefaultLocationEvent());
+                      },
+                      isDismissible: false);
+                }
+              },
+            ),
+          ],
           child: BlocBuilder<LocationBloc, LocationState>(
             builder: (BuildContext context, LocationState state) {
+              // remove previous observer, if any
+              WidgetsBinding.instance.removeObserver(this);
               if (state is LocationReadyState) {
                 return Stack(
                   children: <Widget>[
@@ -133,7 +169,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                     ]);
               }
 
-              if (state is AwaitLocationPermissionFromAppSettingState) {
+              if (state is AwaitLocationPermissionFromAppSettingState ||
+                  state is AwaitLocationServiceSettingState) {
+                // add new observer
                 WidgetsBinding.instance.addObserver(this);
               }
 
@@ -148,8 +186,12 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      WidgetsBinding.instance.removeObserver(this);
+      final LocationState blocState = context.read<LocationBloc>().state;
       context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
+
+      if (blocState is AwaitLocationServiceSettingState) {
+        Navigator.of(context).pop();
+      }
     }
   }
 }

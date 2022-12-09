@@ -12,11 +12,14 @@ import 'no_connection_screen_test.mocks.dart';
 
 @GenerateMocks(<Type>[ConnectionScreenBloc])
 void main() {
-  final MockConnectionScreenBloc connectionScreenBloc = MockConnectionScreenBloc();
+  final MockConnectionScreenBloc connectionScreenBloc =
+      MockConnectionScreenBloc();
 
   setUpAll(() {
-    when(connectionScreenBloc.state).thenAnswer((_) => ConnectionScreenInitial());
-    when(connectionScreenBloc.stream).thenAnswer((_) => Stream<ConnectionScreenState>.value(ConnectionScreenInitial()));
+    when(connectionScreenBloc.state)
+        .thenAnswer((_) => ConnectionScreenInitial());
+    when(connectionScreenBloc.stream).thenAnswer(
+        (_) => Stream<ConnectionScreenState>.value(ConnectionScreenInitial()));
   });
 
   testWidgets('Verify UI of No connection screen',
@@ -24,8 +27,7 @@ void main() {
     const NoConnectionScreen widget = NoConnectionScreen();
 
     await widgetTester.blocWrapAndPump<ConnectionScreenBloc>(
-      connectionScreenBloc,
-        widget);
+        connectionScreenBloc, widget);
 
     // verify screen components
     expect(find.byType(SvgPicture), findsOneWidget);

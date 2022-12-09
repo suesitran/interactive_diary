@@ -23,7 +23,8 @@ void main() {
         LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
     when(locationBloc.state).thenAnswer(
         (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
-    when(connectivityBloc.stream).thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
+    when(connectivityBloc.stream)
+        .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(connectivityBloc.state).thenAnswer((_) => ConnectedState());
   });
 
@@ -32,8 +33,8 @@ void main() {
         (WidgetTester widgetTester) async {
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.multiBlocWrapAndPump(
-      <BlocProvider<StateStreamableSource<Object?>>>[
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<LocationBloc>(create: (_) => locationBloc),
         BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
       ], widget);
@@ -57,11 +58,11 @@ void main() {
 
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.multiBlocWrapAndPump(
-          <BlocProvider<StateStreamableSource<Object?>>>[
-            BlocProvider<LocationBloc>(create: (_) => locationBloc),
-            BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
-          ], widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
           // ancestor of IDHome
@@ -81,11 +82,11 @@ void main() {
 
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.multiBlocWrapAndPump(
-          <BlocProvider<StateStreamableSource<Object?>>>[
-            BlocProvider<LocationBloc>(create: (_) => locationBloc),
-            BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
-          ], widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
           // ancestor of IDHome
@@ -106,11 +107,11 @@ void main() {
 
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.multiBlocWrapAndPump(
-          <BlocProvider<StateStreamableSource<Object?>>>[
-            BlocProvider<LocationBloc>(create: (_) => locationBloc),
-            BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
-          ], widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
           // ancestor of IDHome
