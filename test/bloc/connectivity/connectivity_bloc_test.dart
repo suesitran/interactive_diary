@@ -6,7 +6,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 import 'package:nartus_connectivity/src/nartus_connectivity_plus_impl.dart';
-import 'connectivity_bloc_test.mocks.dart';
 
 @GenerateMocks(<Type>[ConnectivityService])
 void main() {
@@ -28,13 +27,12 @@ void main() {
     );
   });
   group('event change connectivity', () {
-    Stream<bool> value;
     blocTest(
       'There is not network connection, turn on wifi, then return true',
       build: () => ConnectivityBloc(connectivity: service),
       setUp: (() {
         when(service.onConnectivityChange)
-            .thenAnswer((Invocation value) => Stream.value(true));
+            .thenAnswer((Invocation value) => Stream<bool>.value(true));
       }),
       act: (ConnectivityBloc bloc) =>
           bloc.add(ChangeConnectConnectivityEvent()),
@@ -46,7 +44,7 @@ void main() {
       build: () => ConnectivityBloc(connectivity: service),
       setUp: (() {
         when(service.onConnectivityChange)
-            .thenAnswer((Invocation value) => Stream.value(false));
+            .thenAnswer((Invocation value) => Stream<bool>.value(false));
       }),
       act: (ConnectivityBloc bloc) =>
           bloc.add(ChangeConnectConnectivityEvent()),

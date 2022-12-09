@@ -1,7 +1,8 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 import 'package:nartus_connectivity/src/nartus_connectivity_plus_impl.dart';
+
 part 'connection_screen_event.dart';
 part 'connection_screen_state.dart';
 
@@ -13,7 +14,7 @@ class ConnectionScreenBloc
         super(
           ConnectionScreenInitial(),
         ) {
-    on<ChangeConnectConnectivityEvent>((event, emit) async {
+    on<ChangeConnectConnectivityEvent>((ChangeConnectConnectivityEvent event, Emitter<ConnectionScreenState> emit) async {
       await _changeConnectionStatus(emit);
     });
   }

@@ -12,13 +12,12 @@ import 'package:nartus_connectivity/src/nartus_connectivity_plus_impl.dart';
 void main() {
   final ConnectivityService service = ConnectivityPlusServiceImpl();
   group('event change connectivity', () {
-    Stream<bool> value;
     blocTest(
       'There is not network connection, turn on wifi, then return true',
       build: () => ConnectionScreenBloc(connectivity: service),
       setUp: (() {
         when(service.onConnectivityChange)
-            .thenAnswer((Invocation value) => Stream.value(true));
+            .thenAnswer((Invocation value) => Stream<bool>.value(true));
       }),
       act: (ConnectionScreenBloc bloc) =>
           bloc.add(ChangeConnectConnectivityEvent()),
@@ -30,7 +29,7 @@ void main() {
       build: () => ConnectionScreenBloc(connectivity: service),
       setUp: (() {
         when(service.onConnectivityChange)
-            .thenAnswer((Invocation value) => Stream.value(false));
+            .thenAnswer((Invocation value) => Stream<bool>.value(false));
       }),
       act: (ConnectionScreenBloc bloc) =>
           bloc.add(ChangeConnectConnectivityEvent()),

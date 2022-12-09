@@ -4,7 +4,7 @@ abstract class ConnectionScreenState extends Equatable {
   const ConnectionScreenState();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object>[];
 }
 
 class ConnectionScreenInitial extends ConnectionScreenState {}

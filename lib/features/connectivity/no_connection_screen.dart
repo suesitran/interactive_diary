@@ -21,7 +21,7 @@ class NoConnectionScreen extends StatelessWidget {
         }
       },
       child: BlocBuilder<ConnectionScreenBloc, ConnectionScreenState>(
-        builder: (context, state) {
+        builder: (BuildContext context, ConnectionScreenState state) {
           if (state is ConnectionScreenInitial) {
             context
                 .read<ConnectionScreenBloc>()
