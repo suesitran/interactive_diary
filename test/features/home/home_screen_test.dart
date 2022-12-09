@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -210,5 +212,70 @@ void main() {
 
     expect(find.text('Go to Settings'), findsOneWidget);
     expect(find.text('Continue with default location'), findsOneWidget);
+  });
+
+  testWidgets(
+      'when bottom sheet popup is visible because of location service disable, tap out to dismiss will not dismiss popup',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
+
+    expect(find.byType(NartusBottomSheet), findsOneWidget);
+
+    // tap out side popup
+    await widgetTester.tapAt(Offset.zero);
+    await widgetTester.pump();
+
+    expect(find.byType(NartusBottomSheet), findsOneWidget);
+  });
+
+  testWidgets(
+      'when bottom sheet popup is visible because of location service disable, tap on Go to Settings will send event OpenLocationServiceEvent',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
+    // wait for animation to finish
+    await widgetTester.pump(const Duration(seconds: 1));
+
+    await widgetTester.tap(find.ancestor(
+        of: find.text('Go to Settings'), matching: find.byType(NartusButton)));
+
+    verify(mockLocationBloc.add(OpenLocationServiceEvent()));
+  });
+
+  testWidgets(
+      'when bottom sheet popup is visible because of location service disable, tap on Continue with default location will send event RequestDefaultLocationEvent',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
+    // wait for animation to finish
+    await widgetTester.pump(const Duration(seconds: 1));
+
+    await widgetTester.tap(find.ancestor(
+        of: find.text('Continue with default location'),
+        matching: find.byType(NartusButton)));
+
+    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
   });
 }
