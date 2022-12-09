@@ -102,11 +102,11 @@ void main() {
       await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
           infiniteAnimationWidget: true);
 
-      expect(find.text('Turn on your location'), findsOneWidget);
-      expect(find.text('Inner ME needs permission to access your location. '
-          'Please go to Settings > Privacy > Location and enable.'), findsOneWidget);
-      expect(find.text('Go to Settings'), findsOneWidget);
-      expect(find.text('Continue with default location'), findsOneWidget);
+      expect(find.text('Location Permission not granted'), findsOneWidget);
+      expect(find.text('Location Permission is needed to use this app. '
+        'Please Allow Inner ME to access location in the next dialog'), findsOneWidget);
+      expect(find.text('Allow'), findsOneWidget);
+      expect(find.text('Continue'), findsOneWidget);
 
     });
 
@@ -130,21 +130,6 @@ void main() {
         expect(find.text('Continue with default location'), findsOneWidget);
       }
     );
-
-    testWidgets('given initial location state, then bottom sheet suggesting will not be shown', (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
-
-      when(mockLocationBloc.stream).thenAnswer((_) =>
-      Stream<LocationState>.value(LocationInitial(PermissionStatusDiary.granted)));
-      when(mockLocationBloc.state)
-          .thenAnswer((_) => LocationInitial(PermissionStatusDiary.granted));
-
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
-
-      expect(find.byType(NartusBottomSheet), findsNothing);
-
-    });
   });
 
 }
