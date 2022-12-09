@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ConnectivityPlusImpl {
-
   Future<bool> get isConnected => _checkConnectivity();
 
   Stream<bool> get onConnectivityChange => _connectivityChange.stream;
 
   /// implementation
   final StreamController<bool> _connectivityChange =
-  StreamController<bool>.broadcast();
+      StreamController<bool>.broadcast();
 
   late final Connectivity _connectivity;
 
@@ -26,7 +25,7 @@ class ConnectivityPlusImpl {
 
   void _handleConnectivityChange(ConnectivityResult result) async {
     final updatedConnectivity =
-    await _checkConnectivity(connectivityResult: result);
+        await _checkConnectivity(connectivityResult: result);
     if (updatedConnectivity != _currentConnectivity) {
       _currentConnectivity = updatedConnectivity;
       _connectivityChange.add(_currentConnectivity);

@@ -19,7 +19,8 @@ void main() {
     when(connectivity.onConnectivityChanged)
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
-    final ConnectivityPlusImpl service = ConnectivityPlusImpl(connectivity: connectivity);
+    final ConnectivityPlusImpl service =
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     final result = await service.isConnected;
 
@@ -36,7 +37,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     final result = await service.isConnected;
 
@@ -53,7 +54,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     final result = await service.isConnected;
 
@@ -70,7 +71,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     final result = await service.isConnected;
 
@@ -87,7 +88,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     final result = await service.isConnected;
 
@@ -104,7 +105,7 @@ void main() {
         (realInvocation) => Stream.value(ConnectivityResult.bluetooth));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([true]));
   });
@@ -119,7 +120,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.wifi));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([true]));
   });
@@ -134,7 +135,7 @@ void main() {
         (realInvocation) => Stream.value(ConnectivityResult.ethernet));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([true]));
   });
@@ -149,7 +150,7 @@ void main() {
         (realInvocation) => Stream.value(ConnectivityResult.mobile));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([true]));
   });
@@ -164,7 +165,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([false]));
   });
@@ -179,7 +180,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([false]));
   });
@@ -194,7 +195,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([false]));
   });
@@ -209,7 +210,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.none));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([false]));
   });
@@ -224,7 +225,7 @@ void main() {
         .thenAnswer((realInvocation) => Stream.value(ConnectivityResult.wifi));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([]));
   });
@@ -239,7 +240,7 @@ void main() {
         (realInvocation) => Stream.value(ConnectivityResult.bluetooth));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([]));
   });
@@ -254,7 +255,7 @@ void main() {
         (realInvocation) => Stream.value(ConnectivityResult.ethernet));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([]));
   });
@@ -273,7 +274,7 @@ void main() {
         ]));
 
     final ConnectivityPlusImpl service =
-    ConnectivityPlusImpl(connectivity: connectivity);
+        ConnectivityPlusImpl(connectivity: connectivity);
 
     expect(service.onConnectivityChange, emitsInOrder([false]));
   });

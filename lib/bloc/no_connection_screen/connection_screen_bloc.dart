@@ -9,11 +9,13 @@ class ConnectionScreenBloc
     extends Bloc<ConnectionScreenEvent, ConnectionScreenState> {
   final ConnectivityService _connectivity;
   ConnectionScreenBloc({ConnectivityService? connectivity})
-      : _connectivity = connectivity ?? ConnectivityService(ImplType.connectivityPlus),
+      : _connectivity =
+            connectivity ?? ConnectivityService(ImplType.connectivityPlus),
         super(
           ConnectionScreenInitial(),
         ) {
-    on<ChangeConnectConnectivityEvent>((ChangeConnectConnectivityEvent event, Emitter<ConnectionScreenState> emit) async {
+    on<ChangeConnectConnectivityEvent>((ChangeConnectConnectivityEvent event,
+        Emitter<ConnectionScreenState> emit) async {
       await _changeConnectionStatus(emit);
     });
   }

@@ -8,7 +8,8 @@ import 'package:nartus_connectivity/nartus_connectivity.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final ConnectivityService service = ConnectivityService(ImplType.connectivityPlus);
+  final ConnectivityService service =
+      ConnectivityService(ImplType.connectivityPlus);
   group('event check connectivity', () {
     blocTest(
       'There is network connection, then return true',

@@ -10,7 +10,8 @@ part 'connectivity_state.dart';
 class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   final ConnectivityService _connectivity;
   ConnectivityBloc({ConnectivityService? connectivity})
-      : _connectivity = connectivity ?? ConnectivityService(ImplType.connectivityPlus),
+      : _connectivity =
+            connectivity ?? ConnectivityService(ImplType.connectivityPlus),
         super(ConnectivityState()) {
     on<ConnectedConnectivityEvent>(
         (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {

@@ -6,7 +6,8 @@ import 'package:mockito/mockito.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 
 void main() {
-  final ConnectivityService service = ConnectivityService(ImplType.connectivityPlus);
+  final ConnectivityService service =
+      ConnectivityService(ImplType.connectivityPlus);
   group('event change connectivity', () {
     blocTest(
       'There is not network connection, turn on wifi, then return true',
