@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-
-import 'package:interactive_diary/main_app_screen.dart';
+import 'package:interactive_diary/features/home/home_screen.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -19,7 +18,7 @@ final GoRouter appRoute = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const MainAppScreen();
+        return const IDHome();
       },
     ),
     GoRoute(

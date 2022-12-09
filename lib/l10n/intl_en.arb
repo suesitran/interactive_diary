@@ -11,5 +11,7 @@
   "save" :"Save",
   "addText" :"Add text",
   "back" : "Back",
-  "locationPopupTitle" : "Turn on your location"
+  "locationPopupTitle" : "Turn on your location",
+  "unavailable" : "Screen unavailable",
+  "unavailableScreenDesc" : "Sorry, this screen is still under construction. Please come back later."
 }

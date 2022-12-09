@@ -169,6 +169,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Screen unavailable`
+  String get unavailable {
+    return Intl.message(
+      'Screen unavailable',
+      name: 'unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, this screen is still under construction. Please come back later.`
+  String get unavailableScreenDesc {
+    return Intl.message(
+      'Sorry, this screen is still under construction. Please come back later.',
+      name: 'unavailableScreenDesc',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

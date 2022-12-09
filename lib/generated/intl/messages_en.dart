@@ -21,5 +21,31 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addText": MessageLookupByLibrary.simpleMessage("Add text"),
+        "anonymous_profile": MessageLookupByLibrary.simpleMessage(
+            "Anonymous Profile. Please login to use all features."),
+        "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "locationPermissionDialogAllowButton":
+            MessageLookupByLibrary.simpleMessage("Allow"),
+        "locationPermissionDialogContinueButton":
+            MessageLookupByLibrary.simpleMessage(
+                "Continue with default location"),
+        "locationPermissionDialogMessage": MessageLookupByLibrary.simpleMessage(
+            "Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable."),
+        "locationPermissionDialogOpenSettingsButton":
+            MessageLookupByLibrary.simpleMessage("Go to Settings"),
+        "locationPermissionDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Turn on your location"),
+        "locationPopupTitle":
+            MessageLookupByLibrary.simpleMessage("Turn on your location"),
+        "noConnectionMessage": MessageLookupByLibrary.simpleMessage(
+            "Slow or no internet connections.\nPlease check your internet settings"),
+        "noConnectionTitle": MessageLookupByLibrary.simpleMessage("Whoops!"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "unavailable":
+            MessageLookupByLibrary.simpleMessage("Screen unavailable"),
+        "unavailableScreenDesc": MessageLookupByLibrary.simpleMessage(
+            "Sorry, this screen is still under construction. Please come back later.")
+      };
 }

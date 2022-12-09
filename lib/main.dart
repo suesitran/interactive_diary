@@ -40,6 +40,36 @@ void main() async {
         S.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
+      builder: (context, child) {
+        if (child != null) {
+          final double textScaleFactor = MediaQuery
+              .of(context)
+              .textScaleFactor;
+
+          return MediaQuery(
+              data: MediaQuery.of(context)
+                  .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+              child: child);
+        }
+
+        // return unavailable screen
+        return const ScreenUnavailable();
+      },
     ),
   ));
 }
+
+class ScreenUnavailable extends StatelessWidget {
+  const ScreenUnavailable({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text(S.of(context).unavailable),
+    ),
+    body: Center(
+      child: Text(S.of(context).unavailableScreenDesc),
+    ),
+  );
+}
+
