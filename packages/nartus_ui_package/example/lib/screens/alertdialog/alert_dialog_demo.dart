@@ -61,9 +61,10 @@ class AlertDialogDemo extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     context.showIDAlertDialog(
-                        title: 'Warning Headline very very very very very very very long long long',
+                        title:
+                            'Warning Headline very very very very very very very long long long',
                         content:
-                        'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
+                            'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
                         primaryButtonText: 'Primary button',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
@@ -77,9 +78,10 @@ class AlertDialogDemo extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   context.showIDAlertDialog(
-                      title: 'Warning Headline very very very very very very very long long long',
+                      title:
+                          'Warning Headline very very very very very very very long long long',
                       content:
-                      'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
+                          'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
                       primaryButtonText: 'Primary button',
                       onPrimaryButtonSelected: () {
                         Navigator.of(context).pop();
@@ -142,9 +144,10 @@ class AlertDialogDemo extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     context.showIDAlertDialog(
-                        title: 'Warning Headline very very very very very very very long long long',
+                        title:
+                            'Warning Headline very very very very very very very long long long',
                         content:
-                        'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
+                            'This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,, This ID alert dialog has primary and text button, This ID alert dialog has primary and text button,',
                         primaryButtonText: 'Primary',
                         onPrimaryButtonSelected: () {
                           Navigator.of(context).pop();
