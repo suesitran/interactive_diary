@@ -44,13 +44,12 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               ? S.of(context).ctaGoToSettings
               : S.of(context).locationPermissionDialogAllowButton;
 
-            final String textButtonText = state is LocationPermissionDeniedForeverState
-              ? S.of(context).ctaLocationTurnOnContinueDefaultLocation
-              : S.of(context).locationPermissionDialogContinueButton;
+            final String textButtonText = S.of(context).ctaLocationTurnOnContinueDefaultLocation;
 
             context.showIDBottomSheet(
               iconPath: Assets.images.idLocationImg,
               title: title,
+              isDismissible: false,
               content: content,
               primaryButtonText: primaryButtonText,
               textButtonText: textButtonText,
@@ -62,7 +61,10 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                 }
                 Navigator.of(context).pop();
               },
-              onTextButtonSelected: () => Navigator.of(context).pop(),
+              onTextButtonSelected: () {
+                context.read<LocationBloc>().add(RequestDefaultLocationEvent());
+                Navigator.of(context).pop();
+              }
             );
           }
         },
