@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +9,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:nartus_ui_package/widgets/bottom_sheet/nartus_bottom_sheet.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
@@ -193,7 +190,7 @@ void main() {
 
   testWidgets(
       'when state is LocationServiceDisableState, then show bottom sheet popup',
-      (widgetTester) async {
+      (WidgetTester widgetTester) async {
     const IDHome widget = IDHome();
 
     when(mockLocationBloc.stream).thenAnswer(
