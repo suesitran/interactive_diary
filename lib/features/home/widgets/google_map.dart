@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/route/route_extension.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -36,7 +37,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late final DrawableRoot markerAddDrawableRoot;
 
   late final AnimationController _controller;
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
 
   late Animation<Offset> popupPenAnimation;
   late Animation<Offset> popupEmojiAnimation;
@@ -76,7 +77,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    mapController.setMapStyle(MapStyle.paper.value);
+    mapController?.setMapStyle(MapStyle.paper.value);
   }
 
   @override
@@ -93,7 +94,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
                   onMapCreated: (GoogleMapController controller) =>
                       _onMapCreated(controller),
                   onCameraMoveStarted: () => _closeMenuIfOpening(),
-                  onCameraMove: (_) => _closeMenuIfOpening(),
                   onTap: (_) => _closeMenuIfOpening(),
                   onLongPress: (_) => _closeMenuIfOpening(),
                   markers: data.data ?? <Marker>{},
@@ -115,6 +115,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   void dispose() {
     _controller.dispose();
     _streamController.close();
+    mapController?.dispose();
     super.dispose();
   }
 
@@ -270,25 +271,34 @@ class _GoogleMapViewState extends State<GoogleMapView>
             position: widget.currentLocation,
             icon: cameraMarkerBitmap,
             anchor: popupCameraAnimation.value,
-            onTap: () {}),
+            onTap: () {
+              _closeMenuIfOpening();
+            }),
         Marker(
             markerId: const MarkerId(menuPencilMarkerLocationId),
             position: widget.currentLocation,
             icon: penMarkerBitmap,
             anchor: popupPenAnimation.value,
-            onTap: () {}),
+            onTap: () {
+              context.gotoWriteDiaryScreen(widget.currentLocation);
+              _closeMenuIfOpening();
+            }),
         Marker(
             markerId: const MarkerId(menuEmojiMarkerLocationId),
             position: widget.currentLocation,
             icon: emojiMarkerBitmap,
             anchor: popupEmojiAnimation.value,
-            onTap: () {}),
+            onTap: () {
+              _closeMenuIfOpening();
+            }),
         Marker(
             markerId: const MarkerId(menuVoiceMarkerLocationId),
             position: widget.currentLocation,
             icon: voiceMarkerBitmap,
             anchor: popupVoiceAnimation.value,
-            onTap: () {}),
+            onTap: () {
+              _closeMenuIfOpening();
+            }),
       });
     }
     _streamController.sink.add(markers);

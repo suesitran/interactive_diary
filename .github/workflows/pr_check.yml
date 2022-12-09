@@ -44,9 +44,9 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
     - name: Install Flutter 
-      uses: subosito/flutter-action@v2.6.2
+      uses: subosito/flutter-action@v2.8.0
       with:
-        flutter-version: '3.3.2'
+        flutter-version: '3.3.7'
         channel: 'stable'
 #    enable it when issue is fixed
 #    - name: Format code
@@ -72,6 +72,7 @@ jobs:
     - name: Install dependencies
       shell: bash
       run: |
+        flutter doctor -v
         flutter clean
         flutter pub get
         flutter pub run build_runner build --delete-conflicting-outputs

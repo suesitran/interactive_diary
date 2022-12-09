@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -27,6 +28,9 @@ void main() async {
       BlocProvider<LocationBloc>(
         create: (BuildContext context) => LocationBloc(),
       ),
+      BlocProvider<StorageBloc>(
+        create: (_) => StorageBloc(),
+      )
     ],
     child: MaterialApp.router(
       routerConfig: appRoute,
