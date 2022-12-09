@@ -56,16 +56,21 @@ app.*.map.json
 # ignore code coverage
 /coverage
 /*/*/coverage
+lcov.*.info
+lcov.base.info
+
+# ignore app config settings
 ios/Flutter/GoogleMap.xcconfig
 ios/Flutter/AppConfig.xcconfig
 android/googlemap.properties
-**/test/**/*.mocks.dart
 android/appconfig.properties
-packages/nartus_ui_package/android/local.properties
-lcov.*.info
 
-lcov.base.info
-
+# ignore generated mocks
+**/test/**/*.mocks.dart
 /lib/generated
+packages/**/Flutter
 
-pubspec.lock
+# ignore local properties
+packages/nartus_ui_package/android/local.properties
+
+

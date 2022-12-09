@@ -21,6 +21,8 @@ class LocationPermissionDeniedForeverState extends LocationState {}
 
 class AwaitLocationPermissionFromAppSettingState extends LocationState {}
 
+class AwaitLocationServiceSettingState extends LocationState {}
+
 class UnknownLocationErrorState extends LocationState {}
 
 class LocationReadyState extends LocationState {
