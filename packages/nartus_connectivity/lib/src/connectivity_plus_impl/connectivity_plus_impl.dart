@@ -2,24 +2,21 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-import '../nartus_connectivity.dart';
+class ConnectivityPlusImpl {
 
-class ConnectivityPlusServiceImpl extends ConnectivityService {
-  @override
   Future<bool> get isConnected => _checkConnectivity();
 
-  @override
   Stream<bool> get onConnectivityChange => _connectivityChange.stream;
 
   /// implementation
   final StreamController<bool> _connectivityChange =
-      StreamController<bool>.broadcast();
+  StreamController<bool>.broadcast();
 
   late final Connectivity _connectivity;
 
   bool _currentConnectivity = false;
 
-  ConnectivityPlusServiceImpl({Connectivity? connectivity}) {
+  ConnectivityPlusImpl({Connectivity? connectivity}) {
     _connectivity = connectivity ?? Connectivity();
 
     _checkConnectivity().then((value) => _currentConnectivity = value);
@@ -29,7 +26,7 @@ class ConnectivityPlusServiceImpl extends ConnectivityService {
 
   void _handleConnectivityChange(ConnectivityResult result) async {
     final updatedConnectivity =
-        await _checkConnectivity(connectivityResult: result);
+    await _checkConnectivity(connectivityResult: result);
     if (updatedConnectivity != _currentConnectivity) {
       _currentConnectivity = updatedConnectivity;
       _connectivityChange.add(_currentConnectivity);

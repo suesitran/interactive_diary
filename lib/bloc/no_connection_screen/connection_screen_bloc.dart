@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
-import 'package:nartus_connectivity/src/nartus_connectivity_plus_impl.dart';
 
 part 'connection_screen_event.dart';
 part 'connection_screen_state.dart';
@@ -10,7 +9,7 @@ class ConnectionScreenBloc
     extends Bloc<ConnectionScreenEvent, ConnectionScreenState> {
   final ConnectivityService _connectivity;
   ConnectionScreenBloc({ConnectivityService? connectivity})
-      : _connectivity = connectivity ?? ConnectivityPlusServiceImpl(),
+      : _connectivity = connectivity ?? ConnectivityService(ImplType.connectivityPlus),
         super(
           ConnectionScreenInitial(),
         ) {

@@ -2,15 +2,11 @@ import 'package:bloc_test/bloc_test.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/bloc/no_connection_screen/connection_screen_bloc.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
-import 'package:nartus_connectivity/src/nartus_connectivity_plus_impl.dart';
-// import 'connectivity_bloc_test.mocks.dart';
 
-@GenerateMocks(<Type>[ConnectivityService])
 void main() {
-  final ConnectivityService service = ConnectivityPlusServiceImpl();
+  final ConnectivityService service = ConnectivityService(ImplType.connectivityPlus);
   group('event change connectivity', () {
     blocTest(
       'There is not network connection, turn on wifi, then return true',
