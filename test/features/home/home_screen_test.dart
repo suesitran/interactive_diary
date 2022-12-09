@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +10,8 @@ import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:nartus_ui_package/widgets/bottom_sheet/nartus_bottom_sheet.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
@@ -84,13 +88,13 @@ void main() {
     await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
         infiniteAnimationWidget: true);
 
-    expect(find.text('Location Permission not granted'), findsOneWidget);
+    expect(find.text('Turn on your location'), findsOneWidget);
     expect(
         find.text(
-            'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
         findsOneWidget);
     expect(find.text('Allow'), findsOneWidget);
-    expect(find.text('Continue'), findsOneWidget);
+    expect(find.text('Continue with default location'), findsOneWidget);
   });
 
   testWidgets(
@@ -106,13 +110,13 @@ void main() {
     await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
         infiniteAnimationWidget: true);
 
-    expect(find.text('Location Permission not granted'), findsOneWidget);
+    expect(find.text('Turn on your location'), findsOneWidget);
     expect(
         find.text(
-            'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog'),
+            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
         findsOneWidget);
-    expect(find.text('Open Settings'), findsOneWidget);
-    expect(find.text('Continue'), findsOneWidget);
+    expect(find.text('Go to Settings'), findsOneWidget);
+    expect(find.text('Continue with default location'), findsOneWidget);
   });
 
   testWidgets(
@@ -146,7 +150,7 @@ void main() {
     await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
         infiniteAnimationWidget: true);
 
-    await widgetTester.tap(find.text('Continue'));
+    await widgetTester.tap(find.text('Continue with default location'));
 
     verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
   });
@@ -164,7 +168,7 @@ void main() {
     await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
         infiniteAnimationWidget: true);
 
-    await widgetTester.tap(find.text('Open Settings'));
+    await widgetTester.tap(find.text('Go to Settings'));
 
     verify(mockLocationBloc.add(OpenAppSettingsEvent()));
   });
@@ -182,8 +186,32 @@ void main() {
     await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
         infiniteAnimationWidget: true);
 
-    await widgetTester.tap(find.text('Continue'));
+    await widgetTester.tap(find.text('Continue with default location'));
 
     verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+  });
+
+  testWidgets(
+      'when state is LocationServiceDisableState, then show bottom sheet popup',
+      (widgetTester) async {
+    const IDHome widget = IDHome();
+
+    when(mockLocationBloc.stream).thenAnswer(
+        (_) => Stream<LocationState>.value(LocationServiceDisableState()));
+    when(mockLocationBloc.state)
+        .thenAnswer((_) => LocationServiceDisableState());
+
+    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
+        infiniteAnimationWidget: true);
+
+    expect(find.byType(NartusBottomSheet), findsOneWidget);
+    expect(find.text('Turn on your location'), findsOneWidget);
+    expect(
+        find.text(
+            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
+        findsOneWidget);
+
+    expect(find.text('Go to Settings'), findsOneWidget);
+    expect(find.text('Continue with default location'), findsOneWidget);
   });
 }
