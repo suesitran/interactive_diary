@@ -17,7 +17,6 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
-
   @override
   Widget build(BuildContext context) => Scaffold(
         body: BlocConsumer<LocationBloc, LocationState>(
@@ -39,6 +38,9 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                       S.of(context).locationPermissionDialogContinueButton,
                   onTextButtonSelected: () {
                     Navigator.of(context).pop();
+                    context
+                        .read<LocationBloc>()
+                        .add(RequestDefaultLocationEvent());
                   },
                   isDismissible: false);
             }
@@ -127,8 +129,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   ]);
             }
 
-            if (state is AwaitLocationPermissionFromAppSettingState
-                || state is AwaitLocationServiceSettingState) {
+            if (state is AwaitLocationPermissionFromAppSettingState ||
+                state is AwaitLocationServiceSettingState) {
               WidgetsBinding.instance.addObserver(this);
             }
 
