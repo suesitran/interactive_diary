@@ -6,6 +6,9 @@ A mobile diary app that is as simple as recording emotion at anytime any place
 
 [![codecov](https://codecov.io/gh/suesitran/interactive_diary/branch/dev/graph/badge.svg?token=A5CN9CRXPM)](https://codecov.io/gh/suesitran/interactive_diary)
 
+## Setup project to run in your local machine:
+Refer to this link how to setup and run your project: [Setup project](https://github.com/suesitran/interactive_diary/wiki/Contribute-to-this-project)
+
 ## Idea of Interactive Diary
 
 This app is going to record daily activities in form of location checking and emotion sharing. It will keep track of user's location through out the day, and allow user to add emoji to each location, immediately when user is at the location, or later when user check their day activity at home.
