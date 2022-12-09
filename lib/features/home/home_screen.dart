@@ -18,7 +18,32 @@ class IDHome extends StatefulWidget {
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: BlocBuilder<LocationBloc, LocationState>(
+        body: BlocConsumer<LocationBloc, LocationState>(
+          listener: (BuildContext context, LocationState state) {
+            if (state is LocationServiceDisableState) {
+              context.showIDBottomSheet(
+                  title: S.of(context).locationPermissionDialogTitle,
+                  content: S.of(context).locationPermissionDialogMessage,
+                  primaryButtonText:
+                      S.of(context).locationPermissionDialogOpenSettingsButton,
+                  onPrimaryButtonSelected: () {
+                    // can't dismiss popup dialog here because ios16 does not allow
+                    // to directly go to Location settings
+                    context
+                        .read<LocationBloc>()
+                        .add(OpenLocationServiceEvent());
+                  },
+                  textButtonText:
+                      S.of(context).locationPermissionDialogContinueButton,
+                  onTextButtonSelected: () {
+                    Navigator.of(context).pop();
+                    context
+                        .read<LocationBloc>()
+                        .add(RequestDefaultLocationEvent());
+                  },
+                  isDismissible: false);
+            }
+          },
           builder: (BuildContext context, LocationState state) {
             if (state is LocationReadyState) {
               return Stack(
@@ -103,7 +128,8 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   ]);
             }
 
-            if (state is AwaitLocationPermissionFromAppSettingState) {
+            if (state is AwaitLocationPermissionFromAppSettingState ||
+                state is AwaitLocationServiceSettingState) {
               WidgetsBinding.instance.addObserver(this);
             }
 
@@ -119,6 +145,11 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       WidgetsBinding.instance.removeObserver(this);
       context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
+
+      final LocationState blocState = context.read<LocationBloc>().state;
+      if (blocState is AwaitLocationServiceSettingState) {
+        Navigator.of(context).pop();
+      }
     }
   }
 }
