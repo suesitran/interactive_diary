@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:interactive_diary/main_app_screen.dart';
@@ -11,15 +13,19 @@ import 'package:mockito/mockito.dart';
 import 'widget_tester_extension.dart';
 import 'main_test.mocks.dart';
 
-@GenerateMocks(<Type>[LocationBloc])
+@GenerateMocks(<Type>[LocationBloc, ConnectivityBloc])
 void main() {
-  final LocationBloc locationBloc = MockLocationBloc();
+  final MockLocationBloc locationBloc = MockLocationBloc();
+  final MockConnectivityBloc connectivityBloc = MockConnectivityBloc();
 
   setUpAll(() {
     when(locationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
         LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
     when(locationBloc.state).thenAnswer(
         (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
+    when(connectivityBloc.stream)
+        .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
+    when(connectivityBloc.state).thenAnswer((_) => ConnectedState());
   });
 
   group('Test MediaQuery for TextScaleFactor', () {
@@ -27,7 +33,11 @@ void main() {
         (WidgetTester widgetTester) async {
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       expect(
           find.ancestor(
@@ -48,7 +58,11 @@ void main() {
 
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
           // ancestor of IDHome
@@ -68,7 +82,11 @@ void main() {
 
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
           // ancestor of IDHome
@@ -89,7 +107,11 @@ void main() {
 
       const MainAppScreen widget = MainAppScreen();
 
-      await widgetTester.blocWrapAndPump<LocationBloc>(locationBloc, widget);
+      await widgetTester
+          .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => locationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => connectivityBloc)
+      ], widget);
 
       final MediaQuery mediaQuery = widgetTester.widget(find.ancestor(
           // ancestor of IDHome

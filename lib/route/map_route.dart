@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -17,7 +18,7 @@ final GoRouter appRoute = GoRouter(
   routes: <GoRoute>[
     // Home screen
     GoRoute(
-      path: '/',
+      path: idHomeRoute,
       builder: (BuildContext context, GoRouterState state) {
         return const MainAppScreen();
       },
@@ -40,5 +41,12 @@ final GoRouter appRoute = GoRouter(
                   )),
     ),
     // add other 1st level route
+    //no connection screen
+    GoRoute(
+      path: noConnectionRoute,
+      builder: (BuildContext context, GoRouterState state) {
+        return const NoConnectionScreen();
+      },
+    ),
   ],
 );
