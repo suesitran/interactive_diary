@@ -234,15 +234,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
-        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
-      BlocProvider<ConnectivityBloc>(
-        create: (_) => mockConnectivityBloc,
-      ),
-      BlocProvider<LocationBloc>(
-        create: (_) => mockLocationBloc,
-      )
-    ], widget, infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
     expect(find.text('Turn on your location'), findsOneWidget);
@@ -265,15 +265,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
-        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
-      BlocProvider<ConnectivityBloc>(
-        create: (_) => mockConnectivityBloc,
-      ),
-      BlocProvider<LocationBloc>(
-        create: (_) => mockLocationBloc,
-      )
-    ], widget, infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
 
@@ -294,15 +294,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
-        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
-      BlocProvider<ConnectivityBloc>(
-        create: (_) => mockConnectivityBloc,
-      ),
-      BlocProvider<LocationBloc>(
-        create: (_) => mockLocationBloc,
-      )
-    ], widget, infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -322,15 +322,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
-        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
-      BlocProvider<ConnectivityBloc>(
-        create: (_) => mockConnectivityBloc,
-      ),
-      BlocProvider<LocationBloc>(
-        create: (_) => mockLocationBloc,
-      )
-    ], widget, infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
 
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));

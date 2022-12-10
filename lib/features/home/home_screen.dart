@@ -21,7 +21,7 @@ class IDHome extends StatefulWidget {
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
-          body: MultiBlocListener(
+      body: MultiBlocListener(
         // ignore: always_specify_types
         listeners: [
           BlocListener<ConnectivityBloc, ConnectivityState>(
@@ -66,7 +66,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                           .add(OpenLocationServiceEvent());
                     },
                     textButtonText:
-                        S.of(context).locationPermissionDialogContinueButton,
+                    S.of(context).locationPermissionDialogContinueButton,
                     onTextButtonSelected: () {
                       Navigator.of(context).pop();
                       context
@@ -79,19 +79,19 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               if (state is LocationPermissionDeniedForeverState ||
                   state is LocationPermissionDeniedState) {
                 final String title = state
-                        is LocationPermissionDeniedForeverState
+                is LocationPermissionDeniedForeverState
                     ? S.of(context).locationPermissionDialogTitle
                     : S.of(context).locationPermissionDeniedBottomSheetTitle;
 
                 final String content =
-                    state is LocationPermissionDeniedForeverState
-                        ? S.of(context).locationPermissionDialogMessage
-                        : S
-                            .of(context)
-                            .locationPermissionDeniedBottomSheetDescription;
+                state is LocationPermissionDeniedForeverState
+                    ? S.of(context).locationPermissionDialogMessage
+                    : S
+                    .of(context)
+                    .locationPermissionDeniedBottomSheetDescription;
 
                 final String primaryButtonText = state
-                        is LocationPermissionDeniedForeverState
+                is LocationPermissionDeniedForeverState
                     ? S.of(context).locationPermissionDialogOpenSettingsButton
                     : S.of(context).locationPermissionDialogAllowButton;
 
@@ -111,7 +111,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                             .read<LocationBloc>()
                             .add(ShowDialogRequestPermissionEvent());
                       } else if (state
-                          is LocationPermissionDeniedForeverState) {
+                      is LocationPermissionDeniedForeverState) {
                         context
                             .read<LocationBloc>()
                             .add(OpenAppSettingsEvent());
@@ -140,12 +140,12 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   ),
                   SafeArea(
                       child: Align(
-                    alignment: Alignment.topCenter,
-                    child: DateLabelView(
-                      dateLabel: state.dateDisplay,
-                      profileSemanticLabel: S.of(context).anonymous_profile,
-                    ),
-                  ))
+                        alignment: Alignment.topCenter,
+                        child: DateLabelView(
+                          dateLabel: state.dateDisplay,
+                          profileSemanticLabel: S.of(context).anonymous_profile,
+                        ),
+                      ))
                 ],
               );
             }
@@ -177,7 +177,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
 
       if (blocState is AwaitLocationServiceSettingState
           && Navigator.of(context).canPop()) {
-          Navigator.of(context).pop();
+        Navigator.of(context).pop();
       }
     }
   }
