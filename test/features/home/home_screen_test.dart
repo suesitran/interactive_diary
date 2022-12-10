@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
@@ -13,9 +14,16 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[LocationBloc])
+@GenerateMocks(<Type>[LocationBloc, ConnectivityBloc])
 void main() {
-  final LocationBloc mockLocationBloc = MockLocationBloc();
+  final MockLocationBloc mockLocationBloc = MockLocationBloc();
+  final MockConnectivityBloc mockConnectivityBloc = MockConnectivityBloc();
+
+  setUpAll(() {
+    when(mockConnectivityBloc.stream)
+        .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
+    when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
+  });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
       (WidgetTester widgetTester) async {
@@ -26,7 +34,11 @@ void main() {
     when(mockLocationBloc.state).thenAnswer(
         (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
 
-    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget);
 
     expect(
         find.ancestor(
@@ -50,8 +62,11 @@ void main() {
         .thenAnswer((_) => Stream<LocationState>.value(state));
     when(mockLocationBloc.state).thenAnswer((_) => state);
 
-    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget);
 
     expect(find.byType(GoogleMapView), findsOneWidget);
   });
@@ -66,8 +81,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationInitial(PermissionStatusDiary.denied));
 
-    await widgetTester.blocWrapAndPump<LocationBloc>(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
@@ -82,8 +100,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     expect(find.text('Turn on your location'), findsOneWidget);
     expect(
@@ -104,8 +125,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     expect(find.text('Turn on your location'), findsOneWidget);
     expect(
@@ -126,8 +150,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     await widgetTester.tap(find.text('Allow'));
 
@@ -144,8 +171,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     await widgetTester.tap(find.text('Continue with default location'));
 
@@ -162,8 +192,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     await widgetTester.tap(find.text('Go to Settings'));
 
@@ -180,8 +213,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester
+        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+    ], widget, infiniteAnimationWidget: true);
 
     await widgetTester.tap(find.text('Continue with default location'));
 
@@ -198,8 +234,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
     expect(find.text('Turn on your location'), findsOneWidget);
@@ -222,8 +265,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
 
@@ -244,8 +294,15 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -265,8 +322,16 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-        infiniteAnimationWidget: true);
+    await widgetTester.multiBlocWrapAndPump(
+        <BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<ConnectivityBloc>(
+            create: (_) => mockConnectivityBloc,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) => mockLocationBloc,
+          )
+        ], widget, infiniteAnimationWidget: true);
+
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
 
