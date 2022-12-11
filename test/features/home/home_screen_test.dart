@@ -106,10 +106,10 @@ void main() {
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
 
-    expect(find.text('Turn on your location'), findsOneWidget);
+    expect(find.text('Location Permission not granted'), findsOneWidget);
     expect(
         find.text(
-            'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.'),
+            'Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog'),
         findsOneWidget);
     expect(find.text('Allow'), findsOneWidget);
     expect(find.text('Continue with default location'), findsOneWidget);
@@ -155,6 +155,8 @@ void main() {
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
+    // wait for animation to complete
+    await widgetTester.pump(const Duration(seconds: 1));
 
     await widgetTester.tap(find.text('Allow'));
 
@@ -176,6 +178,8 @@ void main() {
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
+    // wait for animation to complete
+    await widgetTester.pump(const Duration(seconds: 1));
 
     await widgetTester.tap(find.text('Continue with default location'));
 
@@ -197,6 +201,8 @@ void main() {
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
+    // wait for animation to complete
+    await widgetTester.pump(const Duration(seconds: 1));
 
     await widgetTester.tap(find.text('Go to Settings'));
 
@@ -218,6 +224,8 @@ void main() {
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
     ], widget, infiniteAnimationWidget: true);
+    // wait for animation to complete
+    await widgetTester.pump(const Duration(seconds: 1));
 
     await widgetTester.tap(find.text('Continue with default location'));
 
@@ -355,8 +363,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationInitial(PermissionStatusDiary.granted));
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       expect(find.byType(NartusBottomSheet), findsNothing);
     });
@@ -372,8 +387,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       expect(find.text('Location Permission not granted'), findsOneWidget);
       expect(
@@ -395,8 +417,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       expect(find.text('Turn on your location'), findsOneWidget);
       expect(
@@ -419,8 +448,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -444,8 +480,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -473,8 +516,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -496,8 +546,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -518,8 +575,15 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-      await widgetTester.blocWrapAndPump(mockLocationBloc, widget,
-          infiniteAnimationWidget: true);
+      await widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            )
+          ], widget, infiniteAnimationWidget: true);
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
