@@ -387,7 +387,7 @@ packages:
   flutter_lints:
     dependency: "direct dev"
     description:
-      name: flutter_launcher_icons
+      name: flutter_lints
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
