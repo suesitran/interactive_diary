@@ -11,5 +11,7 @@
   "save" :"Save",
   "addText" :"Add text",
   "back" : "Back",
-  "locationPopupTitle" : "Turn on your location"
+  "appName": "Inner ME",
+  "locationPermissionDeniedBottomSheetTitle": "Location Permission not granted",
+  "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"
 }
