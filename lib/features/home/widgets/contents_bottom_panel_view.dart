@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/constants/dimens.dart';
+import 'package:interactive_diary/widgets/location_view.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
 import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 import 'package:interactive_diary/features/home/widgets/content_card_view.dart';
-import 'package:interactive_diary/features/home/widgets/location_address_box_view.dart';
 
 class ContentsBottomPanelView extends StatefulWidget {
   final Function() onDragClosed;
@@ -74,8 +74,8 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
                     left: 12, right: 12,
                     // bottom: MediaQuery.of(context).viewPadding.bottom
                   ),
-                  child: const LocationAddressBoxView(
-                    address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                  child: const LocationView(
+                    currentLocation: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
                   ),
                 ),
                 if (currentPos > 1)...<Widget>[
@@ -284,7 +284,7 @@ class _ContentsBottomPanelViewV2State extends State<ContentsBottomPanelViewV2> {
                   left: screenHorizontalSpacing, right: screenHorizontalSpacing,
                   // bottom: MediaQuery.of(context).viewPadding.bottom
                 ),
-                child: LocationAddressBoxView(address: widget.address),
+                child: LocationView(currentLocation: widget.address,) // TODO check why there are 2 LocationView widget used?
               ),
               const Gap.v20(),
               const Gap.v04(),
@@ -379,7 +379,7 @@ class LocationAddressPanel extends StatelessWidget {
             left: screenHorizontalSpacing, right: screenHorizontalSpacing,
             // bottom: MediaQuery.of(context).viewPadding.bottom
           ),
-          child: LocationAddressBoxView(address: address),
+          child: LocationView(currentLocation: address), // TODO check why there are 3 location view widget used?
         ),
         const Gap.v20(),
         const Gap.v04(),

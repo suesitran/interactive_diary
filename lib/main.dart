@@ -9,11 +9,9 @@ import 'package:interactive_diary/route/map_route.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/generated/l10n.dart';
-
-import 'bloc/get_contents/get_contents_bloc.dart';
-import 'features/home/widgets/location_address_box_view.dart';
 
 // ignore_for_file: always_specify_types
 void main() async {
