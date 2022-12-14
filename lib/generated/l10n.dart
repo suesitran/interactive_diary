@@ -50,20 +50,20 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Location Permission not granted`
+  /// `Turn on your location`
   String get locationPermissionDialogTitle {
     return Intl.message(
-      'Location Permission not granted',
+      'Turn on your location',
       name: 'locationPermissionDialogTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog`
+  /// `Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.`
   String get locationPermissionDialogMessage {
     return Intl.message(
-      'Location Permission is needed to use this app. Please Allow Interactive Diary to access location in the next dialog',
+      'Inner ME needs permission to access your location. Please go to Settings > Privacy > Location and enable.',
       name: 'locationPermissionDialogMessage',
       desc: '',
       args: [],
@@ -80,20 +80,20 @@ class S {
     );
   }
 
-  /// `Continue`
+  /// `Continue with default location`
   String get locationPermissionDialogContinueButton {
     return Intl.message(
-      'Continue',
+      'Continue with default location',
       name: 'locationPermissionDialogContinueButton',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open Settings`
+  /// `Go to Settings`
   String get locationPermissionDialogOpenSettingsButton {
     return Intl.message(
-      'Open Settings',
+      'Go to Settings',
       name: 'locationPermissionDialogOpenSettingsButton',
       desc: '',
       args: [],
@@ -125,6 +125,96 @@ class S {
     return Intl.message(
       'Slow or no internet connections.\nPlease check your internet settings',
       name: 'noConnectionMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add text`
+  String get addText {
+    return Intl.message(
+      'Add text',
+      name: 'addText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get back {
+    return Intl.message(
+      'Back',
+      name: 'back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn on your location`
+  String get locationPopupTitle {
+    return Intl.message(
+      'Turn on your location',
+      name: 'locationPopupTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Screen unavailable`
+  String get unavailable {
+    return Intl.message(
+      'Screen unavailable',
+      name: 'unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, this screen is still under construction. Please come back later.`
+  String get unavailableScreenDesc {
+    return Intl.message(
+      'Sorry, this screen is still under construction. Please come back later.',
+      name: 'unavailableScreenDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inner ME`
+  String get appName {
+    return Intl.message(
+      'Inner ME',
+      name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Permission not granted`
+  String get locationPermissionDeniedBottomSheetTitle {
+    return Intl.message(
+      'Location Permission not granted',
+      name: 'locationPermissionDeniedBottomSheetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog`
+  String get locationPermissionDeniedBottomSheetDescription {
+    return Intl.message(
+      'Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog',
+      name: 'locationPermissionDeniedBottomSheetDescription',
       desc: '',
       args: [],
     );

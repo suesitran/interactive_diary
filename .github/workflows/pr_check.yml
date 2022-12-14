@@ -44,9 +44,9 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
     - name: Install Flutter 
-      uses: subosito/flutter-action@v2.6.2
+      uses: subosito/flutter-action@v2.8.0
       with:
-        flutter-version: '3.3.2'
+        flutter-version: '3.3.7'
         channel: 'stable'
 #    enable it when issue is fixed
 #    - name: Format code
@@ -72,11 +72,12 @@ jobs:
     - name: Install dependencies
       shell: bash
       run: |
+        flutter doctor -v
         flutter clean
         flutter pub get
         flutter pub run build_runner build --delete-conflicting-outputs
         flutter pub run intl_utils:generate
-        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build; cd -; done
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build --delete-conflicting-outputs; cd -; done
     - name: analyse code
       run: flutter analyze
     - name: Run tests
@@ -87,5 +88,7 @@ jobs:
       with:
         verbose: true
         fail_ci_if_error: true
-    - run: flutter build apk --debug
-    - run: flutter build ipa --no-codesign
+    - name: build apk debug
+      run: flutter build apk --debug
+    - name: build iOS no codesign
+      run: flutter build ipa --no-codesign

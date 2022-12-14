@@ -18,6 +18,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/arrow_down.svg
   String get arrowDown => 'assets/images/arrow_down.svg';
 
+  /// File path: assets/images/back.svg
+  String get back => 'assets/images/back.svg';
+
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
@@ -40,6 +43,12 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/id_heart_icon_padding.svg
   String get idHeartIconPadding => 'assets/images/id_heart_icon_padding.svg';
+
+  /// File path: assets/images/id_location_icon.svg
+  String get idLocationIcon => 'assets/images/id_location_icon.svg';
+
+  /// File path: assets/images/id_location_img.svg
+  String get idLocationImg => 'assets/images/id_location_img.svg';
 
   /// File path: assets/images/id_location_marker_icon.svg
   String get idLocationMarkerIcon =>
@@ -89,6 +98,7 @@ class $AssetsImagesGen {
   List<dynamic> get values => [
         anonymous,
         arrowDown,
+        back,
         calendar,
         idCameraIcon,
         idCircularIconCamera,
@@ -96,6 +106,8 @@ class $AssetsImagesGen {
         idCircularIconMicro,
         idCircularIconPencil,
         idHeartIconPadding,
+        idLocationIcon,
+        idLocationImg,
         idLocationMarkerIcon,
         idMessageIconPadding,
         idMicroIcon,
