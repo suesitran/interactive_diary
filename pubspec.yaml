@@ -52,7 +52,6 @@ dependencies:
   nartus_storage:
     path: packages/nartus_storage
   go_router: ^5.1.1
-  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +62,7 @@ dev_dependencies:
   firebase_core_platform_interface: ^4.5.1
   intl_utils: ^2.7.0
   flutter_gen_runner: ^5.0.3
+  flutter_launcher_icons: ^0.11.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
