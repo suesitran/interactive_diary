@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
 import 'package:interactive_diary/widgets/location_view.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -12,7 +13,7 @@ class ContentsBottomPanelController {
 class ContentsBottomPanelView extends StatefulWidget {
   final ContentsBottomPanelController controller;
 
-  ContentsBottomPanelView({required this.controller, Key? key})
+  const ContentsBottomPanelView({required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -30,10 +31,9 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      // This height value is the initial height when the list height is 0
       minHeight = _initialHeight.currentContext?.size?.height ?? 0;
-
-      print('SUESI - minHeight $minHeight');
     });
   }
   @override
@@ -59,7 +59,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
                   double height = _draggedHeight.value;
                   height -= (details.primaryDelta ?? details.delta.dy);
 
-                  if (height < constraints.maxHeight - minHeight
+                  if (height <= constraints.maxHeight - minHeight
                       && height >= 0) {
                     _draggedHeight.value = height;
                   }
@@ -84,7 +84,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
               ),
               // location view
               Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
                 child: LocationView(
                   currentLocation:
                   'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
@@ -96,10 +96,11 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
                 builder: (BuildContext context, double value, Widget? child) => SizedBox(
                   height: value,
                   child: ListView.builder(itemBuilder: (BuildContext context, int index) {
-                    return const Padding(padding: EdgeInsets.all(8.0), child: Text('hehehe'),);
+                    return const Padding(padding: EdgeInsets.only(left: 16, right: 16, bottom: 16), child: ContentCardView(screenEdgeSpacing: 16),);
                   },
                     itemCount: 10,
-                    shrinkWrap: true,),
+                    shrinkWrap: true,
+                  padding: EdgeInsets.zero),
                 ),
               )
             ],
