@@ -62,6 +62,7 @@ dev_dependencies:
   firebase_core_platform_interface: ^4.5.1
   intl_utils: ^2.7.0
   flutter_gen_runner: ^5.0.3
+  flutter_launcher_icons: ^0.11.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -69,6 +70,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
+  network_image_mock: ^2.1.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path_ios: "assets/icon/icon.png"
+  image_path_android: "assets/icon/transparent-icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

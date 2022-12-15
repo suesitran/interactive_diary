@@ -15,8 +15,22 @@ void main() {
   group('Test RequestSaveTextDiaryEvent', () {
     tearDown(() => reset(storageService));
 
+    test('verify events props', () {
+      const RequestSaveTextDiaryEvent requestSaveTextDiaryEvent =
+          RequestSaveTextDiaryEvent(
+              title: 'title',
+              textContent: 'textContent',
+              latLng: LatLng(lat: 0.0, long: 0.0));
+
+      // check prop in correct orders
+      expect(requestSaveTextDiaryEvent.props[0], 'title');
+      expect(requestSaveTextDiaryEvent.props[1], 'textContent');
+      expect(requestSaveTextDiaryEvent.props[2], 0.0);
+      expect(requestSaveTextDiaryEvent.props[3], 0.0);
+    });
+
     blocTest<StorageBloc, StorageState>(
-      'given ',
+      'given storage service, when saveDiary, RequestSaveTextDiaryEvent, then save diary to storage service',
       build: () => StorageBloc(storageService: storageService),
       act: (StorageBloc bloc) => bloc.add(const RequestSaveTextDiaryEvent(
           title: 'title',

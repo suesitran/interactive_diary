@@ -169,6 +169,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Screen unavailable`
+  String get unavailable {
+    return Intl.message(
+      'Screen unavailable',
+      name: 'unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, this screen is still under construction. Please come back later.`
+  String get unavailableScreenDesc {
+    return Intl.message(
+      'Sorry, this screen is still under construction. Please come back later.',
+      name: 'unavailableScreenDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inner ME`
+  String get appName {
+    return Intl.message(
+      'Inner ME',
+      name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Permission not granted`
+  String get locationPermissionDeniedBottomSheetTitle {
+    return Intl.message(
+      'Location Permission not granted',
+      name: 'locationPermissionDeniedBottomSheetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog`
+  String get locationPermissionDeniedBottomSheetDescription {
+    return Intl.message(
+      'Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog',
+      name: 'locationPermissionDeniedBottomSheetDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

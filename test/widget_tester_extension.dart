@@ -35,6 +35,28 @@ extension WidgetExtension on WidgetTester {
 
     await pumpFrames(wrapper, const Duration(milliseconds: 16));
   }
+
+  Future<void> multiBlocWrapAndPump(
+    List<BlocProvider<StateStreamableSource<Object?>>> providers,
+    // List<BlocProvider<<B extends StateStreamableSource<Object?>>> providers,
+    Widget widget, {
+    bool infiniteAnimationWidget = false,
+  }) async {
+    final Widget wrapper = MultiBlocProvider(
+        providers: providers,
+        child: _MaterialWrapWidget(
+          child: widget,
+        ));
+
+    await pumpWidget(wrapper);
+    if (infiniteAnimationWidget) {
+      await pump();
+    } else {
+      await pumpAndSettle();
+    }
+
+    await pumpFrames(wrapper, const Duration(milliseconds: 16));
+  }
 }
 
 class _MaterialWrapWidget extends StatelessWidget {

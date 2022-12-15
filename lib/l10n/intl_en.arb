@@ -11,5 +11,10 @@
   "save" :"Save",
   "addText" :"Add text",
   "back" : "Back",
-  "locationPopupTitle" : "Turn on your location"
+  "locationPopupTitle" : "Turn on your location",
+  "unavailable" : "Screen unavailable",
+  "unavailableScreenDesc" : "Sorry, this screen is still under construction. Please come back later.",
+  "appName": "Inner ME",
+  "locationPermissionDeniedBottomSheetTitle": "Location Permission not granted",
+  "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"
 }

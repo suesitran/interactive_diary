@@ -41,14 +41,38 @@ class $AssetsImagesGen {
   String get idCircularIconPencil =>
       'assets/images/id_circular_icon_pencil.svg';
 
+  /// File path: assets/images/id_heart_icon_padding.svg
+  String get idHeartIconPadding => 'assets/images/id_heart_icon_padding.svg';
+
   /// File path: assets/images/id_location_icon.svg
   String get idLocationIcon => 'assets/images/id_location_icon.svg';
+
+  /// File path: assets/images/id_location_img.svg
+  String get idLocationImg => 'assets/images/id_location_img.svg';
+
+  /// File path: assets/images/id_location_marker_icon.svg
+  String get idLocationMarkerIcon =>
+      'assets/images/id_location_marker_icon.svg';
+
+  /// File path: assets/images/id_message_icon_padding.svg
+  String get idMessageIconPadding =>
+      'assets/images/id_message_icon_padding.svg';
 
   /// File path: assets/images/id_micro_icon.svg
   String get idMicroIcon => 'assets/images/id_micro_icon.svg';
 
+  /// File path: assets/images/id_more_icon.svg
+  String get idMoreIcon => 'assets/images/id_more_icon.svg';
+
   /// File path: assets/images/id_pencil_icon.svg
   String get idPencilIcon => 'assets/images/id_pencil_icon.svg';
+
+  /// File path: assets/images/id_profile_user_icon_padding.svg
+  String get idProfileUserIconPadding =>
+      'assets/images/id_profile_user_icon_padding.svg';
+
+  /// File path: assets/images/id_share_icon_padding.svg
+  String get idShareIconPadding => 'assets/images/id_share_icon_padding.svg';
 
   /// File path: assets/images/id_smile_icon.svg
   String get idSmileIcon => 'assets/images/id_smile_icon.svg';
@@ -81,9 +105,16 @@ class $AssetsImagesGen {
         idCircularIconEmoji,
         idCircularIconMicro,
         idCircularIconPencil,
+        idHeartIconPadding,
         idLocationIcon,
+        idLocationImg,
+        idLocationMarkerIcon,
+        idMessageIconPadding,
         idMicroIcon,
+        idMoreIcon,
         idPencilIcon,
+        idProfileUserIconPadding,
+        idShareIconPadding,
         idSmileIcon,
         markerAdd,
         markerBase,
