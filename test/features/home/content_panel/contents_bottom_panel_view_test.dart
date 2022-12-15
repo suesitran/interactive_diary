@@ -61,8 +61,8 @@ void main() {
   });
 
   testWidgets(
-      'when controller request to hide panel, then panel should be hiddend',
-      (widgetTester) async {
+      'when controller request to hide panel, then panel should be hidden',
+      (WidgetTester widgetTester) async {
     final ContentsBottomPanelController controller =
         ContentsBottomPanelController();
     final ContentsBottomPanelView contentsBottomPanelView =
