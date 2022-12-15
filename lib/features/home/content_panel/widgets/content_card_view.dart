@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';
-
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:interactive_diary/features/home/widgets/dot_view.dart';
 
 class ContentCardView extends StatelessWidget {
   final double screenEdgeSpacing;
@@ -49,14 +47,7 @@ class ContentCardView extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const Gap.h04(),
-                    Container(
-                      height: 3,
-                      width: 3,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: NartusColor.grey,
-                      ),
-                    ),
+                    const Text('•'),
                     const Gap.h04(),
                     // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
                     SvgPicture.asset(
@@ -94,14 +85,7 @@ class ContentCardView extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const Gap.h04(),
-            Container(
-              height: 3,
-              width: 3,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: NartusColor.grey,
-              ),
-            ),
+            const Text('•'),
             const Gap.h04(),
             Text(
               '4 comments',
