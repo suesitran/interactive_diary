@@ -21,3 +21,4 @@ coverage:
           - "lib/route/*"
           - "lib/firebase_options.dart"
           - "lib/main.dart"
+          - "**/*.g.dart"
