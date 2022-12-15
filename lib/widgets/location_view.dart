@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 class LocationView extends StatelessWidget {
   final String currentLocation;
   final BorderRadiusGeometry? borderRadius;
-  const LocationView({required this.currentLocation, this.borderRadius, Key? key})
+  const LocationView(
+      {required this.currentLocation, this.borderRadius, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: NartusColor.gradient,
-      borderRadius: borderRadius),
+          gradient: NartusColor.gradient, borderRadius: borderRadius),
       child: Row(
         children: <Widget>[
           Padding(

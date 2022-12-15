@@ -25,11 +25,12 @@ class ContentsBottomPanelView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ContentsBottomPanelView> createState() => _ContentsBottomPanelViewState();
+  State<ContentsBottomPanelView> createState() =>
+      _ContentsBottomPanelViewState();
 }
 
-class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> with SingleTickerProviderStateMixin {
-
+class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
+    with SingleTickerProviderStateMixin {
   final ValueNotifier<double> _draggedHeight = ValueNotifier<double>(0.0);
   final GlobalKey _initialHeight = GlobalKey();
 
@@ -53,16 +54,18 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> with 
   void initState() {
     super.initState();
 
-    widget.controller.addListener(() {
-      if (widget.controller._visible == true) {
-        _draggedHeight.value = 0;
-        // start animation
-        _controller.forward();
-      } else {
-        // revert animation
-        _controller.reverse();
-      }
-    },);
+    widget.controller.addListener(
+      () {
+        if (widget.controller._visible == true) {
+          _draggedHeight.value = 0;
+          // start animation
+          _controller.forward();
+        } else {
+          // revert animation
+          _controller.reverse();
+        }
+      },
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       // This height value is the initial height when the list height is 0
@@ -78,7 +81,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> with 
 
   @override
   Widget build(BuildContext context) {
-
     return SlideTransition(
       position: _offsetAnimation,
       child: Container(
@@ -101,8 +103,8 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> with 
                     double height = _draggedHeight.value;
                     height -= (details.primaryDelta ?? details.delta.dy);
 
-                    if (height <= constraints.maxHeight - minHeight
-                        && height >= 0) {
+                    if (height <= constraints.maxHeight - minHeight &&
+                        height >= 0) {
                       _draggedHeight.value = height;
                     }
                   },
@@ -114,7 +116,9 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> with 
                           topRight: Radius.circular(NartusDimens.padding24)),
                     ),
                     alignment: Alignment.center,
-                    height: 8 /* padding top */ + 2 /* divider height */ + 16 /* padding bottom */,
+                    height: 8 /* padding top */ +
+                        2 /* divider height */ +
+                        16 /* padding bottom */,
                     child: Divider(
                       color: NartusColor.grey,
                       indent: (MediaQuery.of(context).size.width - 48) / 2,
@@ -125,23 +129,31 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> with 
                 ),
                 // location view
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                  padding:
+                      const EdgeInsets.only(left: 16, right: 16, bottom: 24),
                   child: LocationView(
                     currentLocation:
-                    'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                        'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
-                  builder: (BuildContext context, double value, Widget? child) => SizedBox(
+                  builder:
+                      (BuildContext context, double value, Widget? child) =>
+                          SizedBox(
                     height: value,
-                    child: ListView.builder(itemBuilder: (BuildContext context, int index) {
-                      return const Padding(padding: EdgeInsets.only(left: 16, right: 16, bottom: 16), child: ContentCardView(screenEdgeSpacing: 16),);
-                    },
-                      itemCount: 10,
-                      shrinkWrap: true,
-                    padding: EdgeInsets.zero),
+                    child: ListView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          return const Padding(
+                            padding: EdgeInsets.only(
+                                left: 16, right: 16, bottom: 16),
+                            child: ContentCardView(screenEdgeSpacing: 16),
+                          );
+                        },
+                        itemCount: 10,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero),
                   ),
                 )
               ],

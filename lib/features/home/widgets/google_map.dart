@@ -21,7 +21,11 @@ class GoogleMapView extends StatefulWidget {
   final VoidCallback onMenuOpened;
   final VoidCallback onMenuClosed;
 
-  const GoogleMapView({required this.currentLocation, required this.onMenuOpened, required this.onMenuClosed, Key? key})
+  const GoogleMapView(
+      {required this.currentLocation,
+      required this.onMenuOpened,
+      required this.onMenuClosed,
+      Key? key})
       : super(key: key);
 
   @override

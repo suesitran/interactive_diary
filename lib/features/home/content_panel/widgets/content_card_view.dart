@@ -8,8 +8,7 @@ import 'package:interactive_diary/features/home/widgets/dot_view.dart';
 
 class ContentCardView extends StatelessWidget {
   final double screenEdgeSpacing;
-  const ContentCardView(
-      {required this.screenEdgeSpacing, Key? key})
+  const ContentCardView({required this.screenEdgeSpacing, Key? key})
       : super(key: key);
 
   @override

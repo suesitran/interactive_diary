@@ -147,14 +147,15 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   Column(
                     children: <Widget>[
                       SafeArea(
-                        bottom: false,
+                          bottom: false,
                           child: Align(
-                        alignment: Alignment.topCenter,
-                        child: DateLabelView(
-                          dateLabel: state.dateDisplay,
-                          profileSemanticLabel: S.of(context).anonymous_profile,
-                        ),
-                      )),
+                            alignment: Alignment.topCenter,
+                            child: DateLabelView(
+                              dateLabel: state.dateDisplay,
+                              profileSemanticLabel:
+                                  S.of(context).anonymous_profile,
+                            ),
+                          )),
                       Expanded(
                         child: Align(
                           alignment: Alignment.bottomCenter,
