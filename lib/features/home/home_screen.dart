@@ -145,6 +145,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   Column(
                     children: [
                       SafeArea(
+                        bottom: false,
                           child: Align(
                         alignment: Alignment.topCenter,
                         child: DateLabelView(
