@@ -6,7 +6,8 @@ class DotView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 3, width: 3,
+      height: 3,
+      width: 3,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: NartusColor.grey,

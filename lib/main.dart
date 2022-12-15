@@ -54,9 +54,7 @@ void main() async {
       supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) {
         if (child != null) {
-          final double textScaleFactor = MediaQuery
-              .of(context)
-              .textScaleFactor;
+          final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
           return MediaQuery(
               data: MediaQuery.of(context)
@@ -76,11 +74,11 @@ class ScreenUnavailable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text(S.of(context).unavailable),
-    ),
-    body: Center(
-      child: Text(S.of(context).unavailableScreenDesc),
-    ),
-  );
+        appBar: AppBar(
+          title: Text(S.of(context).unavailable),
+        ),
+        body: Center(
+          child: Text(S.of(context).unavailableScreenDesc),
+        ),
+      );
 }

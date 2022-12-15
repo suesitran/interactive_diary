@@ -134,7 +134,7 @@ extension IdBottomSheet on BuildContext {
               primaryButtonText: primaryButtonText,
               onPrimaryButtonSelected: onPrimaryButtonSelected,
               secondaryButtonText: secondaryButtonText,
-              onSecondButtonSelected:  onSecondaryButtonSelected,
+              onSecondButtonSelected: onSecondaryButtonSelected,
               textButtonText: textButtonText,
               onTextButtonSelected: onTextButtonSelected,
             ),

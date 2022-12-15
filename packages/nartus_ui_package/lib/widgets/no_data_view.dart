@@ -8,7 +8,10 @@ class NoDataView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: Text(text, style: Theme.of(context).textTheme.bodyMedium,),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
     );
   }
 }

@@ -6,8 +6,8 @@ part 'get_contents_state.dart';
 
 class GetContentsBloc extends Bloc<GetContentsEvent, GetContentsState> {
   GetContentsBloc() : super(GetContentsInitialState()) {
-    on<GetLocationContentsEvent>(
-        (GetLocationContentsEvent event, Emitter<GetContentsState> emitter) async {
+    on<GetLocationContentsEvent>((GetLocationContentsEvent event,
+        Emitter<GetContentsState> emitter) async {
       await _getContents(emitter);
     });
   }
@@ -17,9 +17,7 @@ class GetContentsBloc extends Bloc<GetContentsEvent, GetContentsState> {
     print('GET CONTENTS');
     try {
       await Future.delayed(Duration(seconds: 1));
-      final contents = [
-        'abc', '123123', 'xwxzxz', 'cdvvfvjnf', 'eiwn2321'
-      ];
+      final contents = ['abc', '123123', 'xwxzxz', 'cdvvfvjnf', 'eiwn2321'];
       if (contents.isEmpty) {
         emitter(GetContentsEmptyState());
       } else {

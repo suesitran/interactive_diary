@@ -31,7 +31,7 @@ class GoogleMapView extends StatefulWidget {
 class _GoogleMapViewState extends State<GoogleMapView>
     with TickerProviderStateMixin {
   static final StreamController<Set<Marker>> _streamController =
-  StreamController<Set<Marker>>.broadcast();
+      StreamController<Set<Marker>>.broadcast();
 
   Stream<Set<Marker>> markerData = _streamController.stream;
 
@@ -88,232 +88,232 @@ class _GoogleMapViewState extends State<GoogleMapView>
     return StreamBuilder<Set<Marker>>(
         stream: markerData,
         builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
-          animation: _controller,
-          builder: (BuildContext context, Widget? child) {
-            return Stack(
-              children: <Widget>[
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(widget.currentLocation.latitude,
-                          widget.currentLocation.longitude),
-                      zoom: 15),
-                  onMapCreated: (GoogleMapController controller) =>
-                      _onMapCreated(controller),
-                  onCameraMoveStarted: () => _closeMenuIfOpening(),
-                  onTap: (_) => _closeMenuIfOpening(),
-                  onLongPress: (_) => _closeMenuIfOpening(),
-                  markers: data.data ?? <Marker>{},
-                  myLocationEnabled: false,
-                  zoomControlsEnabled: false,
-                  mapToolbarEnabled: false,
-                  compassEnabled: false,
-                  myLocationButtonEnabled: false),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _controller.value == 0
-                    ? const SizedBox()
-                    : ContentsBottomPanelViewV2(
-                        onDragClosed: () => _closeMenuIfOpening(),
-                      ),
+            animation: _controller,
+            builder: (BuildContext context, Widget? child) {
+              return Stack(
+                children: <Widget>[
+                  GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(widget.currentLocation.latitude,
+                              widget.currentLocation.longitude),
+                          zoom: 15),
+                      onMapCreated: (GoogleMapController controller) =>
+                          _onMapCreated(controller),
+                      onCameraMoveStarted: () => _closeMenuIfOpening(),
+                      onTap: (_) => _closeMenuIfOpening(),
+                      onLongPress: (_) => _closeMenuIfOpening(),
+                      markers: data.data ?? <Marker>{},
+                      myLocationEnabled: false,
+                      zoomControlsEnabled: false,
+                      mapToolbarEnabled: false,
+                      compassEnabled: false,
+                      myLocationButtonEnabled: false),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _controller.value == 0
+                        ? const SizedBox()
+                        : ContentsBottomPanelViewV2(
+                            onDragClosed: () => _closeMenuIfOpening(),
+                          ),
                     // : ContentsBottomPanelView(
                     //     onDragClosed: () => _closeMenuIfOpening(),
                     //   )
-                  // child: GestureDetector(
-                  //   onPanEnd: (DragEndDetails details) {
-                  //     if (details.velocity.pixelsPerSecond.dy > -100) {
-                  //       if (currentPos > 0) {
-                  //         setState(() {
-                  //           currentPos = currentPos - 1;
-                  //         });
-                  //       }
-                  //     } else {
-                  //       if (currentPos < snaps.length - 1) {
-                  //         setState(() {
-                  //           currentPos = currentPos + 1;
-                  //         });
-                  //       }
-                  //     }
-                  //   },
-                  //   child: AnimatedContainer(
-                  //     height: size.height - (size.height * snaps[currentPos]),
-                  //     width: size.width,
-                  //     decoration: const BoxDecoration(
-                  //         color: Colors.white,
-                  //         borderRadius: BorderRadius.only(
-                  //             topLeft: Radius.circular(12), topRight: Radius.circular(12))),
-                  //     duration: const Duration(milliseconds: 200),
-                  //     child: Align(alignment: Alignment.topCenter,
-                  //       child: Column(
-                  //         mainAxisSize: MainAxisSize.min,
-                  //         children: <Widget>[
-                  //           const Gap.v12(),
-                  //           Container(
-                  //             height: 4,
-                  //             width: MediaQuery.of(context).size.width * .2,
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.grey[500],
-                  //               borderRadius: BorderRadius.circular(4.0)
-                  //             ),
-                  //           ),
-                  //           const Gap.v12(),
-                  //           Container(
-                  //             margin: const EdgeInsets.only(
-                  //               left: 12, right: 12,
-                  //               // bottom: MediaQuery.of(context).viewPadding.bottom
-                  //             ),
-                  //             child: const LocationAddressBoxView(
-                  //               address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                  //             ),
-                  //           ),
-                  //           if (currentPos > 1)...<Widget>[
-                  //             Flexible(
-                  //               child: Container(
-                  //                 padding: const EdgeInsets.only(left: 16, right: 16),
-                  //                 child: BlocBuilder<GetContentsBloc, GetContentsState>(
-                  //                   builder: (_, GetContentsState state) {
-                  //                     if (state.isGettingContentsState) {
-                  //                       return Container(
-                  //                         margin: const EdgeInsets.only(top: 12),
-                  //                         child: const LoadingIndicator(),
-                  //                       );
-                  //                     } else if (state.isDataEmptyState) {
-                  //                       return const SizedBox();
-                  //                     } else if (state.isGetContentsFailedState) {
-                  //                       return ErrorView(error: state.getContentsError,);
-                  //                     } else if (state.isGetContentsSucceedState) {
-                  //                       return ListView.separated(
-                  //                         cacheExtent: 200,
-                  //                         shrinkWrap: true,
-                  //                         itemBuilder: (_, int idx) => Column(
-                  //                           children: <Widget>[
-                  //                             ContentCardView(
-                  //                               screenEdgeSpacing: 16,
-                  //                               content: state.getContents[idx],
-                  //                             ),
-                  //                             if (idx == state.getContents.length - 1)...<Widget>[
-                  //                               const Gap.v16()
-                  //                             ]
-                  //                           ],
-                  //                         ),
-                  //                         separatorBuilder: (_, int idx) => const Gap.v12(),
-                  //                         itemCount: state.getContents.length
-                  //                       );
-                  //                     }
-                  //                     return const SizedBox();
-                  //                   },
+                    // child: GestureDetector(
+                    //   onPanEnd: (DragEndDetails details) {
+                    //     if (details.velocity.pixelsPerSecond.dy > -100) {
+                    //       if (currentPos > 0) {
+                    //         setState(() {
+                    //           currentPos = currentPos - 1;
+                    //         });
+                    //       }
+                    //     } else {
+                    //       if (currentPos < snaps.length - 1) {
+                    //         setState(() {
+                    //           currentPos = currentPos + 1;
+                    //         });
+                    //       }
+                    //     }
+                    //   },
+                    //   child: AnimatedContainer(
+                    //     height: size.height - (size.height * snaps[currentPos]),
+                    //     width: size.width,
+                    //     decoration: const BoxDecoration(
+                    //         color: Colors.white,
+                    //         borderRadius: BorderRadius.only(
+                    //             topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+                    //     duration: const Duration(milliseconds: 200),
+                    //     child: Align(alignment: Alignment.topCenter,
+                    //       child: Column(
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         children: <Widget>[
+                    //           const Gap.v12(),
+                    //           Container(
+                    //             height: 4,
+                    //             width: MediaQuery.of(context).size.width * .2,
+                    //             decoration: BoxDecoration(
+                    //               color: Colors.grey[500],
+                    //               borderRadius: BorderRadius.circular(4.0)
+                    //             ),
+                    //           ),
+                    //           const Gap.v12(),
+                    //           Container(
+                    //             margin: const EdgeInsets.only(
+                    //               left: 12, right: 12,
+                    //               // bottom: MediaQuery.of(context).viewPadding.bottom
+                    //             ),
+                    //             child: const LocationAddressBoxView(
+                    //               address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                    //             ),
+                    //           ),
+                    //           if (currentPos > 1)...<Widget>[
+                    //             Flexible(
+                    //               child: Container(
+                    //                 padding: const EdgeInsets.only(left: 16, right: 16),
+                    //                 child: BlocBuilder<GetContentsBloc, GetContentsState>(
+                    //                   builder: (_, GetContentsState state) {
+                    //                     if (state.isGettingContentsState) {
+                    //                       return Container(
+                    //                         margin: const EdgeInsets.only(top: 12),
+                    //                         child: const LoadingIndicator(),
+                    //                       );
+                    //                     } else if (state.isDataEmptyState) {
+                    //                       return const SizedBox();
+                    //                     } else if (state.isGetContentsFailedState) {
+                    //                       return ErrorView(error: state.getContentsError,);
+                    //                     } else if (state.isGetContentsSucceedState) {
+                    //                       return ListView.separated(
+                    //                         cacheExtent: 200,
+                    //                         shrinkWrap: true,
+                    //                         itemBuilder: (_, int idx) => Column(
+                    //                           children: <Widget>[
+                    //                             ContentCardView(
+                    //                               screenEdgeSpacing: 16,
+                    //                               content: state.getContents[idx],
+                    //                             ),
+                    //                             if (idx == state.getContents.length - 1)...<Widget>[
+                    //                               const Gap.v16()
+                    //                             ]
+                    //                           ],
+                    //                         ),
+                    //                         separatorBuilder: (_, int idx) => const Gap.v12(),
+                    //                         itemCount: state.getContents.length
+                    //                       );
+                    //                     }
+                    //                     return const SizedBox();
+                    //                   },
+                    //                 ),
+                    //               )
+                    //             )
+                    //           ]
+                    //         ],
+                    //       )
+                    //     ),
+                    //   ),
+                    // ),
+                  ),
+
+                  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+                  // AnimatedPositioned(
+                  //     curve: Curves.decelerate,
+                  //     top: size.height * snaps[currentPos],
+                  //     duration: const Duration(milliseconds: 300),
+                  //     child: GestureDetector(
+                  //       onPanEnd: (details) {
+                  //         if (details.velocity.pixelsPerSecond.dy > -100) {
+                  //           if (currentPos > 0) {
+                  //             setState(() {
+                  //               currentPos = currentPos - 1;
+                  //             });
+                  //           }
+                  //         } else {
+                  //           if (currentPos < snaps.length - 1) {
+                  //             setState(() {
+                  //               currentPos = currentPos + 1;
+                  //             });
+                  //           }
+                  //         }
+                  //       },
+                  //       // child: CustomBottomSheet(height: size.height - (size.height * snaps[currentPos]),)
+                  //       child: Container(
+                  //         height: size.height - (size.height * snaps[currentPos]),
+                  //         width: size.width,
+                  //         decoration: const BoxDecoration(
+                  //             color: Colors.white,
+                  //             borderRadius: BorderRadius.only(
+                  //                 topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+                  //         child: Align(alignment: Alignment.topCenter,
+                  //             child: Column(
+                  //               mainAxisSize: MainAxisSize.min,
+                  //               children: [
+                  //                 const Gap.v12(),
+                  //                 Container(
+                  //                   height: 2,
+                  //                   width: 20,
+                  //                   decoration: BoxDecoration(
+                  //                       color: Colors.grey[500],
+                  //                       borderRadius: BorderRadius.circular(4.0)
+                  //                   ),
                   //                 ),
-                  //               )
+                  //                 const Gap.v12(),
+                  //                 Container(
+                  //                   margin: EdgeInsets.only(
+                  //                     left: 12, right: 12,
+                  //                     // bottom: MediaQuery.of(context).viewPadding.bottom
+                  //                   ),
+                  //                   child: LocationAddressBoxView(
+                  //                     address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                  //                   ),
+                  //                 ),
+                  //                 Flexible(
+                  //                     child: Container(
+                  //                       padding: const EdgeInsets.only(left: 16, right: 16),
+                  //                       child: BlocBuilder<GetContentsBloc, GetContentsState>(
+                  //                         builder: (_, GetContentsState state) {
+                  //                           if (state.isGettingContentsState) {
+                  //                             return Container(
+                  //                               margin: const EdgeInsets.only(top: 12),
+                  //                               child: const LoadingIndicator(),
+                  //                             );
+                  //                           } else if (state.isDataEmptyState) {
+                  //                             return const SizedBox();
+                  //                           } else if (state.isGetContentsFailedState) {
+                  //                             return ErrorView(error: state.getContentsError,);
+                  //                           } else if (state.isGetContentsSucceedState) {
+                  //                             return ListView.separated(
+                  //                                 cacheExtent: 200,
+                  //                                 physics: AlwaysScrollableScrollPhysics(),
+                  //                                 shrinkWrap: true,
+                  //                                 reverse: true,
+                  //                                 itemBuilder: (_, int idx) => Column(
+                  //                                   children: [
+                  //                                     ContentCardView(
+                  //                                       screenEdgeSpacing: 16,
+                  //                                       content: state.getContents[idx],
+                  //                                     ),
+                  //                                     if (idx == state.getContents.length - 1)...[
+                  //                                       const Gap.v16()
+                  //                                     ]
+                  //                                   ],
+                  //                                 ),
+                  //                                 separatorBuilder: (_, int idx) => const Gap.v12(),
+                  //                                 itemCount: state.getContents.length
+                  //                             );
+                  //                           }
+                  //                           return const SizedBox();
+                  //                         },
+                  //                       ),
+                  //                     )
+                  //                 )
+                  //               ],
                   //             )
-                  //           ]
-                  //         ],
-                  //       )
-                  //     ),
-                  //   ),
+                  //         ),
+                  //       ),
+                  //     )
                   // ),
-                ),
-                /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-                // AnimatedPositioned(
-                //     curve: Curves.decelerate,
-                //     top: size.height * snaps[currentPos],
-                //     duration: const Duration(milliseconds: 300),
-                //     child: GestureDetector(
-                //       onPanEnd: (details) {
-                //         if (details.velocity.pixelsPerSecond.dy > -100) {
-                //           if (currentPos > 0) {
-                //             setState(() {
-                //               currentPos = currentPos - 1;
-                //             });
-                //           }
-                //         } else {
-                //           if (currentPos < snaps.length - 1) {
-                //             setState(() {
-                //               currentPos = currentPos + 1;
-                //             });
-                //           }
-                //         }
-                //       },
-                //       // child: CustomBottomSheet(height: size.height - (size.height * snaps[currentPos]),)
-                //       child: Container(
-                //         height: size.height - (size.height * snaps[currentPos]),
-                //         width: size.width,
-                //         decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.only(
-                //                 topLeft: Radius.circular(12), topRight: Radius.circular(12))),
-                //         child: Align(alignment: Alignment.topCenter,
-                //             child: Column(
-                //               mainAxisSize: MainAxisSize.min,
-                //               children: [
-                //                 const Gap.v12(),
-                //                 Container(
-                //                   height: 2,
-                //                   width: 20,
-                //                   decoration: BoxDecoration(
-                //                       color: Colors.grey[500],
-                //                       borderRadius: BorderRadius.circular(4.0)
-                //                   ),
-                //                 ),
-                //                 const Gap.v12(),
-                //                 Container(
-                //                   margin: EdgeInsets.only(
-                //                     left: 12, right: 12,
-                //                     // bottom: MediaQuery.of(context).viewPadding.bottom
-                //                   ),
-                //                   child: LocationAddressBoxView(
-                //                     address: 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                //                   ),
-                //                 ),
-                //                 Flexible(
-                //                     child: Container(
-                //                       padding: const EdgeInsets.only(left: 16, right: 16),
-                //                       child: BlocBuilder<GetContentsBloc, GetContentsState>(
-                //                         builder: (_, GetContentsState state) {
-                //                           if (state.isGettingContentsState) {
-                //                             return Container(
-                //                               margin: const EdgeInsets.only(top: 12),
-                //                               child: const LoadingIndicator(),
-                //                             );
-                //                           } else if (state.isDataEmptyState) {
-                //                             return const SizedBox();
-                //                           } else if (state.isGetContentsFailedState) {
-                //                             return ErrorView(error: state.getContentsError,);
-                //                           } else if (state.isGetContentsSucceedState) {
-                //                             return ListView.separated(
-                //                                 cacheExtent: 200,
-                //                                 physics: AlwaysScrollableScrollPhysics(),
-                //                                 shrinkWrap: true,
-                //                                 reverse: true,
-                //                                 itemBuilder: (_, int idx) => Column(
-                //                                   children: [
-                //                                     ContentCardView(
-                //                                       screenEdgeSpacing: 16,
-                //                                       content: state.getContents[idx],
-                //                                     ),
-                //                                     if (idx == state.getContents.length - 1)...[
-                //                                       const Gap.v16()
-                //                                     ]
-                //                                   ],
-                //                                 ),
-                //                                 separatorBuilder: (_, int idx) => const Gap.v12(),
-                //                                 itemCount: state.getContents.length
-                //                             );
-                //                           }
-                //                           return const SizedBox();
-                //                         },
-                //                       ),
-                //                     )
-                //                 )
-                //               ],
-                //             )
-                //         ),
-                //       ),
-                //     )
-                // ),
-                /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
-              ],
-            );
-          }
-        ));
+                  /// [NO SHOW BOTTOM SHEET FUNCTION VERSION]
+                ],
+              );
+            }));
   }
 
   void _closeMenuIfOpening() {
@@ -419,19 +419,19 @@ class _GoogleMapViewState extends State<GoogleMapView>
     if (pngBytes != null) {
       if (!_streamController.isClosed) {
         markers.add(Marker(
-          markerId: const MarkerId(baseMarkerCurrentLocationId),
-          position: widget.currentLocation,
-          icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
-          zIndex: 1,
-          onTap: () {
-            if (_controller.value == 1) {
-              _controller.reverse();
-              // _closeContentsBottomSheet();
-            } else {
-              _controller.forward();
-              // _openContentsBottomSheet();
-            }
-          }));
+            markerId: const MarkerId(baseMarkerCurrentLocationId),
+            position: widget.currentLocation,
+            icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
+            zIndex: 1,
+            onTap: () {
+              if (_controller.value == 1) {
+                _controller.reverse();
+                // _closeContentsBottomSheet();
+              } else {
+                _controller.forward();
+                // _openContentsBottomSheet();
+              }
+            }));
       }
     }
   }

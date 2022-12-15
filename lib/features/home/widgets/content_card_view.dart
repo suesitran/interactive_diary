@@ -9,15 +9,18 @@ import 'dot_view.dart';
 class ContentCardView extends StatelessWidget {
   final double screenEdgeSpacing;
   final dynamic content;
-  const ContentCardView({required this.screenEdgeSpacing, required this.content, Key? key}) : super(key: key);
+  const ContentCardView(
+      {required this.screenEdgeSpacing, required this.content, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
-      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad '
-      'minim veniam, quis nostrud exercitation ullamco laboris Lorem ipsum dolor sit amet, '
-      'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et '
-      'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+    final String text =
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+        'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad '
+        'minim veniam, quis nostrud exercitation ullamco laboris Lorem ipsum dolor sit amet, '
+        'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et '
+        'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
     final List<String> images = [
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
@@ -30,23 +33,31 @@ class ContentCardView extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                child: Image.network('https://ps.w.org/user-avatar-reloaded/assets/icon-128x128.png?rev=2540745'),
+                child: Image.network(
+                    'https://ps.w.org/user-avatar-reloaded/assets/icon-128x128.png?rev=2540745'),
               ),
               const Gap.h12(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Hoang Nguyen', style: Theme.of(context).textTheme.titleSmall,),
+                  Text(
+                    'Hoang Nguyen',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
                   const Gap.v04(),
                   Row(
                     children: [
-                      Text('Sep 3, 2022 at 10:12 PM', style: Theme.of(context).textTheme.bodySmall,),
+                      Text(
+                        'Sep 3, 2022 at 10:12 PM',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                       const Gap.h04(),
                       const DotView(),
                       const Gap.h04(),
                       // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
                       SvgPicture.asset(
-                        Assets.images.idProfileUserIconPadding, color: NartusColor.grey,
+                        Assets.images.idProfileUserIconPadding,
+                        color: NartusColor.grey,
                       )
                     ],
                   )
@@ -58,11 +69,10 @@ class ContentCardView extends StatelessWidget {
             ],
           ),
           const Gap.v08(),
-          if (text.isNotEmpty)...[
+          if (text.isNotEmpty) ...[
             _textAndImageView(text, images, context, screenEdgeSpacing)
-          ] else if (images.isNotEmpty)...[
-
-          ],
+          ] else if (images.isNotEmpty)
+            ...[],
           const Gap.v16(),
           Row(
             children: [
@@ -75,11 +85,17 @@ class ContentCardView extends StatelessWidget {
               // Icon(Icons.heart_broken),
               SvgPicture.asset(Assets.images.idShareIconPadding),
               Spacer(),
-              Text('5 likes', style: Theme.of(context).textTheme.bodySmall,),
+              Text(
+                '5 likes',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
               const Gap.h04(),
               const DotView(),
               const Gap.h04(),
-              Text('4 comments', style: Theme.of(context).textTheme.bodySmall,),
+              Text(
+                '4 comments',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ],
           )
         ],
@@ -87,62 +103,77 @@ class ContentCardView extends StatelessWidget {
     );
   }
 
-  Widget _textAndImageView(String text, List<String> images, BuildContext context, double screenEdgeSpacing) {
+  Widget _textAndImageView(String text, List<String> images,
+      BuildContext context, double screenEdgeSpacing) {
     const int itemsEachRow = 3;
     const double imageSpacing = 4;
     final Size size = MediaQuery.of(context).size;
-    final double imageWidth = (size.width - (2 * screenEdgeSpacing) - ((itemsEachRow - 1) * imageSpacing)) / itemsEachRow;
+    final double imageWidth = (size.width -
+            (2 * screenEdgeSpacing) -
+            ((itemsEachRow - 1) * imageSpacing)) /
+        itemsEachRow;
     final bool isHaveMoreImagesThanItemsEachRow = images.length > itemsEachRow;
-    final List<String> displayImages = isHaveMoreImagesThanItemsEachRow ? images.take(itemsEachRow).toList() : images;
+    final List<String> displayImages = isHaveMoreImagesThanItemsEachRow
+        ? images.take(itemsEachRow).toList()
+        : images;
     return Column(
       children: [
-        Text(text,
+        Text(
+          text,
           maxLines: 5,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            height: 1.7), textAlign: TextAlign.justify,),
-        if (images.isNotEmpty)...[
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.7),
+          textAlign: TextAlign.justify,
+        ),
+        if (images.isNotEmpty) ...[
           const Gap.v12(),
           Row(
             children: [
               ...displayImages.asMap().entries.map((e) {
                 return Container(
                   padding: e.key == (itemsEachRow - 1)
-                      ? EdgeInsets.zero : const EdgeInsets.only(right: imageSpacing),
+                      ? EdgeInsets.zero
+                      : const EdgeInsets.only(right: imageSpacing),
                   width: imageWidth,
                   child: AspectRatio(
                       aspectRatio: 1,
                       child: Container(
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12)
-                        ),
+                            borderRadius: BorderRadius.circular(12)),
                         child: Stack(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: NetworkImage(e.value),
-                                      fit: BoxFit.cover
-                                  )
-                              ),
+                                      fit: BoxFit.cover)),
                             ),
-                            if (e.key == (itemsEachRow - 1) && isHaveMoreImagesThanItemsEachRow)...[
+                            if (e.key == (itemsEachRow - 1) &&
+                                isHaveMoreImagesThanItemsEachRow) ...[
                               Positioned(
-                                  top: 0, bottom: 0, left: 0, right: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
                                   child: Container(
                                     width: double.infinity,
                                     height: double.infinity,
-                                    color: Colors.grey.shade300.withOpacity(0.5),
+                                    color:
+                                        Colors.grey.shade300.withOpacity(0.5),
                                     alignment: Alignment.center,
-                                    child: Text('+ ${images.length - itemsEachRow}', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: NartusColor.white),),
-                                  )
-                              )
+                                    child: Text(
+                                      '+ ${images.length - itemsEachRow}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(color: NartusColor.white),
+                                    ),
+                                  ))
                             ]
                           ],
                         ),
-                      )
-                  ),
+                      )),
                 );
               }),
               // ...displayImages.map((e) => Stack(
