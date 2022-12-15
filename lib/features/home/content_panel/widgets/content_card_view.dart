@@ -49,7 +49,14 @@ class ContentCardView extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const Gap.h04(),
-                    const DotView(),
+                    Container(
+                      height: 3,
+                      width: 3,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: NartusColor.grey,
+                      ),
+                    ),
                     const Gap.h04(),
                     // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
                     SvgPicture.asset(
@@ -87,7 +94,14 @@ class ContentCardView extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const Gap.h04(),
-            const DotView(),
+            Container(
+              height: 3,
+              width: 3,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: NartusColor.grey,
+              ),
+            ),
             const Gap.h04(),
             Text(
               '4 comments',
