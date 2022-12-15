@@ -18,7 +18,14 @@ const String baseMarkerCurrentLocationId = 'currentLocationId';
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
 
-  const GoogleMapView({required this.currentLocation, Key? key})
+  final VoidCallback onMenuOpened;
+  final VoidCallback onMenuClosed;
+
+  const GoogleMapView(
+      {required this.currentLocation,
+      required this.onMenuOpened,
+      required this.onMenuClosed,
+      Key? key})
       : super(key: key);
 
   @override
@@ -63,6 +70,12 @@ class _GoogleMapViewState extends State<GoogleMapView>
         if (status == AnimationStatus.dismissed) {
           _controller.reset();
         }
+
+        if (status == AnimationStatus.forward) {
+          widget.onMenuOpened.call();
+        } else if (status == AnimationStatus.reverse) {
+          widget.onMenuClosed.call();
+        }
       })
       ..addListener(() {
         _computeMarker(angleInDegree: currentLocationAnimation.value * 45)
@@ -85,30 +98,31 @@ class _GoogleMapViewState extends State<GoogleMapView>
     return StreamBuilder<Set<Marker>>(
         stream: markerData,
         builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
-              animation: _controller,
-              builder: (BuildContext context, Widget? child) => GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(widget.currentLocation.latitude,
-                          widget.currentLocation.longitude),
-                      zoom: 15),
-                  onMapCreated: (GoogleMapController controller) =>
-                      _onMapCreated(controller),
-                  onCameraMoveStarted: () => _closeMenuIfOpening(),
-                  onTap: (_) => _closeMenuIfOpening(),
-                  onLongPress: (_) => _closeMenuIfOpening(),
-                  markers: data.data ?? <Marker>{},
-                  myLocationEnabled: false,
-                  zoomControlsEnabled: false,
-                  mapToolbarEnabled: false,
-                  compassEnabled: false,
-                  myLocationButtonEnabled: false),
-            ));
+            animation: _controller,
+            builder: (BuildContext context, Widget? child) => GoogleMap(
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(widget.currentLocation.latitude,
+                        widget.currentLocation.longitude),
+                    zoom: 15),
+                onMapCreated: (GoogleMapController controller) =>
+                    _onMapCreated(controller),
+                onCameraMoveStarted: () => _closeMenuIfOpening(),
+                onTap: (_) => _closeMenuIfOpening(),
+                onLongPress: (_) => _closeMenuIfOpening(),
+                markers: data.data ?? <Marker>{},
+                myLocationEnabled: false,
+                zoomControlsEnabled: false,
+                mapToolbarEnabled: false,
+                compassEnabled: false,
+                myLocationButtonEnabled: false)));
   }
 
   void _closeMenuIfOpening() {
     if (_controller.value == 1) {
       _controller.reverse();
     }
+
+    // _closeContentsBottomSheet();
   }
 
   @override
@@ -213,13 +227,30 @@ class _GoogleMapViewState extends State<GoogleMapView>
             onTap: () {
               if (_controller.value == 1) {
                 _controller.reverse();
+                // _closeContentsBottomSheet();
               } else {
                 _controller.forward();
+                // _openContentsBottomSheet();
               }
             }));
       }
     }
   }
+
+  // void _openContentsBottomSheet() {
+  //   context.read<GetContentsBloc>().getContents();
+  //   setState(() {
+  //     if (currentPos == 0) {
+  //       currentPos = 1;
+  //     }
+  //   });
+  // }
+  //
+  // void _closeContentsBottomSheet() {
+  //   setState(() {
+  //     currentPos = 0;
+  //   });
+  // }
 
   void _specifyCircularMenuIconsAnimation(AnimationController controller) {
     /// Offset(0.5, 1.0) : Is default anchor of Marker

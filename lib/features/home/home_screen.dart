@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
+import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
@@ -19,9 +20,12 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
+  final ContentsBottomPanelController _contentBottomPanelController =
+      ContentsBottomPanelController();
+
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: MultiBlocListener(
+          body: MultiBlocListener(
         // ignore: always_specify_types
         listeners: [
           BlocListener<ConnectivityBloc, ConnectivityState>(
@@ -66,7 +70,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                           .add(OpenLocationServiceEvent());
                     },
                     textButtonText:
-                    S.of(context).locationPermissionDialogContinueButton,
+                        S.of(context).locationPermissionDialogContinueButton,
                     onTextButtonSelected: () {
                       Navigator.of(context).pop();
                       context
@@ -79,19 +83,19 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
               if (state is LocationPermissionDeniedForeverState ||
                   state is LocationPermissionDeniedState) {
                 final String title = state
-                is LocationPermissionDeniedForeverState
+                        is LocationPermissionDeniedForeverState
                     ? S.of(context).locationPermissionDialogTitle
                     : S.of(context).locationPermissionDeniedBottomSheetTitle;
 
                 final String content =
-                state is LocationPermissionDeniedForeverState
-                    ? S.of(context).locationPermissionDialogMessage
-                    : S
-                    .of(context)
-                    .locationPermissionDeniedBottomSheetDescription;
+                    state is LocationPermissionDeniedForeverState
+                        ? S.of(context).locationPermissionDialogMessage
+                        : S
+                            .of(context)
+                            .locationPermissionDeniedBottomSheetDescription;
 
                 final String primaryButtonText = state
-                is LocationPermissionDeniedForeverState
+                        is LocationPermissionDeniedForeverState
                     ? S.of(context).locationPermissionDialogOpenSettingsButton
                     : S.of(context).locationPermissionDialogAllowButton;
 
@@ -111,7 +115,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                             .read<LocationBloc>()
                             .add(ShowDialogRequestPermissionEvent());
                       } else if (state
-                      is LocationPermissionDeniedForeverState) {
+                          is LocationPermissionDeniedForeverState) {
                         context
                             .read<LocationBloc>()
                             .add(OpenAppSettingsEvent());
@@ -137,15 +141,30 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                 children: <Widget>[
                   GoogleMapView(
                     currentLocation: state.currentLocation,
+                    onMenuOpened: handleMenuOpen,
+                    onMenuClosed: handleMenuClose,
                   ),
-                  SafeArea(
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: DateLabelView(
-                          dateLabel: state.dateDisplay,
-                          profileSemanticLabel: S.of(context).anonymous_profile,
+                  Column(
+                    children: <Widget>[
+                      SafeArea(
+                          bottom: false,
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: DateLabelView(
+                              dateLabel: state.dateDisplay,
+                              profileSemanticLabel:
+                                  S.of(context).anonymous_profile,
+                            ),
+                          )),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ContentsBottomPanelView(
+                              controller: _contentBottomPanelController),
                         ),
-                      ))
+                      )
+                    ],
+                  )
                 ],
               );
             }
@@ -175,10 +194,18 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
       final LocationState blocState = context.read<LocationBloc>().state;
       context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
 
-      if (blocState is AwaitLocationServiceSettingState
-          && Navigator.of(context).canPop()) {
+      if (blocState is AwaitLocationServiceSettingState &&
+          Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  void handleMenuOpen() {
+    _contentBottomPanelController.show();
+  }
+
+  void handleMenuClose() {
+    _contentBottomPanelController.dismiss();
   }
 }

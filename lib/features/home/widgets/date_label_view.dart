@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
 class DateLabelView extends StatelessWidget {
   final String dateLabel;
@@ -17,7 +18,8 @@ class DateLabelView extends StatelessWidget {
             horizontal: NartusDimens.padding24),
         child: Card(
           color: Theme.of(context).colorScheme.background,
-          elevation: NartusDimens.elevation4,
+          elevation: NartusDimens.elevation10,
+          shadowColor: NartusColor.grey.withOpacity(0.3),
           shape: const RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.all(Radius.circular(NartusDimens.padding54)),

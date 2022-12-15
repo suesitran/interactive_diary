@@ -37,10 +37,11 @@ extension WidgetExtension on WidgetTester {
   }
 
   Future<void> multiBlocWrapAndPump(
-      List<BlocProvider<StateStreamableSource<Object?>>> providers,
-      // List<BlocProvider<<B extends StateStreamableSource<Object?>>> providers,
-      Widget widget,
-      {bool infiniteAnimationWidget = false}) async {
+    List<BlocProvider<StateStreamableSource<Object?>>> providers,
+    // List<BlocProvider<<B extends StateStreamableSource<Object?>>> providers,
+    Widget widget, {
+    bool infiniteAnimationWidget = false,
+  }) async {
     final Widget wrapper = MultiBlocProvider(
         providers: providers,
         child: _MaterialWrapWidget(

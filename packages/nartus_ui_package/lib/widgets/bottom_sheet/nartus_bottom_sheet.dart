@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
-import 'package:nartus_ui_package/theme/nartus_theme.dart';
-import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 class NartusBottomSheet extends StatelessWidget {
   final String? iconPath;

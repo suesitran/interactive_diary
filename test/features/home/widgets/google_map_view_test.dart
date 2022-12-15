@@ -9,8 +9,11 @@ void main() {
   testWidgets(
       'when load GoogleMapView, then show GoogleMap widget inside AnimatedBuilder',
       (WidgetTester widgetTester) async {
-    GoogleMapView widget =
-        const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
+    GoogleMapView widget = GoogleMapView(
+      currentLocation: const LatLng(0.0, 0.0),
+      onMenuOpened: () {},
+      onMenuClosed: () {},
+    );
 
     await widgetTester.wrapAndPump(
         Directionality(
@@ -34,8 +37,11 @@ void main() {
     testWidgets(
         'when circular menu is closing, then circular menu items will not be shown on screen',
         (WidgetTester widgetTester) async {
-      GoogleMapView widget =
-          const GoogleMapView(currentLocation: LatLng(0.0, 0.0));
+      GoogleMapView widget = GoogleMapView(
+        currentLocation: const LatLng(0.0, 0.0),
+        onMenuOpened: () {},
+        onMenuClosed: () {},
+      );
 
       await widgetTester.wrapAndPump(Directionality(
         textDirection: TextDirection.ltr,

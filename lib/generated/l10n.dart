@@ -160,6 +160,36 @@ class S {
     );
   }
 
+  /// `Turn on your location`
+  String get locationPopupTitle {
+    return Intl.message(
+      'Turn on your location',
+      name: 'locationPopupTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Screen unavailable`
+  String get unavailable {
+    return Intl.message(
+      'Screen unavailable',
+      name: 'unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, this screen is still under construction. Please come back later.`
+  String get unavailableScreenDesc {
+    return Intl.message(
+      'Sorry, this screen is still under construction. Please come back later.',
+      name: 'unavailableScreenDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Inner ME`
   String get appName {
     return Intl.message(
@@ -185,26 +215,6 @@ class S {
     return Intl.message(
       'Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog',
       name: 'locationPermissionDeniedBottomSheetDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Screen unavailable`
-  String get unavailable {
-    return Intl.message(
-      'Screen unavailable',
-      name: 'unavailable',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sorry, this screen is still under construction. Please come back later.`
-  String get unavailableScreenDesc {
-    return Intl.message(
-      'Sorry, this screen is still under construction. Please come back later.',
-      name: 'unavailableScreenDesc',
       desc: '',
       args: [],
     );
