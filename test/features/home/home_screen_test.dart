@@ -10,6 +10,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
@@ -34,11 +35,11 @@ void main() {
     when(mockLocationBloc.state).thenAnswer(
         (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
 
-    await widgetTester
-        .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
-      BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget);
+    await mockNetworkImagesFor(() => widgetTester
+            .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
+        BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+        BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+        ], widget));
 
     expect(
         find.ancestor(
@@ -62,11 +63,11 @@ void main() {
         .thenAnswer((_) => Stream<LocationState>.value(state));
     when(mockLocationBloc.state).thenAnswer((_) => state);
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget);
+    ], widget));
 
     expect(find.byType(GoogleMapView), findsOneWidget);
   });
@@ -81,11 +82,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationInitial(PermissionStatusDiary.denied));
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
@@ -100,11 +101,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
 
     expect(find.text('Location Permission not granted'), findsOneWidget);
     expect(
@@ -125,11 +126,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
 
     expect(find.text('Turn on your location'), findsOneWidget);
     expect(
@@ -150,11 +151,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -173,11 +174,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -196,11 +197,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -219,11 +220,11 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
       BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -242,7 +243,7 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<ConnectivityBloc>(
         create: (_) => mockConnectivityBloc,
@@ -250,7 +251,7 @@ void main() {
       BlocProvider<LocationBloc>(
         create: (_) => mockLocationBloc,
       )
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
     expect(find.text('Turn on your location'), findsOneWidget);
@@ -273,7 +274,7 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<ConnectivityBloc>(
         create: (_) => mockConnectivityBloc,
@@ -281,7 +282,7 @@ void main() {
       BlocProvider<LocationBloc>(
         create: (_) => mockLocationBloc,
       )
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
 
@@ -302,7 +303,7 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<ConnectivityBloc>(
         create: (_) => mockConnectivityBloc,
@@ -310,7 +311,7 @@ void main() {
       BlocProvider<LocationBloc>(
         create: (_) => mockLocationBloc,
       )
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -330,7 +331,7 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationServiceDisableState());
 
-    await widgetTester
+    await mockNetworkImagesFor(() => widgetTester
         .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
       BlocProvider<ConnectivityBloc>(
         create: (_) => mockConnectivityBloc,
@@ -338,7 +339,7 @@ void main() {
       BlocProvider<LocationBloc>(
         create: (_) => mockLocationBloc,
       )
-    ], widget, infiniteAnimationWidget: true);
+    ], widget, infiniteAnimationWidget: true));
 
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
@@ -363,7 +364,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationInitial(PermissionStatusDiary.granted));
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -371,7 +372,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       expect(find.byType(NartusBottomSheet), findsNothing);
     });
@@ -387,7 +388,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -395,7 +396,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       expect(find.text('Location Permission not granted'), findsOneWidget);
       expect(
@@ -417,7 +418,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -425,7 +426,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       expect(find.text('Turn on your location'), findsOneWidget);
       expect(
@@ -448,7 +449,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -456,7 +457,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -480,7 +481,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -488,7 +489,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -516,7 +517,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -524,7 +525,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -546,7 +547,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -554,7 +555,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -575,7 +576,7 @@ void main() {
       when(mockLocationBloc.state)
           .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-      await widgetTester
+      await mockNetworkImagesFor(() => widgetTester
           .multiBlocWrapAndPump(<BlocProvider<StateStreamableSource<Object?>>>[
         BlocProvider<ConnectivityBloc>(
           create: (_) => mockConnectivityBloc,
@@ -583,7 +584,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (_) => mockLocationBloc,
         )
-      ], widget, infiniteAnimationWidget: true);
+      ], widget, infiniteAnimationWidget: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish

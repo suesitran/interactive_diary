@@ -40,7 +40,7 @@ extension WidgetExtension on WidgetTester {
       List<BlocProvider<StateStreamableSource<Object?>>> providers,
       // List<BlocProvider<<B extends StateStreamableSource<Object?>>> providers,
       Widget widget,
-      {bool infiniteAnimationWidget = false}) async {
+      {bool infiniteAnimationWidget = false,}) async {
     final Widget wrapper = MultiBlocProvider(
         providers: providers,
         child: _MaterialWrapWidget(
