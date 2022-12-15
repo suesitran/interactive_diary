@@ -14,7 +14,6 @@ class GetContentsBloc extends Bloc<GetContentsEvent, GetContentsState> {
 
   Future<void> _getContents(Emitter<GetContentsState> emitter) async {
     emitter(GettingContentsState());
-    print('GET CONTENTS');
     try {
       // TODO implement query data from database
       await Future<void>.delayed(const Duration(seconds: 1));

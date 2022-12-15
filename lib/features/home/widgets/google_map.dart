@@ -18,7 +18,10 @@ const String baseMarkerCurrentLocationId = 'currentLocationId';
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
 
-  const GoogleMapView({required this.currentLocation, Key? key})
+  final VoidCallback onMenuOpened;
+  final VoidCallback onMenuClosed;
+
+  const GoogleMapView({required this.currentLocation, required this.onMenuOpened, required this.onMenuClosed, Key? key})
       : super(key: key);
 
   @override
@@ -62,6 +65,12 @@ class _GoogleMapViewState extends State<GoogleMapView>
       ..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.dismissed) {
           _controller.reset();
+        }
+
+        if (status == AnimationStatus.forward) {
+          widget.onMenuOpened.call();
+        } else if (status == AnimationStatus.reverse) {
+          widget.onMenuClosed.call();
         }
       })
       ..addListener(() {

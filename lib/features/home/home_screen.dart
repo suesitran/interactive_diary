@@ -141,9 +141,11 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                 children: <Widget>[
                   GoogleMapView(
                     currentLocation: state.currentLocation,
+                    onMenuOpened: handleMenuOpen,
+                    onMenuClosed: handleMenuClose,
                   ),
                   Column(
-                    children: [
+                    children: <Widget>[
                       SafeArea(
                         bottom: false,
                           child: Align(
@@ -196,5 +198,13 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  void handleMenuOpen() {
+    _contentBottomPanelController.show();
+  }
+
+  void handleMenuClose() {
+    _contentBottomPanelController.dismiss();
   }
 }
