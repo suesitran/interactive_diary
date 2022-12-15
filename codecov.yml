@@ -16,8 +16,8 @@ coverage:
         target: 80%
         ignore:
           - "lib/generated"  # ignore folders and all its contents
-          - "lib/firebase_options.dart"
-          - "lib/gen"
-          - "lib/main.dart"
-          - "lib/constants"
           - "lib/route"
+          - "lib/gen"
+          - "lib/constants"
+          - "lib/firebase_options.dart"
+          - "lib/main.dart"
