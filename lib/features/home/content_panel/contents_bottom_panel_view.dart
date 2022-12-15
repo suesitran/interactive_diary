@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:interactive_diary/widgets/location_view.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -42,6 +41,14 @@ class ContentsBottomPanelView extends StatelessWidget {
                   'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
               borderRadius: BorderRadius.circular(12),
             ),
+          ),
+          Container(
+            height: 0,
+            child: ListView.builder(itemBuilder: (BuildContext context, int index) {
+              return const Padding(padding: EdgeInsets.all(8.0), child: Text('hehehe'),);
+            },
+            itemCount: 10,
+            shrinkWrap: true,),
           )
         ],
       ),
