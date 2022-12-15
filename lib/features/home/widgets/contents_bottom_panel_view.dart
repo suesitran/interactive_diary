@@ -12,8 +12,7 @@ class ContentsBottomPanelView extends StatefulWidget {
       : super(key: key);
 
   @override
-  ContentsBottomPanelViewState createState() =>
-      ContentsBottomPanelViewState();
+  ContentsBottomPanelViewState createState() => ContentsBottomPanelViewState();
 }
 
 class ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {

@@ -18,7 +18,13 @@ class GetContentsBloc extends Bloc<GetContentsEvent, GetContentsState> {
     try {
       // TODO implement query data from database
       await Future<void>.delayed(const Duration(seconds: 1));
-      final List<String> contents = <String>['abc', '123123', 'xwxzxz', 'cdvvfvjnf', 'eiwn2321'];
+      final List<String> contents = <String>[
+        'abc',
+        '123123',
+        'xwxzxz',
+        'cdvvfvjnf',
+        'eiwn2321'
+      ];
       if (contents.isEmpty) {
         emitter(GetContentsEmptyState());
       } else {
