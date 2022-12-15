@@ -12,11 +12,11 @@ class ContentsBottomPanelView extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ContentsBottomPanelViewState createState() =>
-      _ContentsBottomPanelViewState();
+  ContentsBottomPanelViewState createState() =>
+      ContentsBottomPanelViewState();
 }
 
-class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
+class ContentsBottomPanelViewState extends State<ContentsBottomPanelView> {
   final List<double> snaps = <double>[1, 0.85, 0.5, 0.2];
   int currentPos = 1;
 
@@ -140,11 +140,11 @@ class ContentsBottomPanelViewV2 extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ContentsBottomPanelViewV2State createState() =>
-      _ContentsBottomPanelViewV2State();
+  ContentsBottomPanelViewV2State createState() =>
+      ContentsBottomPanelViewV2State();
 }
 
-class _ContentsBottomPanelViewV2State extends State<ContentsBottomPanelViewV2> {
+class ContentsBottomPanelViewV2State extends State<ContentsBottomPanelViewV2> {
   final DraggableScrollableController draggableController =
       DraggableScrollableController();
   List<double> snapSizes = <double>[];
@@ -301,7 +301,7 @@ class _ContentsBottomPanelViewV2State extends State<ContentsBottomPanelViewV2> {
                   const Gap.v20(),
                   const Gap.v04(),
                   if (draggableController.isAttached &&
-                      draggableController.size > snapSizes[1]) ...[
+                      draggableController.size > snapSizes[1]) ...<Widget>[
                     Flexible(
                         child: Container(
                       padding: EdgeInsets.only(
@@ -367,7 +367,7 @@ class LocationAddressPanel extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       key: key,
-      children: [
+      children: <Widget>[
         ListView(
           padding: EdgeInsets.zero,
           shrinkWrap: true,

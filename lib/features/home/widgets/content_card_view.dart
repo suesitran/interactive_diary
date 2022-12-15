@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';
 
-import '../../../gen/assets.gen.dart';
-import 'dot_view.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/features/home/widgets/dot_view.dart';
 
 class ContentCardView extends StatelessWidget {
   final double screenEdgeSpacing;
@@ -15,91 +15,89 @@ class ContentCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String text =
+    const String text =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
         'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad '
         'minim veniam, quis nostrud exercitation ullamco laboris Lorem ipsum dolor sit amet, '
         'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et '
         'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
-    final List<String> images = [
+    final List<String> images = <String>[
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
     ];
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                child: Image.network(
-                    'https://ps.w.org/user-avatar-reloaded/assets/icon-128x128.png?rev=2540745'),
-              ),
-              const Gap.h12(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hoang Nguyen',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const Gap.v04(),
-                  Row(
-                    children: [
-                      Text(
-                        'Sep 3, 2022 at 10:12 PM',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      const Gap.h04(),
-                      const DotView(),
-                      const Gap.h04(),
-                      // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
-                      SvgPicture.asset(
-                        Assets.images.idProfileUserIconPadding,
-                        color: NartusColor.grey,
-                      )
-                    ],
-                  )
-                ],
-              ),
-              const Spacer(),
-              // Icon(Icons.menu, color: NartusColor.grey,)
-              SvgPicture.asset(Assets.images.idMoreIcon)
-            ],
-          ),
-          const Gap.v08(),
-          if (text.isNotEmpty) ...[
-            _textAndImageView(text, images, context, screenEdgeSpacing)
-          ] else if (images.isNotEmpty)
-            ...[],
-          const Gap.v16(),
-          Row(
-            children: [
-              // Icon(Icons.heart_broken),
-              SvgPicture.asset(Assets.images.idHeartIconPadding),
-              const Gap.h16(),
-              // Icon(Icons.heart_broken),
-              SvgPicture.asset(Assets.images.idMessageIconPadding),
-              const Gap.h16(),
-              // Icon(Icons.heart_broken),
-              SvgPicture.asset(Assets.images.idShareIconPadding),
-              Spacer(),
-              Text(
-                '5 likes',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const Gap.h04(),
-              const DotView(),
-              const Gap.h04(),
-              Text(
-                '4 comments',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          )
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            CircleAvatar(
+              child: Image.network(
+                  'https://ps.w.org/user-avatar-reloaded/assets/icon-128x128.png?rev=2540745'),
+            ),
+            const Gap.h12(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Hoang Nguyen',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const Gap.v04(),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      'Sep 3, 2022 at 10:12 PM',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const Gap.h04(),
+                    const DotView(),
+                    const Gap.h04(),
+                    // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
+                    SvgPicture.asset(
+                      Assets.images.idProfileUserIconPadding,
+                      color: NartusColor.grey,
+                    )
+                  ],
+                )
+              ],
+            ),
+            const Spacer(),
+            // Icon(Icons.menu, color: NartusColor.grey,)
+            SvgPicture.asset(Assets.images.idMoreIcon)
+          ],
+        ),
+        const Gap.v08(),
+        if (text.isNotEmpty) ...<Widget>[
+          _textAndImageView(text, images, context, screenEdgeSpacing)
+        ] else if (images.isNotEmpty)
+          ...<Widget>[],
+        const Gap.v16(),
+        Row(
+          children: <Widget>[
+            // Icon(Icons.heart_broken),
+            SvgPicture.asset(Assets.images.idHeartIconPadding),
+            const Gap.h16(),
+            // Icon(Icons.heart_broken),
+            SvgPicture.asset(Assets.images.idMessageIconPadding),
+            const Gap.h16(),
+            // Icon(Icons.heart_broken),
+            SvgPicture.asset(Assets.images.idShareIconPadding),
+            const Spacer(),
+            Text(
+              '5 likes',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const Gap.h04(),
+            const DotView(),
+            const Gap.h04(),
+            Text(
+              '4 comments',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -117,7 +115,7 @@ class ContentCardView extends StatelessWidget {
         ? images.take(itemsEachRow).toList()
         : images;
     return Column(
-      children: [
+      children: <Widget>[
         Text(
           text,
           maxLines: 5,
@@ -125,11 +123,11 @@ class ContentCardView extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.7),
           textAlign: TextAlign.justify,
         ),
-        if (images.isNotEmpty) ...[
+        if (images.isNotEmpty) ...<Widget>[
           const Gap.v12(),
           Row(
-            children: [
-              ...displayImages.asMap().entries.map((e) {
+            children: <Widget>[
+              ...displayImages.asMap().entries.map((MapEntry<int, String> e) {
                 return Container(
                   padding: e.key == (itemsEachRow - 1)
                       ? EdgeInsets.zero
@@ -142,7 +140,7 @@ class ContentCardView extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12)),
                         child: Stack(
-                          children: [
+                          children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -150,7 +148,7 @@ class ContentCardView extends StatelessWidget {
                                       fit: BoxFit.cover)),
                             ),
                             if (e.key == (itemsEachRow - 1) &&
-                                isHaveMoreImagesThanItemsEachRow) ...[
+                                isHaveMoreImagesThanItemsEachRow) ...<Widget>[
                               Positioned(
                                   top: 0,
                                   bottom: 0,
