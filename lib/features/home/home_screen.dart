@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
+import 'package:interactive_diary/features/home/widgets/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
@@ -19,6 +20,9 @@ class IDHome extends StatefulWidget {
 }
 
 class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
+  final ContentsBottomPanelController _contentBottomPanelController =
+      ContentsBottomPanelController();
+
   @override
   Widget build(BuildContext context) => Scaffold(
           body: MultiBlocListener(
@@ -138,14 +142,25 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                   GoogleMapView(
                     currentLocation: state.currentLocation,
                   ),
-                  SafeArea(
-                      child: Align(
-                    alignment: Alignment.topCenter,
-                    child: DateLabelView(
-                      dateLabel: state.dateDisplay,
-                      profileSemanticLabel: S.of(context).anonymous_profile,
-                    ),
-                  ))
+                  Column(
+                    children: [
+                      SafeArea(
+                          child: Align(
+                        alignment: Alignment.topCenter,
+                        child: DateLabelView(
+                          dateLabel: state.dateDisplay,
+                          profileSemanticLabel: S.of(context).anonymous_profile,
+                        ),
+                      )),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ContentsBottomPanelView(
+                              controller: _contentBottomPanelController),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               );
             }
