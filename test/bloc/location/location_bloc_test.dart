@@ -119,5 +119,16 @@ void main() {
           verify(service.getCurrentLocation()).called(1);
           return <TypeMatcher<LocationState>>[isA<LocationReadyState>()];
         });
+
+    blocTest(
+      'when event is OpenLocationServiceEvent, then request service from location service, and emit AwaitLocationServiceSettingState',
+      build: () => LocationBloc(locationService: service),
+      setUp: () => when(service.requestService())
+          .thenAnswer((Invocation realInvocation) => Future<bool>.value(true)),
+      act: ((LocationBloc bloc) => bloc.add(OpenLocationServiceEvent())),
+      verify: (LocationBloc bloc) => verify(service.requestService()).called(1),
+      expect: () =>
+          <TypeMatcher<LocationState>>[isA<AwaitLocationServiceSettingState>()],
+    );
   });
 }
