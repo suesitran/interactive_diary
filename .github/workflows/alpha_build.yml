@@ -43,6 +43,7 @@ jobs:
         FIREBASE_APP_ID_FILE: ${{ secrets.FIREBASE_APP_ID_FILE }}
         ANDROID_GOOGLE_MAP_PROPERTIES: ${{ secrets.ANDROID_GOOGLE_MAP_PROPERTIES }}
         IOS_GOOGLE_MAP_PROPERTIES: ${{ secrets.IOS_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_SERVICE: ${{ secrets.PR_IOS_GOOGLE_SERVICE }}
         ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
         ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
       run: |
@@ -51,6 +52,7 @@ jobs:
         echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
         echo "$ANDROID_GOOGLE_MAP_PROPERTIES" > android/appconfig.properties
         echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
+        echo "$IOS_GOOGLE_SERVICE" > ios/Runner/GoogleService-Info.plist
         # put keystore
         echo -n "$ANDROID_KEYSTORE" | base64 --decode --output android/app/interactive-diary-release.keystore
         # put keyproperties
