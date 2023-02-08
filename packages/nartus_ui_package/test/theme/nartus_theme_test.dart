@@ -7,10 +7,10 @@ void main() {
   test('Validate all theme color', () {
     // brightness is light
     expect(lightTheme.brightness, Brightness.light);
-    // bottom app bar color is default light - white
-    expect(lightTheme.bottomAppBarColor, const Color(0xffffffff));
+    // background color is default light - white
+    expect(lightTheme.colorScheme.background, const Color(0xffffffff));
     // error color is dark red
-    expect(lightTheme.errorColor, const Color(0xFFB3261E));
+    expect(lightTheme.colorScheme.error, const Color(0xFFB3261E));
   });
 
   testWidgetsCustom(lightTheme, const Color(0xFF7D54F8),

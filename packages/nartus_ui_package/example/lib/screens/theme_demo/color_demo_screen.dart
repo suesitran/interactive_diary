@@ -12,16 +12,16 @@ class ColorDemoScreen extends StatelessWidget {
       body: ListView(
         children: [
           createColorDemo(
-              'Background color', Theme.of(context).backgroundColor),
+              'Background color', Theme.of(context).colorScheme.background),
           createColorDemo(
-              'bottomAppBarColor', Theme.of(context).bottomAppBarColor),
+              'bottomAppBarColor', Theme.of(context).bottomAppBarTheme.color),
           createColorDemo('canvasColor', Theme.of(context).canvasColor),
           createColorDemo('cardColor', Theme.of(context).cardColor),
           createColorDemo(
               'dialogBackgroundColor', Theme.of(context).dialogBackgroundColor),
           createColorDemo('disabledColor', Theme.of(context).disabledColor),
           createColorDemo('dividerColor', Theme.of(context).dividerColor),
-          createColorDemo('errorColor', Theme.of(context).errorColor),
+          createColorDemo('errorColor', Theme.of(context).colorScheme.error),
           createColorDemo('focusColor', Theme.of(context).focusColor),
           createColorDemo('highlightColor', Theme.of(context).highlightColor),
           createColorDemo('hintColor', Theme.of(context).hintColor),
@@ -36,12 +36,10 @@ class ColorDemoScreen extends StatelessWidget {
               Theme.of(context).scaffoldBackgroundColor),
           createColorDemo(
               'secondaryHeaderColor', Theme.of(context).secondaryHeaderColor),
-          createColorDemo(
-              'selectedRowColor', Theme.of(context).selectedRowColor),
           createColorDemo('shadowColor', Theme.of(context).shadowColor),
           createColorDemo('splashColor', Theme.of(context).splashColor),
           createColorDemo(
-              'toggleableActiveColor', Theme.of(context).toggleableActiveColor),
+              'toggleableActiveColor', Theme.of(context).colorScheme.secondary),
           createColorDemo(
               'unselectedWidgetColor', Theme.of(context).unselectedWidgetColor),
         ],

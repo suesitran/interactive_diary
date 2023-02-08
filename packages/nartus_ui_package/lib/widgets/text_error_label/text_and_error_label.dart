@@ -82,7 +82,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
               horizontal: NartusDimens.padding16,
               vertical: NartusDimens.padding14),
           child:
-              Text(widget._label, style: Theme.of(context).textTheme.headline6),
+              Text(widget._label, style: Theme.of(context).textTheme.titleLarge),
         ),
       );
 
@@ -98,7 +98,7 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
             widget._error,
             style: Theme.of(context)
                 .textTheme
-                .subtitle1
+                .titleMedium
                 ?.copyWith(color: Theme.of(context).colorScheme.onError),
             textAlign: TextAlign.center,
           ),

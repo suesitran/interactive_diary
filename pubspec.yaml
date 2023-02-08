@@ -53,6 +53,8 @@ dependencies:
     path: packages/nartus_storage
   go_router: ^5.1.1
   fvm: ^2.4.1
+  google_maps_flutter_android: ^2.4.3
+  google_maps_flutter_platform_interface: ^2.2.5
 
 dev_dependencies:
   flutter_test:
