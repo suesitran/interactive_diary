@@ -163,19 +163,22 @@ class _GoogleMapViewState extends State<GoogleMapView>
             const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
     // draw baseMarker on canvas
-    const double markerAddSize = 24;
+    canvas.save();
+    // calculate max scale by height
+    final double scaleY = markerSize/baseMarkerDrawableRoot.size.height;
+    final double desiredWidth = markerSize * baseMarkerDrawableRoot.size.aspectRatio;
+    final double scaleX = desiredWidth/baseMarkerDrawableRoot.size.width;
+    canvas.scale(scaleX, scaleY);
     canvas.drawPicture(baseMarkerDrawableRoot.picture);
-    // baseMarkerDrawableRoot.scaleCanvasToViewBox(
-    //     canvas, Size(markerSize, markerSize));
-    // baseMarkerDrawableRoot.clipCanvasToViewBox(canvas);
-    // baseMarkerDrawableRoot.draw(
-    //     canvas,
-    //     Rect.fromPoints(
-    //         const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
+    canvas.restore();
 
     // draw marker add
     // translate to desired location on canvas
-    canvas.translate(4, 4);
+    // use new width = markerSize*baseMarkerDrawableRoot.size.aspectRatio
+    final double markerAddSize = desiredWidth * 3 / 4; // 3 quarter of base marker
+    final double newPos = (markerSize - markerAddSize) / 4;
+    canvas.translate(newPos, newPos);
+
     if (angleInDegree % 90 != 0) {
       // convert angle in degree to radiant
       final double angle = angleInDegree * pi / 180;
@@ -195,27 +198,18 @@ class _GoogleMapViewState extends State<GoogleMapView>
       canvas.translate(translateX, translateY);
       canvas.rotate(angle);
 
+      canvas.scale(markerAddSize/markerAddDrawableRoot.size.width, markerAddSize/markerAddDrawableRoot.size.height);
       canvas.drawPicture(markerAddDrawableRoot.picture);
-      // markerAddDrawableRoot.scaleCanvasToViewBox(
-      //     canvas, const Size(markerAddSize, markerAddSize));
-      // markerAddDrawableRoot.clipCanvasToViewBox(canvas);
-      // markerAddDrawableRoot.draw(
-      //     canvas,
-      //     Rect.fromPoints(
-      //         const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
       // unlock canvas
       canvas.restore();
     } else {
       // do normal drawing
+      canvas.save();
+      print('SUESI - ${markerAddSize/markerAddDrawableRoot.size.width} and ${markerAddSize/markerAddDrawableRoot.size.height}');
+      canvas.scale(markerAddSize/markerAddDrawableRoot.size.width, markerAddSize/markerAddDrawableRoot.size.height);
       canvas.drawPicture(markerAddDrawableRoot.picture);
-      // markerAddDrawableRoot.scaleCanvasToViewBox(
-      //     canvas, const Size(markerAddSize, markerAddSize));
-      // markerAddDrawableRoot.clipCanvasToViewBox(canvas);
-      // markerAddDrawableRoot.draw(
-      //     canvas,
-      //     Rect.fromPoints(
-      //         const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
+      canvas.restore();
     }
 
     final ByteData? pngBytes = await (await recorder
@@ -370,13 +364,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
     // draw baseMarker on canvas
     canvas.drawPicture(drawableRoot.picture);
-    // drawableRoot.scaleCanvasToViewBox(
-    //     canvas, const Size(markerSize, markerSize));
-    // drawableRoot.clipCanvasToViewBox(canvas);
-    // drawableRoot.draw(
-    //     canvas,
-    //     Rect.fromPoints(
-    //         const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     final ByteData? pngBytes = await (await recorder
             .endRecording()
