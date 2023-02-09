@@ -206,7 +206,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
     } else {
       // do normal drawing
       canvas.save();
-      print('SUESI - ${markerAddSize/markerAddDrawableRoot.size.width} and ${markerAddSize/markerAddDrawableRoot.size.height}');
       canvas.scale(markerAddSize/markerAddDrawableRoot.size.width, markerAddSize/markerAddDrawableRoot.size.height);
       canvas.drawPicture(markerAddDrawableRoot.picture);
       canvas.restore();
@@ -363,7 +362,10 @@ class _GoogleMapViewState extends State<GoogleMapView>
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     // draw baseMarker on canvas
+    canvas.save();
+    canvas.scale(markerSize/drawableRoot.size.width);
     canvas.drawPicture(drawableRoot.picture);
+    canvas.restore();
 
     final ByteData? pngBytes = await (await recorder
             .endRecording()
