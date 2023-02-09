@@ -40,8 +40,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
   Stream<Set<Marker>> markerData = _streamController.stream;
 
   // to draw marker with animation
-  late final DrawableRoot baseMarkerDrawableRoot;
-  late final DrawableRoot markerAddDrawableRoot;
+  late final PictureInfo baseMarkerDrawableRoot;
+  late final PictureInfo markerAddDrawableRoot;
 
   late final AnimationController _controller;
   GoogleMapController? mapController;
@@ -127,6 +127,9 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   @override
   void dispose() {
+    markerAddDrawableRoot.picture.dispose();
+    baseMarkerDrawableRoot.picture.dispose();
+
     _controller.dispose();
     _streamController.close();
     mapController?.dispose();
@@ -142,11 +145,11 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   // generate marker base drawable from SVG asset
-  Future<DrawableRoot> _createDrawableRoot(String svgPath) async {
+  Future<PictureInfo> _createDrawableRoot(String svgPath) async {
     // load the base marker svg string from asset
     final String baseMarkerSvgString = await rootBundle.loadString(svgPath);
     // load the base marker from svg
-    return svg.fromSvgString(baseMarkerSvgString, svgPath);
+    return vg.loadPicture(SvgStringLoader(baseMarkerSvgString), null);
   }
 
   // draw complete marker with angle
@@ -161,13 +164,14 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
     // draw baseMarker on canvas
     const double markerAddSize = 24;
-    baseMarkerDrawableRoot.scaleCanvasToViewBox(
-        canvas, Size(markerSize, markerSize));
-    baseMarkerDrawableRoot.clipCanvasToViewBox(canvas);
-    baseMarkerDrawableRoot.draw(
-        canvas,
-        Rect.fromPoints(
-            const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
+    canvas.drawPicture(baseMarkerDrawableRoot.picture);
+    // baseMarkerDrawableRoot.scaleCanvasToViewBox(
+    //     canvas, Size(markerSize, markerSize));
+    // baseMarkerDrawableRoot.clipCanvasToViewBox(canvas);
+    // baseMarkerDrawableRoot.draw(
+    //     canvas,
+    //     Rect.fromPoints(
+    //         const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
     // draw marker add
     // translate to desired location on canvas
@@ -191,25 +195,27 @@ class _GoogleMapViewState extends State<GoogleMapView>
       canvas.translate(translateX, translateY);
       canvas.rotate(angle);
 
-      markerAddDrawableRoot.scaleCanvasToViewBox(
-          canvas, const Size(markerAddSize, markerAddSize));
-      markerAddDrawableRoot.clipCanvasToViewBox(canvas);
-      markerAddDrawableRoot.draw(
-          canvas,
-          Rect.fromPoints(
-              const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
+      canvas.drawPicture(markerAddDrawableRoot.picture);
+      // markerAddDrawableRoot.scaleCanvasToViewBox(
+      //     canvas, const Size(markerAddSize, markerAddSize));
+      // markerAddDrawableRoot.clipCanvasToViewBox(canvas);
+      // markerAddDrawableRoot.draw(
+      //     canvas,
+      //     Rect.fromPoints(
+      //         const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
 
       // unlock canvas
       canvas.restore();
     } else {
       // do normal drawing
-      markerAddDrawableRoot.scaleCanvasToViewBox(
-          canvas, const Size(markerAddSize, markerAddSize));
-      markerAddDrawableRoot.clipCanvasToViewBox(canvas);
-      markerAddDrawableRoot.draw(
-          canvas,
-          Rect.fromPoints(
-              const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
+      canvas.drawPicture(markerAddDrawableRoot.picture);
+      // markerAddDrawableRoot.scaleCanvasToViewBox(
+      //     canvas, const Size(markerAddSize, markerAddSize));
+      // markerAddDrawableRoot.clipCanvasToViewBox(canvas);
+      // markerAddDrawableRoot.draw(
+      //     canvas,
+      //     Rect.fromPoints(
+      //         const Offset(0.0, 0.0), Offset(markerSize, markerSize)));
     }
 
     final ByteData? pngBytes = await (await recorder
@@ -338,21 +344,21 @@ class _GoogleMapViewState extends State<GoogleMapView>
   Future<void> _generateMenuBitmap() async {
     penMarkerBitmap =
         await _createDrawableRoot(Assets.images.idCircularIconPencil)
-            .then((DrawableRoot value) => _computeMenuMarker(value));
+            .then((PictureInfo value) => _computeMenuMarker(value));
     emojiMarkerBitmap =
         await _createDrawableRoot(Assets.images.idCircularIconEmoji)
-            .then((DrawableRoot value) => _computeMenuMarker(value));
+            .then((PictureInfo value) => _computeMenuMarker(value));
     cameraMarkerBitmap =
         await _createDrawableRoot(Assets.images.idCircularIconCamera)
-            .then((DrawableRoot value) => _computeMenuMarker(value));
+            .then((PictureInfo value) => _computeMenuMarker(value));
     voiceMarkerBitmap =
         await _createDrawableRoot(Assets.images.idCircularIconMicro)
-            .then((DrawableRoot value) => _computeMenuMarker(value));
+            .then((PictureInfo value) => _computeMenuMarker(value));
 
     return _generateCircularMenuIcons();
   }
 
-  Future<BitmapDescriptor> _computeMenuMarker(DrawableRoot drawableRoot) async {
+  Future<BitmapDescriptor> _computeMenuMarker(PictureInfo drawableRoot) async {
     const double markerSize = 300;
 
     // create canvas to draw
@@ -363,18 +369,22 @@ class _GoogleMapViewState extends State<GoogleMapView>
             const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     // draw baseMarker on canvas
-    drawableRoot.scaleCanvasToViewBox(
-        canvas, const Size(markerSize, markerSize));
-    drawableRoot.clipCanvasToViewBox(canvas);
-    drawableRoot.draw(
-        canvas,
-        Rect.fromPoints(
-            const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
+    canvas.drawPicture(drawableRoot.picture);
+    // drawableRoot.scaleCanvasToViewBox(
+    //     canvas, const Size(markerSize, markerSize));
+    // drawableRoot.clipCanvasToViewBox(canvas);
+    // drawableRoot.draw(
+    //     canvas,
+    //     Rect.fromPoints(
+    //         const Offset(0.0, 0.0), const Offset(markerSize, markerSize)));
 
     final ByteData? pngBytes = await (await recorder
             .endRecording()
             .toImage(markerSize.toInt(), markerSize.toInt()))
         .toByteData(format: ImageByteFormat.png);
+
+    // dispose picture after use
+    drawableRoot.picture.dispose();
 
     if (pngBytes != null) {
       return BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer));
