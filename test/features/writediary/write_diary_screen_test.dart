@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
-import 'package:interactive_diary/widgets/location_view.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

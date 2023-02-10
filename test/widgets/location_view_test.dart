@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/widgets/location_view.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
 import '../widget_tester_extension.dart';
 
@@ -11,7 +10,7 @@ void main() {
       (WidgetTester tester) async {
     const String location =
         'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia';
-    const LocationView widget = LocationView(currentLocation: location);
+    const LocationView widget = LocationView(address: location, latitude: 1.0, longitude: 1.0,);
 
     await tester.wrapAndPump(widget);
 

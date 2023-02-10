@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
-import 'package:interactive_diary/widgets/location_view.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -132,8 +131,10 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                   padding:
                       const EdgeInsets.only(left: 16, right: 16, bottom: 24),
                   child: LocationView(
-                    currentLocation:
+                    address:
                         'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                    latitude: 1.0,
+                    longitude: 1.0,
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),

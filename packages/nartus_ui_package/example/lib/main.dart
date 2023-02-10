@@ -1,6 +1,7 @@
 import 'package:example/screens/bottom_sheet/bottom_sheet_demo.dart';
 import 'package:example/screens/alertdialog/alert_dialog_demo.dart';
 import 'package:example/screens/cta_buttons/cta_buttons_screen.dart';
+import 'package:example/screens/location/location_demo_screen.dart';
 import 'package:example/screens/text_and_error_label_screen.dart';
 import 'package:example/screens/theme_demo/theme_demo_screen.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class WidgetCatalog extends StatelessWidget {
           const WidgetTile('CTA Buttons', CTAButtonsScreen()),
           const WidgetTile('Bottom Sheet demo', BottomSheetDemo()),
           const WidgetTile('Alert Dialog demo', AlertDialogDemo()),
+          const WidgetTile('Location Demo', LocationDemoScreen()),
         ],
       );
 }
