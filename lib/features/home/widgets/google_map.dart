@@ -165,17 +165,14 @@ class _GoogleMapViewState extends State<GoogleMapView>
     // draw baseMarker on canvas
     canvas.save();
     // calculate max scale by height
-    final double scaleY = markerSize/baseMarkerDrawableRoot.size.height;
-    final double desiredWidth = markerSize * baseMarkerDrawableRoot.size.aspectRatio;
-    final double scaleX = desiredWidth/baseMarkerDrawableRoot.size.width;
-    canvas.scale(scaleX, scaleY);
+    final double scale = markerSize/baseMarkerDrawableRoot.size.height;
+    canvas.scale(scale, scale);
     canvas.drawPicture(baseMarkerDrawableRoot.picture);
     canvas.restore();
 
     // draw marker add
     // translate to desired location on canvas
-    // use new width = markerSize*baseMarkerDrawableRoot.size.aspectRatio
-    final double markerAddSize = desiredWidth * 3 / 4; // 3 quarter of base marker
+    final double markerAddSize = baseMarkerDrawableRoot.size.width * scale * 3 / 4; // 3 quarter of base marker
     final double newPos = (markerSize - markerAddSize) / 4;
     canvas.translate(newPos, newPos);
 
