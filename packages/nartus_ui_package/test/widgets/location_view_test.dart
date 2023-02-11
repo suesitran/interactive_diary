@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -5,6 +6,26 @@ import '../widget_tester_extension.dart';
 
 void main() {
   const String mockAddress = 'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia';
+  testWidgets(
+    'given location string, '
+    'when location view rendered, '
+    'then show exactly location details',
+      (WidgetTester tester) async {
+    const LocationView widget = LocationView(
+      locationIconSvg: 'assets/facebook.svg',
+      address: mockAddress, latitude: 1.0, longitude: 1.0,);
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SvgPicture), findsOneWidget);
+    SvgPicture svgPicture = tester.widget(find.byType(SvgPicture));
+    expect(svgPicture.height, 15);
+    expect(svgPicture.width, 13);
+
+    expect(find.byType(Text), findsOneWidget);
+    expect(find.text(mockAddress), findsOneWidget);
+  });
 
   testWidgets(
     'given the location is a business location with valid address, '
@@ -14,7 +35,6 @@ void main() {
 
       final LocationView widget = LocationView(
         key: GlobalKey(),
-        locationIconSvg: 'assets/facebook.svg',
         businessName: 'The Coffee Shop',
         address: mockAddress, latitude: 1.0, longitude: 1.0,);
 
