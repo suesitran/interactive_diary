@@ -5,8 +5,15 @@ import 'package:nartus_storage/nartus_storage.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  const MethodChannel channelMacOS =
+  MethodChannel('plugins.flutter.io/path_provider_macos');
+
+  channelMacOS.setMockMethodCallHandler((MethodCall methodCall) async {
+    return '/';
+  });
+
   const MethodChannel channel =
-      MethodChannel('plugins.flutter.io/path_provider_macos');
+  MethodChannel('plugins.flutter.io/path_provider');
 
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
     return '/';
