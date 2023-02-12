@@ -9,7 +9,9 @@ import 'package:nartus_storage/src/impl/local/hive/hive_adapters.dart';
 import 'package:nartus_storage/src/impl/local/hive/hive_local_storage.dart';
 import 'package:hive/src/box_collection/box_collection_stub.dart'
     as implementation;
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
+import 'fake_path_provider_platform_interface.dart';
 import 'hive_local_storage_test.mocks.dart';
 
 @GenerateMocks(<Type>[HiveHelper, CollectionBox, Box])
@@ -30,12 +32,7 @@ class MockBoxCollection extends Mock implements BoxCollection {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const MethodChannel channel =
-      MethodChannel('plugins.flutter.io/path_provider_macos');
-
-  channel.setMockMethodCallHandler((MethodCall methodCall) async {
-    return '/';
-  });
+  PathProviderPlatform.instance = FakePathProviderPlatform();
 
   const int timestamp = 12345678;
   const String boxName = '011970';
