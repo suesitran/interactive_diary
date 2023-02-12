@@ -28,9 +28,9 @@ class _ButtonContent extends StatelessWidget {
                     icon,
                     width: 20,
                     height: 20,
-                    color: isEnable
+                    colorFilter: ColorFilter.mode(isEnable
                         ? _getEnableColor(buttonType)
-                        : _getDisableColor(buttonType),
+                        : _getDisableColor(buttonType), BlendMode.srcIn),
                   ),
                 ),
                 Text(label)
@@ -43,9 +43,9 @@ class _ButtonContent extends StatelessWidget {
                     icon,
                     width: 20,
                     height: 20,
-                    color: isEnable
+                    colorFilter: ColorFilter.mode(isEnable
                         ? _getEnableColor(buttonType)
-                        : _getDisableColor(buttonType),
+                        : _getDisableColor(buttonType), BlendMode.srcIn),
                   ),
                 )
               ],
