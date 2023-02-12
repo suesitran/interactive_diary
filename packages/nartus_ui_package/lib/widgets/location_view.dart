@@ -19,7 +19,7 @@ class LocationView extends StatelessWidget {
     this.businessName,
     this.borderRadius,
     String? locationIconSvg,
-  }) : isValidLocation = businessName != null || address != null,
+  })  : isValidLocation = businessName != null || address != null,
         locationIconSvg = locationIconSvg ?? '',
         super(key: key);
 
@@ -27,9 +27,7 @@ class LocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: NartusColor.gradient,
-        borderRadius: borderRadius
-      ),
+          gradient: NartusColor.gradient, borderRadius: borderRadius),
       child: Row(
         /// Why must specify textDirection ?
         /// Using this widget works fine without textDirection, but failed when testing
@@ -37,13 +35,13 @@ class LocationView extends StatelessWidget {
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (locationIconSvg.isNotEmpty)...<Widget>[
+          if (locationIconSvg.isNotEmpty) ...<Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(
-                NartusDimens.padding16,
-                NartusDimens.padding24,
-                NartusDimens.padding12,
-                NartusDimens.padding16),
+                  NartusDimens.padding16,
+                  NartusDimens.padding24,
+                  NartusDimens.padding12,
+                  NartusDimens.padding16),
               child: SvgPicture.asset(
                 locationIconSvg,
                 width: 13,
@@ -54,68 +52,73 @@ class LocationView extends StatelessWidget {
           Flexible(
             child: Padding(
                 padding: EdgeInsets.only(
-                  left: locationIconSvg.isNotEmpty ? 0 : NartusDimens.padding16,
-                  right: NartusDimens.padding16,
-                  bottom: NartusDimens.padding16,
-                  top: NartusDimens.padding16),
+                    left:
+                        locationIconSvg.isNotEmpty ? 0 : NartusDimens.padding16,
+                    right: NartusDimens.padding16,
+                    bottom: NartusDimens.padding16,
+                    top: NartusDimens.padding16),
                 child: MergeSemantics(
-                  child: (() {
-                    if (isValidLocation) {
-                      if (businessName != null) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              businessName ?? '',
-                              maxLines: 2,
-                              semanticsLabel: 'Location business name is $businessName',
-                              overflow: TextOverflow.ellipsis,
-                              textDirection: TextDirection.ltr,
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                height: 1.8
-                              ),
-                            ),
-                            const SizedBox(height: 02),
-                            Text(
-                              address ?? '',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              semanticsLabel: 'Location address is $address',
-                              textDirection: TextDirection.ltr,
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                height: 1.8
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Text(
-                          address ?? '',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          semanticsLabel: 'Location address is $address',
-                          textDirection: TextDirection.ltr,
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            height: 1.8
+                    child: (() {
+                  if (isValidLocation) {
+                    if (businessName != null) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            businessName ?? '',
+                            maxLines: 2,
+                            semanticsLabel:
+                                'Location business name is $businessName',
+                            overflow: TextOverflow.ellipsis,
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(height: 1.8),
                           ),
-                        );
-                      }
+                          const SizedBox(height: 02),
+                          Text(
+                            address ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            semanticsLabel: 'Location address is $address',
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(height: 1.8),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Text(
+                        address ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        semanticsLabel: 'Location address is $address',
+                        textDirection: TextDirection.ltr,
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(height: 1.8),
+                      );
                     }
-                    return Text(
-                      '($latitude, $longitude)',
-                      textDirection: TextDirection.ltr,
-                      semanticsLabel: 'Location at latitude $latitude and longitude $longitude',
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        height: 1.8
-                      ),
-                    );
-                  }())
-                )
-            ),
+                  }
+                  return Text(
+                    '($latitude, $longitude)',
+                    textDirection: TextDirection.ltr,
+                    semanticsLabel:
+                        'Location at latitude $latitude and longitude $longitude',
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(height: 1.8),
+                  );
+                }()))),
           ),
         ],
       ),
