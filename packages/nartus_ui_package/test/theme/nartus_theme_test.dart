@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-import '../widget_tester_extension.dart';
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
