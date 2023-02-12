@@ -52,7 +52,8 @@ class ContentCardView extends StatelessWidget {
                     // Icon(Icons.supervised_user_circle_sharp, color: NartusColor.grey,),
                     SvgPicture.asset(
                       Assets.images.idProfileUserIconPadding,
-                      colorFilter: const ColorFilter.mode(NartusColor.grey, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(
+                          NartusColor.grey, BlendMode.srcIn),
                     )
                   ],
                 )

@@ -165,14 +165,17 @@ class _GoogleMapViewState extends State<GoogleMapView>
     // draw baseMarker on canvas
     canvas.save();
     // calculate max scale by height
-    final double scale = markerSize/baseMarkerDrawableRoot.size.height;
+    final double scale = markerSize / baseMarkerDrawableRoot.size.height;
     canvas.scale(scale, scale);
     canvas.drawPicture(baseMarkerDrawableRoot.picture);
     canvas.restore();
 
     // draw marker add
     // translate to desired location on canvas
-    final double markerAddSize = baseMarkerDrawableRoot.size.width * scale * 3 / 4; // 3 quarter of base marker
+    final double markerAddSize = baseMarkerDrawableRoot.size.width *
+        scale *
+        3 /
+        4; // 3 quarter of base marker
     final double newPos = (markerSize - markerAddSize) / 4;
     canvas.translate(newPos, newPos);
 
@@ -195,7 +198,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
       canvas.translate(translateX, translateY);
       canvas.rotate(angle);
 
-      canvas.scale(markerAddSize/markerAddDrawableRoot.size.width, markerAddSize/markerAddDrawableRoot.size.height);
+      canvas.scale(markerAddSize / markerAddDrawableRoot.size.width,
+          markerAddSize / markerAddDrawableRoot.size.height);
       canvas.drawPicture(markerAddDrawableRoot.picture);
 
       // unlock canvas
@@ -203,7 +207,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
     } else {
       // do normal drawing
       canvas.save();
-      canvas.scale(markerAddSize/markerAddDrawableRoot.size.width, markerAddSize/markerAddDrawableRoot.size.height);
+      canvas.scale(markerAddSize / markerAddDrawableRoot.size.width,
+          markerAddSize / markerAddDrawableRoot.size.height);
       canvas.drawPicture(markerAddDrawableRoot.picture);
       canvas.restore();
     }
@@ -360,7 +365,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
     // draw baseMarker on canvas
     canvas.save();
-    canvas.scale(markerSize/drawableRoot.size.width);
+    canvas.scale(markerSize / drawableRoot.size.width);
     canvas.drawPicture(drawableRoot.picture);
     canvas.restore();
 

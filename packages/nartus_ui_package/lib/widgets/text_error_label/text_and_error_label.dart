@@ -81,8 +81,8 @@ class _TextAndErrorLabelState extends State<TextAndErrorLabel>
           padding: const EdgeInsets.symmetric(
               horizontal: NartusDimens.padding16,
               vertical: NartusDimens.padding14),
-          child:
-              Text(widget._label, style: Theme.of(context).textTheme.titleLarge),
+          child: Text(widget._label,
+              style: Theme.of(context).textTheme.titleLarge),
         ),
       );
 

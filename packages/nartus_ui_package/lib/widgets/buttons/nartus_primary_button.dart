@@ -68,7 +68,8 @@ class _NartusPrimaryButton extends StatelessWidget {
               icon!,
               width: NartusDimens.padding20,
               height: NartusDimens.padding20,
-              colorFilter: const ColorFilter.mode(NartusColor.white, BlendMode.srcIn),
+              colorFilter:
+                  const ColorFilter.mode(NartusColor.white, BlendMode.srcIn),
               semanticsLabel: iconSemanticLabel,
             )),
       );
