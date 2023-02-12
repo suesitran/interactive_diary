@@ -46,7 +46,7 @@ jobs:
     - name: Install Flutter 
       uses: subosito/flutter-action@v2.8.0
       with:
-        flutter-version: '3.7.1'
+        flutter-version: '3.3.7'
         channel: 'stable'
 #    enable it when issue is fixed
 #    - name: Format code
