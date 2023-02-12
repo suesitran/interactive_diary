@@ -4,76 +4,44 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import '../widget_tester_extension.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test('Validate all theme color', () {
     // brightness is light
     expect(lightTheme.brightness, Brightness.light);
-    // background color is default light - white
-    expect(lightTheme.colorScheme.background, const Color(0xffffffff));
-    // error color is dark red
+
+    // ensure there's no changes to our color scheme from design
+    // primary color
+    expect(lightTheme.colorScheme.primary, const Color(0xFF7D54F8));
+    // onPrimary color
+    expect(lightTheme.colorScheme.onPrimary, const Color(0xFFFFFFFF));
+    // primary container
+    expect(lightTheme.colorScheme.primaryContainer, const Color(0xFFEFEAFE));
+    // on primary container
+    expect(lightTheme.colorScheme.onPrimaryContainer, const Color(0xFF1C2025));
+    // secondary
+    expect(lightTheme.colorScheme.secondary, const Color(0xFF7A7A7A));
+    // on secondary
+    expect(lightTheme.colorScheme.onSecondary, const Color(0xFFFFFFFF));
+    // secondary container
+    expect(lightTheme.colorScheme.secondaryContainer, const Color(0xFFECECF1));
+    // on secondary container
+    expect(lightTheme.colorScheme.onSecondaryContainer, const Color(0xFF1C2025));
+    // background
+    expect(lightTheme.colorScheme.background, const Color(0xFFFFFFFF));
+    // on background
+    expect(lightTheme.colorScheme.onBackground, const Color(0xFF1C2025));
+    // surface
+    expect(lightTheme.colorScheme.surface, const Color(0xFFFFFFFF));
+    // on surface
+    expect(lightTheme.colorScheme.onSurface, const Color(0xFF1C2025));
+    // error
     expect(lightTheme.colorScheme.error, const Color(0xFFB3261E));
-  });
-
-  testWidgetsCustom(lightTheme, const Color(0xFF7D54F8),
-      (BuildContext context) => Theme.of(context).colorScheme.primary);
-  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
-      (BuildContext context) => Theme.of(context).colorScheme.onPrimary);
-  testWidgetsCustom(lightTheme, const Color(0xFFEFEAFE),
-      (BuildContext context) => Theme.of(context).colorScheme.primaryContainer);
-  testWidgetsCustom(
-      lightTheme,
-      const Color(0xFF1C2025),
-      (BuildContext context) =>
-          Theme.of(context).colorScheme.onPrimaryContainer);
-  testWidgetsCustom(lightTheme, const Color(0xFF7A7A7A),
-      (BuildContext context) => Theme.of(context).colorScheme.secondary);
-  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
-      (BuildContext context) => Theme.of(context).colorScheme.onSecondary);
-  testWidgetsCustom(
-      lightTheme,
-      const Color(0xFFECECF1),
-      (BuildContext context) =>
-          Theme.of(context).colorScheme.secondaryContainer);
-  testWidgetsCustom(
-      lightTheme,
-      const Color(0xFF1C2025),
-      (BuildContext context) =>
-          Theme.of(context).colorScheme.onSecondaryContainer);
-  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
-      (BuildContext context) => Theme.of(context).colorScheme.background);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025),
-      (BuildContext context) => Theme.of(context).colorScheme.onBackground);
-  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
-      (BuildContext context) => Theme.of(context).colorScheme.surface);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025),
-      (BuildContext context) => Theme.of(context).colorScheme.onSurface);
-  testWidgetsCustom(lightTheme, const Color(0xFFB3261E),
-      (BuildContext context) => Theme.of(context).colorScheme.error);
-  testWidgetsCustom(lightTheme, const Color(0xFFFFFFFF),
-      (BuildContext context) => Theme.of(context).colorScheme.onError);
-  testWidgetsCustom(lightTheme, const Color(0xFFF6E5E4),
-      (BuildContext context) => Theme.of(context).colorScheme.errorContainer);
-  testWidgetsCustom(lightTheme, const Color(0xFF1C2025),
-      (BuildContext context) => Theme.of(context).colorScheme.onErrorContainer);
-}
-
-Future<void> testWidgetsCustom(ThemeData theme, Color expectColor,
-    Color Function(BuildContext context) getAppliedColor) async {
-  testWidgets('Validate color scheme [${expectColor.value.toRadixString(16)}]',
-      (WidgetTester tester) async {
-    final Builder testIcon = Builder(builder: (BuildContext context) {
-      return Icon(
-        Icons.abc_outlined,
-        color: getAppliedColor(context),
-      );
-    });
-
-    await tester.wrapMaterialAndPump(testIcon, theme: lightTheme);
-
-    final Icon renderedIcon = tester.widget<Icon>(find.byType(Icon));
-
-    expect((renderedIcon.color?.value.toRadixString(16)),
-        expectColor.value.toRadixString(16),
-        reason:
-            'Failed compare theme color (${renderedIcon.color?.value.toRadixString(16)}) vs expect color (${expectColor.value.toRadixString(16)})');
+    // on error
+    expect(lightTheme.colorScheme.onError, const Color(0xFFFFFFFF));
+    // error container
+    expect(lightTheme.colorScheme.errorContainer, const Color(0xFFF6E5E4));
+    // on error container
+    expect(lightTheme.colorScheme.onErrorContainer, const Color(0xFF1C2025));
   });
 }
