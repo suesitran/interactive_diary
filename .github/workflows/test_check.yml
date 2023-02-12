@@ -1,0 +1,94 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Test PR Check
+
+# Controls when the workflow will run
+on:
+#  pull_request_target:
+#    branches: [dev]
+#      - '**'
+# Triggers the workflow on push or pull request events but not for the "dev" branch
+#  push:
+#    branches:
+#      - '**'
+#    - '!dev'
+#    - '!master'
+  pull_request_target:
+    branches: 
+      - dev
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+      # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    name: 'Run test and build code'
+    runs-on: macos-latest
+    concurrency:
+      cancel-in-progress: true
+      group: build-${{ github.event.pull_request.number || github.event.pull_request_target.number || github.ref }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request_target.head.ref || github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request_target.head.repo.full_name || github.event.pull_request.head.repo.full_name}}
+    - name:  Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    - name: Install Flutter 
+      uses: subosito/flutter-action@v2.8.0
+      with:
+        flutter-version: '3.7.1'
+        channel: 'stable'
+#    enable it when issue is fixed
+#    - name: Format code
+#      run: flutter format . --fix --set-exit-if-changed
+    - name: Setup environment secrets
+      shell: bash
+      env:
+        FIREBASE_OPTION: ${{ secrets.PR_FIREBASE_OPTIONS }}
+        ANDROID_GOOGLE_SERVICE: ${{ secrets.PR_ANDROID_GOOGLE_SERVICE }}
+        FIREBASE_APP_ID_FILE: ${{ secrets.PR_FIREBASE_APP_ID_FILE }}
+        ANDROID_APP_CONFIGS: ${{ secrets.PR_ANDROID_APP_CONFIG }}
+        IOS_APP_CONFIGS: ${{ secrets.PR_IOS_GOOGLE_MAP_PROPERTIES }}
+        IOS_GOOGLE_SERVICE: ${{ secrets.PR_IOS_GOOGLE_SERVICE }}
+        ANDROID_KEY_PROPERTIES: ${{ secrets.PR_ANDROID_KEY_PROPERTIES }}
+      run: |
+        echo "$FIREBASE_OPTION" > lib/firebase_options.dart
+        echo "$ANDROID_GOOGLE_SERVICE" > android/app/google-services.json
+        echo "$FIREBASE_APP_ID_FILE" > ios/firebase_app_id_file.json
+        echo "$ANDROID_APP_CONFIGS" > android/appconfig.properties
+        echo "$IOS_GOOGLE_MAP_PROPERTIES" > ios/Flutter/AppConfig.xcconfig
+        echo "$IOS_GOOGLE_SERVICE" > ios/Runner/GoogleService-Info.plist
+        echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
+    - name: Install dependencies
+      shell: bash
+      run: |
+        flutter doctor -v
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build --delete-conflicting-outputs
+        flutter pub run intl_utils:generate
+        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build --delete-conflicting-outputs; cd -; done
+    - name: analyse code
+      run: flutter analyze
+    - name: Run tests
+      run: |
+        flutter test --coverage
+        for d in $(ls packages); do cd packages/$d; flutter test --coverage; cd -; done
+    - uses: codecov/codecov-action@v3
+      with:
+        verbose: true
+        fail_ci_if_error: true
+    - name: build apk debug
+      run: flutter build apk --debug
+    - name: build iOS no codesign
+      run: flutter build ipa --no-codesign
