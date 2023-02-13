@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
@@ -12,6 +11,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 import 'package:interactive_diary/firebase_options.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 // ignore_for_file: always_specify_types
 void main() async {
@@ -22,8 +23,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  if (mapsImplementation is GoogleMapsFlutterAndroid) {
+    mapsImplementation.useAndroidViewSurface = true;
   }
 
   runApp(MultiBlocProvider(

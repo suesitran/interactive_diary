@@ -75,7 +75,7 @@ class WriteDiaryScreen extends StatelessWidget {
                   showCursor: true,
                   maxLines: null,
                   decoration: const InputDecoration(border: InputBorder.none),
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                   keyboardType: TextInputType.multiline,
                   onChanged: (String text) {
                     final bool textAvailable = text.isNotEmpty;
