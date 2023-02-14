@@ -33,9 +33,7 @@ class LocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: NartusColor.gradient,
-        borderRadius: borderRadius
-      ),
+          gradient: NartusColor.gradient, borderRadius: borderRadius),
       child: Row(
         /// Why must specify textDirection ?
         /// Using this widget works fine without textDirection, but failed when testing.
@@ -43,13 +41,13 @@ class LocationView extends StatelessWidget {
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (locationIconSvg.isNotEmpty)...<Widget>[
+          if (locationIconSvg.isNotEmpty) ...<Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(
-                NartusDimens.padding16,
-                NartusDimens.padding24,
-                NartusDimens.padding12,
-                NartusDimens.padding16),
+                  NartusDimens.padding16,
+                  NartusDimens.padding24,
+                  NartusDimens.padding12,
+                  NartusDimens.padding16),
               child: SvgPicture.asset(
                 locationIconSvg,
                 width: 13,
@@ -60,10 +58,11 @@ class LocationView extends StatelessWidget {
           Flexible(
             child: Padding(
                 padding: EdgeInsets.only(
-                  left: locationIconSvg.isNotEmpty ? 0 : NartusDimens.padding16,
-                  right: NartusDimens.padding16,
-                  bottom: NartusDimens.padding16,
-                  top: NartusDimens.padding16),
+                    left:
+                        locationIconSvg.isNotEmpty ? 0 : NartusDimens.padding16,
+                    right: NartusDimens.padding16,
+                    bottom: NartusDimens.padding16,
+                    top: NartusDimens.padding16),
                 child: MergeSemantics(
                   child: (() {
                     if (isValidLocation) {

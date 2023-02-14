@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-const String demoAddress = 'Lê Lợi, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh, Vietnam';
+const String demoAddress =
+    'Lê Lợi, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh, Vietnam';
 const String demoBusinessName = 'Ben Thanh Market';
 const String demoLocationIcon = 'assets/danger.svg';
 const double demoLat = 21.0486596;
@@ -53,7 +54,8 @@ class LocationDemoScreen extends StatelessWidget {
           const _DemoItemView(
             title: 'Location without business name but have address',
             widget: LocationView(
-              address: '188 Xô Viết Nghệ Tĩnh, phường 21, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam',
+              address:
+                  '188 Xô Viết Nghệ Tĩnh, phường 21, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam',
               latitude: demoLat,
               longitude: demoLong,
             ),
@@ -78,10 +80,11 @@ class LocationDemoScreen extends StatelessWidget {
           ),
           const Gap.v12(),
           _DemoItemView(
-            title: 'Location with address and business name take more than 2 lines',
+            title:
+                'Location with address and business name take more than 2 lines',
             widget: LocationView(
-              businessName: demoBusinessName*10,
-              address: demoAddress*10,
+              businessName: demoBusinessName * 10,
+              address: demoAddress * 10,
               latitude: demoLat,
               longitude: demoLong,
             ),
@@ -95,7 +98,8 @@ class LocationDemoScreen extends StatelessWidget {
 class _DemoItemView extends StatelessWidget {
   final String title;
   final Widget widget;
-  const _DemoItemView({Key? key, required this.title, required this.widget}) : super(key: key);
+  const _DemoItemView({Key? key, required this.title, required this.widget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,9 +109,13 @@ class _DemoItemView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            color: Colors.grey.shade500
-          ),),
+          Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(color: Colors.grey.shade500),
+          ),
           const Gap.v20(),
           widget
         ],

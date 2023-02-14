@@ -3,7 +3,7 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 const String kTemporaryPath = 'temporaryPath';
-const String kApplicationSupportPath = '/';
+const String kApplicationSupportPath = 'applicationSupportPath';
 const String kDownloadsPath = 'downloadsPath';
 const String kLibraryPath = 'libraryPath';
 const String kApplicationDocumentsPath = 'applicationDocumentsPath';

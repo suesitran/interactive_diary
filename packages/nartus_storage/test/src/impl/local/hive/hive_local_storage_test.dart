@@ -48,11 +48,16 @@ void main() {
   final MockBoxCollection boxCollection = MockBoxCollection();
   final HiveDiary hiveDiary = HiveDiary.fromDiary(diary);
 
+  setUp(() {
+    when(hiveHelper.init()).thenAnswer((_) => Future<void>.value(null));
+  });
+
   test(
       'given timestamp for diary not found, when delete diary, then return false',
       () async {
-    when(hiveHelper.open(name, <String>{boxName}, path: '/')).thenAnswer(
-        (Invocation realInvocation) =>
+    when(hiveHelper.open(name, <String>{boxName},
+            path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
             Future<BoxCollection>.value(boxCollection));
     when(collectionBox.get(timestamp.toString())).thenAnswer(
         (Invocation realInvocation) => Future<HiveDiary?>.value(null));
@@ -94,8 +99,9 @@ void main() {
   test(
       'given diary for month is not available, when readDiaryForMonth, then return empty list',
       () async {
-    when(hiveHelper.open(name, <String>{'112022'}, path: '/')).thenAnswer(
-        (Invocation realInvocation) =>
+    when(hiveHelper.open(name, <String>{'112022'},
+            path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
             Future<BoxCollection>.value(boxCollection));
     when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
         Future<Map<String, HiveDiary>>.value(<String, HiveDiary>{}));
@@ -117,8 +123,9 @@ void main() {
   test(
       'given diary for month has single entry, when readDiaryForMonth, then return list with 1 entry',
       () async {
-    when(hiveHelper.open(name, <String>{'112022'}, path: '/')).thenAnswer(
-        (Invocation realInvocation) =>
+    when(hiveHelper.open(name, <String>{'112022'},
+            path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
             Future<BoxCollection>.value(boxCollection));
     when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
         Future<Map<String, HiveDiary>>.value(
@@ -141,8 +148,9 @@ void main() {
   test(
       'when saveDiary, then ensure to close collection box, and save diary into hive collection',
       () async {
-    when(hiveHelper.open(name, <String>{'011970'}, path: '/')).thenAnswer(
-        (Invocation realInvocation) =>
+    when(hiveHelper.open(name, <String>{'011970'},
+            path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
             Future<BoxCollection>.value(boxCollection));
 
     HiveLocalStorage hiveLocalStorage =
@@ -164,8 +172,9 @@ void main() {
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final HiveUser hiveUser = HiveUser.fromUser(user);
     final Box<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid'))
         .thenAnswer((Invocation realInvocation) => hiveUser);
 
@@ -183,8 +192,9 @@ void main() {
   test('given user is in not storage, when delete user, then return false',
       () async {
     final Box<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid')).thenAnswer((Invocation realInvocation) => null);
 
     HiveLocalStorage hiveLocalStorage =
@@ -204,8 +214,9 @@ void main() {
     const User user =
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final MockBox<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid')).thenAnswer((Invocation realInvocation) => null);
 
     HiveLocalStorage hiveLocalStorage =
@@ -225,8 +236,9 @@ void main() {
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final Box<HiveUser> userBox = MockBox<HiveUser>();
     final HiveUser hiveUser = HiveUser.fromUser(user);
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid'))
         .thenAnswer((Invocation realInvocation) => hiveUser);
 
@@ -247,8 +259,9 @@ void main() {
     const User user =
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final MockBox<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid')).thenAnswer((Invocation realInvocation) => null);
 
     HiveLocalStorage hiveLocalStorage =
@@ -270,8 +283,9 @@ void main() {
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final HiveUser hiveUser = HiveUser.fromUser(user);
     final MockBox<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid'))
         .thenAnswer((Invocation realInvocation) => hiveUser);
 
@@ -291,8 +305,9 @@ void main() {
   test('given user is not in storage, when get user details, then throw error',
       () async {
     final Box<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid')).thenAnswer((Invocation realInvocation) => null);
 
     HiveLocalStorage hiveLocalStorage =
@@ -308,8 +323,9 @@ void main() {
         User(uid: 'uid', firstName: 'firstName', lastName: 'lastName');
     final HiveUser hiveUser = HiveUser.fromUser(user);
     final Box<HiveUser> userBox = MockBox<HiveUser>();
-    when(hiveHelper.openBox<HiveUser>('user', path: '/')).thenAnswer(
-        (Invocation realInvocation) => Future<Box<HiveUser>>.value(userBox));
+    when(hiveHelper.openBox<HiveUser>('user', path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<Box<HiveUser>>.value(userBox));
     when(userBox.get('uid'))
         .thenAnswer((Invocation realInvocation) => hiveUser);
 
