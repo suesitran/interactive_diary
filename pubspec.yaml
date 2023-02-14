@@ -40,7 +40,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   intl: ^0.17.0
   equatable: ^2.0.5
-  flutter_svg: ^1.1.5
+  flutter_svg: ^2.0.0+1
   nartus_ui_package:
     path: packages/nartus_ui_package
   nartus_location:
@@ -52,6 +52,9 @@ dependencies:
   nartus_storage:
     path: packages/nartus_storage
   go_router: ^5.1.1
+  fvm: ^2.4.1
+  google_maps_flutter_android: ^2.4.3
+  google_maps_flutter_platform_interface: ^2.2.5
 
 dev_dependencies:
   flutter_test:

@@ -8,12 +8,12 @@ part 'nartus_card_theme.dart';
 part 'nartus_button_theme.dart';
 
 ThemeData lightTheme = ThemeData(
-    errorColor: NartusColor.red,
-    textTheme: textTheme,
-    materialTapTargetSize: MaterialTapTargetSize.padded,
-    colorScheme: lightColorScheme,
-    fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
-    cardTheme: cardTheme,
-    elevatedButtonTheme: primaryButtonThemeData,
-    outlinedButtonTheme: secondaryButtonThemeData,
-    textButtonTheme: textButtonThemeData);
+  textTheme: textTheme,
+  materialTapTargetSize: MaterialTapTargetSize.padded,
+  fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+  cardTheme: cardTheme,
+  elevatedButtonTheme: primaryButtonThemeData,
+  outlinedButtonTheme: secondaryButtonThemeData,
+  textButtonTheme: textButtonThemeData,
+  colorScheme: lightColorScheme,
+);
