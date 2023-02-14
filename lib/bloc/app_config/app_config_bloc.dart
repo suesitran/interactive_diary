@@ -2,20 +2,34 @@ import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:interactive_diary/firebase_options.dart';
 
 part 'app_config_event.dart';
 part 'app_config_state.dart';
 
 class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
   AppConfigBloc() : super(AppConfigInitial()) {
-    on<AppConfigEvent>((AppConfigEvent event, Emitter<AppConfigState> emit) {});
+    on<AppRequestInitialise>(_initialise);
   }
 
-  void initialise() async {
+  void _initialise(AppConfigEvent event, Emitter<AppConfigState> emit) async {
+    // init Date formatting
+    initializeDateFormatting();
+
+    // init Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     // init remote config
     await _initRemoteConfig();
 
     // TODO add other initialise here
+
+    // inform UI
+    emit(AppConfigInitialised());
   }
 
   Future<void> _initRemoteConfig() async {
