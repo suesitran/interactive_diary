@@ -17,8 +17,10 @@ final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
   routes: <GoRoute>[
     // splash screen
-    GoRoute(path: splash,
-    builder: (BuildContext context, GoRouterState state) => const SplashScreen()),
+    GoRoute(
+        path: splash,
+        builder: (BuildContext context, GoRouterState state) =>
+            const SplashScreen()),
     // Home screen
     GoRoute(
       path: idHomeRoute,

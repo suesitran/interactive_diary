@@ -52,12 +52,11 @@ void main() async {
       supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) {
         if (child != null) {
-          final double textScaleFactor =
-              MediaQuery.of(context).textScaleFactor;
+          final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
           return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                  textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
               child: child);
         }
 
