@@ -11,6 +11,9 @@ class LocationView extends StatelessWidget {
   final double longitude;
   final bool isValidLocation;
   final BorderRadiusGeometry? borderRadius;
+  final String? semanticBusinessName;
+  final String? semanticAddress;
+  final String? semanticCoordinate;
   const LocationView({
     required this.latitude,
     required this.longitude,
@@ -19,6 +22,9 @@ class LocationView extends StatelessWidget {
     this.businessName,
     this.borderRadius,
     String? locationIconSvg,
+    this.semanticBusinessName,
+    this.semanticAddress,
+    this.semanticCoordinate,
   }) : isValidLocation = businessName != null || address != null,
         locationIconSvg = locationIconSvg ?? '',
         super(key: key);
@@ -32,7 +38,7 @@ class LocationView extends StatelessWidget {
       ),
       child: Row(
         /// Why must specify textDirection ?
-        /// Using this widget works fine without textDirection, but failed when testing
+        /// Using this widget works fine without textDirection, but failed when testing.
         /// in order to pass the tests, we have to specify textDirection.
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +74,7 @@ class LocationView extends StatelessWidget {
                             Text(
                               businessName ?? '',
                               maxLines: 2,
-                              semanticsLabel: 'Location business name is $businessName',
+                              semanticsLabel: semanticBusinessName,
                               overflow: TextOverflow.ellipsis,
                               textDirection: TextDirection.ltr,
                               textAlign: TextAlign.start,
@@ -81,7 +87,7 @@ class LocationView extends StatelessWidget {
                               address ?? '',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              semanticsLabel: 'Location address is $address',
+                              semanticsLabel: semanticAddress,
                               textDirection: TextDirection.ltr,
                               textAlign: TextAlign.start,
                               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -95,7 +101,7 @@ class LocationView extends StatelessWidget {
                           address ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          semanticsLabel: 'Location address is $address',
+                          semanticsLabel: semanticAddress,
                           textDirection: TextDirection.ltr,
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -107,7 +113,7 @@ class LocationView extends StatelessWidget {
                     return Text(
                       '($latitude, $longitude)',
                       textDirection: TextDirection.ltr,
-                      semanticsLabel: 'Location at latitude $latitude and longitude $longitude',
+                      semanticsLabel: semanticCoordinate,
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         height: 1.8
