@@ -55,6 +55,7 @@ dependencies:
   fvm: ^2.4.1
   google_maps_flutter_android: ^2.4.3
   google_maps_flutter_platform_interface: ^2.2.5
+  firebase_remote_config: ^3.0.10
 
 dev_dependencies:
   flutter_test:

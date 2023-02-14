@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
@@ -31,6 +32,10 @@ void main() async {
 
   runApp(MultiBlocProvider(
     providers: [
+      BlocProvider<AppConfigBloc>(
+        create: (context) => AppConfigBloc()
+        ..initialise(),
+      ),
       BlocProvider<LocationBloc>(
         create: (BuildContext context) => LocationBloc(),
       ),
@@ -47,27 +52,36 @@ void main() async {
         create: (_) => StorageBloc(),
       )
     ],
-    child: MaterialApp.router(
-      routerConfig: appRoute,
-      title: 'Interactive Diary',
-      theme: lightTheme,
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-        S.delegate,
+    child: MultiBlocListener(
+      listeners: [
+        BlocListener<AppConfigBloc, AppConfigState>(
+          listener: (context, state) {
+
+          },
+        ),
       ],
-      supportedLocales: S.delegate.supportedLocales,
-      builder: (context, child) {
-        if (child != null) {
-          final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+      child: MaterialApp.router(
+        routerConfig: appRoute,
+        title: 'Interactive Diary',
+        theme: lightTheme,
+        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+          S.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        builder: (context, child) {
+          if (child != null) {
+            final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-          return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-              child: child);
-        }
+            return MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+                child: child);
+          }
 
-        // return unavailable screen
-        return const ScreenUnavailable();
-      },
+          // return unavailable screen
+          return const ScreenUnavailable();
+        },
+      ),
     ),
   ));
 }

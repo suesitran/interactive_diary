@@ -52,6 +52,7 @@ class AuthUtils {
   static AuthenticateFailedException convertAuthException(
       String code, String message) {
     switch (code) {
+
       /// [FIREBASE AUTH]
       case 'account-exists-with-different-credential':
         return AuthenticateFailedException(
