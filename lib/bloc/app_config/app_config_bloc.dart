@@ -12,7 +12,6 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
   }
 
   void initialise() async {
-    print('SUESI init app config');
     // init remote config
     await _initRemoteConfig();
 
@@ -27,9 +26,15 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
     ));
 
     remoteConfig.addListener(() {
-      print('SUESI - ${remoteConfig.getBool('debug_options')}');
+      // TODO get value from Remote Config and use it here
+      _onDebugOptionChanged(remoteConfig.getBool('debug_options'));
     });
 
     await remoteConfig.fetchAndActivate();
+  }
+
+  void _onDebugOptionChanged(bool debugOptions) {
+    // TODO handle debug option change
+
   }
 }
