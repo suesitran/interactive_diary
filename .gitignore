@@ -73,4 +73,5 @@ packages/**/Flutter
 # ignore local properties
 packages/nartus_ui_package/android/local.properties
 
-
+# ignore fvm
+.fvm

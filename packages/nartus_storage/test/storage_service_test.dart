@@ -1,16 +1,13 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_storage/nartus_storage.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+
+import 'src/impl/local/hive/fake_path_provider_platform_interface.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const MethodChannel channel =
-      MethodChannel('plugins.flutter.io/path_provider_macos');
-
-  channel.setMockMethodCallHandler((MethodCall methodCall) async {
-    return '/';
-  });
+  PathProviderPlatform.instance = FakePathProviderPlatform();
 
   test('use LocalStorageServiceImpl when StorageService type is local', () {
     StorageService service = StorageService(StorageType.local);
