@@ -33,8 +33,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AppConfigBloc>(
-        create: (context) => AppConfigBloc()
-        ..initialise(),
+        create: (context) => AppConfigBloc()..initialise(),
       ),
       BlocProvider<LocationBloc>(
         create: (BuildContext context) => LocationBloc(),
@@ -55,9 +54,7 @@ void main() async {
     child: MultiBlocListener(
       listeners: [
         BlocListener<AppConfigBloc, AppConfigState>(
-          listener: (context, state) {
-
-          },
+          listener: (context, state) {},
         ),
       ],
       child: MaterialApp.router(
@@ -70,11 +67,12 @@ void main() async {
         supportedLocales: S.delegate.supportedLocales,
         builder: (context, child) {
           if (child != null) {
-            final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+            final double textScaleFactor =
+                MediaQuery.of(context).textScaleFactor;
 
             return MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+                data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
                 child: child);
           }
 

@@ -35,6 +35,5 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
 
   void _onDebugOptionChanged(bool debugOptions) {
     // TODO handle debug option change
-
   }
 }
