@@ -12,7 +12,6 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
-// ignore_for_file: always_specify_types
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -43,35 +42,28 @@ void main() async {
         create: (_) => StorageBloc(),
       )
     ],
-    child: MultiBlocListener(
-      listeners: [
-        BlocListener<AppConfigBloc, AppConfigState>(
-          listener: (context, state) {},
-        ),
+    child: MaterialApp.router(
+      routerConfig: appRoute,
+      title: 'Interactive Diary',
+      theme: lightTheme,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        S.delegate,
       ],
-      child: MaterialApp.router(
-        routerConfig: appRoute,
-        title: 'Interactive Diary',
-        theme: lightTheme,
-        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-          S.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        builder: (context, child) {
-          if (child != null) {
-            final double textScaleFactor =
-                MediaQuery.of(context).textScaleFactor;
+      supportedLocales: S.delegate.supportedLocales,
+      builder: (context, child) {
+        if (child != null) {
+          final double textScaleFactor =
+              MediaQuery.of(context).textScaleFactor;
 
-            return MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-                child: child);
-          }
+          return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+              child: child);
+        }
 
-          // return unavailable screen
-          return const ScreenUnavailable();
-        },
-      ),
+        // return unavailable screen
+        return const ScreenUnavailable();
+      },
     ),
   ));
 }
