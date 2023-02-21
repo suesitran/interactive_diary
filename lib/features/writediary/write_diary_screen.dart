@@ -7,7 +7,7 @@ import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
 import 'package:interactive_diary/generated/l10n.dart';
-import 'package:interactive_diary/widgets/location_view.dart';
+import 'package:nartus_ui_package/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
   WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
@@ -64,8 +64,11 @@ class WriteDiaryScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const LocationView(
-                  currentLocation:
-                      'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
+                address:
+                    'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                latitude: 1.0,
+                longitude: 1.0,
+              ),
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
