@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
-import 'package:interactive_diary/bloc/location/location_bloc.dart';
 import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
 import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
 import 'package:interactive_diary/route/map_route.dart';
@@ -25,9 +24,6 @@ void main() async {
     providers: [
       BlocProvider<AppConfigBloc>(
         create: (context) => AppConfigBloc()..add(AppRequestInitialise()),
-      ),
-      BlocProvider<LocationBloc>(
-        create: (BuildContext context) => LocationBloc(),
       ),
       BlocProvider<GetContentsBloc>(
         create: (BuildContext context) => GetContentsBloc(),

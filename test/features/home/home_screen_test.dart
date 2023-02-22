@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
-import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
