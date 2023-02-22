@@ -4,6 +4,7 @@ import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
+
 import 'location_bloc_test.mocks.dart';
 
 @GenerateMocks(<Type>[LocationService])
