@@ -39,7 +39,6 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
             <BlocProvider<StateStreamableSource<Object?>>>[
               BlocProvider<LocationBloc>(create: (_) {
-                print('create location bloc');
                 return mockLocationBloc;
               }),
               BlocProvider<ConnectivityBloc>(
@@ -172,7 +171,7 @@ void main() {
 
     await widgetTester.tap(find.text('Allow'));
 
-    verify(mockLocationBloc.add(ShowDialogRequestPermissionEvent())).called(1);
+    verify(mockLocationBloc.showDialogRequestPermissionEvent()).called(1);
   });
 
   testWidgets(
@@ -195,7 +194,7 @@ void main() {
 
     await widgetTester.tap(find.text('Continue with default location'));
 
-    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+    verify(mockLocationBloc.requestDefaultLocation()).called(1);
   });
 
   testWidgets(
@@ -218,7 +217,7 @@ void main() {
 
     await widgetTester.tap(find.text('Go to Settings'));
 
-    verify(mockLocationBloc.add(OpenAppSettingsEvent()));
+    verify(mockLocationBloc.openAppSettings()).called(1);
   });
 
   testWidgets(
@@ -241,7 +240,7 @@ void main() {
 
     await widgetTester.tap(find.text('Continue with default location'));
 
-    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+    verify(mockLocationBloc.requestDefaultLocation()).called(1);
   });
 
   testWidgets(
@@ -335,7 +334,7 @@ void main() {
     await widgetTester.tap(find.ancestor(
         of: find.text('Go to Settings'), matching: find.byType(NartusButton)));
 
-    verify(mockLocationBloc.add(OpenLocationServiceEvent()));
+    verify(mockLocationBloc.openLocationServiceSetting()).called(1);
   });
 
   testWidgets(
@@ -367,7 +366,7 @@ void main() {
         of: find.text('Continue with default location'),
         matching: find.byType(NartusButton)));
 
-    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+    verify(mockLocationBloc.requestDefaultLocation()).called(1);
   });
 
   group('Test location device permission request', () {
@@ -492,7 +491,7 @@ void main() {
 
       await widgetTester.tap(find.text('Allow'));
 
-      verify(mockLocationBloc.add(ShowDialogRequestPermissionEvent()))
+      verify(mockLocationBloc.showDialogRequestPermissionEvent())
           .called(1);
     });
 
@@ -564,7 +563,7 @@ void main() {
 
       await widgetTester.tap(find.text('Continue with default location'));
 
-      verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+      verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
 
     testWidgets(
@@ -596,7 +595,7 @@ void main() {
 
       await widgetTester.tap(find.text('Go to Settings'));
 
-      verify(mockLocationBloc.add(OpenAppSettingsEvent()));
+      verify(mockLocationBloc.openAppSettings()).called(1);
     });
 
     testWidgets(
@@ -627,7 +626,7 @@ void main() {
 
       await widgetTester.tap(find.text('Continue with default location'));
 
-      verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+      verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
   });
 }

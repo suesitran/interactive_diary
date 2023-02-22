@@ -77,7 +77,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                       // to directly go to Location settings
                       context
                           .read<LocationBloc>()
-                          .add(OpenLocationServiceEvent());
+                          .openLocationServiceSetting();
                     },
                     textButtonText:
                     S.of(context).locationPermissionDialogContinueButton,
@@ -85,7 +85,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                       Navigator.of(context).pop();
                       context
                           .read<LocationBloc>()
-                          .add(RequestDefaultLocationEvent());
+                          .requestDefaultLocation();
                     },
                     isDismissible: false);
               }
@@ -123,19 +123,19 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                       if (state is LocationPermissionDeniedState) {
                         context
                             .read<LocationBloc>()
-                            .add(ShowDialogRequestPermissionEvent());
+                            .showDialogRequestPermissionEvent();
                       } else if (state
                       is LocationPermissionDeniedForeverState) {
                         context
                             .read<LocationBloc>()
-                            .add(OpenAppSettingsEvent());
+                            .openAppSettings();
                       }
                       Navigator.of(context).pop();
                     },
                     onTextButtonSelected: () {
                       context
                           .read<LocationBloc>()
-                          .add(RequestDefaultLocationEvent());
+                          .requestDefaultLocation();
                       Navigator.of(context).pop();
                     });
               }
@@ -180,7 +180,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
             }
 
             if (state is LocationInitial) {
-              context.read<LocationBloc>().add(RequestCurrentLocationEvent());
+              context.read<LocationBloc>().requestCurrentLocation();
               context
                   .read<ConnectivityBloc>()
                   .add(ConnectedConnectivityEvent());
@@ -202,7 +202,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       final LocationState blocState = context.read<LocationBloc>().state;
-      context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
+      context.read<LocationBloc>().onReturnFromSettings();
 
       if (blocState is AwaitLocationServiceSettingState &&
           Navigator.of(context).canPop()) {
