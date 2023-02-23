@@ -5,7 +5,6 @@ import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
@@ -23,9 +22,6 @@ void main() async {
     providers: [
       BlocProvider<AppConfigBloc>(
         create: (context) => AppConfigBloc()..add(AppRequestInitialise()),
-      ),
-      BlocProvider<GetContentsBloc>(
-        create: (BuildContext context) => GetContentsBloc(),
       ),
       BlocProvider<ConnectivityBloc>(
         create: (BuildContext context) => ConnectivityBloc(),
