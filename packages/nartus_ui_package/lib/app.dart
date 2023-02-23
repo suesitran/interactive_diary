@@ -12,7 +12,8 @@ class App extends StatelessWidget {
   final Map<String, WidgetBuilder>? routes;
   final Widget home;
 
-  App({
+  const App({
+    super.key,
     required this.home,
     this.title = '',
     this.theme,
@@ -20,6 +21,7 @@ class App extends StatelessWidget {
     this.routes,
   });
 
+  @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       return CupertinoApp(
@@ -39,19 +41,22 @@ class App extends StatelessWidget {
     );
   }
 
-  CupertinoThemeData _convertToCupertinoThemeData(Theme? theme, Theme? darkTheme) {
-    final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window).platformBrightness;
+  CupertinoThemeData _convertToCupertinoThemeData(
+      Theme? theme, Theme? darkTheme) {
+    final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
+        .platformBrightness;
 
     return CupertinoThemeData(
-      brightness: brightness == Brightness.dark ? darkTheme?.brightness : theme?.brightness,
-      primaryColor: brightness == Brightness.dark ? darkTheme?.primaryColor : theme?.primaryColor
-    );
+        brightness: brightness == Brightness.dark
+            ? darkTheme?.brightness
+            : theme?.brightness,
+        primaryColor: brightness == Brightness.dark
+            ? darkTheme?.primaryColor
+            : theme?.primaryColor);
   }
 
   ThemeData _convertToMaterialThemeData(Theme? theme) {
     return ThemeData(
-      brightness: theme?.brightness,
-      primaryColor: theme?.primaryColor
-    );
+        brightness: theme?.brightness, primaryColor: theme?.primaryColor);
   }
 }

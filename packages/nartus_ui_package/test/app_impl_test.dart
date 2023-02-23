@@ -4,10 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
 void main() {
-  testWidgets('When platform is iOS, use CupertinoApp', (WidgetTester tester) async {
+  testWidgets('When platform is iOS, use CupertinoApp',
+      (WidgetTester tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-    final app = App(home: const Center(child: Text('Hello'),));
+    const app = App(
+        home: Center(
+      child: Text('Hello'),
+    ));
 
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
@@ -18,10 +22,14 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets('When platform is Android, use MaterialApp', (WidgetTester tester) async {
+  testWidgets('When platform is Android, use MaterialApp',
+      (WidgetTester tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
-    final app = App(home: const Center(child: Text('Hello'),));
+    const app = App(
+        home: Center(
+      child: Text('Hello'),
+    ));
 
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();

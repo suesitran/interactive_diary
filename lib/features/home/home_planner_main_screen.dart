@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:nartus_ui_package/nartus_ui.dart';
 
 class HomePlannerMainScreen extends TabScreen {
