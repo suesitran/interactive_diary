@@ -34,10 +34,9 @@ class GoogleMapView extends StatefulWidget {
 
 class _GoogleMapViewState extends State<GoogleMapView>
     with TickerProviderStateMixin {
-  static final StreamController<Set<Marker>> _streamController =
-      StreamController<Set<Marker>>.broadcast();
+  late final StreamController<Set<Marker>> _streamController;
 
-  Stream<Set<Marker>> markerData = _streamController.stream;
+  late final Stream<Set<Marker>> _markerData = _streamController.stream;
 
   // to draw marker with animation
   late final PictureInfo baseMarkerDrawableRoot;
@@ -63,6 +62,12 @@ class _GoogleMapViewState extends State<GoogleMapView>
   @override
   void initState() {
     super.initState();
+
+    _initResources();
+  }
+
+  void _initResources() {
+    _streamController = StreamController<Set<Marker>>.broadcast();
 
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300))
@@ -96,7 +101,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Set<Marker>>(
-        stream: markerData,
+        stream: _markerData,
         builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
             animation: _controller,
             builder: (BuildContext context, Widget? child) => GoogleMap(

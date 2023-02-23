@@ -10,7 +10,7 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
-import 'firebase_options.dart';
+import 'package:interactive_diary/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

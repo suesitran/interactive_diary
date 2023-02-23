@@ -17,15 +17,9 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
     // init Date formatting
     initializeDateFormatting();
 
-    // await _remoteConfigManager.init();
+    await _remoteConfigManager.init();
 
     // inform UI
     emit(AppConfigInitialised());
-  }
-
-
-
-  void _onDebugOptionChanged(bool debugOptions) {
-    // TODO handle debug option change
   }
 }

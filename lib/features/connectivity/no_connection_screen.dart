@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
 import 'package:interactive_diary/generated/l10n.dart';

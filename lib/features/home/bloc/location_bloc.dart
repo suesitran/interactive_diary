@@ -19,11 +19,9 @@ class LocationBloc extends Cubit<LocationState> {
 
   Future<void> requestCurrentLocation() async {
     try {
-      print('request current location');
       final LocationDetails data = await _locationService.getCurrentLocation();
       final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
 
-      print('location ready state ${data.latitude}, ${data.longitude}');
       emit(LocationReadyState(
           LatLng(data.latitude, data.longitude), dateDisplay));
     } on LocationServiceDisableException catch (_) {
