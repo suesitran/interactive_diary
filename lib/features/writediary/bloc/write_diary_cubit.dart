@@ -7,14 +7,14 @@ part 'write_diary_state.dart';
 class WriteDiaryCubit extends Cubit<WriteDiaryState> {
   late final StorageService service;
 
-  WriteDiaryCubit({StorageService? storageService}) :
-        service = storageService ?? StorageService(StorageType.local),
+  WriteDiaryCubit({StorageService? storageService})
+      : service = storageService ?? StorageService(StorageType.local),
         super(WriteDiaryInitial());
 
-  Future<void> saveTextDiary( {required String title,
-    required String textContent,
-    required LatLng latLng}
-  ) async {
+  Future<void> saveTextDiary(
+      {required String title,
+      required String textContent,
+      required LatLng latLng}) async {
     emit(WriteDiaryStart());
 
     final int timestamp = DateTime.now().millisecondsSinceEpoch;

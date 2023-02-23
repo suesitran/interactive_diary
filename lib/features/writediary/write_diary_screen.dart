@@ -16,9 +16,11 @@ class WriteDiaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
-    create: (context) => WriteDiaryCubit(),
-    child: WriteDiaryBody(latLng: latLng,),
-  );
+        create: (context) => WriteDiaryCubit(),
+        child: WriteDiaryBody(
+          latLng: latLng,
+        ),
+      );
 }
 
 class WriteDiaryBody extends StatelessWidget {
@@ -38,9 +40,7 @@ class WriteDiaryBody extends StatelessWidget {
           return;
         }
 
-        if (state is WriteDiaryStart) {
-
-        }
+        if (state is WriteDiaryStart) {}
       },
       child: Scaffold(
         appBar: AppBar(
@@ -64,14 +64,12 @@ class WriteDiaryBody extends StatelessWidget {
                 builder: (_, bool enable, __) => NartusButton.text(
                     onPressed: enable
                         ? () {
-                      context
-                          .read<WriteDiaryCubit>()
-                      .saveTextDiary(
-                        title: '',
-                        textContent: textController.text,
-                        latLng: latLng,
-                      );
-                    }
+                            context.read<WriteDiaryCubit>().saveTextDiary(
+                                  title: '',
+                                  textContent: textController.text,
+                                  latLng: latLng,
+                                );
+                          }
                         : null,
                     label: S.of(context).save)),
           ],
@@ -81,30 +79,30 @@ class WriteDiaryBody extends StatelessWidget {
             children: <Widget>[
               const LocationView(
                 address:
-                'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                    'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
                 latitude: 1.0,
                 longitude: 1.0,
               ),
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextField(
-                      controller: textController,
-                      autofocus: true,
-                      showCursor: true,
-                      maxLines: null,
-                      decoration: const InputDecoration(border: InputBorder.none),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      keyboardType: TextInputType.multiline,
-                      onChanged: (String text) {
-                        final bool textAvailable = text.isNotEmpty;
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: textController,
+                  autofocus: true,
+                  showCursor: true,
+                  maxLines: null,
+                  decoration: const InputDecoration(border: InputBorder.none),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (String text) {
+                    final bool textAvailable = text.isNotEmpty;
 
-                        if (_isTextWritten.value != textAvailable) {
-                          _isTextWritten.value = textAvailable;
-                        }
-                      },
-                    ),
-                  ))
+                    if (_isTextWritten.value != textAvailable) {
+                      _isTextWritten.value = textAvailable;
+                    }
+                  },
+                ),
+              ))
             ]),
       ),
     );
@@ -119,4 +117,3 @@ class WriteDiaryBody extends StatelessWidget {
         .then((_) => Navigator.of(context).pop());
   }
 }
-

@@ -54,8 +54,8 @@ void main() async {
                   .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
               child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
                 builder: (context, state) {
-                  if (state is ChangeDisonnectedState
-                      || state is DisconnectedState) {
+                  if (state is ChangeDisonnectedState ||
+                      state is DisconnectedState) {
                     return const NoConnectionScreen();
                   }
 

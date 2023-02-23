@@ -16,9 +16,9 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<LocationBloc>(
-    create: (context) => LocationBloc(),
-    child: const IDHomeBody(),
-  );
+        create: (context) => LocationBloc(),
+        child: const IDHomeBody(),
+      );
 }
 
 class IDHomeBody extends StatefulWidget {
@@ -34,7 +34,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: MultiBlocListener(
+          body: MultiBlocListener(
         // ignore: always_specify_types
         listeners: [
           BlocListener<LocationBloc, LocationState>(
@@ -50,17 +50,13 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                     onPrimaryButtonSelected: () {
                       // can't dismiss popup dialog here because ios16 does not allow
                       // to directly go to Location settings
-                      context
-                          .read<LocationBloc>()
-                          .openLocationServiceSetting();
+                      context.read<LocationBloc>().openLocationServiceSetting();
                     },
                     textButtonText:
-                    S.of(context).locationPermissionDialogContinueButton,
+                        S.of(context).locationPermissionDialogContinueButton,
                     onTextButtonSelected: () {
                       Navigator.of(context).pop();
-                      context
-                          .read<LocationBloc>()
-                          .requestDefaultLocation();
+                      context.read<LocationBloc>().requestDefaultLocation();
                     },
                     isDismissible: false);
               }
@@ -68,19 +64,19 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
               if (state is LocationPermissionDeniedForeverState ||
                   state is LocationPermissionDeniedState) {
                 final String title = state
-                is LocationPermissionDeniedForeverState
+                        is LocationPermissionDeniedForeverState
                     ? S.of(context).locationPermissionDialogTitle
                     : S.of(context).locationPermissionDeniedBottomSheetTitle;
 
                 final String content =
-                state is LocationPermissionDeniedForeverState
-                    ? S.of(context).locationPermissionDialogMessage
-                    : S
-                    .of(context)
-                    .locationPermissionDeniedBottomSheetDescription;
+                    state is LocationPermissionDeniedForeverState
+                        ? S.of(context).locationPermissionDialogMessage
+                        : S
+                            .of(context)
+                            .locationPermissionDeniedBottomSheetDescription;
 
                 final String primaryButtonText = state
-                is LocationPermissionDeniedForeverState
+                        is LocationPermissionDeniedForeverState
                     ? S.of(context).locationPermissionDialogOpenSettingsButton
                     : S.of(context).locationPermissionDialogAllowButton;
 
@@ -100,17 +96,13 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                             .read<LocationBloc>()
                             .showDialogRequestPermissionEvent();
                       } else if (state
-                      is LocationPermissionDeniedForeverState) {
-                        context
-                            .read<LocationBloc>()
-                            .openAppSettings();
+                          is LocationPermissionDeniedForeverState) {
+                        context.read<LocationBloc>().openAppSettings();
                       }
                       Navigator.of(context).pop();
                     },
                     onTextButtonSelected: () {
-                      context
-                          .read<LocationBloc>()
-                          .requestDefaultLocation();
+                      context.read<LocationBloc>().requestDefaultLocation();
                       Navigator.of(context).pop();
                     });
               }
@@ -138,7 +130,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                             child: DateLabelView(
                               dateLabel: state.dateDisplay,
                               profileSemanticLabel:
-                              S.of(context).anonymous_profile,
+                                  S.of(context).anonymous_profile,
                             ),
                           )),
                       Expanded(

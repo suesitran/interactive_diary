@@ -7,8 +7,8 @@ part 'app_config_state.dart';
 
 class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
   final RemoteConfigManager _remoteConfigManager;
-  AppConfigBloc({RemoteConfigManager? remoteConfigManager}) :
-        _remoteConfigManager = remoteConfigManager ?? RemoteConfigManager(),
+  AppConfigBloc({RemoteConfigManager? remoteConfigManager})
+      : _remoteConfigManager = remoteConfigManager ?? RemoteConfigManager(),
         super(AppConfigInitial()) {
     on<AppRequestInitialise>(_initialise);
   }

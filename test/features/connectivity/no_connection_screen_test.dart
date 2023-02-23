@@ -6,7 +6,6 @@ import 'package:interactive_diary/features/connectivity/no_connection_screen.dar
 import '../../widget_tester_extension.dart';
 
 void main() {
-
   testWidgets('Verify UI of No connection screen',
       (WidgetTester widgetTester) async {
     const NoConnectionScreen widget = NoConnectionScreen();

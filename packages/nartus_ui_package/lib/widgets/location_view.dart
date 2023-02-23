@@ -25,7 +25,7 @@ class LocationView extends StatelessWidget {
     this.semanticBusinessName,
     this.semanticAddress,
     this.semanticCoordinate,
-  }) : isValidLocation = businessName != null || address != null,
+  })  : isValidLocation = businessName != null || address != null,
         locationIconSvg = locationIconSvg ?? '',
         super(key: key);
 
@@ -64,63 +64,65 @@ class LocationView extends StatelessWidget {
                     bottom: NartusDimens.padding16,
                     top: NartusDimens.padding16),
                 child: MergeSemantics(
-                  child: (() {
-                    if (isValidLocation) {
-                      if (businessName != null) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              businessName ?? '',
-                              maxLines: 2,
-                              semanticsLabel: semanticBusinessName,
-                              overflow: TextOverflow.ellipsis,
-                              textDirection: TextDirection.ltr,
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                height: 1.8
-                              ),
-                            ),
-                            const SizedBox(height: 02),
-                            Text(
-                              address ?? '',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              semanticsLabel: semanticAddress,
-                              textDirection: TextDirection.ltr,
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                height: 1.8
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Text(
-                          address ?? '',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          semanticsLabel: semanticAddress,
-                          textDirection: TextDirection.ltr,
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            height: 1.8
+                    child: (() {
+                  if (isValidLocation) {
+                    if (businessName != null) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            businessName ?? '',
+                            maxLines: 2,
+                            semanticsLabel: semanticBusinessName,
+                            overflow: TextOverflow.ellipsis,
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(height: 1.8),
                           ),
-                        );
-                      }
+                          const SizedBox(height: 02),
+                          Text(
+                            address ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            semanticsLabel: semanticAddress,
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(height: 1.8),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Text(
+                        address ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        semanticsLabel: semanticAddress,
+                        textDirection: TextDirection.ltr,
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(height: 1.8),
+                      );
                     }
-                    return Text(
-                      '($latitude, $longitude)',
-                      textDirection: TextDirection.ltr,
-                      semanticsLabel: semanticCoordinate,
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        height: 1.8
-                      ),
-                    );
-                  }())
-                )
-            ),
+                  }
+                  return Text(
+                    '($latitude, $longitude)',
+                    textDirection: TextDirection.ltr,
+                    semanticsLabel: semanticCoordinate,
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(height: 1.8),
+                  );
+                }()))),
           ),
         ],
       ),
