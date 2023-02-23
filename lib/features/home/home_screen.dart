@@ -38,30 +38,30 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
       body: MultiBlocListener(
         // ignore: always_specify_types
         listeners: [
-          BlocListener<ConnectivityBloc, ConnectivityState>(
-            listener: (BuildContext context, ConnectivityState state) {
-              WidgetsBinding.instance
-                  .addPostFrameCallback((Duration timeStamp) {
-                context
-                    .read<ConnectivityBloc>()
-                    .add(ChangeConnectConnectivityEvent());
-              });
-              if (state is ChangeConnectedState) {
-                debugPrint('change to connect');
-              }
-              if (state is ChangeDisonnectedState) {
-                debugPrint('change to Disconnect');
-                context.push('/noConnection');
-              }
-              if (state is ConnectedState) {
-                debugPrint('connected');
-              }
-              if (state is DisconnectedState) {
-                debugPrint('disconnected');
-                context.push('/noConnection');
-              }
-            },
-          ),
+          // BlocListener<ConnectivityBloc, ConnectivityState>(
+          //   listener: (BuildContext context, ConnectivityState state) {
+          //     WidgetsBinding.instance
+          //         .addPostFrameCallback((Duration timeStamp) {
+          //       context
+          //           .read<ConnectivityBloc>()
+          //           .add(ChangeConnectConnectivityEvent());
+          //     });
+          //     if (state is ChangeConnectedState) {
+          //       debugPrint('change to connect');
+          //     }
+          //     if (state is ChangeDisonnectedState) {
+          //       debugPrint('change to Disconnect');
+          //       context.push('/noConnection');
+          //     }
+          //     if (state is ConnectedState) {
+          //       debugPrint('connected');
+          //     }
+          //     if (state is DisconnectedState) {
+          //       debugPrint('disconnected');
+          //       context.push('/noConnection');
+          //     }
+          //   },
+          // ),
           BlocListener<LocationBloc, LocationState>(
             listener: (BuildContext context, LocationState state) {
               if (state is LocationServiceDisableState) {
