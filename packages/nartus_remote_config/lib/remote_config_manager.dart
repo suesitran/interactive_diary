@@ -16,16 +16,19 @@ class RemoteConfigManager {
 
   Stream<Map<RemoteConfigKey, dynamic>> get remoteConfigStream => _remoteConfigUpdateStream.stream;
 
+  final FirebaseRemoteConfig _remoteConfig;
+
+  RemoteConfigManager({FirebaseRemoteConfig? remoteConfig}) : _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance;
+
   Future<void> init() async {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
       minimumFetchInterval: const Duration(hours: 1),
     ));
 
-    remoteConfig.addListener(_onRemoteConfigValueUpdate);
+    _remoteConfig.addListener(_onRemoteConfigValueUpdate);
 
-    await remoteConfig.fetchAndActivate();
+    await _remoteConfig.fetchAndActivate();
   }
 
   void _onRemoteConfigValueUpdate() {
@@ -38,16 +41,15 @@ class RemoteConfigManager {
   }
 
   dynamic getValue(RemoteConfigKey key) {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
 
     if (key.defaultValue is bool) {
-      return remoteConfig.getBool(key.name);
+      return _remoteConfig.getBool(key.name);
     } else if (key.defaultValue is int) {
-      return remoteConfig.getInt(key.name);
+      return _remoteConfig.getInt(key.name);
     } else if (key.defaultValue is double) {
-      return remoteConfig.getDouble(key.name);
+      return _remoteConfig.getDouble(key.name);
     } else if (key.defaultValue is String) {
-      return remoteConfig.getString(key.name);
+      return _remoteConfig.getString(key.name);
     }
 
     throw UnsupportedError('Remote config value not supported ${key.defaultValue}');
