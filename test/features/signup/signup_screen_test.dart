@@ -1,6 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
+import 'package:interactive_diary/features/signup/bloc/google_signup_bloc.dart';
 import 'package:interactive_diary/features/signup/signup_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -15,7 +14,6 @@ void main() {
   late IDSignUp screen;
 
   setUpAll(() async {
-    await Firebase.initializeApp();
     screen = const IDSignUp();
   });
 
