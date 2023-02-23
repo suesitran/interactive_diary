@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
+import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
@@ -10,20 +10,36 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
+  const WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
 
   final LatLng latLng;
+
+  @override
+  Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
+    create: (context) => WriteDiaryCubit(),
+    child: WriteDiaryBody(latLng: latLng,),
+  );
+}
+
+class WriteDiaryBody extends StatelessWidget {
+  final LatLng latLng;
+
+  WriteDiaryBody({required this.latLng, Key? key}) : super(key: key);
 
   final ValueNotifier<bool> _isTextWritten = ValueNotifier<bool>(false);
   final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<StorageBloc, StorageState>(
-      listener: (BuildContext context, StorageState state) {
-        if (state is StorageSaveTextDiarySuccess) {
+    return BlocListener<WriteDiaryCubit, WriteDiaryState>(
+      listener: (BuildContext context, WriteDiaryState state) {
+        if (state is WriteDiarySuccess) {
           _returnToPreviousPage(context);
           return;
+        }
+
+        if (state is WriteDiaryStart) {
+
         }
       },
       child: Scaffold(
@@ -48,14 +64,14 @@ class WriteDiaryScreen extends StatelessWidget {
                 builder: (_, bool enable, __) => NartusButton.text(
                     onPressed: enable
                         ? () {
-                            context
-                                .read<StorageBloc>()
-                                .add(RequestSaveTextDiaryEvent(
-                                  title: '',
-                                  textContent: textController.text,
-                                  latLng: latLng,
-                                ));
-                          }
+                      context
+                          .read<WriteDiaryCubit>()
+                      .saveTextDiary(
+                        title: '',
+                        textContent: textController.text,
+                        latLng: latLng,
+                      );
+                    }
                         : null,
                     label: S.of(context).save)),
           ],
@@ -65,30 +81,30 @@ class WriteDiaryScreen extends StatelessWidget {
             children: <Widget>[
               const LocationView(
                 address:
-                    'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+                'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
                 latitude: 1.0,
                 longitude: 1.0,
               ),
               Expanded(
                   child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: textController,
-                  autofocus: true,
-                  showCursor: true,
-                  maxLines: null,
-                  decoration: const InputDecoration(border: InputBorder.none),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  keyboardType: TextInputType.multiline,
-                  onChanged: (String text) {
-                    final bool textAvailable = text.isNotEmpty;
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: TextField(
+                      controller: textController,
+                      autofocus: true,
+                      showCursor: true,
+                      maxLines: null,
+                      decoration: const InputDecoration(border: InputBorder.none),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      keyboardType: TextInputType.multiline,
+                      onChanged: (String text) {
+                        final bool textAvailable = text.isNotEmpty;
 
-                    if (_isTextWritten.value != textAvailable) {
-                      _isTextWritten.value = textAvailable;
-                    }
-                  },
-                ),
-              ))
+                        if (_isTextWritten.value != textAvailable) {
+                          _isTextWritten.value = textAvailable;
+                        }
+                      },
+                    ),
+                  ))
             ]),
       ),
     );
@@ -103,3 +119,4 @@ class WriteDiaryScreen extends StatelessWidget {
         .then((_) => Navigator.of(context).pop());
   }
 }
+

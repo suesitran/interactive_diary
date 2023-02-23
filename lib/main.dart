@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/bloc/connection_screen_bloc.dart';
-import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/bloc/get_contents/get_contents_bloc.dart';
@@ -34,9 +33,6 @@ void main() async {
       BlocProvider<ConnectionScreenBloc>(
         create: (BuildContext context) => ConnectionScreenBloc(),
       ),
-      BlocProvider<StorageBloc>(
-        create: (_) => StorageBloc(),
-      )
     ],
     child: MaterialApp.router(
       routerConfig: appRoute,

@@ -63,8 +63,7 @@ void main() {
           when(service.getCurrentLocation()).thenAnswer(
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
         },
-        act: (LocationBloc bloc) =>
-            bloc.showDialogRequestPermissionEvent(),
+        act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
         expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
 
     blocTest(
@@ -72,8 +71,7 @@ void main() {
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.requestPermission()).thenAnswer((_) =>
             Future<PermissionStatusDiary>.value(PermissionStatusDiary.denied)),
-        act: (LocationBloc bloc) =>
-            bloc.showDialogRequestPermissionEvent(),
+        act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
         expect: () =>
             <TypeMatcher<LocationState>>[isA<LocationPermissionDeniedState>()]);
 
@@ -83,8 +81,7 @@ void main() {
         setUp: () => when(service.requestPermission()).thenAnswer((_) =>
             Future<PermissionStatusDiary>.value(
                 PermissionStatusDiary.deniedForever)),
-        act: (LocationBloc bloc) =>
-            bloc.showDialogRequestPermissionEvent(),
+        act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
         expect: () => <TypeMatcher<LocationState>>[
               isA<LocationPermissionDeniedForeverState>()
             ]);

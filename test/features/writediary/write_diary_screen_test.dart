@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
+import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,21 +11,17 @@ import 'package:nartus_ui_package/widgets/widgets.dart';
 import '../../widget_tester_extension.dart';
 import 'write_diary_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[StorageBloc])
+@GenerateMocks(<Type>[WriteDiaryCubit])
 void main() {
-  final MockStorageBloc storageBloc = MockStorageBloc();
+  final MockWriteDiaryCubit writeDiaryCubit = MockWriteDiaryCubit();
 
   testWidgets('verify UI write diary screen',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = WriteDiaryScreen(
-      latLng: const LatLng(long: 0.0, lat: 0.0),
+    WriteDiaryScreen widget = const WriteDiaryScreen(
+      latLng: LatLng(long: 0.0, lat: 0.0),
     );
 
-    when(storageBloc.state).thenAnswer((_) => StorageInitial());
-    when(storageBloc.stream)
-        .thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
-
-    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+    await widgetTester.wrapAndPump(widget);
 
     // this is Back button in AppBar
     expect(
@@ -50,15 +46,11 @@ void main() {
 
   testWidgets('given text field is empty, then Save button should be disable',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = WriteDiaryScreen(
-      latLng: const LatLng(long: 0.0, lat: 0.0),
+    WriteDiaryScreen widget = const WriteDiaryScreen(
+      latLng: LatLng(long: 0.0, lat: 0.0),
     );
 
-    when(storageBloc.state).thenAnswer((_) => StorageInitial());
-    when(storageBloc.stream)
-        .thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
-
-    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+    await widgetTester.wrapAndPump(widget);
 
     // there's no string in text field, Save button should be disabled
     NartusButton saveButton = widgetTester.widget(find.ancestor(
@@ -68,15 +60,11 @@ void main() {
 
   testWidgets('given text field has text, then save button should be enabled',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = WriteDiaryScreen(
-      latLng: const LatLng(long: 0.0, lat: 0.0),
+    WriteDiaryScreen widget = const WriteDiaryScreen(
+      latLng: LatLng(long: 0.0, lat: 0.0),
     );
 
-    when(storageBloc.state).thenAnswer((_) => StorageInitial());
-    when(storageBloc.stream)
-        .thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
-
-    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+    await widgetTester.wrapAndPump(widget);
 
     // enter text, and expect Save button to be enabled
     await widgetTester.enterText(find.byType(TextField), 'sample text');
@@ -94,15 +82,16 @@ void main() {
   testWidgets(
       'given diary text not empty, when tap on save, then send RequestSaveTextDiaryEvent',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = WriteDiaryScreen(
+    WriteDiaryBody widget = WriteDiaryBody(
       latLng: const LatLng(long: 0.0, lat: 0.0),
     );
 
-    when(storageBloc.state).thenAnswer((_) => StorageInitial());
-    when(storageBloc.stream)
-        .thenAnswer((_) => Stream<StorageState>.value(StorageInitial()));
+    when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
+    when(writeDiaryCubit.stream)
+        .thenAnswer((_) => Stream<WriteDiaryState>.value(WriteDiaryInitial()));
 
-    await widgetTester.blocWrapAndPump<StorageBloc>(storageBloc, widget);
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(
+        writeDiaryCubit, widget);
 
     // enter text, and expect Save button to be enabled
     await widgetTester.enterText(find.byType(TextField), 'sample text');
@@ -114,7 +103,10 @@ void main() {
     await widgetTester.pumpAndSettle();
 
     // expect
-    verify(storageBloc.add(argThat(isA<RequestSaveTextDiaryEvent>())))
+    verify(writeDiaryCubit.saveTextDiary(
+            title: anyNamed('title'),
+            latLng: anyNamed('latLng'),
+            textContent: anyNamed('textContent')))
         .called(1);
   });
 }

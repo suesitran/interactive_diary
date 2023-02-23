@@ -36,16 +36,13 @@ void main() {
     when(mockLocationBloc.state).thenAnswer(
         (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-            <BlocProvider<StateStreamableSource<Object?>>>[
-              BlocProvider<LocationBloc>(create: (_) {
-                return mockLocationBloc;
-              }),
-              BlocProvider<ConnectivityBloc>(
-                  create: (_) => mockConnectivityBloc)
-            ],
-            widget,
-    infiniteAnimationWidget: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
+            BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<LocationBloc>(create: (_) {
+            return mockLocationBloc;
+          }),
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+        ], widget, infiniteAnimationWidget: true));
 
     expect(
         find.ancestor(
@@ -491,8 +488,7 @@ void main() {
 
       await widgetTester.tap(find.text('Allow'));
 
-      verify(mockLocationBloc.showDialogRequestPermissionEvent())
-          .called(1);
+      verify(mockLocationBloc.showDialogRequestPermissionEvent()).called(1);
     });
 
     testWidgets(
