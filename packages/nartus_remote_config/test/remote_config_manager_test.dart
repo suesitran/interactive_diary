@@ -22,8 +22,11 @@ void main() {
     when(remoteConfig.fetchAndActivate()).thenAnswer((_) => Future.value(true));
   });
 
-  test('test getValue - when debug option remote config is true, then return true', () {
-    RemoteConfigManager manager = RemoteConfigManager(remoteConfig: remoteConfig);
+  test(
+      'test getValue - when debug option remote config is true, then return true',
+      () {
+    RemoteConfigManager manager =
+        RemoteConfigManager(remoteConfig: remoteConfig);
 
     manager.init();
 
@@ -33,8 +36,11 @@ void main() {
     expect(result, true);
   });
 
-  test('test getValue - when debug option remote config is false, then return false', () {
-    RemoteConfigManager manager = RemoteConfigManager(remoteConfig: remoteConfig);
+  test(
+      'test getValue - when debug option remote config is false, then return false',
+      () {
+    RemoteConfigManager manager =
+        RemoteConfigManager(remoteConfig: remoteConfig);
 
     manager.init();
 

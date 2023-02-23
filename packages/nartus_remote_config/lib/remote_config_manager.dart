@@ -12,13 +12,17 @@ enum RemoteConfigKey {
 }
 
 class RemoteConfigManager {
-  final StreamController<Map<RemoteConfigKey, dynamic>> _remoteConfigUpdateStream = StreamController<Map<RemoteConfigKey, dynamic>>.broadcast();
+  final StreamController<Map<RemoteConfigKey, dynamic>>
+      _remoteConfigUpdateStream =
+      StreamController<Map<RemoteConfigKey, dynamic>>.broadcast();
 
-  Stream<Map<RemoteConfigKey, dynamic>> get remoteConfigStream => _remoteConfigUpdateStream.stream;
+  Stream<Map<RemoteConfigKey, dynamic>> get remoteConfigStream =>
+      _remoteConfigUpdateStream.stream;
 
   final FirebaseRemoteConfig _remoteConfig;
 
-  RemoteConfigManager({FirebaseRemoteConfig? remoteConfig}) : _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance;
+  RemoteConfigManager({FirebaseRemoteConfig? remoteConfig})
+      : _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance;
 
   Future<void> init() async {
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
@@ -41,7 +45,6 @@ class RemoteConfigManager {
   }
 
   dynamic getValue(RemoteConfigKey key) {
-
     if (key.defaultValue is bool) {
       return _remoteConfig.getBool(key.name);
     } else if (key.defaultValue is int) {
@@ -52,6 +55,7 @@ class RemoteConfigManager {
       return _remoteConfig.getString(key.name);
     }
 
-    throw UnsupportedError('Remote config value not supported ${key.defaultValue}');
+    throw UnsupportedError(
+        'Remote config value not supported ${key.defaultValue}');
   }
 }
