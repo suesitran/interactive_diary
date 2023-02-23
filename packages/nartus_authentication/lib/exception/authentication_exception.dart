@@ -1,4 +1,4 @@
-import 'common.dart';
+import '../src/common.dart';
 
 class AuthenticationException implements Exception {
   final String error;
