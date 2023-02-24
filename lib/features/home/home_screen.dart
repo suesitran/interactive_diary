@@ -5,21 +5,30 @@ import 'package:interactive_diary/features/home/content_panel/contents_bottom_pa
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
-class IDHome extends StatefulWidget {
+class IDHome extends StatelessWidget {
   const IDHome({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<IDHome> createState() => _IDHomeState();
+  Widget build(BuildContext context) => BlocProvider<LocationBloc>(
+        create: (context) => LocationBloc(),
+        child: const IDHomeBody(),
+      );
 }
 
-class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
+class IDHomeBody extends StatefulWidget {
+  const IDHomeBody({Key? key}) : super(key: key);
+
+  @override
+  State<IDHomeBody> createState() => _IDHomeState();
+}
+
+class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
   final ContentsBottomPanelController _contentBottomPanelController =
       ContentsBottomPanelController();
 
@@ -28,30 +37,6 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
           body: MultiBlocListener(
         // ignore: always_specify_types
         listeners: [
-          BlocListener<ConnectivityBloc, ConnectivityState>(
-            listener: (BuildContext context, ConnectivityState state) {
-              WidgetsBinding.instance
-                  .addPostFrameCallback((Duration timeStamp) {
-                context
-                    .read<ConnectivityBloc>()
-                    .add(ChangeConnectConnectivityEvent());
-              });
-              if (state is ChangeConnectedState) {
-                debugPrint('change to connect');
-              }
-              if (state is ChangeDisonnectedState) {
-                debugPrint('change to Disconnect');
-                context.push('/noConnection');
-              }
-              if (state is ConnectedState) {
-                debugPrint('connected');
-              }
-              if (state is DisconnectedState) {
-                debugPrint('disconnected');
-                context.push('/noConnection');
-              }
-            },
-          ),
           BlocListener<LocationBloc, LocationState>(
             listener: (BuildContext context, LocationState state) {
               if (state is LocationServiceDisableState) {
@@ -65,17 +50,13 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                     onPrimaryButtonSelected: () {
                       // can't dismiss popup dialog here because ios16 does not allow
                       // to directly go to Location settings
-                      context
-                          .read<LocationBloc>()
-                          .add(OpenLocationServiceEvent());
+                      context.read<LocationBloc>().openLocationServiceSetting();
                     },
                     textButtonText:
                         S.of(context).locationPermissionDialogContinueButton,
                     onTextButtonSelected: () {
                       Navigator.of(context).pop();
-                      context
-                          .read<LocationBloc>()
-                          .add(RequestDefaultLocationEvent());
+                      context.read<LocationBloc>().requestDefaultLocation();
                     },
                     isDismissible: false);
               }
@@ -113,19 +94,15 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
                       if (state is LocationPermissionDeniedState) {
                         context
                             .read<LocationBloc>()
-                            .add(ShowDialogRequestPermissionEvent());
+                            .showDialogRequestPermissionEvent();
                       } else if (state
                           is LocationPermissionDeniedForeverState) {
-                        context
-                            .read<LocationBloc>()
-                            .add(OpenAppSettingsEvent());
+                        context.read<LocationBloc>().openAppSettings();
                       }
                       Navigator.of(context).pop();
                     },
                     onTextButtonSelected: () {
-                      context
-                          .read<LocationBloc>()
-                          .add(RequestDefaultLocationEvent());
+                      context.read<LocationBloc>().requestDefaultLocation();
                       Navigator.of(context).pop();
                     });
               }
@@ -170,7 +147,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
             }
 
             if (state is LocationInitial) {
-              context.read<LocationBloc>().add(RequestCurrentLocationEvent());
+              context.read<LocationBloc>().requestCurrentLocation();
               context
                   .read<ConnectivityBloc>()
                   .add(ConnectedConnectivityEvent());
@@ -192,7 +169,7 @@ class _IDHomeState extends State<IDHome> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       final LocationState blocState = context.read<LocationBloc>().state;
-      context.read<LocationBloc>().add(ReturnedFromAppSettingsEvent());
+      context.read<LocationBloc>().onReturnFromSettings();
 
       if (blocState is AwaitLocationServiceSettingState &&
           Navigator.of(context).canPop()) {

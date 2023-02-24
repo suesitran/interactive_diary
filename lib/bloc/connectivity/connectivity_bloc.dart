@@ -40,9 +40,9 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
     await emit.forEach(_connectivity.onConnectivityChange,
         onData: (bool value) {
       if (value == true) {
-        return ChangeConnectedState();
+        return ConnectedState();
       } else {
-        return ChangeDisonnectedState();
+        return DisconnectedState();
       }
     });
   }

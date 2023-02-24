@@ -119,7 +119,8 @@ void main() {
       (WidgetTester tester) async {
     const LocationView widget = LocationView(
       businessName: 'Ben Thanh Market',
-      address: 'Lê Lợi, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh, Vietnam',
+      address:
+          'Lê Lợi, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh, Vietnam',
       latitude: 1.0,
       longitude: 1.0,
       semanticBusinessName: 'Business name semantic',
@@ -133,7 +134,8 @@ void main() {
     /// semantic labels together into a long text, so we should use RegExp to find
     /// the text that we want
     /// Ref : https://api.flutter.dev/flutter/flutter_test/CommonFinders/bySemanticsLabel.html
-    final Finder businessName = find.bySemanticsLabel(RegExp(r'Business name semantic'));
+    final Finder businessName =
+        find.bySemanticsLabel(RegExp(r'Business name semantic'));
     final Finder address = find.bySemanticsLabel(RegExp(r'Address semantic'));
     final Finder coordinates = find.bySemanticsLabel('Coordinate semantic');
 
@@ -147,9 +149,9 @@ void main() {
       'when location view rendered, '
       'then screen reader only read the coordinate',
       (WidgetTester tester) async {
-
     const LocationView widget = LocationView(
-      latitude: 1.0, longitude: 1.0,
+      latitude: 1.0,
+      longitude: 1.0,
       semanticBusinessName: 'Business name semantic',
       semanticAddress: 'Address semantic',
       semanticCoordinate: 'Coordinate semantic',
@@ -157,9 +159,11 @@ void main() {
 
     await tester.wrapMaterialAndPump(widget);
 
-    final Finder businessName = find.bySemanticsLabel(RegExp(r'Business name semantic'));
+    final Finder businessName =
+        find.bySemanticsLabel(RegExp(r'Business name semantic'));
     final Finder address = find.bySemanticsLabel(r'Address semantic');
-    final Finder coordinates = find.bySemanticsLabel(RegExp(r'Coordinate semantic'));
+    final Finder coordinates =
+        find.bySemanticsLabel(RegExp(r'Coordinate semantic'));
 
     expect(businessName, findsNothing);
     expect(address, findsNothing);

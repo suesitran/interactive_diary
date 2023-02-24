@@ -1,3 +1,3 @@
 export 'src/authentication_service.dart';
-export 'src/user_data.dart';
-export 'src/authentication_exception.dart';
+export 'data/user_data.dart';
+export 'exception/authentication_exception.dart';

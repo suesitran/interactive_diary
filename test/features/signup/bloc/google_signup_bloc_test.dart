@@ -1,22 +1,17 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
+import 'package:interactive_diary/features/signup/bloc/google_signup_bloc.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_authentication/nartus_authentication.dart';
 
-import '../../mock_firebase.dart';
+import '../../../mock_firebase.dart';
 import 'google_signup_bloc_test.mocks.dart';
 
 @GenerateMocks(<Type>[AuthenticationService])
 void main() {
   setupFirebaseAuthMocks();
   final AuthenticationService service = MockAuthenticationService();
-
-  setUpAll(() async {
-    await Firebase.initializeApp();
-  });
 
   group('Test event and states', () {
     blocTest(
@@ -27,7 +22,7 @@ void main() {
           when(service.signinGoogle()).thenAnswer(
               (_) => Future<UserDetail>.value(UserDetail(name: 'asdas')));
         },
-        act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
+        act: (GoogleSignupBloc bloc) => bloc.signUpGoogle(),
         expect: () => <TypeMatcher<GoogleSignupState>>[
               isA<GoogleSigningUpState>(),
               isA<GoogleSignupSucceedState>()
@@ -41,7 +36,7 @@ void main() {
           when(service.signinGoogle()).thenAnswer(
               (_) => throw AuthenticateFailedException.userCancelled());
         },
-        act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
+        act: (GoogleSignupBloc bloc) => bloc.signUpGoogle(),
         expect: () => <TypeMatcher<GoogleSignupState>>[
               isA<GoogleSigningUpState>(),
               isA<GoogleSignupInitialState>()
@@ -55,7 +50,7 @@ void main() {
           when(service.signinGoogle())
               .thenAnswer((_) => throw AuthenticateFailedException.unknown());
         },
-        act: (GoogleSignupBloc bloc) => bloc.add(SignUpByGoogleEvent()),
+        act: (GoogleSignupBloc bloc) => bloc.signUpGoogle(),
         expect: () => <TypeMatcher<GoogleSignupState>>[
               isA<GoogleSigningUpState>(),
               isA<GoogleSignupFailedState>()

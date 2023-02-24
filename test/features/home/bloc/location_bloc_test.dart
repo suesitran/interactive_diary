@@ -1,9 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
+
 import 'location_bloc_test.mocks.dart';
 
 @GenerateMocks(<Type>[LocationService])
@@ -18,7 +19,7 @@ void main() {
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.getCurrentLocation()).thenAnswer(
             (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0))),
-        act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
+        act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
 
     blocTest(
@@ -26,7 +27,7 @@ void main() {
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.getCurrentLocation())
             .thenThrow(LocationPermissionDeniedException()),
-        act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
+        act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () =>
             <TypeMatcher<LocationState>>[isA<LocationPermissionDeniedState>()]);
 
@@ -35,7 +36,7 @@ void main() {
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.getCurrentLocation())
             .thenThrow(LocationPermissionDeniedForeverException()),
-        act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
+        act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () => <TypeMatcher<LocationState>>[
               isA<LocationPermissionDeniedForeverState>()
             ]);
@@ -44,7 +45,7 @@ void main() {
         'given location service throws error, when RequestCurrentLocationEvent, then state is UnknownLocationErrorState',
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.getCurrentLocation()).thenThrow(Exception()),
-        act: (LocationBloc bloc) => bloc.add(RequestCurrentLocationEvent()),
+        act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () =>
             <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
   });
@@ -62,8 +63,7 @@ void main() {
           when(service.getCurrentLocation()).thenAnswer(
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
         },
-        act: (LocationBloc bloc) =>
-            bloc.add(ShowDialogRequestPermissionEvent()),
+        act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
         expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
 
     blocTest(
@@ -71,8 +71,7 @@ void main() {
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.requestPermission()).thenAnswer((_) =>
             Future<PermissionStatusDiary>.value(PermissionStatusDiary.denied)),
-        act: (LocationBloc bloc) =>
-            bloc.add(ShowDialogRequestPermissionEvent()),
+        act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
         expect: () =>
             <TypeMatcher<LocationState>>[isA<LocationPermissionDeniedState>()]);
 
@@ -82,8 +81,7 @@ void main() {
         setUp: () => when(service.requestPermission()).thenAnswer((_) =>
             Future<PermissionStatusDiary>.value(
                 PermissionStatusDiary.deniedForever)),
-        act: (LocationBloc bloc) =>
-            bloc.add(ShowDialogRequestPermissionEvent()),
+        act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
         expect: () => <TypeMatcher<LocationState>>[
               isA<LocationPermissionDeniedForeverState>()
             ]);
@@ -93,13 +91,13 @@ void main() {
     tearDown(() => reset(service));
     blocTest('verify default location',
         build: () => LocationBloc(locationService: service),
-        act: (LocationBloc bloc) => bloc.add(RequestDefaultLocationEvent()),
+        act: (LocationBloc bloc) => bloc.requestDefaultLocation(),
         expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
 
     blocTest(
         'when open app settings, then state is AwaitLocationPermissionFromAppSettingState',
         build: () => LocationBloc(locationService: service),
-        act: (LocationBloc bloc) => bloc.add(OpenAppSettingsEvent()),
+        act: (LocationBloc bloc) => bloc.openAppSettings(),
         setUp: () => when(service.requestOpenAppSettings())
             .thenAnswer((_) => Future<bool>.value(true)),
         expect: () {
@@ -114,7 +112,7 @@ void main() {
         build: () => LocationBloc(locationService: service),
         setUp: () => when(service.getCurrentLocation()).thenAnswer(
             (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0))),
-        act: (LocationBloc bloc) => bloc.add(ReturnedFromAppSettingsEvent()),
+        act: (LocationBloc bloc) => bloc.onReturnFromSettings(),
         expect: () {
           verify(service.getCurrentLocation()).called(1);
           return <TypeMatcher<LocationState>>[isA<LocationReadyState>()];
@@ -125,7 +123,7 @@ void main() {
       build: () => LocationBloc(locationService: service),
       setUp: () => when(service.requestService())
           .thenAnswer((Invocation realInvocation) => Future<bool>.value(true)),
-      act: ((LocationBloc bloc) => bloc.add(OpenLocationServiceEvent())),
+      act: (LocationBloc bloc) => bloc.openLocationServiceSetting(),
       verify: (LocationBloc bloc) => verify(service.requestService()).called(1),
       expect: () =>
           <TypeMatcher<LocationState>>[isA<AwaitLocationServiceSettingState>()],

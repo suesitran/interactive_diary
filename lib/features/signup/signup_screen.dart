@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_diary/bloc/authentication/signup/google_signup_bloc.dart';
+import 'package:interactive_diary/features/signup/bloc/google_signup_bloc.dart';
 import 'package:interactive_diary/constants/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -85,7 +85,7 @@ class IDGoogleSignInButton extends StatelessWidget {
   }
 
   void _signUpByGoogle(BuildContext context) =>
-      context.read<GoogleSignupBloc>().add(SignUpByGoogleEvent());
+      context.read<GoogleSignupBloc>().signUpGoogle();
 }
 
 class _IDRegisterForm extends StatelessWidget {
