@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 
 part 'diary_header.dart';
 part 'diary_text_content.dart';
@@ -29,7 +33,17 @@ class ContentCardView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _DiaryHeader(),
+          _DiaryHeader(
+            avatarPath: 'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c',
+            displayName: 'Hoang Nguyen',
+            dateTime: DateTime(
+              2022,
+              09,
+              03,
+              22,
+              12
+            ),
+          ),
           _DiaryTextContent(),
           _DiaryThumbnailContent()
         ],

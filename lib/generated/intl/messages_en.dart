@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(date, time) => "${date} at ${time}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addText": MessageLookupByLibrary.simpleMessage("Add text"),
@@ -27,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Anonymous Profile. Please login to use all features."),
         "appName": MessageLookupByLibrary.simpleMessage("Inner ME"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "diaryDateFormatter": m0,
         "locationPermissionDeniedBottomSheetDescription":
             MessageLookupByLibrary.simpleMessage(
                 "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"),

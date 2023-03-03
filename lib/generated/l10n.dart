@@ -219,6 +219,16 @@ class S {
       args: [],
     );
   }
+
+  /// `{date} at {time}`
+  String diaryDateFormatter(Object date, Object time) {
+    return Intl.message(
+      '$date at $time',
+      name: 'diaryDateFormatter',
+      desc: '',
+      args: [date, time],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
