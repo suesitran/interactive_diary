@@ -28,13 +28,16 @@ class _DiaryContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // first item: show either text or image
-            if (type == DiaryDisplayType.textOnly)
+            if (type == DiaryDisplayType.textOnly ||
+                type == DiaryDisplayType.textWithThumbnails)
               Text(
                 text!,
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             else if (type == DiaryDisplayType.thumbnailsOnly)
-              Image.network(images.first),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(NartusDimens.radius12),
+                  child: Image.network(images.first)),
             // second item
             // if text only, do not show this second item
             if (type == DiaryDisplayType.thumbnailsOnly ||
@@ -58,11 +61,15 @@ class _DiaryContent extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.only(
                               right: e.key == 2 ? 0 : NartusDimens.padding4),
-                          child: Image.network(
-                            e.value,
-                            fit: BoxFit.cover,
-                            width: size,
-                            height: size,
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(NartusDimens.radius12),
+                            child: Image.network(
+                              e.value,
+                              fit: BoxFit.cover,
+                              width: size,
+                              height: size,
+                            ),
                           ),
                         );
                       }).toList(),

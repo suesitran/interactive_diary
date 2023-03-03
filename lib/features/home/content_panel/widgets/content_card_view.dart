@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:intl/intl.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
@@ -36,7 +37,8 @@ class ContentCardView extends StatelessWidget {
             dateTime: DateTime(2022, 09, 03, 22, 12),
           ),
           _DiaryContent(
-            // text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris',
+            text:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris',
             images: images,
           )
         ],
