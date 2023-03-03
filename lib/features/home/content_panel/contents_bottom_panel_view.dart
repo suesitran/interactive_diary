@@ -135,7 +135,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                         'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
                     latitude: 1.0,
                     longitude: 1.0,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(NartusDimens.radius16),
                   ),
                 ),
                 ValueListenableBuilder<double>(
@@ -146,11 +146,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                     height: value,
                     child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          return const Padding(
-                            padding: EdgeInsets.only(
-                                left: 16, right: 16, bottom: 16),
-                            child: ContentCardView(screenEdgeSpacing: 16),
-                          );
+                          return ContentCardView();
                         },
                         itemCount: 10,
                         shrinkWrap: true,
