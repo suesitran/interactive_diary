@@ -8,15 +8,14 @@ import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
 part 'diary_header.dart';
-part 'diary_text_content.dart';
-part 'diary_thumbnail_content.dart';
+part 'diary_content.dart';
 
 class ContentCardView extends StatelessWidget {
   final List<String> images = <String>[
+    'https://i.imgur.com/JVwkx3F.jpeg',
     'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-    'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-    'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-    'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+    'https://i.imgur.com/08CMzYS.jpeg',
+    'https://i.imgur.com/UhfMgkH.jpeg',
   ];
   ContentCardView({Key? key}) : super(key: key);
 
@@ -36,11 +35,9 @@ class ContentCardView extends StatelessWidget {
             displayName: 'Hoang Nguyen',
             dateTime: DateTime(2022, 09, 03, 22, 12),
           ),
-          const _DiaryTextContent(
-              content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-          _DiaryThumbnailContent(
-            thumbnailList: images,
+          _DiaryContent(
+            // text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris',
+            images: images,
           )
         ],
       ),
