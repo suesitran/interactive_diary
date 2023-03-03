@@ -7,7 +7,10 @@ class _DiaryTextContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
-    child: Text(content, style: Theme.of(context).textTheme.bodyMedium,),
-  );
+        padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
+        child: Text(
+          content,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      );
 }
