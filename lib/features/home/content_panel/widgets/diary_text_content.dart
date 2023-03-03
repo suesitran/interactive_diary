@@ -1,10 +1,13 @@
 part of 'content_card_view.dart';
 
 class _DiaryTextContent extends StatelessWidget {
-  const _DiaryTextContent({Key? key}) : super(key: key);
+  final String content;
+
+  const _DiaryTextContent({required this.content, Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
+    child: Text(content, style: Theme.of(context).textTheme.bodyMedium,),
+  );
 }
