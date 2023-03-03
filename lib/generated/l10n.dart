@@ -229,6 +229,16 @@ class S {
       args: [date, time],
     );
   }
+
+  /// `+{count}`
+  String extraImageCount(Object count) {
+    return Intl.message(
+      '+$count',
+      name: 'extraImageCount',
+      desc: '',
+      args: [count],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -28,16 +28,15 @@ class _DiaryContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // first item: show either text or image
-            if (type == DiaryDisplayType.textOnly ||
-                type == DiaryDisplayType.textWithThumbnails)
+            if (type == DiaryDisplayType.thumbnailsOnly)
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(NartusDimens.radius12),
+                  child: Image.network(images.first))
+            else
               Text(
                 text!,
                 style: Theme.of(context).textTheme.bodyMedium,
-              )
-            else if (type == DiaryDisplayType.thumbnailsOnly)
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(NartusDimens.radius12),
-                  child: Image.network(images.first)),
+              ),
             // second item
             // if text only, do not show this second item
             if (type == DiaryDisplayType.thumbnailsOnly ||
@@ -64,11 +63,31 @@ class _DiaryContent extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius:
                                 BorderRadius.circular(NartusDimens.radius12),
-                            child: Image.network(
-                              e.value,
-                              fit: BoxFit.cover,
-                              width: size,
-                              height: size,
+                            child: Stack(
+                              children: [
+                                Image.network(
+                                  e.value,
+                                  fit: BoxFit.cover,
+                                  width: size,
+                                  height: size,
+                                ),
+                                if (e.key == 2 &&
+                                    images.length > maxThumbnailDisplay)
+                                  Container(
+                                    color: NartusColor.black.withOpacity(0.6),
+                                    width: size,
+                                    height: size,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      S.of(context).extraImageCount(
+                                          images.length - maxThumbnailDisplay),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(color: NartusColor.white),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         );

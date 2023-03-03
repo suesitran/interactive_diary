@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(date, time) => "${date} at ${time}";
 
+  static String m1(count) => "+${count}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addText": MessageLookupByLibrary.simpleMessage("Add text"),
@@ -30,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Inner ME"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "diaryDateFormatter": m0,
+        "extraImageCount": m1,
         "locationPermissionDeniedBottomSheetDescription":
             MessageLookupByLibrary.simpleMessage(
                 "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"),

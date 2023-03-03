@@ -3,22 +3,36 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
 part 'diary_header.dart';
 part 'diary_content.dart';
 
-class ContentCardView extends StatelessWidget {
-  final List<String> images = <String>[
-    'https://i.imgur.com/JVwkx3F.jpeg',
-    'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-    'https://i.imgur.com/08CMzYS.jpeg',
-    'https://i.imgur.com/UhfMgkH.jpeg',
-  ];
-  ContentCardView({Key? key}) : super(key: key);
+class ContentCardView extends StatefulWidget {
+  final String? text;
+  final List<String>? images;
+
+  ContentCardView({this.text, this.images, Key? key})
+      : assert(text != null || images?.isNotEmpty == true,
+            'Need either text or image list to be displayed'),
+        super(key: key);
+
+  @override
+  State<ContentCardView> createState() => _ContentCardViewState();
+}
+
+class _ContentCardViewState extends State<ContentCardView> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    initializeDateFormatting();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +51,8 @@ class ContentCardView extends StatelessWidget {
             dateTime: DateTime(2022, 09, 03, 22, 12),
           ),
           _DiaryContent(
-            text:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris',
-            images: images,
+            text: widget.text,
+            images: widget.images,
           )
         ],
       ),
