@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
@@ -10,12 +12,6 @@ part 'diary_text_content.dart';
 part 'diary_thumbnail_content.dart';
 
 class ContentCardView extends StatelessWidget {
-  final String text =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
-      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad '
-      'minim veniam, quis nostrud exercitation ullamco laboris Lorem ipsum dolor sit amet, '
-      'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et '
-      'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
   final List<String> images = <String>[
     'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
     'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
@@ -40,10 +36,12 @@ class ContentCardView extends StatelessWidget {
             displayName: 'Hoang Nguyen',
             dateTime: DateTime(2022, 09, 03, 22, 12),
           ),
-          _DiaryTextContent(
+          const _DiaryTextContent(
               content:
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-          _DiaryThumbnailContent()
+          _DiaryThumbnailContent(
+            thumbnailList: images,
+          )
         ],
       ),
     );
