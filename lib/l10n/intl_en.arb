@@ -16,5 +16,7 @@
   "unavailableScreenDesc" : "Sorry, this screen is still under construction. Please come back later.",
   "appName": "Inner ME",
   "locationPermissionDeniedBottomSheetTitle": "Location Permission not granted",
-  "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"
+  "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog",
+  "diaryDateFormatter": "{date} at {time}",
+  "extraImageCount":"+{count}"
 }
