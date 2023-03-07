@@ -18,6 +18,6 @@ extension RouterExtension on BuildContext {
   }
 
   void goToHome() {
-    GoRouter.of(this).push(idHomeRoute);
+    GoRouter.of(this).replace(idHomeRoute);
   }
 }
