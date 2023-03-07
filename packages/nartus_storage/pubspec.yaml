@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   hive_flutter: ^1.1.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   path_provider: ^2.0.11
 
 dev_dependencies:

@@ -21,6 +21,9 @@ class NartusDimens {
   static const double elevation10 = 10.0;
 
   // size
+  static const double size2 = 2.0;
+  static const double size16 = 16.0;
+  static const double size24 = 24.0;
   static const double size80 = 80.0;
 
   // radius
