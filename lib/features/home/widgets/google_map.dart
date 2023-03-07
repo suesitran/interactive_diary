@@ -227,7 +227,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
       if (!_streamController.isClosed) {
         markers.add(Marker(
             markerId: const MarkerId(baseMarkerCurrentLocationId),
-            position: widget.currentLocation,
+            position: LatLng(widget.currentLocation.latitude,
+                widget.currentLocation.longitude),
             icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
             zIndex: 1,
             onTap: () {

@@ -43,6 +43,8 @@ dependencies:
     path: packages/nartus_ui_package
   nartus_location:
     path: packages/nartus_location
+  nartus_geocoder:
+    path: packages/nartus_geocoder
   nartus_authentication:
     path: packages/nartus_authentication
   nartus_connectivity:

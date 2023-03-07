@@ -32,9 +32,9 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null)));
     when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
+        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[

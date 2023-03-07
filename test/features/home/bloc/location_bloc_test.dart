@@ -10,7 +10,7 @@ import 'location_bloc_test.mocks.dart';
 @GenerateMocks(<Type>[LocationService])
 void main() {
   final MockLocationService service = MockLocationService();
-
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('event request current location', () {
     tearDown(() => reset(service));
 

@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
 
 part 'location_state.dart';
@@ -12,18 +14,24 @@ const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Cubit<LocationState> {
   final LocationService _locationService;
+  final GeocoderService _geocoderService;
 
-  LocationBloc({LocationService? locationService})
+  LocationBloc(
+      {LocationService? locationService, GeocoderService? geocoderService})
       : _locationService = locationService ?? LocationService(),
+        _geocoderService = geocoderService ?? GeocoderService(),
         super(LocationInitial(PermissionStatusDiary.denied));
 
   Future<void> requestCurrentLocation() async {
+    final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
     try {
       final LocationDetails data = await _locationService.getCurrentLocation();
-      final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
-
-      emit(LocationReadyState(
-          LatLng(data.latitude, data.longitude), dateDisplay));
+      await _geocoderService
+          .getCurrentPlaceCoding(data.latitude, data.longitude)
+          .then((value) {
+        emit(LocationReadyState(
+            LatLng(data.latitude, data.longitude), dateDisplay, value));
+      });
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionDeniedException catch (_) {
@@ -49,8 +57,18 @@ class LocationBloc extends Cubit<LocationState> {
 
   Future<void> requestDefaultLocation() async {
     final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
-
-    emit(LocationReadyState(_defaultLocation, dateDisplay));
+    try {
+      // await _geocoderService.getCurrentPlace(
+      //     _defaultLocation.latitude, _defaultLocation.longitude);
+      await _geocoderService
+          .getCurrentPlaceCoding(
+              _defaultLocation.latitude, _defaultLocation.longitude)
+          .then((value) {
+        emit(LocationReadyState(_defaultLocation, dateDisplay, value));
+      });
+    } on GetAddressFailedException catch (_) {
+      emit(LocationReadyState(_defaultLocation, dateDisplay, null));
+    }
   }
 
   Future<void> openAppSettings() async {

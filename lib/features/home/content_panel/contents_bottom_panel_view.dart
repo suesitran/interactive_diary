@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:geocoding/geocoding.dart';
 
 class ContentsBottomPanelController extends ChangeNotifier {
   bool _visible = false;
@@ -18,10 +21,18 @@ class ContentsBottomPanelController extends ChangeNotifier {
 }
 
 class ContentsBottomPanelView extends StatefulWidget {
+  final Placemark? _infoLocation;
+  final LatLng _location;
   final ContentsBottomPanelController controller;
 
-  const ContentsBottomPanelView({required this.controller, Key? key})
-      : super(key: key);
+  const ContentsBottomPanelView(
+      {required this.controller,
+      required location,
+      Placemark? infoLocation,
+      Key? key})
+      : _infoLocation = infoLocation,
+        _location = location ?? const LatLng(0, 0),
+        super(key: key);
 
   @override
   State<ContentsBottomPanelView> createState() =>
@@ -52,7 +63,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   @override
   void initState() {
     super.initState();
-
     widget.controller.addListener(
       () {
         if (widget.controller._visible == true) {
@@ -128,16 +138,10 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 ),
                 // location view
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                  child: LocationView(
-                    address:
-                        'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                    latitude: 1.0,
-                    longitude: 1.0,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    child: checkLocationView(
+                        widget._infoLocation, widget._location)),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:
@@ -163,5 +167,38 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
         ),
       ),
     );
+  }
+
+  LocationView checkLocationView(Placemark? infoLocation, LatLng location) {
+    if (infoLocation == null) {
+      return LocationView(
+        locationIconSvg: Assets.images.idLocationIcon,
+        semanticCoordinate: '${location.latitude}, ${location.longitude}',
+        latitude: location.latitude,
+        longitude: location.longitude,
+        borderRadius: BorderRadius.circular(12),
+      );
+    } else {
+      if (infoLocation.name == '' || infoLocation.name == infoLocation.street) {
+        return LocationView(
+          locationIconSvg: Assets.images.idLocationIcon,
+          address:
+              '${infoLocation.street}, ${infoLocation.subLocality}, ${infoLocation.subAdministrativeArea}, ${infoLocation.administrativeArea}, ${infoLocation.country} ',
+          latitude: widget._location.latitude,
+          longitude: widget._location.longitude,
+          borderRadius: BorderRadius.circular(12),
+        );
+      } else {
+        return LocationView(
+          locationIconSvg: Assets.images.idLocationIcon,
+          businessName: widget._infoLocation?.name,
+          address:
+              '${widget._infoLocation?.street}, ${widget._infoLocation?.subLocality}, ${widget._infoLocation?.subAdministrativeArea}, ${widget._infoLocation?.administrativeArea}, ${widget._infoLocation?.country} ',
+          latitude: widget._location.latitude,
+          longitude: widget._location.longitude,
+          borderRadius: BorderRadius.circular(12),
+        );
+      }
+    }
   }
 }

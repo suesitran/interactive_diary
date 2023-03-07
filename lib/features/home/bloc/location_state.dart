@@ -27,7 +27,8 @@ class UnknownLocationErrorState extends LocationState {}
 
 class LocationReadyState extends LocationState {
   final LatLng currentLocation;
+  final Placemark? infoLocation;
   final String dateDisplay;
 
-  LocationReadyState(this.currentLocation, this.dateDisplay);
+  LocationReadyState(this.currentLocation, this.dateDisplay, this.infoLocation);
 }
