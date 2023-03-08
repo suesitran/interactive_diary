@@ -29,7 +29,9 @@ class NartusBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
         padding: const EdgeInsets.fromLTRB(32, 40, 32, 58),
         child: SingleChildScrollView(
           child: Column(
@@ -99,7 +101,9 @@ class NartusBottomSheet extends StatelessWidget {
                     )),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
