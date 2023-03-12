@@ -5,6 +5,8 @@ import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
+import 'package:interactive_diary/generated/l10n.dart';
+
 part 'constants/asset_strings.dart';
 part 'style_button.dart';
 part 'color_picker.dart';
@@ -143,62 +145,56 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
                   key: _toolbarKey,
                   children: [
                     StyleButton(
-                      attribute: Attribute.bold,
+                      type: TextFormatType.bold,
                       controller: _controller,
                     ),
                     StyleButton(
-                        attribute: Attribute.italic, controller: _controller),
+                        type: TextFormatType.italic,
+                        controller: _controller),
                     StyleButton(
-                        attribute: Attribute.underline,
+                        type: TextFormatType.underline,
                         controller: _controller),
                     StyleColorButton(
-                        attribute: Attribute.background,
+                        type: TextFormatType.highlight,
                         controller: _controller,
                         colorPickerController: _backgroundColorController),
                     StyleColorButton(
-                        attribute: Attribute.color,
+                        type: TextFormatType.color,
                         controller: _controller,
                         colorPickerController: _textColorController),
                     StyleListButton(
-                      attribute: Attribute.ul,
+                      type: TextFormatType.bullet,
                       controller: _controller,
-                      listType: ListType.bullet,
                       attributeGroup: _indexedGroup,
                     ),
                     StyleListButton(
-                      attribute: Attribute.ol,
+                      type: TextFormatType.numbered,
                       controller: _controller,
-                      listType: ListType.numbered,
                       attributeGroup: _indexedGroup,
                     ),
                     StyleButton(
-                        attribute: Attribute.strikeThrough,
+                        type: TextFormatType.strikethrough,
                         controller: _controller),
                     StyleListButton(
-                      attribute: Attribute.blockQuote,
+                      type: TextFormatType.quote,
                       controller: _controller,
                       attributeGroup: _indexedGroup,
-                      listType: ListType.quote,
                     ),
                     StyleAlignButton(
-                        attribute: Attribute.leftAlignment,
+                        type: TextFormatType.alignLeft,
                         controller: _controller,
-                        alignType: AlignType.left,
                         attributeGroup: _alignmentGroup),
                     StyleAlignButton(
-                        attribute: Attribute.centerAlignment,
+                        type: TextFormatType.alignCenter,
                         controller: _controller,
-                        alignType: AlignType.center,
                         attributeGroup: _alignmentGroup),
                     StyleAlignButton(
-                        attribute: Attribute.rightAlignment,
+                        type: TextFormatType.alignRight,
                         controller: _controller,
-                        alignType: AlignType.right,
                         attributeGroup: _alignmentGroup),
                     StyleAlignButton(
-                        attribute: Attribute.justifyAlignment,
+                        type: TextFormatType.alignJustify,
                         controller: _controller,
-                        alignType: AlignType.justify,
                         attributeGroup: _alignmentGroup),
                   ],
                 ),
