@@ -239,6 +239,32 @@ class S {
       args: [count],
     );
   }
+
+  /// `{key, select, bold{Bold} italic{Italic} underline{Underline} highlight{Highlight} color{Font Color} bullet{Bullet List} numbered{Number List} strikethrough{Strikethrough} quote{Quote} alignLeft{Align Left} alignCenter{Align Center} alignRight{Align Right} alignJustify{Align Justify} other{Other}}`
+  String textEditorSemantic(Object key) {
+    return Intl.select(
+      key,
+      {
+        'bold': 'Bold',
+        'italic': 'Italic',
+        'underline': 'Underline',
+        'highlight': 'Highlight',
+        'color': 'Font Color',
+        'bullet': 'Bullet List',
+        'numbered': 'Number List',
+        'strikethrough': 'Strikethrough',
+        'quote': 'Quote',
+        'alignLeft': 'Align Left',
+        'alignCenter': 'Align Center',
+        'alignRight': 'Align Right',
+        'alignJustify': 'Align Justify',
+        'other': 'Other',
+      },
+      name: 'textEditorSemantic',
+      desc: '',
+      args: [key],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

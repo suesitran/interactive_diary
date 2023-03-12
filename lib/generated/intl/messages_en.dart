@@ -24,6 +24,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(count) => "+${count}";
 
+  static String m2(key) => "${Intl.select(key, {
+            'bold': 'Bold',
+            'italic': 'Italic',
+            'underline': 'Underline',
+            'highlight': 'Highlight',
+            'color': 'Font Color',
+            'bullet': 'Bullet List',
+            'numbered': 'Number List',
+            'strikethrough': 'Strikethrough',
+            'quote': 'Quote',
+            'alignLeft': 'Align Left',
+            'alignCenter': 'Align Center',
+            'alignRight': 'Align Right',
+            'alignJustify': 'Align Justify',
+            'other': 'Other',
+          })}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addText": MessageLookupByLibrary.simpleMessage("Add text"),
@@ -56,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Slow or no internet connections.\nPlease check your internet settings"),
         "noConnectionTitle": MessageLookupByLibrary.simpleMessage("Whoops!"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "textEditorSemantic": m2,
         "unavailable":
             MessageLookupByLibrary.simpleMessage("Screen unavailable"),
         "unavailableScreenDesc": MessageLookupByLibrary.simpleMessage(
