@@ -15,7 +15,7 @@ void main() {
 
   testWidgets('verify generic button layout', (widgetTester) async {
     StyleButton styleButton =
-        StyleButton(attribute: Attribute.bold, controller: controller);
+        StyleButton(type: TextFormatType.bold, controller: controller);
 
     await widgetTester.wrapAndPump(styleButton);
 
@@ -69,7 +69,7 @@ void main() {
   group('verify icon data', () {
     testWidgets('verify icon data - bold', (widgetTester) async {
       StyleButton styleButton =
-          StyleButton(attribute: Attribute.bold, controller: controller);
+          StyleButton(type: TextFormatType.bold, controller: controller);
       await widgetTester.wrapAndPump(styleButton);
 
       SvgPicture svgPicture = widgetTester.widget(find.byType(SvgPicture));
@@ -81,7 +81,7 @@ void main() {
 
     testWidgets('verify icon data - italic', (widgetTester) async {
       StyleButton styleButton =
-          StyleButton(attribute: Attribute.italic, controller: controller);
+          StyleButton(type: TextFormatType.italic, controller: controller);
       await widgetTester.wrapAndPump(styleButton);
 
       SvgPicture svgPicture = widgetTester.widget(find.byType(SvgPicture));
@@ -93,7 +93,7 @@ void main() {
 
     testWidgets('verify icon data - underline', (widgetTester) async {
       StyleButton styleButton =
-          StyleButton(attribute: Attribute.underline, controller: controller);
+          StyleButton(type: TextFormatType.underline, controller: controller);
       await widgetTester.wrapAndPump(styleButton);
 
       SvgPicture svgPicture = widgetTester.widget(find.byType(SvgPicture));
@@ -105,7 +105,7 @@ void main() {
 
     testWidgets('verify icon data - highlight', (widgetTester) async {
       StyleButton styleButton = StyleColorButton(
-        attribute: Attribute.background,
+        type: TextFormatType.highlight,
         controller: controller,
         colorPickerController: colorPickerController,
       );
@@ -120,7 +120,7 @@ void main() {
 
     testWidgets('verify icon data - color', (widgetTester) async {
       StyleButton styleButton = StyleColorButton(
-        attribute: Attribute.color,
+        type: TextFormatType.color,
         controller: controller,
         colorPickerController: colorPickerController,
       );
@@ -135,7 +135,7 @@ void main() {
 
     testWidgets('verify icon data - strike through', (widgetTester) async {
       StyleButton styleButton = StyleButton(
-          attribute: Attribute.strikeThrough, controller: controller);
+          type: TextFormatType.strikethrough, controller: controller);
       await widgetTester.wrapAndPump(styleButton);
 
       SvgPicture svgPicture = widgetTester.widget(find.byType(SvgPicture));
@@ -147,7 +147,7 @@ void main() {
 
     testWidgets('verify icon data - quote', (widgetTester) async {
       StyleButton styleButton =
-          StyleButton(attribute: Attribute.blockQuote, controller: controller);
+          StyleButton(type: TextFormatType.quote, controller: controller);
       await widgetTester.wrapAndPump(styleButton);
 
       SvgPicture svgPicture = widgetTester.widget(find.byType(SvgPicture));
@@ -160,9 +160,8 @@ void main() {
     testWidgets('verify icon data - align left', (widgetTester) async {
       final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
-        attribute: Attribute.leftAlignment,
+        type: TextFormatType.alignLeft,
         attributeGroup: group,
-        alignType: AlignType.left,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -177,9 +176,8 @@ void main() {
     testWidgets('verify icon data - align right', (widgetTester) async {
       final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
-        attribute: Attribute.rightAlignment,
+        type: TextFormatType.alignRight,
         attributeGroup: group,
-        alignType: AlignType.right,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -194,9 +192,8 @@ void main() {
     testWidgets('verify icon data - align center', (widgetTester) async {
       final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
-        attribute: Attribute.centerAlignment,
+        type: TextFormatType.alignCenter,
         attributeGroup: group,
-        alignType: AlignType.center,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -211,9 +208,8 @@ void main() {
     testWidgets('verify icon data - align justify', (widgetTester) async {
       final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
-        attribute: Attribute.justifyAlignment,
+        type: TextFormatType.alignJustify,
         attributeGroup: group,
-        alignType: AlignType.justify,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -228,10 +224,9 @@ void main() {
     testWidgets('verify icon data - bullet', (widgetTester) async {
       final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleListButton(
-        attribute: Attribute.ul,
+        type: TextFormatType.bullet,
         attributeGroup: group,
         controller: controller,
-        listType: ListType.bullet,
       );
       await widgetTester.wrapAndPump(styleButton);
 
@@ -245,10 +240,9 @@ void main() {
     testWidgets('verify icon data - numbered', (widgetTester) async {
       final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleListButton(
-        attribute: Attribute.ol,
+        type: TextFormatType.numbered,
         attributeGroup: group,
         controller: controller,
-        listType: ListType.numbered,
       );
       await widgetTester.wrapAndPump(styleButton);
 
@@ -264,7 +258,7 @@ void main() {
     testWidgets('verify icon background color when quill attribute update',
         (widgetTester) async {
       StyleButton styleButton =
-          StyleButton(attribute: Attribute.bold, controller: controller);
+          StyleButton(type: TextFormatType.bold, controller: controller);
       await widgetTester.wrapAndPump(styleButton);
 
       // container has transparent background
@@ -302,7 +296,7 @@ void main() {
       final QuillController controller = QuillController.basic();
 
       StyleColorButton styleButton = StyleColorButton(
-        attribute: Attribute.background,
+        type: TextFormatType.highlight,
         controller: controller,
         colorPickerController: colorPickerController,
       );
@@ -331,7 +325,7 @@ void main() {
       final QuillController controller = QuillController.basic();
 
       StyleColorButton styleButton = StyleColorButton(
-        attribute: Attribute.color,
+        type: TextFormatType.color,
         controller: controller,
         colorPickerController: colorPickerController,
       );
