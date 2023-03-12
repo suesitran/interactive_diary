@@ -34,14 +34,7 @@ class StyleButton extends StatelessWidget {
   StyleButton({required this.type, required this.controller, Key? key})
       : super(key: key) {
 
-    controller.addListener(() {
-      if (_isSelected.value) {
-        _isSelected.value = controller
-            .getSelectionStyle()
-            .attributes
-            .containsKey(type.attribute.key);
-      }
-    });
+    controller.addListener(_updateSelected);
   }
 
   @override
@@ -93,9 +86,10 @@ class StyleButton extends StatelessWidget {
   }
 
   void _updateSelected() {
-    bool newValue = !_isSelected.value;
-
-    _isSelected.value = newValue;
+  _isSelected.value = controller
+      .getSelectionStyle()
+      .attributes
+      .containsKey(type.attribute.key);
   }
 }
 
@@ -135,14 +129,14 @@ class StyleColorButton extends StyleButton {
   // override onTap to show color picker
   @override
   void onTap(BuildContext context, bool isSelected) {
-    super.onTap(context, isSelected);
-
     if (!isSelected) {
       // it's currently not selected, need to show color picker and change to selected now
       colorPickerController.show();
+      _isSelected.value = true;
     } else {
       colorPickerController.hide();
       controller.formatSelection(Attribute.clone(type.attribute, null));
+      _updateSelected();
     }
   }
 }
