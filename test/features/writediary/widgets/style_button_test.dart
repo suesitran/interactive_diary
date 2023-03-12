@@ -19,7 +19,23 @@ void main() {
 
     await widgetTester.wrapAndPump(styleButton);
 
-    // verify it contains a SizedBox, Inkwell, and SvgPicture
+    // verify it contains a Semantic, SizedBox, Inkwell, and SvgPicture
+    // Semantic is descendant of StyleButton and ancestor of SizedBox
+    expect(
+        find.descendant(
+            of: find.byType(StyleButton),
+            matching: find.ancestor(
+                of: find.byType(SizedBox), matching: find.bySemanticsLabel('Bold'))),
+        findsOneWidget);
+
+    // SizedBox is a descendant of StyleButton and ancestor of Inkwell
+    expect(
+        find.descendant(
+            of: find.byType(StyleButton),
+            matching: find.ancestor(
+                of: find.byType(InkWell), matching: find.byType(SizedBox))),
+        findsOneWidget);
+
     // SizedBox is a descendant of StyleButton and ancestor of Inkwell
     expect(
         find.descendant(
@@ -64,6 +80,7 @@ void main() {
     expect(inkWell.borderRadius?.topRight.x, 32);
     expect(inkWell.borderRadius?.topRight.y, 32);
     expect(inkWell.splashColor, const Color(0xffefeafe));
+
   });
 
   group('verify icon data', () {
@@ -348,4 +365,262 @@ void main() {
       expect(attribute?.value, '#123456');
     });
   });
+
+  group('verify semantic label', () {
+    testWidgets('bold icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.bold, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Bold'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Bold'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('italic icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.italic, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Italic'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Italic'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('underline icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.underline, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Underline'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Underline'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('highlight icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.highlight, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Highlight'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Highlight'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('color icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.color, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Font Color'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Font Color'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('bullet icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.bullet, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Bullet List'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Bullet List'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('numbered icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.numbered, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Number List'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Number List'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('strikethrough icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.strikethrough, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Strikethrough'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Strikethrough'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('quote icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.quote, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Quote'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Quote'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('left alignment icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.alignLeft, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Align Left'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Align Left'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('right alignment icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.alignRight, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Align Right'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Align Right'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('center alignment icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.alignCenter, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Align Center'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Align Center'));
+      expect(semantics.properties.button, isTrue);
+    });
+
+    testWidgets('Justify alignment icon', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.alignJustify, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Align Justify'))),
+          findsOneWidget);
+
+      Semantics semantics = widgetTester.widget(find.bySemanticsLabel('Align Justify'));
+      expect(semantics.properties.button, isTrue);
+    });
+  });
+
+    testWidgets('verify semantic onTap action', (widgetTester) async {
+      StyleButton styleButton =
+      StyleButton(type: TextFormatType.bold, controller: controller);
+
+      await widgetTester.wrapAndPump(styleButton);
+
+      expect(
+          find.descendant(
+              of: find.byType(StyleButton),
+              matching: find.ancestor(
+                  of: find.byType(SizedBox), matching: find.bySemanticsLabel('Bold'))),
+          findsOneWidget);
+
+      // container has transparent background
+      Container unselected = widgetTester.widget(find.descendant(
+          of: find.byType(SizedBox), matching: find.byType(Container)));
+      expect(unselected.decoration, isA<BoxDecoration>());
+      BoxDecoration unselectedDecoration =
+      unselected.decoration as BoxDecoration;
+      expect(unselectedDecoration.color, Colors.transparent);
+
+      await widgetTester.tap(find.descendant(
+          of: find.byType(StyleButton),
+          matching: find.ancestor(
+              of: find.byType(SizedBox), matching: find.bySemanticsLabel('Bold'))));
+
+      // container has color background
+      Container selected = widgetTester.widget(find.descendant(
+      of: find.byType(SizedBox), matching: find.byType(Container)));
+      expect(selected.decoration, isA<BoxDecoration>());
+      BoxDecoration selectedDecoration = selected.decoration as BoxDecoration;
+      expect(selectedDecoration.color, Colors.transparent);
+    });
+
 }

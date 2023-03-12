@@ -48,7 +48,7 @@ class StyleButton extends StatelessWidget {
   Widget build(BuildContext context) => ValueListenableBuilder(
         valueListenable: _isSelected,
         builder: (context, isSelected, child) => Semantics(
-          label: S.of(context).textEditorSemantic(type.name),
+          label: type.a11y(context),
           onTap: () => onTap(context, isSelected),
           button: true,
           child: SizedBox(
