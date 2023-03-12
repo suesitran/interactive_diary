@@ -5,6 +5,8 @@ import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
+import 'package:interactive_diary/generated/l10n.dart';
+
 part 'constants/asset_strings.dart';
 part 'style_button.dart';
 part 'color_picker.dart';
@@ -21,7 +23,7 @@ class AdvanceTextEditorView extends StatefulWidget {
 }
 
 class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final QuillController _controller = QuillController.basic()
     ..onSelectionChanged = onSelectionChanged
     ..addListener(() {
@@ -69,19 +71,7 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     _toolbarControllerOpenAnim =
         Tween(begin: 1.0, end: 0.0).animate(_toolbarAnimationController);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final double toolbarHeight =
-          _toolbarKey.currentContext?.size?.height ?? 0;
-
-      // show controller icon when toolbar is taller than controller
-      _toolbarControllerVisibility.value = toolbarHeight > styleButtonHeight;
-
-      if (toolbarHeight <= styleButtonHeight) {
-        // when toolbar is shorter than controller, show toolbar fully
-        _toolbarAnimationController.value = 1;
-      }
-    });
-    _toolbarAnimationController.value = 0;
+    WidgetsBinding.instance.addObserver(this);
 
     _backgroundColorController.addListener(() {
       if (_backgroundColorController.value) {
@@ -143,62 +133,56 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
                   key: _toolbarKey,
                   children: [
                     StyleButton(
-                      attribute: Attribute.bold,
+                      type: TextFormatType.bold,
                       controller: _controller,
                     ),
                     StyleButton(
-                        attribute: Attribute.italic, controller: _controller),
+                        type: TextFormatType.italic,
+                        controller: _controller),
                     StyleButton(
-                        attribute: Attribute.underline,
+                        type: TextFormatType.underline,
                         controller: _controller),
                     StyleColorButton(
-                        attribute: Attribute.background,
+                        type: TextFormatType.highlight,
                         controller: _controller,
                         colorPickerController: _backgroundColorController),
                     StyleColorButton(
-                        attribute: Attribute.color,
+                        type: TextFormatType.color,
                         controller: _controller,
                         colorPickerController: _textColorController),
                     StyleListButton(
-                      attribute: Attribute.ul,
+                      type: TextFormatType.bullet,
                       controller: _controller,
-                      listType: ListType.bullet,
                       attributeGroup: _indexedGroup,
                     ),
                     StyleListButton(
-                      attribute: Attribute.ol,
+                      type: TextFormatType.numbered,
                       controller: _controller,
-                      listType: ListType.numbered,
                       attributeGroup: _indexedGroup,
                     ),
                     StyleButton(
-                        attribute: Attribute.strikeThrough,
+                        type: TextFormatType.strikethrough,
                         controller: _controller),
                     StyleListButton(
-                      attribute: Attribute.blockQuote,
+                      type: TextFormatType.quote,
                       controller: _controller,
                       attributeGroup: _indexedGroup,
-                      listType: ListType.quote,
                     ),
                     StyleAlignButton(
-                        attribute: Attribute.leftAlignment,
+                        type: TextFormatType.alignLeft,
                         controller: _controller,
-                        alignType: AlignType.left,
                         attributeGroup: _alignmentGroup),
                     StyleAlignButton(
-                        attribute: Attribute.centerAlignment,
+                        type: TextFormatType.alignCenter,
                         controller: _controller,
-                        alignType: AlignType.center,
                         attributeGroup: _alignmentGroup),
                     StyleAlignButton(
-                        attribute: Attribute.rightAlignment,
+                        type: TextFormatType.alignRight,
                         controller: _controller,
-                        alignType: AlignType.right,
                         attributeGroup: _alignmentGroup),
                     StyleAlignButton(
-                        attribute: Attribute.justifyAlignment,
+                        type: TextFormatType.alignJustify,
                         controller: _controller,
-                        alignType: AlignType.justify,
                         attributeGroup: _alignmentGroup),
                   ],
                 ),
@@ -206,50 +190,49 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
               ValueListenableBuilder(
                 valueListenable: _toolbarControllerVisibility,
                 builder: (context, visible, child) => visible
-                    ? InkWell(
-                        borderRadius: BorderRadius.circular(32),
-                        splashColor: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.all(NartusDimens.padding4),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32),
-                                color: NartusColor.dark),
-                            child: Stack(
-                              children: [
-                                FadeTransition(
-                                  opacity: _toolbarControllerOpenAnim,
-                                  child: SvgPicture.asset(
-                                    Assets.images.idMoreIcon,
-                                    width: 24,
-                                    height: 24,
-                                    colorFilter: const ColorFilter.mode(
-                                        NartusColor.white, BlendMode.srcIn),
+                    ? Semantics(
+                  button: true,
+                      label: S.of(context).toolbarMore,
+                      onTap: _onMoreButtonTap,
+                      child: InkWell(
+                        excludeFromSemantics: true,
+                          borderRadius: BorderRadius.circular(32),
+                          splashColor: Colors.transparent,
+                          onTap: _onMoreButtonTap,
+                          child: Padding(
+                            padding: const EdgeInsets.all(NartusDimens.padding4),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(32),
+                                  color: NartusColor.dark),
+                              child: Stack(
+                                children: [
+                                  FadeTransition(
+                                    opacity: _toolbarControllerOpenAnim,
+                                    child: SvgPicture.asset(
+                                      Assets.images.idMoreIcon,
+                                      width: 24,
+                                      height: 24,
+                                      colorFilter: const ColorFilter.mode(
+                                          NartusColor.white, BlendMode.srcIn),
+                                    ),
                                   ),
-                                ),
-                                FadeTransition(
-                                  opacity: _toolbarControllerCloseAnim,
-                                  child: SvgPicture.asset(
-                                    Assets.images.icTextController,
-                                    width: 24,
-                                    height: 24,
-                                    colorFilter: const ColorFilter.mode(
-                                        NartusColor.white, BlendMode.srcIn),
-                                  ),
-                                )
-                              ],
+                                  FadeTransition(
+                                    opacity: _toolbarControllerCloseAnim,
+                                    child: SvgPicture.asset(
+                                      Assets.images.icTextController,
+                                      width: 24,
+                                      height: 24,
+                                      colorFilter: const ColorFilter.mode(
+                                          NartusColor.white, BlendMode.srcIn),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        onTap: () {
-                          if (_toolbarAnimationController.status ==
-                              AnimationStatus.completed) {
-                            _toolbarAnimationController.reverse();
-                          } else {
-                            _toolbarAnimationController.forward();
-                          }
-                        },
-                      )
+                    )
                     : const SizedBox.shrink(),
               )
             ],
@@ -257,6 +240,15 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
         )
       ],
     );
+  }
+
+  void _onMoreButtonTap() {
+    if (_toolbarAnimationController.status ==
+        AnimationStatus.completed) {
+      _toolbarAnimationController.reverse();
+    } else {
+      _toolbarAnimationController.forward();
+    }
   }
 
   void onSelectionChanged(TextSelection selection) {
@@ -277,6 +269,27 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     _backgroundColorController.dispose();
     _textColorController.dispose();
 
+    WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final double toolbarHeight =
+          _toolbarKey.currentContext?.size?.height ?? 0;
+
+      // show controller icon when toolbar is taller than controller
+      _toolbarControllerVisibility.value = toolbarHeight > styleButtonHeight;
+
+      if (toolbarHeight <= styleButtonHeight) {
+        // when toolbar is shorter than controller, show toolbar fully
+        _toolbarAnimationController.value = 1;
+      }
+    });
+    _toolbarAnimationController.value = 0;
   }
 }
