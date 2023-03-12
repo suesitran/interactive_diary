@@ -23,7 +23,7 @@ class AdvanceTextEditorView extends StatefulWidget {
 }
 
 class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final QuillController _controller = QuillController.basic()
     ..onSelectionChanged = onSelectionChanged
     ..addListener(() {
@@ -71,19 +71,7 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     _toolbarControllerOpenAnim =
         Tween(begin: 1.0, end: 0.0).animate(_toolbarAnimationController);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final double toolbarHeight =
-          _toolbarKey.currentContext?.size?.height ?? 0;
-
-      // show controller icon when toolbar is taller than controller
-      _toolbarControllerVisibility.value = toolbarHeight > styleButtonHeight;
-
-      if (toolbarHeight <= styleButtonHeight) {
-        // when toolbar is shorter than controller, show toolbar fully
-        _toolbarAnimationController.value = 1;
-      }
-    });
-    _toolbarAnimationController.value = 0;
+    WidgetsBinding.instance.addObserver(this);
 
     _backgroundColorController.addListener(() {
       if (_backgroundColorController.value) {
@@ -281,6 +269,27 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     _backgroundColorController.dispose();
     _textColorController.dispose();
 
+    WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final double toolbarHeight =
+          _toolbarKey.currentContext?.size?.height ?? 0;
+
+      // show controller icon when toolbar is taller than controller
+      _toolbarControllerVisibility.value = toolbarHeight > styleButtonHeight;
+
+      if (toolbarHeight <= styleButtonHeight) {
+        // when toolbar is shorter than controller, show toolbar fully
+        _toolbarAnimationController.value = 1;
+      }
+    });
+    _toolbarAnimationController.value = 0;
   }
 }
