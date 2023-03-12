@@ -22,57 +22,7 @@ enum TextFormatType {
 
   const TextFormatType(this.svgIcon, this.attribute);
 
-  static TextFormatType getType(Attribute attribute) {
-    if (attribute is BoldAttribute) {
-      return TextFormatType.bold;
-    }
-
-    if (attribute is ItalicAttribute) {
-      return TextFormatType.italic;
-    }
-
-    if (attribute is UnderlineAttribute) {
-      return TextFormatType.underline;
-    }
-
-    if (attribute is StrikeThroughAttribute) {
-      return TextFormatType.strikethrough;
-    }
-
-    if (attribute is BlockQuoteAttribute) {
-      return TextFormatType.quote;
-    }
-
-    if (attribute is ColorAttribute) {
-      return TextFormatType.color;
-    }
-
-    if (attribute is BackgroundAttribute) {
-      return TextFormatType.highlight;
-    }
-
-    if (attribute is AlignAttribute) {
-      if (attribute.value == 'left') {
-        return TextFormatType.alignLeft;
-      } else if (attribute.value == 'right') {
-        return TextFormatType.alignRight;
-      } else if (attribute.value == 'center') {
-        return TextFormatType.alignCenter;
-      } else if (attribute.value == 'justify') {
-        return TextFormatType.alignJustify;
-      }
-    }
-
-      if (attribute is ListAttribute) {
-        if (attribute.value == 'bullet') {
-          return TextFormatType.bullet;
-        } else if (attribute.value == 'ordered') {
-          return TextFormatType.numbered;
-        }
-      }
-
-      throw Exception('Attribute not found ${attribute.key} ${attribute.value}');
-  }
+  String a11y(BuildContext context) => S.of(context).textEditorSemantic(name);
 }
 
 class StyleButton extends StatelessWidget {
@@ -100,9 +50,11 @@ class StyleButton extends StatelessWidget {
         builder: (context, isSelected, child) => Semantics(
           label: S.of(context).textEditorSemantic(type.name),
           onTap: () => onTap(context, isSelected),
+          button: true,
           child: SizedBox(
             height: styleButtonHeight,
             child: InkWell(
+              excludeFromSemantics: true,
               borderRadius: BorderRadius.circular(32),
               splashColor:
                   isSelected ? Colors.transparent : NartusColor.primaryContainer,

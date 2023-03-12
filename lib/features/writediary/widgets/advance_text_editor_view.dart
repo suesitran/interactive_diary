@@ -202,50 +202,49 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
               ValueListenableBuilder(
                 valueListenable: _toolbarControllerVisibility,
                 builder: (context, visible, child) => visible
-                    ? InkWell(
-                        borderRadius: BorderRadius.circular(32),
-                        splashColor: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.all(NartusDimens.padding4),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32),
-                                color: NartusColor.dark),
-                            child: Stack(
-                              children: [
-                                FadeTransition(
-                                  opacity: _toolbarControllerOpenAnim,
-                                  child: SvgPicture.asset(
-                                    Assets.images.idMoreIcon,
-                                    width: 24,
-                                    height: 24,
-                                    colorFilter: const ColorFilter.mode(
-                                        NartusColor.white, BlendMode.srcIn),
+                    ? Semantics(
+                  button: true,
+                      label: S.of(context).toolbarMore,
+                      onTap: _onMoreButtonTap,
+                      child: InkWell(
+                        excludeFromSemantics: true,
+                          borderRadius: BorderRadius.circular(32),
+                          splashColor: Colors.transparent,
+                          onTap: _onMoreButtonTap,
+                          child: Padding(
+                            padding: const EdgeInsets.all(NartusDimens.padding4),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(32),
+                                  color: NartusColor.dark),
+                              child: Stack(
+                                children: [
+                                  FadeTransition(
+                                    opacity: _toolbarControllerOpenAnim,
+                                    child: SvgPicture.asset(
+                                      Assets.images.idMoreIcon,
+                                      width: 24,
+                                      height: 24,
+                                      colorFilter: const ColorFilter.mode(
+                                          NartusColor.white, BlendMode.srcIn),
+                                    ),
                                   ),
-                                ),
-                                FadeTransition(
-                                  opacity: _toolbarControllerCloseAnim,
-                                  child: SvgPicture.asset(
-                                    Assets.images.icTextController,
-                                    width: 24,
-                                    height: 24,
-                                    colorFilter: const ColorFilter.mode(
-                                        NartusColor.white, BlendMode.srcIn),
-                                  ),
-                                )
-                              ],
+                                  FadeTransition(
+                                    opacity: _toolbarControllerCloseAnim,
+                                    child: SvgPicture.asset(
+                                      Assets.images.icTextController,
+                                      width: 24,
+                                      height: 24,
+                                      colorFilter: const ColorFilter.mode(
+                                          NartusColor.white, BlendMode.srcIn),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        onTap: () {
-                          if (_toolbarAnimationController.status ==
-                              AnimationStatus.completed) {
-                            _toolbarAnimationController.reverse();
-                          } else {
-                            _toolbarAnimationController.forward();
-                          }
-                        },
-                      )
+                    )
                     : const SizedBox.shrink(),
               )
             ],
@@ -253,6 +252,15 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
         )
       ],
     );
+  }
+
+  void _onMoreButtonTap() {
+    if (_toolbarAnimationController.status ==
+        AnimationStatus.completed) {
+      _toolbarAnimationController.reverse();
+    } else {
+      _toolbarAnimationController.forward();
+    }
   }
 
   void onSelectionChanged(TextSelection selection) {

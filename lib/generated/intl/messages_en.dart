@@ -74,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noConnectionTitle": MessageLookupByLibrary.simpleMessage("Whoops!"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "textEditorSemantic": m2,
+        "toolbarMore": MessageLookupByLibrary.simpleMessage("More"),
         "unavailable":
             MessageLookupByLibrary.simpleMessage("Screen unavailable"),
         "unavailableScreenDesc": MessageLookupByLibrary.simpleMessage(

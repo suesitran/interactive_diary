@@ -265,6 +265,16 @@ class S {
       args: [key],
     );
   }
+
+  /// `More`
+  String get toolbarMore {
+    return Intl.message(
+      'More',
+      name: 'toolbarMore',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
