@@ -16,4 +16,8 @@ extension RouterExtension on BuildContext {
     GoRouter.of(this).push(writeDiaryRoute,
         extra: LatLng(lat: latLng.latitude, long: latLng.longitude));
   }
+
+  void goToHome() {
+    GoRouter.of(this).replace(idHomeRoute);
+  }
 }

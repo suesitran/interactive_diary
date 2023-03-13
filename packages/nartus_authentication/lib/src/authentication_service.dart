@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:nartus_authentication/src/authentication_exception.dart';
+import 'package:nartus_authentication/exception/authentication_exception.dart';
 import 'package:nartus_authentication/src/common.dart';
 
-import 'user_data.dart';
+import '../data/user_data.dart';
 
 class AuthenticationService {
   final GoogleSignIn _googleSignIn;

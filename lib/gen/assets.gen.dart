@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -23,6 +23,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
+
+  /// File path: assets/images/ic_text_controller.svg
+  String get icTextController => 'assets/images/ic_text_controller.svg';
 
   /// File path: assets/images/id_camera_icon.svg
   String get idCameraIcon => 'assets/images/id_camera_icon.svg';
@@ -100,6 +103,7 @@ class $AssetsImagesGen {
         arrowDown,
         back,
         calendar,
+        icTextController,
         idCameraIcon,
         idCircularIconCamera,
         idCircularIconEmoji,

@@ -24,7 +24,8 @@ void main() {
     // secondary container
     expect(lightTheme.colorScheme.secondaryContainer, const Color(0xFFECECF1));
     // on secondary container
-    expect(lightTheme.colorScheme.onSecondaryContainer, const Color(0xFF1C2025));
+    expect(
+        lightTheme.colorScheme.onSecondaryContainer, const Color(0xFF1C2025));
     // background
     expect(lightTheme.colorScheme.background, const Color(0xFFFFFFFF));
     // on background

@@ -8,7 +8,3 @@ class ConnectivityState extends Equatable {
 class ConnectedState extends ConnectivityState {}
 
 class DisconnectedState extends ConnectivityState {}
-
-class ChangeConnectedState extends ConnectivityState {}
-
-class ChangeDisonnectedState extends ConnectivityState {}

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
-import 'package:interactive_diary/bloc/location/location_bloc.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -29,20 +29,20 @@ void main() {
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
         LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
     when(mockLocationBloc.state).thenAnswer(
         (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-            <BlocProvider<StateStreamableSource<Object?>>>[
-              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-              BlocProvider<ConnectivityBloc>(
-                  create: (_) => mockConnectivityBloc)
-            ],
-            widget));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
+            BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<LocationBloc>(create: (_) {
+            return mockLocationBloc;
+          }),
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+        ], widget, infiniteAnimationWidget: true));
 
     expect(
         find.ancestor(
@@ -82,7 +82,7 @@ void main() {
   testWidgets(
       'When state is LocationInitial, then CircularProgressIndicator is presented',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
         LocationInitial(PermissionStatusDiary.denied)));
@@ -101,7 +101,7 @@ void main() {
   testWidgets(
       'When state is LocationPermissionDeniedState, then show Permission explanation dialog',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -126,7 +126,7 @@ void main() {
   testWidgets(
       'When state is LocationPermissionDeniedForeverState, then show permission explanation dialog',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) =>
         Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
@@ -151,7 +151,7 @@ void main() {
   testWidgets(
       'given location permission explanation dialog is visible, when tap on Allow button, then request to show location permission request',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -168,13 +168,13 @@ void main() {
 
     await widgetTester.tap(find.text('Allow'));
 
-    verify(mockLocationBloc.add(ShowDialogRequestPermissionEvent())).called(1);
+    verify(mockLocationBloc.showDialogRequestPermissionEvent()).called(1);
   });
 
   testWidgets(
       'given location permission explanation dialog is visible, when tap on Continue, then request default location',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -191,13 +191,13 @@ void main() {
 
     await widgetTester.tap(find.text('Continue with default location'));
 
-    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+    verify(mockLocationBloc.requestDefaultLocation()).called(1);
   });
 
   testWidgets(
       'given location explanation dialog when denied forever is visible, when tap on Open Settings, then go to App Settings',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) =>
         Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
@@ -214,13 +214,13 @@ void main() {
 
     await widgetTester.tap(find.text('Go to Settings'));
 
-    verify(mockLocationBloc.add(OpenAppSettingsEvent()));
+    verify(mockLocationBloc.openAppSettings()).called(1);
   });
 
   testWidgets(
       'given location explanation dialog when denied forever is visible, when tap on Continue, then request default location',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) =>
         Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
@@ -237,13 +237,13 @@ void main() {
 
     await widgetTester.tap(find.text('Continue with default location'));
 
-    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+    verify(mockLocationBloc.requestDefaultLocation()).called(1);
   });
 
   testWidgets(
       'when state is LocationServiceDisableState, then show bottom sheet popup',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationServiceDisableState()));
@@ -276,7 +276,7 @@ void main() {
   testWidgets(
       'when bottom sheet popup is visible because of location service disable, tap out to dismiss will not dismiss popup',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationServiceDisableState()));
@@ -307,7 +307,7 @@ void main() {
   testWidgets(
       'when bottom sheet popup is visible because of location service disable, tap on Go to Settings will send event OpenLocationServiceEvent',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationServiceDisableState()));
@@ -331,13 +331,13 @@ void main() {
     await widgetTester.tap(find.ancestor(
         of: find.text('Go to Settings'), matching: find.byType(NartusButton)));
 
-    verify(mockLocationBloc.add(OpenLocationServiceEvent()));
+    verify(mockLocationBloc.openLocationServiceSetting()).called(1);
   });
 
   testWidgets(
       'when bottom sheet popup is visible because of location service disable, tap on Continue with default location will send event RequestDefaultLocationEvent',
       (WidgetTester widgetTester) async {
-    const IDHome widget = IDHome();
+    const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer(
         (_) => Stream<LocationState>.value(LocationServiceDisableState()));
@@ -363,7 +363,7 @@ void main() {
         of: find.text('Continue with default location'),
         matching: find.byType(NartusButton)));
 
-    verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+    verify(mockLocationBloc.requestDefaultLocation()).called(1);
   });
 
   group('Test location device permission request', () {
@@ -371,7 +371,7 @@ void main() {
         'given initial location state, '
         'then bottom sheet suggesting will not be shown',
         (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
           Stream<LocationState>.value(
@@ -398,7 +398,7 @@ void main() {
         'given location permission was denied, '
         'then show bottom sheet suggesting enable location on device',
         (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer(
           (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -430,7 +430,7 @@ void main() {
         'given location permission was denied forever, '
         'then show bottom sheet suggesting enable location on device',
         (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
           Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
@@ -463,7 +463,7 @@ void main() {
         'when tap on Allow button, '
         'then request to show location permission request',
         (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer(
           (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -488,8 +488,7 @@ void main() {
 
       await widgetTester.tap(find.text('Allow'));
 
-      verify(mockLocationBloc.add(ShowDialogRequestPermissionEvent()))
-          .called(1);
+      verify(mockLocationBloc.showDialogRequestPermissionEvent()).called(1);
     });
 
     testWidgets(
@@ -497,7 +496,7 @@ void main() {
         'when tap outside of bottom sheet, '
         'then bottom sheet will not be closed',
         (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer(
           (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -535,7 +534,7 @@ void main() {
         'given location permission explanation bottom sheet is visible, '
         'when tap on Continue with default location, '
         'then bottom sheet will be closed', (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer(
           (_) => Stream<LocationState>.value(LocationPermissionDeniedState()));
@@ -560,14 +559,14 @@ void main() {
 
       await widgetTester.tap(find.text('Continue with default location'));
 
-      verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+      verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
 
     testWidgets(
         'given location explanation bottom sheet when denied forever is visible, '
         'when tap on Open Settings, '
         'then go to App Settings', (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
           Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
@@ -592,13 +591,13 @@ void main() {
 
       await widgetTester.tap(find.text('Go to Settings'));
 
-      verify(mockLocationBloc.add(OpenAppSettingsEvent()));
+      verify(mockLocationBloc.openAppSettings()).called(1);
     });
 
     testWidgets(
         'given location explanation dialog when denied forever is visible, when tap on Continue with default location, then bottom sheet will be closed',
         (WidgetTester widgetTester) async {
-      const IDHome widget = IDHome();
+      const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
           Stream<LocationState>.value(LocationPermissionDeniedForeverState()));
@@ -623,7 +622,7 @@ void main() {
 
       await widgetTester.tap(find.text('Continue with default location'));
 
-      verify(mockLocationBloc.add(RequestDefaultLocationEvent()));
+      verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
   });
 }

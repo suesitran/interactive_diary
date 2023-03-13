@@ -1,30 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_diary/bloc/storage/storage_bloc.dart';
+import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
+import 'package:interactive_diary/features/writediary/widgets/advance_text_editor_view.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 
 import 'package:interactive_diary/generated/l10n.dart';
-import 'package:interactive_diary/widgets/location_view.dart';
+import 'package:nartus_ui_package/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
+  const WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
 
   final LatLng latLng;
 
-  final ValueNotifier<bool> _isTextWritten = ValueNotifier<bool>(false);
-  final TextEditingController textController = TextEditingController();
+  @override
+  Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
+        create: (context) => WriteDiaryCubit(),
+        child: WriteDiaryBody(
+          latLng: latLng,
+        ),
+      );
+}
+
+class WriteDiaryBody extends StatelessWidget {
+  final LatLng latLng;
+
+  WriteDiaryBody({required this.latLng, Key? key}) : super(key: key);
+
+  final ValueNotifier<String> _isTextWritten = ValueNotifier<String>('');
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<StorageBloc, StorageState>(
-      listener: (BuildContext context, StorageState state) {
-        if (state is StorageSaveTextDiarySuccess) {
+    return BlocListener<WriteDiaryCubit, WriteDiaryState>(
+      listener: (BuildContext context, WriteDiaryState state) {
+        if (state is WriteDiarySuccess) {
           _returnToPreviousPage(context);
           return;
         }
+
+        if (state is WriteDiaryStart) {}
       },
       child: Scaffold(
         appBar: AppBar(
@@ -43,50 +59,30 @@ class WriteDiaryScreen extends StatelessWidget {
           ),
           elevation: 0.0,
           actions: <Widget>[
-            ValueListenableBuilder<bool>(
+            ValueListenableBuilder<String>(
                 valueListenable: _isTextWritten,
-                builder: (_, bool enable, __) => NartusButton.text(
-                    onPressed: enable
+                builder: (_, text, __) => NartusButton.text(
+                    onPressed: text.isNotEmpty
                         ? () {
-                            context
-                                .read<StorageBloc>()
-                                .add(RequestSaveTextDiaryEvent(
+                            context.read<WriteDiaryCubit>().saveTextDiary(
                                   title: '',
-                                  textContent: textController.text,
+                                  textContent: text,
                                   latLng: latLng,
-                                ));
+                                );
                           }
                         : null,
                     label: S.of(context).save)),
           ],
         ),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const LocationView(
-                  currentLocation:
-                      'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia'),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: textController,
-                  autofocus: true,
-                  showCursor: true,
-                  maxLines: null,
-                  decoration: const InputDecoration(border: InputBorder.none),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  keyboardType: TextInputType.multiline,
-                  onChanged: (String text) {
-                    final bool textAvailable = text.isNotEmpty;
-
-                    if (_isTextWritten.value != textAvailable) {
-                      _isTextWritten.value = textAvailable;
-                    }
-                  },
-                ),
-              ))
-            ]),
+        body: AdvanceTextEditorView(
+          leading: const LocationView(
+            address:
+                'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
+            latitude: 1.0,
+            longitude: 1.0,
+          ),
+          onTextChange: (text) => _isTextWritten.value = text,
+        ),
       ),
     );
   }

@@ -26,7 +26,7 @@ void main() {
       build: () => ConnectivityBloc(connectivity: service),
       setUp: (() => when(service.isConnected).thenAnswer((_) async => false)),
       act: (ConnectivityBloc bloc) => bloc.add(ConnectedConnectivityEvent()),
-      expect: () => <TypeMatcher<DisconnectedState>>[isA<DisconnectedState>()],
+      expect: () => [isA<DisconnectedState>()],
     );
   });
   group('event change connectivity', () {
@@ -39,8 +39,7 @@ void main() {
       }),
       act: (ConnectivityBloc bloc) =>
           bloc.add(ChangeConnectConnectivityEvent()),
-      expect: () =>
-          <TypeMatcher<ChangeConnectedState>>[isA<ChangeConnectedState>()],
+      expect: () => [isA<ConnectedState>()],
     );
     blocTest(
       'There is network connection, turn off wifi, then return false',
@@ -51,8 +50,7 @@ void main() {
       }),
       act: (ConnectivityBloc bloc) =>
           bloc.add(ChangeConnectConnectivityEvent()),
-      expect: () =>
-          <TypeMatcher<ChangeDisonnectedState>>[isA<ChangeDisonnectedState>()],
+      expect: () => [isA<DisconnectedState>()],
     );
   });
 

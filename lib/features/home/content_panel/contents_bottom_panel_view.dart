@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
-import 'package:interactive_diary/widgets/location_view.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -132,9 +131,11 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                   padding:
                       const EdgeInsets.only(left: 16, right: 16, bottom: 24),
                   child: LocationView(
-                    currentLocation:
+                    address:
                         'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                    borderRadius: BorderRadius.circular(12),
+                    latitude: 1.0,
+                    longitude: 1.0,
+                    borderRadius: BorderRadius.circular(NartusDimens.radius16),
                   ),
                 ),
                 ValueListenableBuilder<double>(
@@ -145,10 +146,44 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                     height: value,
                     child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          return const Padding(
-                            padding: EdgeInsets.only(
-                                left: 16, right: 16, bottom: 16),
-                            child: ContentCardView(screenEdgeSpacing: 16),
+                          String text =
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+                          List<String> imageListOf1 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                          ];
+                          List<String> imageListOf2 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                          ];
+                          List<String> imageListOf3 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                            'https://i.imgur.com/08CMzYS.jpeg',
+                          ];
+                          List<String> imageListOf4 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                            'https://i.imgur.com/08CMzYS.jpeg',
+                            'https://i.imgur.com/UhfMgkH.jpeg',
+                          ];
+                          List<String> imageListOf5 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                            'https://i.imgur.com/08CMzYS.jpeg',
+                            'https://i.imgur.com/UhfMgkH.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                          ];
+                          return ContentCardView(
+                            text: index % 5 == 0 ? text : null,
+                            images: index % 5 == 0
+                                ? imageListOf5
+                                : index % 4 == 0
+                                    ? imageListOf4
+                                    : index % 3 == 0
+                                        ? imageListOf3
+                                        : index % 2 == 0
+                                            ? imageListOf2
+                                            : imageListOf1,
                           );
                         },
                         itemCount: 10,
