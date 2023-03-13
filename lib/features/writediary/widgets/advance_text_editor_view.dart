@@ -84,15 +84,19 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
         _backgroundColorController.hide();
       }
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    if (currentWidth != MediaQuery.of(context).size.width) {
+    WidgetsBinding.instance.addObserver(this);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       currentWidth = MediaQuery.of(context).size.width;
 
       _adjustLayoutToScreen();
-    }
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -278,6 +282,18 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
 
     super.dispose();
   }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+
+    if (currentWidth != MediaQuery.of(context).size.width) {
+      currentWidth = MediaQuery.of(context).size.width;
+
+      _adjustLayoutToScreen();
+    }
+  }
+
 
   void _adjustLayoutToScreen() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
