@@ -23,7 +23,7 @@ class AdvanceTextEditorView extends StatefulWidget {
 }
 
 class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+    with TickerProviderStateMixin {
   late final QuillController _controller = QuillController.basic()
     ..onSelectionChanged = onSelectionChanged
     ..addListener(() {
@@ -58,6 +58,8 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
       ColorPickerController();
   final ColorPickerController _textColorController = ColorPickerController();
 
+  /// keep track of device width for foldable devices
+  double currentWidth = 0;
   @override
   void initState() {
     super.initState();
@@ -70,8 +72,6 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
 
     _toolbarControllerOpenAnim =
         Tween(begin: 1.0, end: 0.0).animate(_toolbarAnimationController);
-
-    WidgetsBinding.instance.addObserver(this);
 
     _backgroundColorController.addListener(() {
       if (_backgroundColorController.value) {
@@ -88,6 +88,11 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
 
   @override
   Widget build(BuildContext context) {
+    if (currentWidth != MediaQuery.of(context).size.width) {
+      currentWidth = MediaQuery.of(context).size.width;
+
+      _adjustLayoutToScreen();
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -269,15 +274,10 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     _backgroundColorController.dispose();
     _textColorController.dispose();
 
-    WidgetsBinding.instance.removeObserver(this);
-
     super.dispose();
   }
 
-  @override
-  void didChangeMetrics() {
-    super.didChangeMetrics();
-
+  void _adjustLayoutToScreen() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final double toolbarHeight =
           _toolbarKey.currentContext?.size?.height ?? 0;
