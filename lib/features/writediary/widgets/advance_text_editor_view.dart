@@ -23,7 +23,7 @@ class AdvanceTextEditorView extends StatefulWidget {
 }
 
 class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final QuillController _controller = QuillController.basic()
     ..onSelectionChanged = onSelectionChanged
     ..addListener(() {
@@ -273,6 +273,8 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     _toolbarControllerVisibility.dispose();
     _backgroundColorController.dispose();
     _textColorController.dispose();
+
+    WidgetsBinding.instance.removeObserver(this);
 
     super.dispose();
   }
