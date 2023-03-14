@@ -15,5 +15,9 @@
         <item name="postSplashScreenTheme">@style/NormalTheme</item>
 
         <item name="android:windowSplashScreenBrandingImage">@drawable/android12brand</item>
+
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+
     </style>
 </resources>

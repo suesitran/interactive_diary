@@ -1,7 +1,10 @@
 package com.nartus.interactive_diary
 
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.Window
+import android.view.WindowInsets
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import io.flutter.embedding.android.FlutterActivity
 
@@ -10,9 +13,9 @@ class MainActivity: FlutterActivity() {
         // Handle the splash screen transition.
         val splashScreen = installSplashScreen()
 
-        //Remove title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.navigationBars())
+        }
         super.onCreate(savedInstanceState)
     }
 }
