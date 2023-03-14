@@ -23,7 +23,8 @@ class SplashScreen extends StatelessWidget {
           child: Container(
             color: Theme.of(context).colorScheme.primary,
             alignment: Alignment.center,
-            child: Image.asset(Assets.images.splashScreen.path, fit: BoxFit.cover),
+            child:
+                Image.asset(Assets.images.splashScreen.path, fit: BoxFit.cover),
           ),
         ),
       );
