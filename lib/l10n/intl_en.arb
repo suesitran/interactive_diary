@@ -18,5 +18,7 @@
   "locationPermissionDeniedBottomSheetTitle": "Location Permission not granted",
   "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog",
   "diaryDateFormatter": "{date} at {time}",
-  "extraImageCount":"+{count}"
+  "extraImageCount":"+{count}",
+  "welcomeText":"Welcome to InnerME \uD83D\uDE4C",
+  "getStartedText":"Get Started"
 }
