@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -19,8 +20,10 @@ class SplashScreen extends StatelessWidget {
               },
             ),
           ],
-          child: const Center(
-            child: Text('Splash screen is T.B.D'),
+          child: Container(
+            color: Theme.of(context).colorScheme.primary,
+            alignment: Alignment.center,
+            child: Image.asset(Assets.images.splashScreen.path, fit: BoxFit.cover),
           ),
         ),
       );
