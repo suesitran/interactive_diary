@@ -34,10 +34,6 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
 
   final ScrollController _scrollController = ScrollController();
 
-  final AttributeGroupValue _alignmentGroup = AttributeGroupValue();
-
-  final AttributeGroupValue _indexedGroup = AttributeGroupValue();
-
   /// these params are defined to be used for animation on the toolbar
   final GlobalKey _toolbarKey = GlobalKey();
 
@@ -162,12 +158,10 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
                     StyleListButton(
                       type: TextFormatType.bullet,
                       controller: _controller,
-                      attributeGroup: _indexedGroup,
                     ),
                     StyleListButton(
                       type: TextFormatType.numbered,
                       controller: _controller,
-                      attributeGroup: _indexedGroup,
                     ),
                     StyleButton(
                         type: TextFormatType.strikethrough,
@@ -175,24 +169,23 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
                     StyleListButton(
                       type: TextFormatType.quote,
                       controller: _controller,
-                      attributeGroup: _indexedGroup,
                     ),
                     StyleAlignButton(
                         type: TextFormatType.alignLeft,
                         controller: _controller,
-                        attributeGroup: _alignmentGroup),
+                    ),
                     StyleAlignButton(
                         type: TextFormatType.alignCenter,
                         controller: _controller,
-                        attributeGroup: _alignmentGroup),
+                    ),
                     StyleAlignButton(
                         type: TextFormatType.alignRight,
                         controller: _controller,
-                        attributeGroup: _alignmentGroup),
+                    ),
                     StyleAlignButton(
                         type: TextFormatType.alignJustify,
                         controller: _controller,
-                        attributeGroup: _alignmentGroup),
+                    ),
                   ],
                 ),
               )),
