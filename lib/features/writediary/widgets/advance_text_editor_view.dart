@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,8 +26,24 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     with TickerProviderStateMixin {
   late final QuillController _controller = QuillController.basic()
     ..onSelectionChanged = onSelectionChanged
-    ..addListener(() {
-      widget.onTextChange(_controller.document.toPlainText());
+
+    /// We use _controller.changes.listen instead of _controller.addListener here
+    /// because it doesn't trigger when user interact with QuillEditor or QuillButtonController (Which is unnecessary)
+    /// _controller.addListener triggers even when user only move cursor around
+    /// or presses on a button of controllers without adding any actual text.
+    ..changes.listen((_) {
+      /// _controller.document.isEmpty.call()
+      ///   -> Check if document is actually empty.
+      /// - Note : Can't cover the case that user entered only white space without any actual text character.
+      /// We can't use _controller.document.toDelta.isEmpty because it's usually never empty
+      /// _controller.document.toPlainText().trim().isEmpty
+      ///   -> Check empty cover when user added a bunch of white space case.
+      /// We had to use .trim() to remove all white space that quill added to text.
+      /// For example : User typed "A" -> plainText.length will be 2, with 1 extra white space
+      final bool isEmpty = _controller.document.isEmpty.call() ||
+          _controller.document.toPlainText().trim().isEmpty;
+
+      widget.onTextChange(isEmpty ? '' : json.encode(_controller.document.toDelta().toJson()));
     });
 
   final FocusNode _focusNode = FocusNode();
