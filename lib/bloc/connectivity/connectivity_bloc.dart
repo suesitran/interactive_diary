@@ -17,6 +17,10 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
         (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {
       await _changeConnectionStatus(emit);
     });
+
+    on<CheckConnectivityEvent>((event, emit) async {
+      await _checkConnectivity(emit);
+    });
   }
 
   Future<void> _changeConnectionStatus(Emitter<ConnectivityState> emit) async {
@@ -28,5 +32,15 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
         return DisconnectedState();
       }
     });
+  }
+
+  Future<void> _checkConnectivity(Emitter<ConnectivityState> emit) async {
+    bool isConnected = await _connectivity.isConnected;
+
+    if (isConnected) {
+      emit(ConnectedState());
+    } else {
+      emit(DisconnectedState());
+    }
   }
 }

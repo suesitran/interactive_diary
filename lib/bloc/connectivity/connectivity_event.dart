@@ -6,3 +6,5 @@ class ConnectivityEvent extends Equatable {
 }
 
 class WatchConnectivityEvent extends ConnectivityEvent {}
+
+class CheckConnectivityEvent extends ConnectivityEvent {}

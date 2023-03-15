@@ -36,38 +36,71 @@ void main() async {
           ..add(WatchConnectivityEvent()),
       ),
     ],
-    child: MaterialApp.router(
-      routerConfig: appRoute,
-      title: 'Interactive Diary',
-      theme: lightTheme,
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-        S.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      builder: (context, child) {
-        if (child != null) {
-          final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
-          return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-              child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
-                builder: (context, state) {
-                  if (state is DisconnectedState) {
-                    return const NoConnectionScreen();
-                  }
-
-                  return child;
-                },
-              ));
-        }
-
-        // return unavailable screen
-        return const ScreenUnavailable();
-      },
-    ),
+    child: _MainApp(),
   ));
 }
+
+class _MainApp extends StatefulWidget {
+  const _MainApp({Key? key}) : super(key: key);
+
+  @override
+  State<_MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<_MainApp> with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      context.read<ConnectivityBloc>().add(CheckConnectivityEvent());
+    }
+  }
+  @override
+  Widget build(BuildContext context) => MaterialApp.router(
+    routerConfig: appRoute,
+    title: 'Interactive Diary',
+    theme: lightTheme,
+    localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+      S.delegate,
+    ],
+    supportedLocales: S.delegate.supportedLocales,
+    builder: (context, child) {
+      if (child != null) {
+        final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+        return MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+            child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
+              builder: (context, state) {
+                if (state is DisconnectedState) {
+                  return const NoConnectionScreen();
+                }
+
+                return child;
+              },
+            ));
+      }
+
+      // return unavailable screen
+      return const ScreenUnavailable();
+    },
+  );
+}
+
 
 class ScreenUnavailable extends StatelessWidget {
   const ScreenUnavailable({Key? key}) : super(key: key);
