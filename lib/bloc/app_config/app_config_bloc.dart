@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:nartus_remote_config/remote_config_manager.dart';
 
 part 'app_config_event.dart';
 part 'app_config_state.dart';
