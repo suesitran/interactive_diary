@@ -14,8 +14,8 @@ const String _dateFormat = 'dd-MMM-yyyy';
 class LocationBloc extends Cubit<LocationState> {
   final LocationService _locationService;
 
-  LocationBloc({LocationService? locationService})
-      : _locationService = locationService ?? ServiceLocator.instance<LocationService>(),
+  LocationBloc()
+      : _locationService = ServiceLocator.instance<LocationService>(),
         super(LocationInitial(PermissionStatusDiary.denied));
 
   Future<void> requestCurrentLocation() async {

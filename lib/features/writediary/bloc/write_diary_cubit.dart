@@ -8,8 +8,8 @@ part 'write_diary_state.dart';
 class WriteDiaryCubit extends Cubit<WriteDiaryState> {
   late final StorageService service;
 
-  WriteDiaryCubit({StorageService? storageService})
-      : service = storageService ?? ServiceLocator.instance<StorageService>(),
+  WriteDiaryCubit()
+      : service = ServiceLocator.instance<StorageService>(),
         super(WriteDiaryInitial());
 
   Future<void> saveTextDiary(

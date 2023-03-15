@@ -6,9 +6,8 @@ part 'google_signup_state.dart';
 
 class GoogleSignupBloc extends Cubit<GoogleSignupState> {
   final AuthenticationService _authenticationService;
-  GoogleSignupBloc({AuthenticationService? authenticationService})
-      : _authenticationService =
-            authenticationService ?? ServiceLocator.instance<AuthenticationService>(),
+  GoogleSignupBloc()
+      : _authenticationService = ServiceLocator.instance<AuthenticationService>(),
         super(GoogleSignupInitialState());
 
   Future<dynamic> signUpGoogle() async {
