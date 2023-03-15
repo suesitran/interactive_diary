@@ -22,7 +22,7 @@ enum TextFormatType {
 
   const TextFormatType(this.svgIcon, this.attribute);
 
-  String a11y(BuildContext context) => S.of(context).textEditorSemantic(name);
+  String get a11y => S.current.textEditorSemantic(name);
 }
 
 class StyleButton extends StatelessWidget {
@@ -33,7 +33,6 @@ class StyleButton extends StatelessWidget {
 
   StyleButton({required this.type, required this.controller, Key? key})
       : super(key: key) {
-
     controller.addListener(_updateSelected);
   }
 
@@ -41,7 +40,7 @@ class StyleButton extends StatelessWidget {
   Widget build(BuildContext context) => ValueListenableBuilder(
         valueListenable: _isSelected,
         builder: (context, isSelected, child) => Semantics(
-          label: type.a11y(context),
+          label: type.a11y,
           onTap: () => onTap(context, isSelected),
           button: true,
           child: SizedBox(
@@ -49,8 +48,9 @@ class StyleButton extends StatelessWidget {
             child: InkWell(
               excludeFromSemantics: true,
               borderRadius: BorderRadius.circular(32),
-              splashColor:
-                  isSelected ? Colors.transparent : NartusColor.primaryContainer,
+              splashColor: isSelected
+                  ? Colors.transparent
+                  : NartusColor.primaryContainer,
               onTap: () => onTap(context, isSelected),
               child: Container(
                 padding: const EdgeInsets.all(NartusDimens.padding8),
@@ -86,10 +86,10 @@ class StyleButton extends StatelessWidget {
   }
 
   void _updateSelected() {
-  _isSelected.value = controller
-      .getSelectionStyle()
-      .attributes
-      .containsKey(type.attribute.key);
+    _isSelected.value = controller
+        .getSelectionStyle()
+        .attributes
+        .containsKey(type.attribute.key);
   }
 }
 
@@ -111,8 +111,9 @@ class StyleColorButton extends StyleButton {
     String hex = _colorToHex(color);
 
     if (_isSelected.value) {
-      controller.formatSelection(
-          type == TextFormatType.highlight ? BackgroundAttribute(hex) : ColorAttribute(hex));
+      controller.formatSelection(type == TextFormatType.highlight
+          ? BackgroundAttribute(hex)
+          : ColorAttribute(hex));
     }
   }
 
@@ -143,51 +144,17 @@ class StyleColorButton extends StyleButton {
 
 /// Group buttons implementation
 ///
-class AttributeGroupValue extends ValueNotifier<Attribute?> {
-  AttributeGroupValue() : super(null);
-
-  void select(Attribute attribute) {
-    value = attribute;
-    notifyListeners();
-  }
-
-  void unselect(Attribute attribute) {
-    value = null;
-    notifyListeners();
-  }
-
-  bool contains(Attribute attribute) => value == attribute;
-}
-
 class StyleGroupButton extends StyleButton {
-  final AttributeGroupValue attributeGroup;
-
-  StyleGroupButton(
-      {required super.type,
-      required super.controller,
-      required this.attributeGroup,
-      super.key}) {
-    attributeGroup.addListener(() {
-      updateGroupSelection();
-    });
-  }
+  StyleGroupButton({required super.type, required super.controller, super.key});
 
   @override
   void _updateSelected() {
-    bool isSelected = attributeGroup.contains(type.attribute);
-
-    if (isSelected) {
-      // remove it
-      attributeGroup.unselect(type.attribute);
-    } else {
-      attributeGroup.select(type.attribute);
-    }
-  }
-
-  void updateGroupSelection() {
-    bool isSelected = attributeGroup.contains(type.attribute);
-
-    _isSelected.value = isSelected;
+    _isSelected.value = controller
+            .getSelectionStyle()
+            .attributes
+            .containsKey(type.attribute.key) &&
+        controller.getSelectionStyle().attributes[type.attribute.key]?.value ==
+            type.attribute.value;
   }
 }
 
@@ -195,15 +162,10 @@ class StyleListButton extends StyleGroupButton {
   StyleListButton({
     required super.type,
     required super.controller,
-    required super.attributeGroup,
     super.key,
   });
 }
 
 class StyleAlignButton extends StyleGroupButton {
-  StyleAlignButton(
-      {required super.type,
-      required super.controller,
-      required super.attributeGroup,
-      super.key});
+  StyleAlignButton({required super.type, required super.controller, super.key});
 }

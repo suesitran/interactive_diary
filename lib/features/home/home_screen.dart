@@ -42,10 +42,10 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
               if (state is LocationServiceDisableState) {
                 context.showIDBottomSheet(
                     iconPath: Assets.images.idLocationImg,
-                    title: S.of(context).locationPermissionDialogTitle,
-                    content: S.of(context).locationPermissionDialogMessage,
+                    title: S.current.locationPermissionDialogTitle,
+                    content: S.current.locationPermissionDialogMessage,
                     primaryButtonText: S
-                        .of(context)
+                        .current
                         .locationPermissionDialogOpenSettingsButton,
                     onPrimaryButtonSelected: () {
                       // can't dismiss popup dialog here because ios16 does not allow
@@ -53,7 +53,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                       context.read<LocationBloc>().openLocationServiceSetting();
                     },
                     textButtonText:
-                        S.of(context).locationPermissionDialogContinueButton,
+                        S.current.locationPermissionDialogContinueButton,
                     onTextButtonSelected: () {
                       Navigator.of(context).pop();
                       context.read<LocationBloc>().requestDefaultLocation();
@@ -65,23 +65,23 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                   state is LocationPermissionDeniedState) {
                 final String title = state
                         is LocationPermissionDeniedForeverState
-                    ? S.of(context).locationPermissionDialogTitle
-                    : S.of(context).locationPermissionDeniedBottomSheetTitle;
+                    ? S.current.locationPermissionDialogTitle
+                    : S.current.locationPermissionDeniedBottomSheetTitle;
 
                 final String content =
                     state is LocationPermissionDeniedForeverState
-                        ? S.of(context).locationPermissionDialogMessage
+                        ? S.current.locationPermissionDialogMessage
                         : S
-                            .of(context)
+                            .current
                             .locationPermissionDeniedBottomSheetDescription;
 
                 final String primaryButtonText = state
                         is LocationPermissionDeniedForeverState
-                    ? S.of(context).locationPermissionDialogOpenSettingsButton
-                    : S.of(context).locationPermissionDialogAllowButton;
+                    ? S.current.locationPermissionDialogOpenSettingsButton
+                    : S.current.locationPermissionDialogAllowButton;
 
                 final String textButtonText =
-                    S.of(context).locationPermissionDialogContinueButton;
+                    S.current.locationPermissionDialogContinueButton;
 
                 context.showIDBottomSheet(
                     iconPath: Assets.images.idLocationImg,
@@ -130,7 +130,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                             child: DateLabelView(
                               dateLabel: state.dateDisplay,
                               profileSemanticLabel:
-                                  S.of(context).anonymous_profile,
+                                  S.current.anonymous_profile,
                             ),
                           )),
                       Expanded(

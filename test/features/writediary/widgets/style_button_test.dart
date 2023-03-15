@@ -175,10 +175,8 @@ void main() {
     });
 
     testWidgets('verify icon data - align left', (widgetTester) async {
-      final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
         type: TextFormatType.alignLeft,
-        attributeGroup: group,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -191,10 +189,8 @@ void main() {
     });
 
     testWidgets('verify icon data - align right', (widgetTester) async {
-      final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
         type: TextFormatType.alignRight,
-        attributeGroup: group,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -207,10 +203,8 @@ void main() {
     });
 
     testWidgets('verify icon data - align center', (widgetTester) async {
-      final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
         type: TextFormatType.alignCenter,
-        attributeGroup: group,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -223,10 +217,8 @@ void main() {
     });
 
     testWidgets('verify icon data - align justify', (widgetTester) async {
-      final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleAlignButton(
         type: TextFormatType.alignJustify,
-        attributeGroup: group,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -239,10 +231,8 @@ void main() {
     });
 
     testWidgets('verify icon data - bullet', (widgetTester) async {
-      final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleListButton(
         type: TextFormatType.bullet,
-        attributeGroup: group,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);
@@ -255,10 +245,8 @@ void main() {
     });
 
     testWidgets('verify icon data - numbered', (widgetTester) async {
-      final AttributeGroupValue group = AttributeGroupValue();
       StyleButton styleButton = StyleListButton(
         type: TextFormatType.numbered,
-        attributeGroup: group,
         controller: controller,
       );
       await widgetTester.wrapAndPump(styleButton);

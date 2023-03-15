@@ -71,10 +71,10 @@ class ScreenUnavailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).unavailable),
+          title: Text(S.current.unavailable),
         ),
         body: Center(
-          child: Text(S.of(context).unavailableScreenDesc),
+          child: Text(S.current.unavailableScreenDesc),
         ),
       );
 }
