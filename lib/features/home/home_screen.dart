@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';

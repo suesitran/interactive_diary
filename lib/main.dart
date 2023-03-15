@@ -36,7 +36,7 @@ void main() async {
           ..add(WatchConnectivityEvent()),
       ),
     ],
-    child: _MainApp(),
+    child: const _MainApp(),
   ));
 }
 
