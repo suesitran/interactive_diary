@@ -90,6 +90,8 @@ class WriteDiaryBody extends StatelessWidget {
   void _returnToPreviousPage(BuildContext context) {
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
 
+    _isTextWritten.dispose();
+
     /// TODO this is a cheat.
     /// We need to wait for keyboard to be fully dismissed before returning to previous page
     Future<void>.delayed(const Duration(milliseconds: 500))
