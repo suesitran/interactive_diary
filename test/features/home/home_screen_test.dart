@@ -596,7 +596,7 @@ void main() {
 
     testWidgets(
         'given location explanation dialog when denied forever is visible, '
-            'when tap on Continue with default location, then bottom sheet will be closed',
+        'when tap on Continue with default location, then bottom sheet will be closed',
         (WidgetTester widgetTester) async {
       const IDHomeBody widget = IDHomeBody();
 
@@ -625,38 +625,41 @@ void main() {
 
       verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
-    
+
     testWidgets('given requesting location permission', (widgetTester) async {
       const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
-      Stream<LocationState>.value(AwaitLocationPermissionFromAppSettingState()));
+          Stream<LocationState>.value(
+              AwaitLocationPermissionFromAppSettingState()));
       when(mockLocationBloc.state)
           .thenAnswer((_) => AwaitLocationPermissionFromAppSettingState());
 
       await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-          <BlocProvider<StateStreamableSource<Object?>>>[
-            BlocProvider<ConnectivityBloc>(
-              create: (_) => mockConnectivityBloc,
-            ),
-            BlocProvider<LocationBloc>(
-              create: (_) => mockLocationBloc,
-            )
-          ],
-          widget,
-          infiniteAnimationWidget: true));
+              <BlocProvider<StateStreamableSource<Object?>>>[
+                BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc,
+                ),
+                BlocProvider<LocationBloc>(
+                  create: (_) => mockLocationBloc,
+                )
+              ],
+              widget,
+              infiniteAnimationWidget: true));
 
-      WidgetsBinding.instance.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      WidgetsBinding.instance
+          .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       verify(mockLocationBloc.onReturnFromSettings()).called(1);
     });
   });
 
-    testWidgets('Verify IDHome has a bloc and content is a IDHomeBody', (widgetTester) async {
-      const Widget widget = IDHome();
+  testWidgets('Verify IDHome has a bloc and content is a IDHomeBody',
+      (widgetTester) async {
+    const Widget widget = IDHome();
 
-      await widgetTester.wrapAndPump(widget, infiniteAnimationWidget: true);
+    await widgetTester.wrapAndPump(widget, infiniteAnimationWidget: true);
 
-      expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
-      expect(find.byType(IDHomeBody), findsOneWidget);
-    });
+    expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
+    expect(find.byType(IDHomeBody), findsOneWidget);
+  });
 }

@@ -45,7 +45,8 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
       final bool isEmpty = _controller.document.isEmpty.call() ||
           _controller.document.toPlainText().trim().isEmpty;
 
-      widget.onTextChange(isEmpty ? '' : json.encode(_controller.document.toDelta().toJson()));
+      widget.onTextChange(
+          isEmpty ? '' : json.encode(_controller.document.toDelta().toJson()));
     });
 
   final FocusNode _focusNode = FocusNode();

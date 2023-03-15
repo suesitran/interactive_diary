@@ -43,9 +43,8 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                     iconPath: Assets.images.idLocationImg,
                     title: S.current.locationPermissionDialogTitle,
                     content: S.current.locationPermissionDialogMessage,
-                    primaryButtonText: S
-                        .current
-                        .locationPermissionDialogOpenSettingsButton,
+                    primaryButtonText:
+                        S.current.locationPermissionDialogOpenSettingsButton,
                     onPrimaryButtonSelected: () {
                       // can't dismiss popup dialog here because ios16 does not allow
                       // to directly go to Location settings
@@ -62,22 +61,20 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
 
               if (state is LocationPermissionDeniedForeverState ||
                   state is LocationPermissionDeniedState) {
-                final String title = state
-                        is LocationPermissionDeniedForeverState
-                    ? S.current.locationPermissionDialogTitle
-                    : S.current.locationPermissionDeniedBottomSheetTitle;
-
-                final String content =
+                final String title =
                     state is LocationPermissionDeniedForeverState
-                        ? S.current.locationPermissionDialogMessage
-                        : S
-                            .current
-                            .locationPermissionDeniedBottomSheetDescription;
+                        ? S.current.locationPermissionDialogTitle
+                        : S.current.locationPermissionDeniedBottomSheetTitle;
 
-                final String primaryButtonText = state
+                final String content = state
                         is LocationPermissionDeniedForeverState
-                    ? S.current.locationPermissionDialogOpenSettingsButton
-                    : S.current.locationPermissionDialogAllowButton;
+                    ? S.current.locationPermissionDialogMessage
+                    : S.current.locationPermissionDeniedBottomSheetDescription;
+
+                final String primaryButtonText =
+                    state is LocationPermissionDeniedForeverState
+                        ? S.current.locationPermissionDialogOpenSettingsButton
+                        : S.current.locationPermissionDialogAllowButton;
 
                 final String textButtonText =
                     S.current.locationPermissionDialogContinueButton;
@@ -128,8 +125,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                             alignment: Alignment.topCenter,
                             child: DateLabelView(
                               dateLabel: state.dateDisplay,
-                              profileSemanticLabel:
-                                  S.current.anonymous_profile,
+                              profileSemanticLabel: S.current.anonymous_profile,
                             ),
                           )),
                       Expanded(

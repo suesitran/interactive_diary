@@ -32,8 +32,8 @@ void main() async {
         create: (context) => AppConfigBloc()..add(AppRequestInitialise()),
       ),
       BlocProvider<ConnectivityBloc>(
-        create: (BuildContext context) => ConnectivityBloc()
-          ..add(WatchConnectivityEvent()),
+        create: (BuildContext context) =>
+            ConnectivityBloc()..add(WatchConnectivityEvent()),
       ),
     ],
     child: const _MainApp(),
@@ -48,7 +48,6 @@ class _MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<_MainApp> with WidgetsBindingObserver {
-
   @override
   void initState() {
     super.initState();
@@ -68,39 +67,40 @@ class _MainAppState extends State<_MainApp> with WidgetsBindingObserver {
       context.read<ConnectivityBloc>().add(CheckConnectivityEvent());
     }
   }
+
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-    routerConfig: appRoute,
-    title: 'Interactive Diary',
-    theme: lightTheme,
-    localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-      S.delegate,
-    ],
-    supportedLocales: S.delegate.supportedLocales,
-    builder: (context, child) {
-      if (child != null) {
-        final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+        routerConfig: appRoute,
+        title: 'Interactive Diary',
+        theme: lightTheme,
+        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+          S.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        builder: (context, child) {
+          if (child != null) {
+            final double textScaleFactor =
+                MediaQuery.of(context).textScaleFactor;
 
-        return MediaQuery(
-            data: MediaQuery.of(context)
-                .copyWith(textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-            child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
-              builder: (context, state) {
-                if (state is DisconnectedState) {
-                  return const NoConnectionScreen();
-                }
+            return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
+                child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
+                  builder: (context, state) {
+                    if (state is DisconnectedState) {
+                      return const NoConnectionScreen();
+                    }
 
-                return child;
-              },
-            ));
-      }
+                    return child;
+                  },
+                ));
+          }
 
-      // return unavailable screen
-      return const ScreenUnavailable();
-    },
-  );
+          // return unavailable screen
+          return const ScreenUnavailable();
+        },
+      );
 }
-
 
 class ScreenUnavailable extends StatelessWidget {
   const ScreenUnavailable({Key? key}) : super(key: key);
