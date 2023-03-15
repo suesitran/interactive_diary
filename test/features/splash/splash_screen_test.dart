@@ -23,29 +23,7 @@ void main() {
 
     await widgetTester.blocWrapAndPump<AppConfigBloc>(appConfigBloc, splash);
 
-    expect(
-        find.ancestor(
-            of: find.byType(Image),
-            matching: find.descendant(
-                of: find.byType(Scaffold), matching: find.byType(Container))),
-        findsOneWidget);
-    expect(
-        find.descendant(
-            of: find.byType(Container), matching: find.byType(Image)),
-        findsOneWidget);
-
-    // verify layout of Container
-    Container container = widgetTester.widget(find.ancestor(
-        of: find.byType(Image),
-        matching: find.descendant(
-            of: find.byType(Scaffold), matching: find.byType(Container))));
-    expect(container.alignment, Alignment.center);
-
-    Image image = widgetTester.widget(find.descendant(
-        of: find.byType(Container), matching: find.byType(Image)));
-    expect(image.image, isA<AssetImage>());
-
-    AssetImage assetImage = image.image as AssetImage;
-    expect(assetImage.assetName, 'assets/images/splash_screen.png');
+    // verify that splash UI is just a blank screen
+    expect(find.byType(SizedBox), findsOneWidget);
   });
 }
