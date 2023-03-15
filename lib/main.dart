@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
-import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -87,15 +86,7 @@ class _MainAppState extends State<_MainApp> with WidgetsBindingObserver {
             return MediaQuery(
                 data: MediaQuery.of(context).copyWith(
                     textScaleFactor: textScaleFactor.clamp(0.8, 1.25)),
-                child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
-                  builder: (context, state) {
-                    if (state is DisconnectedState) {
-                      return const NoConnectionScreen();
-                    }
-
-                    return child;
-                  },
-                ));
+                child: child);
           }
 
           // return unavailable screen
