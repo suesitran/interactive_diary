@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/signup/bloc/google_signup_bloc.dart';
 import 'package:interactive_diary/features/signup/signup_screen.dart';
@@ -15,11 +16,11 @@ void main() {
   setupFirebaseAuthMocks();
 
   final GoogleSignupBloc mockSignUpBloc = MockGoogleSignupBloc();
-  late IDSignUp screen;
+  late Widget screen;
 
   setUpAll(() async {
     await Firebase.initializeApp();
-    screen = const IDSignUp();
+    screen = const IDSignUpBody();
   });
 
   group('Signup with google', () {

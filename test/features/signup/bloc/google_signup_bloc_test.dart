@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/signup/bloc/google_signup_bloc.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_authentication/nartus_authentication.dart';
@@ -11,13 +12,15 @@ import 'google_signup_bloc_test.mocks.dart';
 @GenerateMocks(<Type>[AuthenticationService])
 void main() {
   setupFirebaseAuthMocks();
-  final AuthenticationService service = MockAuthenticationService();
+  final MockAuthenticationService service = MockAuthenticationService();
+  
+  setUpAll(() => ServiceLocator.instance.registerSingleton<AuthenticationService>(service));
 
   group('Test event and states', () {
     blocTest(
         'when receive event SignUpByGoogleEvent and signin succeed, '
         'then emit Succeed state',
-        build: () => GoogleSignupBloc(authenticationService: service),
+        build: () => GoogleSignupBloc(),
         setUp: () {
           when(service.signinGoogle()).thenAnswer(
               (_) => Future<UserDetail>.value(UserDetail(name: 'asdas')));
@@ -31,7 +34,7 @@ void main() {
     blocTest(
         'when receive event SignUpByGoogleEvent but signin failed due to user canceled, '
         'then emit initial state',
-        build: () => GoogleSignupBloc(authenticationService: service),
+        build: () => GoogleSignupBloc(),
         setUp: () {
           when(service.signinGoogle()).thenAnswer(
               (_) => throw AuthenticateFailedException.userCancelled());
@@ -45,7 +48,7 @@ void main() {
     blocTest(
         'when receive event SignUpByGoogleEvent but signin failed due to unknown error, '
         'then emit initial state',
-        build: () => GoogleSignupBloc(authenticationService: service),
+        build: () => GoogleSignupBloc(),
         setUp: () {
           when(service.signinGoogle())
               .thenAnswer((_) => throw AuthenticateFailedException.unknown());

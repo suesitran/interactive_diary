@@ -1,14 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nartus_storage/nartus_storage.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 
 part 'write_diary_state.dart';
 
 class WriteDiaryCubit extends Cubit<WriteDiaryState> {
   late final StorageService service;
 
-  WriteDiaryCubit({StorageService? storageService})
-      : service = storageService ?? StorageService(StorageType.local),
+  WriteDiaryCubit()
+      : service = ServiceLocator.instance<StorageService>(),
         super(WriteDiaryInitial());
 
   Future<void> saveTextDiary(
