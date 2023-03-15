@@ -79,7 +79,7 @@ class _DiaryContent extends StatelessWidget {
                                     height: size,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      S.of(context).extraImageCount(
+                                      S.current.extraImageCount(
                                           images.length - maxThumbnailDisplay),
                                       style: Theme.of(context)
                                           .textTheme
