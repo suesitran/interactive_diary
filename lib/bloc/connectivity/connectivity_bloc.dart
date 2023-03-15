@@ -13,26 +13,9 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
       : _connectivity =
             connectivity ?? ConnectivityService(ImplType.connectivityPlus),
         super(ConnectivityState()) {
-    on<ConnectedConnectivityEvent>(
-        (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {
-      await _checkConnectivity(emit);
-    });
-
-    on<ChangeConnectConnectivityEvent>(
+    on<WatchConnectivityEvent>(
         (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {
       await _changeConnectionStatus(emit);
-    });
-  }
-
-  // late StreamSubscription connectivitySubscription;
-
-  Future<void> _checkConnectivity(Emitter<ConnectivityState> emit) async {
-    await _connectivity.isConnected.then((bool value) {
-      if (value == true) {
-        emit(ConnectedState());
-      } else {
-        emit(DisconnectedState());
-      }
     });
   }
 

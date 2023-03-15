@@ -148,9 +148,6 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
 
             if (state is LocationInitial) {
               context.read<LocationBloc>().requestCurrentLocation();
-              context
-                  .read<ConnectivityBloc>()
-                  .add(ConnectedConnectivityEvent());
             }
 
             if (state is AwaitLocationPermissionFromAppSettingState ||
@@ -176,6 +173,13 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    super.dispose();
   }
 
   void handleMenuOpen() {

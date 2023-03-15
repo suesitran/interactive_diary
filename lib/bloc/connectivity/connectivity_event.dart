@@ -5,6 +5,4 @@ class ConnectivityEvent extends Equatable {
   List<Object?> get props => <Object?>[];
 }
 
-class ChangeConnectConnectivityEvent extends ConnectivityEvent {}
-
-class ConnectedConnectivityEvent extends ConnectivityEvent {}
+class WatchConnectivityEvent extends ConnectivityEvent {}

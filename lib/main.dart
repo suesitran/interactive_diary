@@ -33,8 +33,7 @@ void main() async {
       ),
       BlocProvider<ConnectivityBloc>(
         create: (BuildContext context) => ConnectivityBloc()
-          ..add(ConnectedConnectivityEvent())
-          ..add(ChangeConnectConnectivityEvent()),
+          ..add(WatchConnectivityEvent()),
       ),
     ],
     child: MaterialApp.router(

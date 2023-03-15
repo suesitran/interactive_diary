@@ -13,22 +13,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final MockConnectivityService service = MockConnectivityService();
-  group('event check connectivity', () {
-    blocTest(
-      'There is network connection, then return true',
-      build: () => ConnectivityBloc(connectivity: service),
-      setUp: (() => when(service.isConnected).thenAnswer((_) async => true)),
-      act: (ConnectivityBloc bloc) => bloc.add(ConnectedConnectivityEvent()),
-      expect: () => <TypeMatcher<ConnectedState>>[isA<ConnectedState>()],
-    );
-    blocTest(
-      'There is not network connection, then return false',
-      build: () => ConnectivityBloc(connectivity: service),
-      setUp: (() => when(service.isConnected).thenAnswer((_) async => false)),
-      act: (ConnectivityBloc bloc) => bloc.add(ConnectedConnectivityEvent()),
-      expect: () => [isA<DisconnectedState>()],
-    );
-  });
   group('event change connectivity', () {
     blocTest(
       'There is not network connection, turn on wifi, then return true',
@@ -38,7 +22,7 @@ void main() {
             .thenAnswer((Invocation value) => Stream<bool>.value(true));
       }),
       act: (ConnectivityBloc bloc) =>
-          bloc.add(ChangeConnectConnectivityEvent()),
+          bloc.add(WatchConnectivityEvent()),
       expect: () => [isA<ConnectedState>()],
     );
     blocTest(
@@ -49,7 +33,7 @@ void main() {
             .thenAnswer((Invocation value) => Stream<bool>.value(false));
       }),
       act: (ConnectivityBloc bloc) =>
-          bloc.add(ChangeConnectConnectivityEvent()),
+          bloc.add(WatchConnectivityEvent()),
       expect: () => [isA<DisconnectedState>()],
     );
   });
@@ -58,12 +42,8 @@ void main() {
     final ConnectivityEvent connectivityEvent = ConnectivityEvent();
     expect(connectivityEvent.props.length, 0);
 
-    final ChangeConnectConnectivityEvent changeConnectConnectivityEvent =
-        ChangeConnectConnectivityEvent();
+    final WatchConnectivityEvent changeConnectConnectivityEvent =
+        WatchConnectivityEvent();
     expect(changeConnectConnectivityEvent.props.length, 0);
-
-    final ConnectedConnectivityEvent connectedConnectivityEvent =
-        ConnectedConnectivityEvent();
-    expect(connectedConnectivityEvent.props.length, 0);
   });
 }
