@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 
 part 'connectivity_event.dart';
@@ -11,7 +12,7 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   final ConnectivityService _connectivity;
   ConnectivityBloc({ConnectivityService? connectivity})
       : _connectivity =
-            connectivity ?? ConnectivityService(ImplType.connectivityPlus),
+            connectivity ?? ServiceLocator.instance<ConnectivityService>(),
         super(ConnectivityState()) {
     on<ConnectedConnectivityEvent>(
         (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {

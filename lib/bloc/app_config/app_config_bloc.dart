@@ -6,18 +6,14 @@ part 'app_config_event.dart';
 part 'app_config_state.dart';
 
 class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
-  final RemoteConfigManager _remoteConfigManager;
-  AppConfigBloc({RemoteConfigManager? remoteConfigManager})
-      : _remoteConfigManager = remoteConfigManager ?? RemoteConfigManager(),
-        super(AppConfigInitial()) {
+  AppConfigBloc()
+      : super(AppConfigInitial()) {
     on<AppRequestInitialise>(_initialise);
   }
 
   void _initialise(AppConfigEvent event, Emitter<AppConfigState> emit) async {
     // init Date formatting
     initializeDateFormatting();
-
-    await _remoteConfigManager.init();
 
     // inform UI
     emit(AppConfigInitialised());
