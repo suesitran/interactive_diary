@@ -24,14 +24,14 @@ class NoConnectionScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  S.of(context).noConnectionTitle,
+                  S.current.noConnectionTitle,
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium
                       ?.copyWith(color: NartusColor.dark),
                 ),
                 Text(
-                  S.of(context).noConnectionMessage,
+                  S.current.noConnectionMessage,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
