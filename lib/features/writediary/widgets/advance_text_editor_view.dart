@@ -90,7 +90,6 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -123,121 +122,123 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
             controller: _textColorController,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(
-              left: NartusDimens.padding16, right: NartusDimens.padding16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                  child: SizeTransition(
-                sizeFactor: _toolbarHeightAnimation,
-                axisAlignment: -1,
-                child: Wrap(
-                  key: _toolbarKey,
-                  children: [
-                    StyleButton(
-                      type: TextFormatType.bold,
-                      controller: _controller,
-                    ),
-                    StyleButton(
-                        type: TextFormatType.italic,
-                        controller: _controller),
-                    StyleButton(
-                        type: TextFormatType.underline,
-                        controller: _controller),
-                    StyleColorButton(
-                        type: TextFormatType.highlight,
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: NartusDimens.padding16, right: NartusDimens.padding16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                    child: SizeTransition(
+                  sizeFactor: _toolbarHeightAnimation,
+                  axisAlignment: -1,
+                  child: Wrap(
+                    key: _toolbarKey,
+                    children: [
+                      StyleButton(
+                        type: TextFormatType.bold,
                         controller: _controller,
-                        colorPickerController: _backgroundColorController),
-                    StyleColorButton(
-                        type: TextFormatType.color,
+                      ),
+                      StyleButton(
+                          type: TextFormatType.italic, controller: _controller),
+                      StyleButton(
+                          type: TextFormatType.underline,
+                          controller: _controller),
+                      StyleColorButton(
+                          type: TextFormatType.highlight,
+                          controller: _controller,
+                          colorPickerController: _backgroundColorController),
+                      StyleColorButton(
+                          type: TextFormatType.color,
+                          controller: _controller,
+                          colorPickerController: _textColorController),
+                      StyleListButton(
+                        type: TextFormatType.bullet,
                         controller: _controller,
-                        colorPickerController: _textColorController),
-                    StyleListButton(
-                      type: TextFormatType.bullet,
-                      controller: _controller,
-                    ),
-                    StyleListButton(
-                      type: TextFormatType.numbered,
-                      controller: _controller,
-                    ),
-                    StyleButton(
-                        type: TextFormatType.strikethrough,
-                        controller: _controller),
-                    StyleListButton(
-                      type: TextFormatType.quote,
-                      controller: _controller,
-                    ),
-                    StyleAlignButton(
+                      ),
+                      StyleListButton(
+                        type: TextFormatType.numbered,
+                        controller: _controller,
+                      ),
+                      StyleButton(
+                          type: TextFormatType.strikethrough,
+                          controller: _controller),
+                      StyleListButton(
+                        type: TextFormatType.quote,
+                        controller: _controller,
+                      ),
+                      StyleAlignButton(
                         type: TextFormatType.alignLeft,
                         controller: _controller,
-                    ),
-                    StyleAlignButton(
+                      ),
+                      StyleAlignButton(
                         type: TextFormatType.alignCenter,
                         controller: _controller,
-                    ),
-                    StyleAlignButton(
+                      ),
+                      StyleAlignButton(
                         type: TextFormatType.alignRight,
                         controller: _controller,
-                    ),
-                    StyleAlignButton(
+                      ),
+                      StyleAlignButton(
                         type: TextFormatType.alignJustify,
                         controller: _controller,
-                    ),
-                  ],
-                ),
-              )),
-              ValueListenableBuilder(
-                valueListenable: _toolbarControllerVisibility,
-                builder: (context, visible, child) => visible
-                    ? Semantics(
-                  button: true,
-                      label: S.of(context).toolbarMore,
-                      onTap: _onMoreButtonTap,
-                      child: InkWell(
-                        excludeFromSemantics: true,
-                          borderRadius: BorderRadius.circular(32),
-                          splashColor: Colors.transparent,
+                      ),
+                    ],
+                  ),
+                )),
+                ValueListenableBuilder(
+                  valueListenable: _toolbarControllerVisibility,
+                  builder: (context, visible, child) => visible
+                      ? Semantics(
+                          button: true,
+                          label: S.of(context).toolbarMore,
                           onTap: _onMoreButtonTap,
-                          child: Padding(
-                            padding: const EdgeInsets.all(NartusDimens.padding4),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(32),
-                                  color: NartusColor.dark),
-                              child: Stack(
-                                children: [
-                                  FadeTransition(
-                                    opacity: _toolbarControllerOpenAnim,
-                                    child: SvgPicture.asset(
-                                      Assets.images.idMoreIcon,
-                                      width: 24,
-                                      height: 24,
-                                      colorFilter: const ColorFilter.mode(
-                                          NartusColor.white, BlendMode.srcIn),
+                          child: InkWell(
+                            excludeFromSemantics: true,
+                            borderRadius: BorderRadius.circular(32),
+                            splashColor: Colors.transparent,
+                            onTap: _onMoreButtonTap,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(NartusDimens.padding4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(32),
+                                    color: NartusColor.dark),
+                                child: Stack(
+                                  children: [
+                                    FadeTransition(
+                                      opacity: _toolbarControllerOpenAnim,
+                                      child: SvgPicture.asset(
+                                        Assets.images.idMoreIcon,
+                                        width: 24,
+                                        height: 24,
+                                        colorFilter: const ColorFilter.mode(
+                                            NartusColor.white, BlendMode.srcIn),
+                                      ),
                                     ),
-                                  ),
-                                  FadeTransition(
-                                    opacity: _toolbarControllerCloseAnim,
-                                    child: SvgPicture.asset(
-                                      Assets.images.icTextController,
-                                      width: 24,
-                                      height: 24,
-                                      colorFilter: const ColorFilter.mode(
-                                          NartusColor.white, BlendMode.srcIn),
-                                    ),
-                                  )
-                                ],
+                                    FadeTransition(
+                                      opacity: _toolbarControllerCloseAnim,
+                                      child: SvgPicture.asset(
+                                        Assets.images.icTextController,
+                                        width: 24,
+                                        height: 24,
+                                        colorFilter: const ColorFilter.mode(
+                                            NartusColor.white, BlendMode.srcIn),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                    )
-                    : const SizedBox.shrink(),
-              )
-            ],
+                        )
+                      : const SizedBox.shrink(),
+                )
+              ],
+            ),
           ),
         )
       ],
@@ -245,8 +246,7 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
   }
 
   void _onMoreButtonTap() {
-    if (_toolbarAnimationController.status ==
-        AnimationStatus.completed) {
+    if (_toolbarAnimationController.status == AnimationStatus.completed) {
       _toolbarAnimationController.reverse();
     } else {
       _toolbarAnimationController.forward();
@@ -286,7 +286,6 @@ class _AdvanceTextEditorViewState extends State<AdvanceTextEditorView>
       _adjustLayoutToScreen();
     }
   }
-
 
   void _adjustLayoutToScreen() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
