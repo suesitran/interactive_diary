@@ -44,7 +44,7 @@ class WriteDiaryBody extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).addText,
+          title: Text(S.current.addText,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
@@ -52,7 +52,7 @@ class WriteDiaryBody extends StatelessWidget {
           backgroundColor: NartusColor.background,
           leading: NartusButton.text(
             iconPath: Assets.images.back,
-            iconSemanticLabel: S.of(context).back,
+            iconSemanticLabel: S.current.back,
             onPressed: () {
               _returnToPreviousPage(context);
             },
@@ -71,7 +71,7 @@ class WriteDiaryBody extends StatelessWidget {
                                 );
                           }
                         : null,
-                    label: S.of(context).save)),
+                    label: S.current.save)),
           ],
         ),
         body: AdvanceTextEditorView(
@@ -89,6 +89,8 @@ class WriteDiaryBody extends StatelessWidget {
 
   void _returnToPreviousPage(BuildContext context) {
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
+    _isTextWritten.dispose();
 
     /// TODO this is a cheat.
     /// We need to wait for keyboard to be fully dismissed before returning to previous page
