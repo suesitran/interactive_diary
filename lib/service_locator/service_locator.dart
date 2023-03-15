@@ -1,22 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nartus_authentication/nartus_authentication.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_remote_config/remote_config_manager.dart';
-
-import 'package:interactive_diary/firebase_options.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
 class ServiceLocator {
   static GetIt get instance => GetIt.instance;
 
   static Future<void> init() async {
-    // init Firebase
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
     if (!instance.isRegistered<RemoteConfigManager>()) {
       final RemoteConfigManager remoteConfigManager = RemoteConfigManager();
       await remoteConfigManager.init();
