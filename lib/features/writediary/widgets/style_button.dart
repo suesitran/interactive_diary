@@ -22,7 +22,7 @@ enum TextFormatType {
 
   const TextFormatType(this.svgIcon, this.attribute);
 
-  String a11y(BuildContext context) => S.of(context).textEditorSemantic(name);
+  String get a11y => S.current.textEditorSemantic(name);
 }
 
 class StyleButton extends StatelessWidget {
@@ -40,7 +40,7 @@ class StyleButton extends StatelessWidget {
   Widget build(BuildContext context) => ValueListenableBuilder(
         valueListenable: _isSelected,
         builder: (context, isSelected, child) => Semantics(
-          label: type.a11y(context),
+          label: type.a11y,
           onTap: () => onTap(context, isSelected),
           button: true,
           child: SizedBox(
@@ -145,17 +145,16 @@ class StyleColorButton extends StyleButton {
 /// Group buttons implementation
 ///
 class StyleGroupButton extends StyleButton {
-  StyleGroupButton(
-      {required super.type,
-      required super.controller,
-      super.key});
+  StyleGroupButton({required super.type, required super.controller, super.key});
 
   @override
   void _updateSelected() {
     _isSelected.value = controller
-        .getSelectionStyle()
-        .attributes
-        .containsKey(type.attribute.key) && controller.getSelectionStyle().attributes[type.attribute.key]?.value == type.attribute.value;
+            .getSelectionStyle()
+            .attributes
+            .containsKey(type.attribute.key) &&
+        controller.getSelectionStyle().attributes[type.attribute.key]?.value ==
+            type.attribute.value;
   }
 }
 
@@ -168,9 +167,5 @@ class StyleListButton extends StyleGroupButton {
 }
 
 class StyleAlignButton extends StyleGroupButton {
-  StyleAlignButton(
-      {required super.type,
-      required super.controller,
-      super.key}) {
-  }
+  StyleAlignButton({required super.type, required super.controller, super.key});
 }
