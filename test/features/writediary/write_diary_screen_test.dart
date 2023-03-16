@@ -21,11 +21,14 @@ void main() {
 
   testWidgets('verify UI write diary screen',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = const WriteDiaryScreen(
-      latLng: LatLng(long: 0.0, lat: 0.0),
+    WriteDiaryBody widget = WriteDiaryBody(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
     );
 
-    await widgetTester.wrapAndPump(widget);
+    when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
+    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
 
     // this is Back button in AppBar
     expect(
@@ -50,11 +53,13 @@ void main() {
 
   testWidgets('given text field is empty, then Save button should be disable',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = const WriteDiaryScreen(
-      latLng: LatLng(long: 0.0, lat: 0.0),
+    final WriteDiaryBody widget = WriteDiaryBody(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
     );
 
-    await widgetTester.wrapAndPump(widget);
+    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+    when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
 
     // there's no string in text field, Save button should be disabled
     NartusButton saveButton = widgetTester.widget(find.ancestor(
@@ -64,11 +69,14 @@ void main() {
 
   testWidgets('given text field has text, then save button should be enabled',
       (WidgetTester widgetTester) async {
-    WriteDiaryScreen widget = const WriteDiaryScreen(
-      latLng: LatLng(long: 0.0, lat: 0.0),
+    final WriteDiaryBody widget = WriteDiaryBody(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
     );
 
-    await widgetTester.wrapAndPump(widget);
+    when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
+    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
 
     // enter text, and expect Save button to be enabled
     QuillEditor textField =
@@ -89,7 +97,7 @@ void main() {
   testWidgets(
       'given diary text not empty, when tap on save, then send RequestSaveTextDiaryEvent',
       (WidgetTester widgetTester) async {
-    WriteDiaryBody widget = WriteDiaryBody(
+    final WriteDiaryBody widget = WriteDiaryBody(
       latLng: const LatLng(long: 0.0, lat: 0.0),
     );
 

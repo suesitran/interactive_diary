@@ -63,7 +63,7 @@ android {
         applicationId "com.nartus.interactiveDiary"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion 29
+        minSdkVersion 28
         targetSdkVersion 32
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -102,4 +102,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-analytics'
+
+    // splash screen on android 12
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 }

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_location/nartus_location.dart';
 
@@ -13,8 +14,8 @@ const String _dateFormat = 'dd-MMM-yyyy';
 class LocationBloc extends Cubit<LocationState> {
   final LocationService _locationService;
 
-  LocationBloc({LocationService? locationService})
-      : _locationService = locationService ?? LocationService(),
+  LocationBloc()
+      : _locationService = ServiceLocator.instance<LocationService>(),
         super(LocationInitial(PermissionStatusDiary.denied));
 
   Future<void> requestCurrentLocation() async {
