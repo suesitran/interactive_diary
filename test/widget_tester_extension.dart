@@ -8,8 +8,8 @@ extension WidgetExtension on WidgetTester {
   Future<void> wrapAndPump(Widget widget,
       {bool infiniteAnimationWidget = false, bool useRouter = false}) async {
     final Widget wrapper = _MaterialWrapWidget(
-      child: widget,
       useRouter: useRouter,
+      child: widget,
     );
 
     await pumpWidget(wrapper);
@@ -26,8 +26,8 @@ extension WidgetExtension on WidgetTester {
     final Widget wrapper = BlocProvider<B>(
       create: (_) => bloc,
       child: _MaterialWrapWidget(
-        child: widget,
         useRouter: useRouter,
+        child: widget,
       ),
     );
 
@@ -51,8 +51,8 @@ extension WidgetExtension on WidgetTester {
     final Widget wrapper = MultiBlocProvider(
         providers: providers,
         child: _MaterialWrapWidget(
-          child: widget,
           useRouter: useRouter,
+          child: widget,
         ));
 
     await pumpWidget(wrapper);
