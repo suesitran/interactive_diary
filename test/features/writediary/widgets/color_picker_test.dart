@@ -76,7 +76,8 @@ void main() {
     expect(painter.position, 0.0);
   });
 
-  testWidgets('verify ColorPickerBar in thumb move when tap action happens', (widgetTester) async {
+  testWidgets('verify ColorPickerBar in thumb move when tap action happens',
+      (widgetTester) async {
     final Widget widget = ColorPickerBar(controller: controller);
 
     await widgetTester.wrapAndPump(widget);
@@ -86,7 +87,7 @@ void main() {
 
     expect(find.byType(SizeTransition), findsOneWidget);
     SizeTransition sizeTransition =
-    widgetTester.widget(find.byType(SizeTransition));
+        widgetTester.widget(find.byType(SizeTransition));
     expect(sizeTransition.sizeFactor.value, 1.0);
 
     await widgetTester.tapAt(const Offset(15, 10));
@@ -101,7 +102,8 @@ void main() {
     expect(painter.position, 15.0);
   });
 
-  testWidgets('verify ColorPickerBar in thumb move when drag action happens', (widgetTester) async {
+  testWidgets('verify ColorPickerBar in thumb move when drag action happens',
+      (widgetTester) async {
     final Widget widget = ColorPickerBar(controller: controller);
 
     await widgetTester.wrapAndPump(widget);
@@ -111,7 +113,7 @@ void main() {
 
     expect(find.byType(SizeTransition), findsOneWidget);
     SizeTransition sizeTransition =
-    widgetTester.widget(find.byType(SizeTransition));
+        widgetTester.widget(find.byType(SizeTransition));
     expect(sizeTransition.sizeFactor.value, 1.0);
 
     await widgetTester.dragFrom(const Offset(15, 10), const Offset(150, 10));

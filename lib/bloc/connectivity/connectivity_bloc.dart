@@ -13,26 +13,13 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   ConnectivityBloc()
       : _connectivity = ServiceLocator.instance<ConnectivityService>(),
         super(ConnectivityState()) {
-    on<ConnectedConnectivityEvent>(
-        (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {
-      await _checkConnectivity(emit);
-    });
-
-    on<ChangeConnectConnectivityEvent>(
+    on<WatchConnectivityEvent>(
         (ConnectivityEvent event, Emitter<ConnectivityState> emit) async {
       await _changeConnectionStatus(emit);
     });
-  }
 
-  // late StreamSubscription connectivitySubscription;
-
-  Future<void> _checkConnectivity(Emitter<ConnectivityState> emit) async {
-    await _connectivity.isConnected.then((bool value) {
-      if (value == true) {
-        emit(ConnectedState());
-      } else {
-        emit(DisconnectedState());
-      }
+    on<CheckConnectivityEvent>((event, emit) async {
+      await _checkConnectivity(emit);
     });
   }
 
@@ -45,5 +32,15 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
         return DisconnectedState();
       }
     });
+  }
+
+  Future<void> _checkConnectivity(Emitter<ConnectivityState> emit) async {
+    bool isConnected = await _connectivity.isConnected;
+
+    if (isConnected) {
+      emit(ConnectedState());
+    } else {
+      emit(DisconnectedState());
+    }
   }
 }
