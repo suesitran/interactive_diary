@@ -9,6 +9,7 @@ class MockGeocoderData extends GeocodingPlatform {
     _mockData = data;
   }
 
+  @override
   Future<List<Placemark>> placemarkFromCoordinates(
     double latitude,
     double longitude, {
