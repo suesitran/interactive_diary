@@ -10,13 +10,13 @@ class IDSignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<GoogleSignupBloc>(
       create: (_) => GoogleSignupBloc(),
-      child: const _IDSignUpBody(),
+      child: const IDSignUpBody(),
     );
   }
 }
 
-class _IDSignUpBody extends StatelessWidget {
-  const _IDSignUpBody({Key? key}) : super(key: key);
+class IDSignUpBody extends StatelessWidget {
+  const IDSignUpBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

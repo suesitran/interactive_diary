@@ -19,9 +19,7 @@ class SplashScreen extends StatelessWidget {
               },
             ),
           ],
-          child: const Center(
-            child: Text('Splash screen is T.B.D'),
-          ),
+          child: const SizedBox.shrink()
         ),
       );
 }
