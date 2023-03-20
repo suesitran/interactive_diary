@@ -26,7 +26,6 @@ class ContentCardView extends StatefulWidget {
 }
 
 class _ContentCardViewState extends State<ContentCardView> {
-
   @override
   void initState() {
     super.initState();

@@ -19,6 +19,9 @@
   "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog",
   "diaryDateFormatter": "{date} at {time}",
   "extraImageCount":"+{count}",
+  "textEditorSemantic":"{key, select, bold{Bold} italic{Italic} underline{Underline} highlight{Highlight} color{Font Color} bullet{Bullet List} numbered{Number List} strikethrough{Strikethrough} quote{Quote} alignLeft{Align Left} alignCenter{Align Center} alignRight{Align Right} alignJustify{Align Justify} other{Other}}",
+  "toolbarMore":"More",
   "welcomeText":"Welcome to InnerME \uD83D\uDE4C",
-  "getStartedText":"Get Started"
+  "getStartedText":"Get Started",
+  "onboardingIntroduction":"Discover all the cool features right now"
 }

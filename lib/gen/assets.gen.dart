@@ -100,6 +100,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/onboarding_1.svg
   String get onboarding1 => 'assets/images/onboarding_1.svg';
 
+  /// File path: assets/images/splash_screen.png
+  AssetGenImage get splashScreen =>
+      const AssetGenImage('assets/images/splash_screen.png');
+
   /// List of all assets
   List<dynamic> get values => [
         anonymous,
@@ -128,7 +132,8 @@ class $AssetsImagesGen {
         markerNonetap,
         markerOntap,
         noConnection,
-        onboarding1
+        onboarding1,
+        splashScreen
       ];
 }
 

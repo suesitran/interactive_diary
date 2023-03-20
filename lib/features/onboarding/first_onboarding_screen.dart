@@ -32,12 +32,12 @@ class FirstOnboardingScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(S.of(context).welcomeText, style: Theme.of(context)
+                    Text(S.current.welcomeText, style: Theme.of(context)
                         .textTheme
                         .titleMedium
                         ?.copyWith(color: NartusColor.primary),),
                     const Gap.v12(),
-                    Flexible(child: Text(S.of(context).onboardingIntroduction, style:Theme.of(context)
+                    Flexible(child: Text(S.current.onboardingIntroduction, style:Theme.of(context)
                         .textTheme
                         .displayMedium
                         ?.copyWith(color: NartusColor.dark))),
@@ -47,7 +47,7 @@ class FirstOnboardingScreen extends StatelessWidget {
                         top: false,
                         child: SizedBox(
                           width: double.infinity,
-                          child: NartusButton.primary(label: S.of(context).getStartedText, onPressed: () {},),
+                          child: NartusButton.primary(label: S.current.getStartedText, onPressed: () {},),
                         )
                     ),
                   ],

@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -12,12 +13,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final MockStorageService storageService = MockStorageService();
 
+  setUpAll(() => ServiceLocator.instance.registerSingleton<StorageService>(storageService));
+  
   group('Test save text diary', () {
     tearDown(() => reset(storageService));
 
     blocTest<WriteDiaryCubit, WriteDiaryState>(
       'given storage service, when saveDiary, then save diary to storage service',
-      build: () => WriteDiaryCubit(storageService: storageService),
+      build: () => WriteDiaryCubit(),
       act: (WriteDiaryCubit bloc) => bloc.saveTextDiary(
           title: 'title',
           textContent: 'textContent',
