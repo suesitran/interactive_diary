@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
 import 'package:interactive_diary/features/writediary/widgets/advance_text_editor_view.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -15,9 +17,19 @@ import 'package:nartus_ui_package/widgets/widgets.dart';
 import '../../widget_tester_extension.dart';
 import 'write_diary_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[WriteDiaryCubit])
+@GenerateMocks(<Type>[WriteDiaryCubit, StorageService])
 void main() {
   final MockWriteDiaryCubit writeDiaryCubit = MockWriteDiaryCubit();
+
+  setUpAll(() => ServiceLocator.instance.registerSingleton<StorageService>(MockStorageService()));
+  testWidgets('verify write diary screen has a BlocProvider type WriteDiaryCubit', (widgetTester) async {
+    const WriteDiaryScreen widget = WriteDiaryScreen(latLng: LatLng(lat: 0.0, long: 0.0), address: '', business: '',);
+
+    await widgetTester.wrapAndPump(widget);
+
+    expect(find.byType(BlocProvider<WriteDiaryCubit>), findsOneWidget);
+    expect(find.byType(BlocListener<WriteDiaryCubit, WriteDiaryState>), findsOneWidget);
+  });
 
   testWidgets('verify UI write diary screen',
       (WidgetTester widgetTester) async {
