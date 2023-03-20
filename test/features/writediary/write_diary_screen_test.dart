@@ -25,7 +25,10 @@ void main() {
   testWidgets('verify write diary screen has a BlocProvider type WriteDiaryCubit', (widgetTester) async {
     const WriteDiaryScreen widget = WriteDiaryScreen(latLng: LatLng(lat: 0.0, long: 0.0), address: '', business: '',);
 
-    await widgetTester.wrapAndPump(widget);
+    when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
+    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
 
     expect(find.byType(BlocProvider<WriteDiaryCubit>), findsOneWidget);
     expect(find.byType(BlocListener<WriteDiaryCubit, WriteDiaryState>), findsOneWidget);

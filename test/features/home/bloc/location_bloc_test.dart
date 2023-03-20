@@ -19,6 +19,7 @@ void main() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
     ServiceLocator.instance.registerSingleton<gc.GeocoderService>(geocoderService);
   });
+
   setUp(() {
     when(locationService.getCurrentLocation()).thenAnswer(
             (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));

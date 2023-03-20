@@ -38,6 +38,4 @@ class ServiceLocator {
       instance.registerSingleton(GeocoderService());
     }
   }
-
-  
 }
