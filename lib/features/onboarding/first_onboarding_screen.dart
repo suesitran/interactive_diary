@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -12,39 +13,46 @@ class FirstOnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          SvgPicture.asset(
-            Assets.images.noConnection,
-            fit: BoxFit.fitHeight,
+          Expanded(
+            flex: 4,
+            child: SizedBox(
+              width: double.infinity,
+              child: SvgPicture.asset(
+                Assets.images.onboarding1,
+                fit: BoxFit.fill,
+              ),
+            )
           ),
-          // const Gap.v20(),
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: NartusDimens.padding20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Welcome to InnerME 🙌', style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: NartusColor.primary),),
-                const Gap.v12(),
-                Text('Discover all the cool features right now', style:Theme.of(context)
-                    .textTheme
-                    .displayMedium
-                    ?.copyWith(color: NartusColor.dark)),
-                const Gap.v12(),
-                const Gap.v20(),
-                SizedBox(
-                  width: double.infinity,
-                  child: NartusButton.primary(label: 'Get Started', onPressed: () {},),
+          const Gap.v20(),
+          Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: NartusDimens.padding20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(S.of(context).welcomeText, style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: NartusColor.primary),),
+                    const Gap.v12(),
+                    Flexible(child: Text(S.of(context).onboardingIntroduction, style:Theme.of(context)
+                        .textTheme
+                        .displayMedium
+                        ?.copyWith(color: NartusColor.dark))),
+                    const Gap.v12(),
+                    const Gap.v20(),
+                    SafeArea(
+                        top: false,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: NartusButton.primary(label: S.of(context).getStartedText, onPressed: () {},),
+                        )
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * (131 / 812),
-                )
-              ],
-            ),
+              )
           )
         ],
       ),

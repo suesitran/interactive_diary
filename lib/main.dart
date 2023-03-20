@@ -12,8 +12,6 @@ import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platf
 
 import 'package:interactive_diary/firebase_options.dart';
 
-import 'features/onboarding/first_onboarding_screen.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -59,8 +57,6 @@ void main() async {
                   if (state is DisconnectedState) {
                     return const NoConnectionScreen();
                   }
-                  return FirstOnboardingScreen();
-
                   return child;
                 },
               ));

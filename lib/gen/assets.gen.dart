@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
@@ -97,6 +97,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/no_connection.svg
   String get noConnection => 'assets/images/no_connection.svg';
 
+  /// File path: assets/images/onboarding_1.svg
+  String get onboarding1 => 'assets/images/onboarding_1.svg';
+
   /// List of all assets
   List<dynamic> get values => [
         anonymous,
@@ -124,7 +127,8 @@ class $AssetsImagesGen {
         markerBase,
         markerNonetap,
         markerOntap,
-        noConnection
+        noConnection,
+        onboarding1
       ];
 }
 

@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "diaryDateFormatter": m0,
         "extraImageCount": m1,
+        "getStartedText": MessageLookupByLibrary.simpleMessage("Get Started"),
         "locationPermissionDeniedBottomSheetDescription":
             MessageLookupByLibrary.simpleMessage(
                 "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"),
@@ -55,10 +56,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "noConnectionMessage": MessageLookupByLibrary.simpleMessage(
             "Slow or no internet connections.\nPlease check your internet settings"),
         "noConnectionTitle": MessageLookupByLibrary.simpleMessage("Whoops!"),
+        "onboardingIntroduction": MessageLookupByLibrary.simpleMessage(
+            "Discover all the cool features right now"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "unavailable":
             MessageLookupByLibrary.simpleMessage("Screen unavailable"),
         "unavailableScreenDesc": MessageLookupByLibrary.simpleMessage(
-            "Sorry, this screen is still under construction. Please come back later.")
+            "Sorry, this screen is still under construction. Please come back later."),
+        "welcomeText":
+            MessageLookupByLibrary.simpleMessage("Welcome to InnerME 🙌")
       };
 }
