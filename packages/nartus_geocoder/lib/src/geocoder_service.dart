@@ -6,13 +6,30 @@ class GeocoderService {
     // TODO update locale when we have more than 1 language
     final List<Placemark> places = await GeocodingPlatform.instance
         .placemarkFromCoordinates(latitude, longitude, localeIdentifier: 'en');
-    if (places.isNotEmpty) {
-      Placemark info = places.first;
 
-      return LocationDetail(_computeAddress(info), info.name);
+    if (places.isEmpty) {
+      throw GetAddressFailedException();
     }
-    throw GetAddressFailedException();
+
+    Placemark info = places.first;
+
+    if (info.name == null &&
+        info.street == null &&
+        info.isoCountryCode == null &&
+        info.country == null &&
+        info.postalCode == null &&
+        info.administrativeArea == null &&
+        info.subAdministrativeArea == null &&
+        info.locality == null &&
+        info.subLocality == null &&
+        info.thoroughfare == null &&
+        info.subThoroughfare == null) {
+      // data is null, this placemark is invalid
+      throw GetAddressFailedException();
+    }
+    return LocationDetail(_computeAddress(info), info.name);
   }
 
-  String _computeAddress(Placemark place) => '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+  String _computeAddress(Placemark place) =>
+      '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
 }

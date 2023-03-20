@@ -18,7 +18,8 @@ NC='\033[0m'
             '**/*.mocks.dart' \
             'lib/models/*/*.dart' \
             'lib/models/*.dart' \
-            'test/**' )
+            '**/test/**' \
+            'lib/route/**' )
 
 removeFiles=""
 files=$(git diff --name-only dev)
