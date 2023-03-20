@@ -17,12 +17,16 @@ const String baseMarkerCurrentLocationId = 'currentLocationId';
 
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
+  final String? address;
+  final String? business;
 
   final VoidCallback onMenuOpened;
   final VoidCallback onMenuClosed;
 
   const GoogleMapView(
       {required this.currentLocation,
+        required this.address,
+        required this.business,
       required this.onMenuOpened,
       required this.onMenuClosed,
       Key? key})
@@ -318,7 +322,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
             icon: penMarkerBitmap,
             anchor: popupPenAnimation.value,
             onTap: () {
-              context.gotoWriteDiaryScreen(widget.currentLocation);
+              context.gotoWriteDiaryScreen(widget.currentLocation, widget.address, widget.business);
               _closeMenuIfOpening();
             }),
         Marker(

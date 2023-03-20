@@ -27,8 +27,13 @@ class UnknownLocationErrorState extends LocationState {}
 
 class LocationReadyState extends LocationState {
   final LatLng currentLocation;
-  final Placemark? infoLocation;
+  final String? address;
+  final String? business;
   final String dateDisplay;
 
-  LocationReadyState(this.currentLocation, this.dateDisplay, this.infoLocation);
+  LocationReadyState(this.currentLocation, this.dateDisplay, this.address, this.business);
+
+  @override
+  List<Object?> get props => [currentLocation.latitude, currentLocation.longitude, address, business, dateDisplay];
+
 }

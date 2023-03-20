@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
+import 'package:interactive_diary/features/writediary/widgets/advance_text_editor_view.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
@@ -10,26 +11,31 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  const WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
+  const WriteDiaryScreen({required this.latLng, required this.address, required this.business, Key? key}) : super(key: key);
 
   final LatLng latLng;
+  final String? address;
+  final String? business;
 
   @override
   Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
         create: (context) => WriteDiaryCubit(),
         child: WriteDiaryBody(
           latLng: latLng,
+          address: address,
+          business: business,
         ),
       );
 }
 
 class WriteDiaryBody extends StatelessWidget {
   final LatLng latLng;
+  final String? address;
+  final String? business;
 
-  WriteDiaryBody({required this.latLng, Key? key}) : super(key: key);
+  WriteDiaryBody({required this.latLng, required this.address, required this.business, Key? key}) : super(key: key);
 
-  final ValueNotifier<bool> _isTextWritten = ValueNotifier<bool>(false);
-  final TextEditingController textController = TextEditingController();
+  final ValueNotifier<String> _isTextWritten = ValueNotifier<String>('');
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,7 @@ class WriteDiaryBody extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).addText,
+          title: Text(S.current.addText,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
@@ -52,64 +58,45 @@ class WriteDiaryBody extends StatelessWidget {
           backgroundColor: NartusColor.background,
           leading: NartusButton.text(
             iconPath: Assets.images.back,
-            iconSemanticLabel: S.of(context).back,
+            iconSemanticLabel: S.current.back,
             onPressed: () {
               _returnToPreviousPage(context);
             },
           ),
           elevation: 0.0,
           actions: <Widget>[
-            ValueListenableBuilder<bool>(
+            ValueListenableBuilder<String>(
                 valueListenable: _isTextWritten,
-                builder: (_, bool enable, __) => NartusButton.text(
-                    onPressed: enable
+                builder: (_, text, __) => NartusButton.text(
+                    onPressed: text.isNotEmpty
                         ? () {
                             context.read<WriteDiaryCubit>().saveTextDiary(
                                   title: '',
-                                  textContent: textController.text,
+                                  textContent: text,
                                   latLng: latLng,
                                 );
                           }
                         : null,
-                    label: S.of(context).save)),
+                    label: S.current.save)),
           ],
         ),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const LocationView(
-                address:
-                    'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                latitude: 1.0,
-                longitude: 1.0,
-              ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: textController,
-                  autofocus: true,
-                  showCursor: true,
-                  maxLines: null,
-                  decoration: const InputDecoration(border: InputBorder.none),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  keyboardType: TextInputType.multiline,
-                  onChanged: (String text) {
-                    final bool textAvailable = text.isNotEmpty;
-
-                    if (_isTextWritten.value != textAvailable) {
-                      _isTextWritten.value = textAvailable;
-                    }
-                  },
-                ),
-              ))
-            ]),
+        body: AdvanceTextEditorView(
+          leading: LocationView(
+            address: address,
+            businessName: business,
+            latitude: latLng.lat,
+            longitude: latLng.long,
+          ),
+          onTextChange: (text) => _isTextWritten.value = text,
+        ),
       ),
     );
   }
 
   void _returnToPreviousPage(BuildContext context) {
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
+    _isTextWritten.dispose();
 
     /// TODO this is a cheat.
     /// We need to wait for keyboard to be fully dismissed before returning to previous page

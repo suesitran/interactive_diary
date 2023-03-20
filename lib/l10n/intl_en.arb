@@ -16,5 +16,9 @@
   "unavailableScreenDesc" : "Sorry, this screen is still under construction. Please come back later.",
   "appName": "Inner ME",
   "locationPermissionDeniedBottomSheetTitle": "Location Permission not granted",
-  "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"
+  "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog",
+  "diaryDateFormatter": "{date} at {time}",
+  "extraImageCount":"+{count}",
+  "textEditorSemantic":"{key, select, bold{Bold} italic{Italic} underline{Underline} highlight{Highlight} color{Font Color} bullet{Bullet List} numbered{Number List} strikethrough{Strikethrough} quote{Quote} alignLeft{Align Left} alignCenter{Align Center} alignRight{Align Right} alignJustify{Align Justify} other{Other}}",
+  "toolbarMore":"More"
 }

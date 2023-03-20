@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   google_maps_flutter: ^2.1.10
   flutter_bloc: ^8.0.1
-  intl: ^0.17.0
+  intl: ^0.18.0
   equatable: ^2.0.5
   flutter_svg: ^2.0.0+1
   nartus_ui_package:
@@ -58,13 +58,15 @@ dependencies:
   google_maps_flutter_android: ^2.4.3
   google_maps_flutter_platform_interface: ^2.2.5
   firebase_core: ^2.7.0
+  flutter_quill: ^6.4.4
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^9.0.3
-  mockito: 5.3.0
-  build_runner: 2.2.0
+  mockito: 5.3.2
+  build_runner: 2.3.3
   firebase_core_platform_interface: ^4.5.1
   intl_utils: ^2.7.0
   flutter_gen_runner: ^5.0.3

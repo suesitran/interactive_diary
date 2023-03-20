@@ -15,7 +15,7 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: LatLng(0, 0),
+      location: const LatLng(0, 0),
     );
 
     await mockNetworkImagesFor(
@@ -44,7 +44,7 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: LatLng(0, 0),
+      location: const LatLng(0, 0),
     );
 
     controller.show();
@@ -75,7 +75,7 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: LatLng(0, 0),
+      location: const LatLng(0, 0),
     );
 
     controller.show();
@@ -102,7 +102,7 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: LatLng(0, 0),
+      location: const LatLng(0, 0),
     );
 
     controller.show();

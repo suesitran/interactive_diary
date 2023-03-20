@@ -24,6 +24,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/ic_text_controller.svg
+  String get icTextController => 'assets/images/ic_text_controller.svg';
+
   /// File path: assets/images/id_camera_icon.svg
   String get idCameraIcon => 'assets/images/id_camera_icon.svg';
 
@@ -94,12 +97,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/no_connection.svg
   String get noConnection => 'assets/images/no_connection.svg';
 
+  /// File path: assets/images/splash_screen.png
+  AssetGenImage get splashScreen =>
+      const AssetGenImage('assets/images/splash_screen.png');
+
   /// List of all assets
   List<dynamic> get values => [
         anonymous,
         arrowDown,
         back,
         calendar,
+        icTextController,
         idCameraIcon,
         idCircularIconCamera,
         idCircularIconEmoji,
@@ -120,7 +128,8 @@ class $AssetsImagesGen {
         markerBase,
         markerNonetap,
         markerOntap,
-        noConnection
+        noConnection,
+        splashScreen
       ];
 }
 

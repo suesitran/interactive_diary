@@ -4,7 +4,6 @@ import 'package:interactive_diary/features/home/content_panel/widgets/content_ca
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:geocoding/geocoding.dart';
 
 class ContentsBottomPanelController extends ChangeNotifier {
   bool _visible = false;
@@ -21,18 +20,18 @@ class ContentsBottomPanelController extends ChangeNotifier {
 }
 
 class ContentsBottomPanelView extends StatefulWidget {
-  final Placemark? _infoLocation;
-  final LatLng _location;
+  final String? address;
+  final String? business;
+  final LatLng location;
   final ContentsBottomPanelController controller;
 
   const ContentsBottomPanelView(
       {required this.controller,
-      required location,
-      Placemark? infoLocation,
+      required this.location,
+      this.address,
+        this.business,
       Key? key})
-      : _infoLocation = infoLocation,
-        _location = location ?? const LatLng(0, 0),
-        super(key: key);
+      : super(key: key);
 
   @override
   State<ContentsBottomPanelView> createState() =>
@@ -140,8 +139,14 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 Padding(
                     padding:
                         const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                    child: checkLocationView(
-                        widget._infoLocation, widget._location)),
+                    child: LocationView(
+                      locationIconSvg: Assets.images.idLocationIcon,
+                      address: widget.address,
+                      businessName: widget.business,
+                      latitude: widget.location.latitude,
+                      longitude: widget.location.longitude,
+                      borderRadius: BorderRadius.circular(12),
+                    )),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:
@@ -150,10 +155,44 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                     height: value,
                     child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          return const Padding(
-                            padding: EdgeInsets.only(
-                                left: 16, right: 16, bottom: 16),
-                            child: ContentCardView(screenEdgeSpacing: 16),
+                          String text =
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+                          List<String> imageListOf1 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                          ];
+                          List<String> imageListOf2 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                          ];
+                          List<String> imageListOf3 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                            'https://i.imgur.com/08CMzYS.jpeg',
+                          ];
+                          List<String> imageListOf4 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                            'https://i.imgur.com/08CMzYS.jpeg',
+                            'https://i.imgur.com/UhfMgkH.jpeg',
+                          ];
+                          List<String> imageListOf5 = [
+                            'https://i.imgur.com/JVwkx3F.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                            'https://i.imgur.com/08CMzYS.jpeg',
+                            'https://i.imgur.com/UhfMgkH.jpeg',
+                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                          ];
+                          return ContentCardView(
+                            text: index % 5 == 0 ? text : null,
+                            images: index % 5 == 0
+                                ? imageListOf5
+                                : index % 4 == 0
+                                    ? imageListOf4
+                                    : index % 3 == 0
+                                        ? imageListOf3
+                                        : index % 2 == 0
+                                            ? imageListOf2
+                                            : imageListOf1,
                           );
                         },
                         itemCount: 10,
@@ -167,38 +206,5 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
         ),
       ),
     );
-  }
-
-  LocationView checkLocationView(Placemark? infoLocation, LatLng location) {
-    if (infoLocation == null) {
-      return LocationView(
-        locationIconSvg: Assets.images.idLocationIcon,
-        semanticCoordinate: '${location.latitude}, ${location.longitude}',
-        latitude: location.latitude,
-        longitude: location.longitude,
-        borderRadius: BorderRadius.circular(12),
-      );
-    } else {
-      if (infoLocation.name == '' || infoLocation.name == infoLocation.street) {
-        return LocationView(
-          locationIconSvg: Assets.images.idLocationIcon,
-          address:
-              '${infoLocation.street}, ${infoLocation.subLocality}, ${infoLocation.subAdministrativeArea}, ${infoLocation.administrativeArea}, ${infoLocation.country} ',
-          latitude: widget._location.latitude,
-          longitude: widget._location.longitude,
-          borderRadius: BorderRadius.circular(12),
-        );
-      } else {
-        return LocationView(
-          locationIconSvg: Assets.images.idLocationIcon,
-          businessName: widget._infoLocation?.name,
-          address:
-              '${widget._infoLocation?.street}, ${widget._infoLocation?.subLocality}, ${widget._infoLocation?.subAdministrativeArea}, ${widget._infoLocation?.administrativeArea}, ${widget._infoLocation?.country} ',
-          latitude: widget._location.latitude,
-          longitude: widget._location.longitude,
-          borderRadius: BorderRadius.circular(12),
-        );
-      }
-    }
   }
 }

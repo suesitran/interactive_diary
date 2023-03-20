@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
+import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
@@ -17,7 +17,8 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<LocationBloc>(
-        create: (context) => LocationBloc(),
+        create: (context) => LocationBloc()
+          ..requestCurrentLocation(),
         child: const IDHomeBody(),
       );
 }
@@ -43,18 +44,17 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
               if (state is LocationServiceDisableState) {
                 context.showIDBottomSheet(
                     iconPath: Assets.images.idLocationImg,
-                    title: S.of(context).locationPermissionDialogTitle,
-                    content: S.of(context).locationPermissionDialogMessage,
-                    primaryButtonText: S
-                        .of(context)
-                        .locationPermissionDialogOpenSettingsButton,
+                    title: S.current.locationPermissionDialogTitle,
+                    content: S.current.locationPermissionDialogMessage,
+                    primaryButtonText:
+                        S.current.locationPermissionDialogOpenSettingsButton,
                     onPrimaryButtonSelected: () {
                       // can't dismiss popup dialog here because ios16 does not allow
                       // to directly go to Location settings
                       context.read<LocationBloc>().openLocationServiceSetting();
                     },
                     textButtonText:
-                        S.of(context).locationPermissionDialogContinueButton,
+                        S.current.locationPermissionDialogContinueButton,
                     onTextButtonSelected: () {
                       Navigator.of(context).pop();
                       context.read<LocationBloc>().requestDefaultLocation();
@@ -64,25 +64,23 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
 
               if (state is LocationPermissionDeniedForeverState ||
                   state is LocationPermissionDeniedState) {
-                final String title = state
-                        is LocationPermissionDeniedForeverState
-                    ? S.of(context).locationPermissionDialogTitle
-                    : S.of(context).locationPermissionDeniedBottomSheetTitle;
-
-                final String content =
+                final String title =
                     state is LocationPermissionDeniedForeverState
-                        ? S.of(context).locationPermissionDialogMessage
-                        : S
-                            .of(context)
-                            .locationPermissionDeniedBottomSheetDescription;
+                        ? S.current.locationPermissionDialogTitle
+                        : S.current.locationPermissionDeniedBottomSheetTitle;
 
-                final String primaryButtonText = state
+                final String content = state
                         is LocationPermissionDeniedForeverState
-                    ? S.of(context).locationPermissionDialogOpenSettingsButton
-                    : S.of(context).locationPermissionDialogAllowButton;
+                    ? S.current.locationPermissionDialogMessage
+                    : S.current.locationPermissionDeniedBottomSheetDescription;
+
+                final String primaryButtonText =
+                    state is LocationPermissionDeniedForeverState
+                        ? S.current.locationPermissionDialogOpenSettingsButton
+                        : S.current.locationPermissionDialogAllowButton;
 
                 final String textButtonText =
-                    S.of(context).locationPermissionDialogContinueButton;
+                    S.current.locationPermissionDialogContinueButton;
 
                 context.showIDBottomSheet(
                     iconPath: Assets.images.idLocationImg,
@@ -109,6 +107,17 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
               }
             },
           ),
+          BlocListener<ConnectivityBloc, ConnectivityState>(
+            listener: (context, state) {
+              if (state is DisconnectedState) {
+                context.showDisconnectedOverlay();
+              }
+
+              if (state is ConnectedState) {
+                context.hideDisconnectedOverlay();
+              }
+            },
+          )
         ],
         child: BlocBuilder<LocationBloc, LocationState>(
           builder: (BuildContext context, LocationState state) {
@@ -119,6 +128,8 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                 children: <Widget>[
                   GoogleMapView(
                     currentLocation: state.currentLocation,
+                    address: state.address,
+                    business: state.business,
                     onMenuOpened: handleMenuOpen,
                     onMenuClosed: handleMenuClose,
                   ),
@@ -130,8 +141,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                             alignment: Alignment.topCenter,
                             child: DateLabelView(
                               dateLabel: state.dateDisplay,
-                              profileSemanticLabel:
-                                  S.of(context).anonymous_profile,
+                              profileSemanticLabel: S.current.anonymous_profile,
                             ),
                           )),
                       Expanded(
@@ -139,7 +149,8 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                           alignment: Alignment.bottomCenter,
                           child: ContentsBottomPanelView(
                             controller: _contentBottomPanelController,
-                            infoLocation: state.infoLocation,
+                            address: state.address,
+                            business: state.business,
                             location: state.currentLocation,
                           ),
                         ),
@@ -148,13 +159,6 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                   )
                 ],
               );
-            }
-
-            if (state is LocationInitial) {
-              context.read<LocationBloc>().requestCurrentLocation();
-              context
-                  .read<ConnectivityBloc>()
-                  .add(ConnectedConnectivityEvent());
             }
 
             if (state is AwaitLocationPermissionFromAppSettingState ||
@@ -180,6 +184,13 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    super.dispose();
   }
 
   void handleMenuOpen() {

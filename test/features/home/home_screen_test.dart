@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_location/nartus_location.dart';
@@ -14,17 +15,21 @@ import 'package:network_image_mock/network_image_mock.dart';
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[LocationBloc, ConnectivityBloc])
+@GenerateMocks(<Type>[LocationBloc, ConnectivityBloc, LocationService])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final MockLocationBloc mockLocationBloc = MockLocationBloc();
   final MockConnectivityBloc mockConnectivityBloc = MockConnectivityBloc();
+  final MockLocationService locationService = MockLocationService();
 
   setUpAll(() {
+    ServiceLocator.instance.registerSingleton<LocationService>(locationService);
     when(mockConnectivityBloc.stream)
         .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
+
+    when(locationService.getCurrentLocation()).thenAnswer((realInvocation) => Future.value(LocationDetails(0.0, 0.0)));
   });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
@@ -32,9 +37,9 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null)));
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null)));
     when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null));
+        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
@@ -42,7 +47,7 @@ void main() {
             return mockLocationBloc;
           }),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(
         find.ancestor(
@@ -93,7 +98,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
@@ -112,7 +117,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.text('Location Permission not granted'), findsOneWidget);
     expect(
@@ -137,7 +142,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.text('Turn on your location'), findsOneWidget);
     expect(
@@ -162,7 +167,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -185,7 +190,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -208,7 +213,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -231,7 +236,7 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
-        ], widget, infiniteAnimationWidget: true));
+        ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -260,7 +265,8 @@ void main() {
               )
             ],
             widget,
-            infiniteAnimationWidget: true));
+            infiniteAnimationWidget: true,
+            useRouter: true));
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
     expect(find.text('Turn on your location'), findsOneWidget);
@@ -293,7 +299,8 @@ void main() {
               )
             ],
             widget,
-            infiniteAnimationWidget: true));
+            infiniteAnimationWidget: true,
+            useRouter: true));
 
     expect(find.byType(NartusBottomSheet), findsOneWidget);
 
@@ -324,7 +331,8 @@ void main() {
               )
             ],
             widget,
-            infiniteAnimationWidget: true));
+            infiniteAnimationWidget: true,
+            useRouter: true));
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -354,7 +362,8 @@ void main() {
               )
             ],
             widget,
-            infiniteAnimationWidget: true));
+            infiniteAnimationWidget: true,
+            useRouter: true));
 
     // wait for animation to finish
     await widgetTester.pump(const Duration(seconds: 1));
@@ -389,7 +398,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       expect(find.byType(NartusBottomSheet), findsNothing);
     });
@@ -415,7 +425,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       expect(find.text('Location Permission not granted'), findsOneWidget);
       expect(
@@ -447,7 +458,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       expect(find.text('Turn on your location'), findsOneWidget);
       expect(
@@ -480,7 +492,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -513,7 +526,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -551,7 +565,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -583,7 +598,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -595,7 +611,8 @@ void main() {
     });
 
     testWidgets(
-        'given location explanation dialog when denied forever is visible, when tap on Continue with default location, then bottom sheet will be closed',
+        'given location explanation dialog when denied forever is visible, '
+        'when tap on Continue with default location, then bottom sheet will be closed',
         (WidgetTester widgetTester) async {
       const IDHomeBody widget = IDHomeBody();
 
@@ -614,7 +631,8 @@ void main() {
                 )
               ],
               widget,
-              infiniteAnimationWidget: true));
+              infiniteAnimationWidget: true,
+              useRouter: true));
 
       /// pumpAndSettle : only wait for 500ms
       /// Wait for bottom sheet animation to finish
@@ -624,5 +642,45 @@ void main() {
 
       verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
+
+    testWidgets('given requesting location permission, when return to screen, then call onReturnFromSettings', (widgetTester) async {
+      const IDHomeBody widget = IDHomeBody();
+
+      when(mockLocationBloc.stream).thenAnswer((_) =>
+          Stream<LocationState>.value(
+              AwaitLocationPermissionFromAppSettingState()));
+      when(mockLocationBloc.state)
+          .thenAnswer((_) => AwaitLocationPermissionFromAppSettingState());
+
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+              <BlocProvider<StateStreamableSource<Object?>>>[
+                BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc,
+                ),
+                BlocProvider<LocationBloc>(
+                  create: (_) => mockLocationBloc,
+                )
+              ],
+              widget,
+              infiniteAnimationWidget: true,
+              useRouter: true));
+
+      WidgetsBinding.instance
+          .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      verify(mockLocationBloc.onReturnFromSettings()).called(1);
+    });
   });
+
+  // TODO fix this test when improving loading process in google_map
+  // testWidgets('Verify IDHome has a bloc and content is a IDHomeBody',
+  //     (widgetTester) async {
+  //   const Widget widget = IDHome();
+  //
+  //   await widgetTester.blocWrapAndPump<ConnectivityBloc>(
+  //       mockConnectivityBloc, widget,
+  //       infiniteAnimationWidget: true, useRouter: true);
+  //
+  //   expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
+  //   expect(find.byType(IDHomeBody), findsOneWidget);
+  // });
 }

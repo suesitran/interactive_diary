@@ -13,6 +13,8 @@ void main() {
       (WidgetTester widgetTester) async {
     GoogleMapView widget = GoogleMapView(
       currentLocation: const LatLng(0.0, 0.0),
+      address: null,
+      business: null,
       onMenuOpened: () {},
       onMenuClosed: () {},
     );
