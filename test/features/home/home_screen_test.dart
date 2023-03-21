@@ -37,9 +37,9 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null)));
     when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
+        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
@@ -643,7 +643,7 @@ void main() {
       verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
 
-    testWidgets('given requesting location permission', (widgetTester) async {
+    testWidgets('given requesting location permission, when return to screen, then call onReturnFromSettings', (widgetTester) async {
       const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>

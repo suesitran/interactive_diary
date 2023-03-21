@@ -17,7 +17,8 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<LocationBloc>(
-        create: (context) => LocationBloc(),
+        create: (context) => LocationBloc()
+          ..requestCurrentLocation(),
         child: const IDHomeBody(),
       );
 }
@@ -127,6 +128,8 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                 children: <Widget>[
                   GoogleMapView(
                     currentLocation: state.currentLocation,
+                    address: state.address,
+                    business: state.business,
                     onMenuOpened: handleMenuOpen,
                     onMenuClosed: handleMenuClose,
                   ),
@@ -145,17 +148,17 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: ContentsBottomPanelView(
-                              controller: _contentBottomPanelController),
+                            controller: _contentBottomPanelController,
+                            address: state.address,
+                            business: state.business,
+                            location: state.currentLocation,
+                          ),
                         ),
                       )
                     ],
                   )
                 ],
               );
-            }
-
-            if (state is LocationInitial) {
-              context.read<LocationBloc>().requestCurrentLocation();
             }
 
             if (state is AwaitLocationPermissionFromAppSettingState ||

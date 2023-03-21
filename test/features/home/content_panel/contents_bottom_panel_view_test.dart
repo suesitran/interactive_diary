@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
@@ -12,7 +13,10 @@ void main() {
     final ContentsBottomPanelController controller =
         ContentsBottomPanelController();
     final ContentsBottomPanelView contentsBottomPanelView =
-        ContentsBottomPanelView(controller: controller);
+        ContentsBottomPanelView(
+      controller: controller,
+      location: const LatLng(0, 0),
+    );
 
     await mockNetworkImagesFor(
         () => widgetTester.wrapAndPump(contentsBottomPanelView));
@@ -38,7 +42,10 @@ void main() {
     final ContentsBottomPanelController controller =
         ContentsBottomPanelController();
     final ContentsBottomPanelView contentsBottomPanelView =
-        ContentsBottomPanelView(controller: controller);
+        ContentsBottomPanelView(
+      controller: controller,
+      location: const LatLng(0, 0),
+    );
 
     controller.show();
     await mockNetworkImagesFor(
@@ -66,7 +73,10 @@ void main() {
     final ContentsBottomPanelController controller =
         ContentsBottomPanelController();
     final ContentsBottomPanelView contentsBottomPanelView =
-        ContentsBottomPanelView(controller: controller);
+        ContentsBottomPanelView(
+      controller: controller,
+      location: const LatLng(0, 0),
+    );
 
     controller.show();
     await mockNetworkImagesFor(
@@ -90,7 +100,10 @@ void main() {
     final ContentsBottomPanelController controller =
         ContentsBottomPanelController();
     final ContentsBottomPanelView contentsBottomPanelView =
-        ContentsBottomPanelView(controller: controller);
+        ContentsBottomPanelView(
+      controller: controller,
+      location: const LatLng(0, 0),
+    );
 
     controller.show();
     await mockNetworkImagesFor(
