@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -18,9 +20,17 @@ class ContentsBottomPanelController extends ChangeNotifier {
 }
 
 class ContentsBottomPanelView extends StatefulWidget {
+  final String? address;
+  final String? business;
+  final LatLng location;
   final ContentsBottomPanelController controller;
 
-  const ContentsBottomPanelView({required this.controller, Key? key})
+  const ContentsBottomPanelView(
+      {required this.controller,
+      required this.location,
+      this.address,
+        this.business,
+      Key? key})
       : super(key: key);
 
   @override
@@ -52,7 +62,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   @override
   void initState() {
     super.initState();
-
     widget.controller.addListener(
       () {
         if (widget.controller._visible == true) {
@@ -128,16 +137,16 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 ),
                 // location view
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                  child: LocationView(
-                    address:
-                        'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                    latitude: 1.0,
-                    longitude: 1.0,
-                    borderRadius: BorderRadius.circular(NartusDimens.radius16),
-                  ),
-                ),
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    child: LocationView(
+                      locationIconSvg: Assets.images.idLocationIcon,
+                      address: widget.address,
+                      businessName: widget.business,
+                      latitude: widget.location.latitude,
+                      longitude: widget.location.longitude,
+                      borderRadius: BorderRadius.circular(12),
+                    )),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:

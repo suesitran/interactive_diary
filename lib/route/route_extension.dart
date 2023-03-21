@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as map
     show LatLng;
 import 'package:interactive_diary/route/map_route.dart';
+import 'package:interactive_diary/route/route_extra.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
 extension RouterExtension on BuildContext {
@@ -12,9 +13,9 @@ extension RouterExtension on BuildContext {
   /// }
   ///
 
-  void gotoWriteDiaryScreen(map.LatLng latLng) {
+  void gotoWriteDiaryScreen(map.LatLng latLng, String? address, String? business) {
     GoRouter.of(this).push(writeDiaryRoute,
-        extra: LatLng(lat: latLng.latitude, long: latLng.longitude));
+        extra: WriteDiaryExtra(LatLng(lat: latLng.latitude, long: latLng.longitude), address, business));
   }
 
   void goToHome() {

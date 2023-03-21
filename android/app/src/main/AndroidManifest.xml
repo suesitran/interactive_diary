@@ -2,6 +2,7 @@
     package="com.nartus.interactive_diary">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:label="Interactive Diary"

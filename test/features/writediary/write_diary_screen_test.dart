@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/writediary/bloc/write_diary_cubit.dart';
 import 'package:interactive_diary/features/writediary/widgets/advance_text_editor_view.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
+import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -15,14 +16,18 @@ import 'package:nartus_ui_package/widgets/widgets.dart';
 import '../../widget_tester_extension.dart';
 import 'write_diary_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[WriteDiaryCubit])
+@GenerateMocks(<Type>[WriteDiaryCubit, StorageService])
 void main() {
   final MockWriteDiaryCubit writeDiaryCubit = MockWriteDiaryCubit();
+
+  setUpAll(() => ServiceLocator.instance.registerSingleton<StorageService>(MockStorageService()));
 
   testWidgets('verify UI write diary screen',
       (WidgetTester widgetTester) async {
     WriteDiaryBody widget = WriteDiaryBody(
       latLng: const LatLng(long: 0.0, lat: 0.0),
+      address: null,
+      business: null,
     );
 
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
@@ -55,6 +60,8 @@ void main() {
       (WidgetTester widgetTester) async {
     final WriteDiaryBody widget = WriteDiaryBody(
       latLng: const LatLng(long: 0.0, lat: 0.0),
+      address: null,
+      business: null,
     );
 
     when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
@@ -71,6 +78,8 @@ void main() {
       (WidgetTester widgetTester) async {
     final WriteDiaryBody widget = WriteDiaryBody(
       latLng: const LatLng(long: 0.0, lat: 0.0),
+      address: null,
+      business: null,
     );
 
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
@@ -99,6 +108,8 @@ void main() {
       (WidgetTester widgetTester) async {
     final WriteDiaryBody widget = WriteDiaryBody(
       latLng: const LatLng(long: 0.0, lat: 0.0),
+      address: null,
+      business: null,
     );
 
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());

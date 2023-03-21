@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:nartus_authentication/nartus_authentication.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
+import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_remote_config/remote_config_manager.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -32,7 +33,9 @@ class ServiceLocator {
       // TODO check authentication to choose correct storage service
       instance.registerSingleton(StorageService(StorageType.local));
     }
-  }
 
-  
+    if (!instance.isRegistered<GeocoderService>()) {
+      instance.registerSingleton(GeocoderService());
+    }
+  }
 }
