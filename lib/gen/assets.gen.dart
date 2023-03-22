@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
@@ -97,6 +97,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/no_connection.svg
   String get noConnection => 'assets/images/no_connection.svg';
 
+  /// File path: assets/images/onboarding_1.svg
+  String get onboarding1 => 'assets/images/onboarding_1.svg';
+
   /// File path: assets/images/splash_screen.png
   AssetGenImage get splashScreen =>
       const AssetGenImage('assets/images/splash_screen.png');
@@ -129,6 +132,7 @@ class $AssetsImagesGen {
         markerNonetap,
         markerOntap,
         noConnection,
+        onboarding1,
         splashScreen
       ];
 }
