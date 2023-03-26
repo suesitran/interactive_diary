@@ -19,8 +19,7 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<LocationBloc>(
-        create: (context) => LocationBloc()
-          ..requestCurrentLocation(),
+        create: (context) => LocationBloc()..requestCurrentLocation(),
         child: const IDHomeBody(),
       );
 }

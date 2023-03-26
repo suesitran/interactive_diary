@@ -9,29 +9,33 @@ part 'app_config_event.dart';
 part 'app_config_state.dart';
 
 class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
-
   ShakeDetector? detector;
 
-  AppConfigBloc()
-      : super(AppConfigInitial()) {
+  AppConfigBloc() : super(AppConfigInitial()) {
     on<AppRequestInitialise>(_initialise);
 
-    on<AnnounceShakeAction>((event, emit) {
-      emit(ShakeDetected(DateTime.now().millisecondsSinceEpoch));
-    },);
+    on<AnnounceShakeAction>(
+      (event, emit) {
+        emit(ShakeDetected(DateTime.now().millisecondsSinceEpoch));
+      },
+    );
   }
 
   void _initialise(AppConfigEvent event, Emitter<AppConfigState> emit) async {
     // init Date formatting
     initializeDateFormatting();
 
-    RemoteConfigManager remoteConfigManager = ServiceLocator.instance.get<RemoteConfigManager>();
-    bool debugOption = remoteConfigManager.getValue(RemoteConfigKey.debugOption);
+    RemoteConfigManager remoteConfigManager =
+        ServiceLocator.instance.get<RemoteConfigManager>();
+    bool debugOption =
+        remoteConfigManager.getValue(RemoteConfigKey.debugOption);
 
     if (debugOption) {
-      detector = ShakeDetector.waitForStart(onPhoneShake: () {
-        add(AnnounceShakeAction());
-      },);
+      detector = ShakeDetector.waitForStart(
+        onPhoneShake: () {
+          add(AnnounceShakeAction());
+        },
+      );
       detector?.startListening();
     }
     // inform UI

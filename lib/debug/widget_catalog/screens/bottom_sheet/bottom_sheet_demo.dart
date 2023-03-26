@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-
-import '../../../../gen/assets.gen.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 
 class BottomSheetDemo extends StatelessWidget {
   const BottomSheetDemo({Key? key}) : super(key: key);

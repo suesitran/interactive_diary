@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:interactive_diary/debug/widget_catalog/screens/theme_demo/shared_helper.dart';
 
 class ColorSchemeDemoScreen extends StatelessWidget {
-  const ColorSchemeDemoScreen({Key? key, required this.colorScheme})
-      : super(key: key);
+  const ColorSchemeDemoScreen({
+    required this.colorScheme,
+    Key? key,
+  }) : super(key: key);
 
   final ColorScheme colorScheme;
   @override

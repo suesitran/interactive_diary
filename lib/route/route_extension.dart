@@ -4,8 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as map
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/route/route_extra.dart';
 import 'package:nartus_storage/nartus_storage.dart';
-
-import '../debug/widget_catalog/widget_catalog.dart';
+import 'package:interactive_diary/debug/widget_catalog/widget_catalog.dart';
 
 extension RouterExtension on BuildContext {
   /// Add all path to this extension, and keep all GoRouter within this class
@@ -15,9 +14,13 @@ extension RouterExtension on BuildContext {
   /// }
   ///
 
-  void gotoWriteDiaryScreen(map.LatLng latLng, String? address, String? business) {
+  void gotoWriteDiaryScreen(
+      map.LatLng latLng, String? address, String? business) {
     GoRouter.of(this).push(writeDiaryRoute,
-        extra: WriteDiaryExtra(LatLng(lat: latLng.latitude, long: latLng.longitude), address, business));
+        extra: WriteDiaryExtra(
+            LatLng(lat: latLng.latitude, long: latLng.longitude),
+            address,
+            business));
   }
 
   void goToHome() {
@@ -25,7 +28,9 @@ extension RouterExtension on BuildContext {
   }
 
   // show Widget catalog, by using Navigator instead of GoRouter
-void showWidgetCatalog() {
-  Navigator.of(this).push(MaterialPageRoute(builder: (context) => const WidgetCatalog(),));
-}
+  void showWidgetCatalog() {
+    Navigator.of(this).push(MaterialPageRoute(
+      builder: (context) => const WidgetCatalog(),
+    ));
+  }
 }

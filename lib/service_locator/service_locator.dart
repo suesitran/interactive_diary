@@ -22,7 +22,8 @@ class ServiceLocator {
     }
 
     if (!instance.isRegistered<ConnectivityService>()) {
-      instance.registerSingleton(ConnectivityService(ImplType.connectivityPlus));
+      instance
+          .registerSingleton(ConnectivityService(ImplType.connectivityPlus));
     }
 
     if (!instance.isRegistered<AuthenticationService>()) {

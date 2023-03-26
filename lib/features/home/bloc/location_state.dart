@@ -31,9 +31,15 @@ class LocationReadyState extends LocationState {
   final String? business;
   final String dateDisplay;
 
-  LocationReadyState(this.currentLocation, this.dateDisplay, this.address, this.business);
+  LocationReadyState(
+      this.currentLocation, this.dateDisplay, this.address, this.business);
 
   @override
-  List<Object?> get props => [currentLocation.latitude, currentLocation.longitude, address, business, dateDisplay];
-
+  List<Object?> get props => [
+        currentLocation.latitude,
+        currentLocation.longitude,
+        address,
+        business,
+        dateDisplay
+      ];
 }

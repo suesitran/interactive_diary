@@ -36,12 +36,10 @@ class LocationBloc extends Cubit<LocationState> {
 
         address = gcData.address;
         business = gcData.business;
-      } on gc.GetAddressFailedException catch (_) {
-      }
+      } on gc.GetAddressFailedException catch (_) {}
 
-      emit(LocationReadyState(
-          LatLng(data.latitude, data.longitude), dateDisplay, address, business));
-
+      emit(LocationReadyState(LatLng(data.latitude, data.longitude),
+          dateDisplay, address, business));
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionDeniedException catch (_) {
@@ -71,13 +69,13 @@ class LocationBloc extends Cubit<LocationState> {
     String? address;
     String? business;
     try {
-      final gc.LocationDetail gcData = await _geocoderService
-          .getCurrentPlaceCoding(_defaultLocation.latitude, _defaultLocation.longitude);
+      final gc.LocationDetail gcData =
+          await _geocoderService.getCurrentPlaceCoding(
+              _defaultLocation.latitude, _defaultLocation.longitude);
 
       address = gcData.address;
       business = gcData.business;
-    } on gc.GetAddressFailedException catch (_) {
-    }
+    } on gc.GetAddressFailedException catch (_) {}
 
     emit(LocationReadyState(_defaultLocation, dateDisplay, address, business));
   }

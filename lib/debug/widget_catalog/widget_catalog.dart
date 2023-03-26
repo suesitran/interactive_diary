@@ -11,20 +11,20 @@ class WidgetCatalog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Widget catalog'),
-    ),
-    body: ListView(
-      children: [
-        const WidgetTile('Theme demo', ThemeDemoScreen()),
-        WidgetTile('Text and error label', TextAndErrorLabelScreen()),
-        const WidgetTile('CTA Buttons', CTAButtonsScreen()),
-        const WidgetTile('Bottom Sheet demo', BottomSheetDemo()),
-        const WidgetTile('Alert Dialog demo', AlertDialogDemo()),
-        const WidgetTile('Location Demo', LocationDemoScreen()),
-      ],
-    ),
-  );
+        appBar: AppBar(
+          title: const Text('Widget catalog'),
+        ),
+        body: ListView(
+          children: [
+            const WidgetTile('Theme demo', ThemeDemoScreen()),
+            WidgetTile('Text and error label', TextAndErrorLabelScreen()),
+            const WidgetTile('CTA Buttons', CTAButtonsScreen()),
+            const WidgetTile('Bottom Sheet demo', BottomSheetDemo()),
+            const WidgetTile('Alert Dialog demo', AlertDialogDemo()),
+            const WidgetTile('Location Demo', LocationDemoScreen()),
+          ],
+        ),
+      );
 }
 
 class WidgetTile extends StatelessWidget {
@@ -39,7 +39,7 @@ class WidgetTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
           side: BorderSide(color: Theme.of(context).dividerColor, width: 1.0)),
       contentPadding:
-      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       trailing: const Icon(Icons.arrow_right),
       onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => catalogScreen)),

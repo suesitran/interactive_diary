@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/debug/widget_catalog/screens/theme_demo/text_theme_demo_screen.dart';
-
-import 'color_demo_screen.dart';
-import 'color_scheme_demo_screen.dart';
+import 'package:interactive_diary/debug/widget_catalog/screens/theme_demo/color_demo_screen.dart';
+import 'package:interactive_diary/debug/widget_catalog/screens/theme_demo/color_scheme_demo_screen.dart';
 
 class ThemeDemoScreen extends StatelessWidget {
   const ThemeDemoScreen({Key? key}) : super(key: key);

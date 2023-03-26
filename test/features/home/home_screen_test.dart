@@ -16,7 +16,8 @@ import 'package:network_image_mock/network_image_mock.dart';
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[LocationBloc, ConnectivityBloc, LocationService, AppConfigBloc])
+@GenerateMocks(
+    <Type>[LocationBloc, ConnectivityBloc, LocationService, AppConfigBloc])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -31,10 +32,12 @@ void main() {
         .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
 
-    when(locationService.getCurrentLocation()).thenAnswer((realInvocation) => Future.value(LocationDetails(0.0, 0.0)));
+    when(locationService.getCurrentLocation()).thenAnswer(
+        (realInvocation) => Future.value(LocationDetails(0.0, 0.0)));
 
     when(appConfigBloc.state).thenReturn(AppConfigInitial());
-    when(appConfigBloc.stream).thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
+    when(appConfigBloc.stream)
+        .thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
   });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
@@ -43,15 +46,17 @@ void main() {
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
         LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null)));
-    when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null));
+    when(mockLocationBloc.state).thenAnswer((_) =>
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
           BlocProvider<LocationBloc>(create: (_) {
             return mockLocationBloc;
           }),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(
@@ -103,7 +108,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -123,7 +130,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.text('Location Permission not granted'), findsOneWidget);
@@ -149,7 +158,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.text('Turn on your location'), findsOneWidget);
@@ -175,7 +186,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -199,7 +212,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -223,7 +238,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -247,7 +264,9 @@ void main() {
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -275,7 +294,9 @@ void main() {
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
               ),
-              BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              )
             ],
             widget,
             infiniteAnimationWidget: true,
@@ -310,7 +331,9 @@ void main() {
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
               ),
-              BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              )
             ],
             widget,
             infiniteAnimationWidget: true,
@@ -343,7 +366,9 @@ void main() {
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
               ),
-              BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              )
             ],
             widget,
             infiniteAnimationWidget: true,
@@ -375,7 +400,9 @@ void main() {
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
               ),
-              BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              )
             ],
             widget,
             infiniteAnimationWidget: true,
@@ -412,7 +439,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -440,7 +469,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -474,7 +505,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -509,7 +542,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -544,7 +579,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -584,7 +621,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -618,7 +657,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -652,7 +693,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,
@@ -667,7 +710,9 @@ void main() {
       verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
 
-    testWidgets('given requesting location permission, when return to screen, then call onReturnFromSettings', (widgetTester) async {
+    testWidgets(
+        'given requesting location permission, when return to screen, then call onReturnFromSettings',
+        (widgetTester) async {
       const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
@@ -684,7 +729,9 @@ void main() {
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
                 ),
-                BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,)
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                )
               ],
               widget,
               infiniteAnimationWidget: true,

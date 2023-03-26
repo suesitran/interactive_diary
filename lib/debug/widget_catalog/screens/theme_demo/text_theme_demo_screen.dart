@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:interactive_diary/debug/widget_catalog/screens/theme_demo/shared_helper.dart';
 
 class TextThemeDemoScreen extends StatelessWidget {
-  const TextThemeDemoScreen({Key? key, required this.textTheme})
-      : super(key: key);
+  const TextThemeDemoScreen({
+    required this.textTheme,
+    Key? key,
+  }) : super(key: key);
 
   final TextTheme textTheme;
 

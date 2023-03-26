@@ -20,7 +20,8 @@ import 'write_diary_screen_test.mocks.dart';
 void main() {
   final MockWriteDiaryCubit writeDiaryCubit = MockWriteDiaryCubit();
 
-  setUpAll(() => ServiceLocator.instance.registerSingleton<StorageService>(MockStorageService()));
+  setUpAll(() => ServiceLocator.instance
+      .registerSingleton<StorageService>(MockStorageService()));
 
   testWidgets('verify UI write diary screen',
       (WidgetTester widgetTester) async {
@@ -31,9 +32,11 @@ void main() {
     );
 
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
-    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+    when(writeDiaryCubit.stream)
+        .thenAnswer((_) => Stream.value(WriteDiaryInitial()));
 
-    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(
+        writeDiaryCubit, widget);
 
     // this is Back button in AppBar
     expect(
@@ -64,9 +67,11 @@ void main() {
       business: null,
     );
 
-    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+    when(writeDiaryCubit.stream)
+        .thenAnswer((_) => Stream.value(WriteDiaryInitial()));
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
-    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(
+        writeDiaryCubit, widget);
 
     // there's no string in text field, Save button should be disabled
     NartusButton saveButton = widgetTester.widget(find.ancestor(
@@ -83,9 +88,11 @@ void main() {
     );
 
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
-    when(writeDiaryCubit.stream).thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+    when(writeDiaryCubit.stream)
+        .thenAnswer((_) => Stream.value(WriteDiaryInitial()));
 
-    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget);
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(
+        writeDiaryCubit, widget);
 
     // enter text, and expect Save button to be enabled
     QuillEditor textField =

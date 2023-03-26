@@ -99,8 +99,11 @@ class LocationDemoScreen extends StatelessWidget {
 class _DemoItemView extends StatelessWidget {
   final String title;
   final Widget widget;
-  const _DemoItemView({Key? key, required this.title, required this.widget})
-      : super(key: key);
+  const _DemoItemView({
+    required this.title,
+    required this.widget,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

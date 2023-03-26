@@ -31,27 +31,33 @@ void main() {
   test(
       'given service returns blank, when getCurrentPlaceCoding, then throw Exception',
       () async {
-        geocoding.mockData = [];
+    geocoding.mockData = [];
 
     GeocoderService service = GeocoderService();
     expect(() async => await service.getCurrentPlaceCoding(1.0, 2.0),
         throwsA(isA<GetAddressFailedException>()));
   });
 
-  test('given service return invalid data, when getCurrentPlaceCoding, then throw exception', () {
-    geocoding.mockData = [Placemark()];
+  test(
+    'given service return invalid data, when getCurrentPlaceCoding, then throw exception',
+    () {
+      geocoding.mockData = [Placemark()];
 
-    GeocoderService service = GeocoderService();
-    expect(() async => await service.getCurrentPlaceCoding(1.0, 2.0), throwsA(isA<GetAddressFailedException>()));
-  },);
+      GeocoderService service = GeocoderService();
+      expect(() async => await service.getCurrentPlaceCoding(1.0, 2.0),
+          throwsA(isA<GetAddressFailedException>()));
+    },
+  );
 
-  test('given service return data with at least 1 field, when getCurrentPlaceCoding, then return data', () async {
-    geocoding.mockData = [Placemark(
-      name: 'name'
-    )];
+  test(
+    'given service return data with at least 1 field, when getCurrentPlaceCoding, then return data',
+    () async {
+      geocoding.mockData = [Placemark(name: 'name')];
 
-    GeocoderService service = GeocoderService();
-    final LocationDetail result = await service.getCurrentPlaceCoding(1.0, 2.0);
-    expect(result.business, 'name');
-  },);
+      GeocoderService service = GeocoderService();
+      final LocationDetail result =
+          await service.getCurrentPlaceCoding(1.0, 2.0);
+      expect(result.business, 'name');
+    },
+  );
 }

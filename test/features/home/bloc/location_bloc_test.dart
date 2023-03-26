@@ -17,13 +17,15 @@ void main() {
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
-    ServiceLocator.instance.registerSingleton<gc.GeocoderService>(geocoderService);
+    ServiceLocator.instance
+        .registerSingleton<gc.GeocoderService>(geocoderService);
   });
 
   setUp(() {
     when(locationService.getCurrentLocation()).thenAnswer(
-            (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
-    when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer((realInvocation) => Future.value(gc.LocationDetail('', '')));
+        (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
+    when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+        (realInvocation) => Future.value(gc.LocationDetail('', '')));
   });
 
   group('event request current location', () {
@@ -59,7 +61,8 @@ void main() {
     blocTest(
         'given location locationService throws error, when RequestCurrentLocationEvent, then state is UnknownLocationErrorState',
         build: () => LocationBloc(),
-        setUp: () => when(locationService.getCurrentLocation()).thenThrow(Exception()),
+        setUp: () =>
+            when(locationService.getCurrentLocation()).thenThrow(Exception()),
         act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () =>
             <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
@@ -139,7 +142,8 @@ void main() {
       setUp: () => when(locationService.requestService())
           .thenAnswer((Invocation realInvocation) => Future<bool>.value(true)),
       act: (LocationBloc bloc) => bloc.openLocationServiceSetting(),
-      verify: (LocationBloc bloc) => verify(locationService.requestService()).called(1),
+      verify: (LocationBloc bloc) =>
+          verify(locationService.requestService()).called(1),
       expect: () =>
           <TypeMatcher<LocationState>>[isA<AwaitLocationServiceSettingState>()],
     );

@@ -11,7 +11,12 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  const WriteDiaryScreen({required this.latLng, required this.address, required this.business, Key? key}) : super(key: key);
+  const WriteDiaryScreen(
+      {required this.latLng,
+      required this.address,
+      required this.business,
+      Key? key})
+      : super(key: key);
 
   final LatLng latLng;
   final String? address;
@@ -33,7 +38,12 @@ class WriteDiaryBody extends StatelessWidget {
   final String? address;
   final String? business;
 
-  WriteDiaryBody({required this.latLng, required this.address, required this.business, Key? key}) : super(key: key);
+  WriteDiaryBody(
+      {required this.latLng,
+      required this.address,
+      required this.business,
+      Key? key})
+      : super(key: key);
 
   final ValueNotifier<String> _isTextWritten = ValueNotifier<String>('');
 

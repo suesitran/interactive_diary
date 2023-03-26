@@ -32,10 +32,9 @@ void main() async {
         create: (context) => AppConfigBloc()..add(AppRequestInitialise()),
       ),
       BlocProvider<ConnectivityBloc>(
-        create: (BuildContext context) =>
-            ConnectivityBloc()
-              ..add(WatchConnectivityEvent())
-              ..add(CheckConnectivityEvent()),
+        create: (BuildContext context) => ConnectivityBloc()
+          ..add(WatchConnectivityEvent())
+          ..add(CheckConnectivityEvent()),
       ),
     ],
     child: const _MainApp(),

@@ -29,24 +29,27 @@ final GoRouter appRoute = GoRouter(
       },
     ),
     GoRoute(
-      path: writeDiaryRoute,
-      pageBuilder: (BuildContext context, GoRouterState state) {
-        WriteDiaryExtra extra = state.extra as WriteDiaryExtra;
-        return  CustomTransitionPage<Offset>(
-            child: WriteDiaryScreen(latLng: extra.latLng, address: extra.address, business: extra.business,),
-            transitionsBuilder: (BuildContext context,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation,
-                Widget child) =>
-                SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0.0, 1.0),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child,
-                ));
-      }
-    ),
+        path: writeDiaryRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          WriteDiaryExtra extra = state.extra as WriteDiaryExtra;
+          return CustomTransitionPage<Offset>(
+              child: WriteDiaryScreen(
+                latLng: extra.latLng,
+                address: extra.address,
+                business: extra.business,
+              ),
+              transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) =>
+                  SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.0, 1.0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ));
+        }),
     // add other 1st level route
     //no connection screen
     GoRoute(

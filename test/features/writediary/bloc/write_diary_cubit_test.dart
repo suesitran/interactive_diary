@@ -13,8 +13,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final MockStorageService storageService = MockStorageService();
 
-  setUpAll(() => ServiceLocator.instance.registerSingleton<StorageService>(storageService));
-  
+  setUpAll(() => ServiceLocator.instance
+      .registerSingleton<StorageService>(storageService));
+
   group('Test save text diary', () {
     tearDown(() => reset(storageService));
 
