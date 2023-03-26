@@ -1,9 +1,9 @@
-import 'dart:io' show Platform;
+import 'package:flutter/material.dart' show TargetPlatform, Theme;
 
-bool isAndroid() {
-  return Platform.isAndroid;
+bool isAndroid(context) {
+  return Theme.of(context).platform == TargetPlatform.android;
 }
 
-bool isIOS() {
-  return Platform.isIOS;
+bool isIOS(context) {
+  return Theme.of(context).platform == TargetPlatform.iOS;
 }
