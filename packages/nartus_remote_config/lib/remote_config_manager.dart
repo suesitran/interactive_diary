@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 enum RemoteConfigKey {
-  debugOption('debug_option', false);
+  debugOption('debug_options', false);
 
   final String name;
   final dynamic defaultValue;
@@ -39,6 +39,7 @@ class RemoteConfigManager {
     final Map<RemoteConfigKey, dynamic> map = {};
 
     for (RemoteConfigKey key in RemoteConfigKey.values) {
+      print('SUESI value of ${key.name} is ${getValue(key)}');
       map.putIfAbsent(key, () => getValue(key));
     }
     _remoteConfigUpdateStream.add(map);
