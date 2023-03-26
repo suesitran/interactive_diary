@@ -15,12 +15,16 @@ coverage:
         - lib
         target: 80%
         threshold: 1%
+  patch:
+    default:
+      target: 80%
   ignore:
-    - "lib/generated"  # ignore folders and all its contents
-    - "lib/gen"
     - "lib/constants"
+    - "lib/debug"
+    - "lib/gen"
+    - "lib/generated"  # ignore folders and all its contents
     - "lib/route"
+    - "lib/service_locator"
     - "lib/firebase_options.dart"
     - "lib/main.dart"
     - "**/*.g.dart"
-    - "lib/service_locator"
