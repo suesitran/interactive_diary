@@ -27,7 +27,7 @@ class RemoteConfigManager {
   Future<void> init() async {
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(hours: 1),
+      minimumFetchInterval: const Duration(minutes: 15),
     ));
 
     _remoteConfig.addListener(_onRemoteConfigValueUpdate);
@@ -39,7 +39,6 @@ class RemoteConfigManager {
     final Map<RemoteConfigKey, dynamic> map = {};
 
     for (RemoteConfigKey key in RemoteConfigKey.values) {
-      print('SUESI value of ${key.name} is ${getValue(key)}');
       map.putIfAbsent(key, () => getValue(key));
     }
     _remoteConfigUpdateStream.add(map);

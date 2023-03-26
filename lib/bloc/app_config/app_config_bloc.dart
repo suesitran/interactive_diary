@@ -15,6 +15,10 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
   AppConfigBloc()
       : super(AppConfigInitial()) {
     on<AppRequestInitialise>(_initialise);
+
+    on<AnnounceShakeAction>((event, emit) {
+      emit(ShakeDetected(DateTime.now().millisecondsSinceEpoch));
+    },);
   }
 
   void _initialise(AppConfigEvent event, Emitter<AppConfigState> emit) async {
@@ -26,7 +30,7 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
 
     if (debugOption) {
       detector = ShakeDetector.waitForStart(onPhoneShake: () {
-        emit(ShakeDetected(DateTime.now().millisecondsSinceEpoch));
+        add(AnnounceShakeAction());
       },);
       detector?.startListening();
     }

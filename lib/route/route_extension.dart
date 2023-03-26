@@ -5,6 +5,8 @@ import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/route/route_extra.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
+import '../debug/widget_catalog/widget_catalog.dart';
+
 extension RouterExtension on BuildContext {
   /// Add all path to this extension, and keep all GoRouter within this class
   /// example:
@@ -21,4 +23,9 @@ extension RouterExtension on BuildContext {
   void goToHome() {
     GoRouter.of(this).replace(idHomeRoute);
   }
+
+  // show Widget catalog, by using Navigator instead of GoRouter
+void showWidgetCatalog() {
+  Navigator.of(this).push(MaterialPageRoute(builder: (context) => const WidgetCatalog(),));
+}
 }
