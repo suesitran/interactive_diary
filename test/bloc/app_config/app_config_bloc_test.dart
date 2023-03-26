@@ -71,15 +71,18 @@ void main() {
     expect: () => [isA<ShakeDetected>()],
   );
 
-  test('verify app config states', () {
-    AppConfigInitial appConfigInitial = AppConfigInitial();
-    expect(appConfigInitial.props.length, 0);
+  test(
+    'verify app config states',
+    () {
+      AppConfigInitial appConfigInitial = AppConfigInitial();
+      expect(appConfigInitial.props.length, 0);
 
-    AppConfigInitialised appConfigInitialised = AppConfigInitialised();
-  expect(appConfigInitialised.props.length, 0);
+      AppConfigInitialised appConfigInitialised = AppConfigInitialised();
+      expect(appConfigInitialised.props.length, 0);
 
-  ShakeDetected shakeDetected = ShakeDetected(100);
-  expect(shakeDetected.props.length, 1);
-  expect(shakeDetected.props.first, 100);
-  },);
+      ShakeDetected shakeDetected = ShakeDetected(100);
+      expect(shakeDetected.props.length, 1);
+      expect(shakeDetected.props.first, 100);
+    },
+  );
 }
