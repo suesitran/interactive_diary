@@ -275,6 +275,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Welcome to InnerME 🙌`
+  String get welcomeText {
+    return Intl.message(
+      'Welcome to InnerME 🙌',
+      name: 'welcomeText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get Started`
+  String get getStartedText {
+    return Intl.message(
+      'Get Started',
+      name: 'getStartedText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover all the cool features right now`
+  String get onboardingIntroduction {
+    return Intl.message(
+      'Discover all the cool features right now',
+      name: 'onboardingIntroduction',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
