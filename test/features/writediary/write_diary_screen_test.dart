@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +23,69 @@ void main() {
 
   setUpAll(() => ServiceLocator.instance
       .registerSingleton<StorageService>(MockStorageService()));
+
+  setUp(() {
+    when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());
+    when(writeDiaryCubit.stream)
+        .thenAnswer((_) => Stream.value(WriteDiaryInitial()));
+  });
+
+  tearDown(() {
+    reset(writeDiaryCubit);
+  });
+
+  testWidgets('verify WriteDiaryScreen uses WriteDiaryCubit',
+      (widgetTester) async {
+    const Widget widget = WriteDiaryScreen(
+        latLng: LatLng(long: 0.0, lat: 0.0), address: null, business: null);
+
+    await widgetTester.wrapAndPump(widget);
+
+    expect(find.byType(BlocProvider<WriteDiaryCubit>), findsOneWidget);
+    expect(find.byType(BlocListener<WriteDiaryCubit, WriteDiaryState>),
+        findsOneWidget);
+  });
+
+  testWidgets(
+      'when state is WriteDiarySuccess, then navigate to previous screen',
+      (widgetTester) async {
+    when(writeDiaryCubit.state)
+        .thenAnswer((realInvocation) => WriteDiarySuccess());
+    when(writeDiaryCubit.stream)
+        .thenAnswer((realInvocation) => Stream.value(WriteDiarySuccess()));
+
+    WriteDiaryBody widget = WriteDiaryBody(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
+      address: null,
+      business: null,
+    );
+
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget,
+        useRouter: true);
+
+    // wait 500ms
+    await widgetTester.pumpAndSettle(const Duration(milliseconds: 501));
+
+    expect(find.byType(WriteDiaryBody), findsNothing);
+  });
+
+  testWidgets('when user taps on back button, then navigate to previous screen',
+      (widgetTester) async {
+    WriteDiaryBody widget = WriteDiaryBody(
+      latLng: const LatLng(long: 0.0, lat: 0.0),
+      address: null,
+      business: null,
+    );
+
+    await widgetTester.blocWrapAndPump<WriteDiaryCubit>(writeDiaryCubit, widget,
+        useRouter: true);
+
+    await widgetTester.tap(find.ancestor(
+        of: find.byType(SvgPicture), matching: find.byType(NartusButton)));
+    await widgetTester.pumpAndSettle(const Duration(milliseconds: 501));
+
+    expect(find.byType(WriteDiaryBody), findsNothing);
+  });
 
   testWidgets('verify UI write diary screen',
       (WidgetTester widgetTester) async {

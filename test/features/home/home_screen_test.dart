@@ -6,9 +6,11 @@ import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
+import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -16,8 +18,13 @@ import 'package:network_image_mock/network_image_mock.dart';
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
 
-@GenerateMocks(
-    <Type>[LocationBloc, ConnectivityBloc, LocationService, AppConfigBloc])
+@GenerateMocks(<Type>[
+  LocationBloc,
+  ConnectivityBloc,
+  LocationService,
+  AppConfigBloc,
+  GeocoderService
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -25,9 +32,11 @@ void main() {
   final MockConnectivityBloc mockConnectivityBloc = MockConnectivityBloc();
   final MockLocationService locationService = MockLocationService();
   final MockAppConfigBloc appConfigBloc = MockAppConfigBloc();
+  final MockGeocoderService geocoderService = MockGeocoderService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
+    ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
     when(mockConnectivityBloc.stream)
         .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
@@ -38,6 +47,10 @@ void main() {
     when(appConfigBloc.state).thenReturn(AppConfigInitial());
     when(appConfigBloc.stream)
         .thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
+
+    when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+        (realInvocation) =>
+            Future.value(LocationDetail('address', 'business')));
   });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
@@ -70,29 +83,30 @@ void main() {
   });
 
   // comment out because of issue https://github.com/flutter/flutter/issues/120556
-  // testWidgets(
-  //     'When State is LocationReadyState, then GoogleMapView is presented',
-  //     (WidgetTester widgetTester) async {
-  //   const IDHome widget = IDHome();
-  //
-  //   final LocationReadyState state =
-  //       LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022');
-  //
-  //   when(mockLocationBloc.stream)
-  //       .thenAnswer((_) => Stream<LocationState>.value(state));
-  //   when(mockLocationBloc.state).thenAnswer((_) => state);
-  //
-  //   await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-  //           <BlocProvider<StateStreamableSource<Object?>>>[
-  //             BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-  //             BlocProvider<ConnectivityBloc>(
-  //                 create: (_) => mockConnectivityBloc)
-  //           ],
-  //           widget));
-  //   await widgetTester.pumpAndSettle();
-  //
-  //   expect(find.byType(GoogleMapView), findsOneWidget);
-  // });
+  testWidgets(
+      'When State is LocationReadyState, then GoogleMapView is presented',
+      (WidgetTester widgetTester) async {
+    const IDHome widget = IDHome();
+
+    final LocationReadyState state =
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null);
+
+    when(mockLocationBloc.stream)
+        .thenAnswer((_) => Stream<LocationState>.value(state));
+    when(mockLocationBloc.state).thenAnswer((_) => state);
+
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
+            BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
+        ], widget, useRouter: true));
+    await widgetTester.pumpAndSettle();
+
+    expect(find.byType(GoogleMapView), findsOneWidget);
+  });
 
   testWidgets(
       'When state is LocationInitial, then CircularProgressIndicator is presented',

@@ -33,20 +33,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_camera_icon.svg
   String get idCameraIcon => 'assets/images/id_camera_icon.svg';
 
-  /// File path: assets/images/id_circular_icon_camera.svg
-  String get idCircularIconCamera =>
-      'assets/images/id_circular_icon_camera.svg';
-
-  /// File path: assets/images/id_circular_icon_emoji.svg
-  String get idCircularIconEmoji => 'assets/images/id_circular_icon_emoji.svg';
-
-  /// File path: assets/images/id_circular_icon_micro.svg
-  String get idCircularIconMicro => 'assets/images/id_circular_icon_micro.svg';
-
-  /// File path: assets/images/id_circular_icon_pencil.svg
-  String get idCircularIconPencil =>
-      'assets/images/id_circular_icon_pencil.svg';
-
   /// File path: assets/images/id_heart_icon_padding.svg
   String get idHeartIconPadding => 'assets/images/id_heart_icon_padding.svg';
 
@@ -83,12 +69,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_smile_icon.svg
   String get idSmileIcon => 'assets/images/id_smile_icon.svg';
 
-  /// File path: assets/images/marker_add.svg
-  String get markerAdd => 'assets/images/marker_add.svg';
-
-  /// File path: assets/images/marker_base.svg
-  String get markerBase => 'assets/images/marker_base.svg';
-
   /// File path: assets/images/marker_nonetap.png
   AssetGenImage get markerNonetap =>
       const AssetGenImage('assets/images/marker_nonetap.png');
@@ -116,10 +96,6 @@ class $AssetsImagesGen {
         danger,
         icTextController,
         idCameraIcon,
-        idCircularIconCamera,
-        idCircularIconEmoji,
-        idCircularIconMicro,
-        idCircularIconPencil,
         idHeartIconPadding,
         idLocationIcon,
         idLocationImg,
@@ -131,8 +107,6 @@ class $AssetsImagesGen {
         idProfileUserIconPadding,
         idShareIconPadding,
         idSmileIcon,
-        markerAdd,
-        markerBase,
         markerNonetap,
         markerOntap,
         noConnection,

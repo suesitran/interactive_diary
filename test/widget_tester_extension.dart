@@ -18,6 +18,15 @@ extension WidgetExtension on WidgetTester {
     } else {
       await pumpAndSettle();
     }
+
+    if (useRouter) {
+      await tap(find.text('Start testing'));
+      if (infiniteAnimationWidget) {
+        await pump();
+      } else {
+        await pumpAndSettle();
+      }
+    }
   }
 
   Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(
@@ -36,6 +45,15 @@ extension WidgetExtension on WidgetTester {
       await pump();
     } else {
       await pumpAndSettle();
+    }
+
+    if (useRouter) {
+      await tap(find.text('Start testing'));
+      if (infiniteAnimationWidget) {
+        await pump();
+      } else {
+        await pumpAndSettle();
+      }
     }
 
     await pumpFrames(wrapper, const Duration(milliseconds: 16));
@@ -62,6 +80,15 @@ extension WidgetExtension on WidgetTester {
       await pumpAndSettle();
     }
 
+    if (useRouter) {
+      await tap(find.text('Start testing'));
+      if (infiniteAnimationWidget) {
+        await pump();
+      } else {
+        await pumpAndSettle();
+      }
+    }
+
     await pumpFrames(wrapper, const Duration(milliseconds: 16));
   }
 }
@@ -81,6 +108,17 @@ class _MaterialWrapWidget extends StatelessWidget {
             routerConfig: GoRouter(routes: [
               GoRoute(
                 path: '/',
+                builder: (context, state) => Scaffold(
+                  body: Center(
+                    child: TextButton(
+                      child: const Text('Start testing'),
+                      onPressed: () => GoRouter.of(context).push('/target'),
+                    ),
+                  ),
+                ),
+              ),
+              GoRoute(
+                path: '/target',
                 builder: (context, state) => child,
               )
             ]),
