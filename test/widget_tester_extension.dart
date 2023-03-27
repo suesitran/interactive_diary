@@ -31,13 +31,13 @@ extension WidgetExtension on WidgetTester {
 
   Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(
       B bloc, Widget widget,
-      {bool infiniteAnimationWidget = false, bool useRouter = false}) async {
+      {bool infiniteAnimationWidget = false,
+      bool useRouter = false,
+      String? targetRoute}) async {
     final Widget wrapper = BlocProvider<B>(
       create: (_) => bloc,
       child: _MaterialWrapWidget(
-        useRouter: useRouter,
-        child: widget,
-      ),
+          useRouter: useRouter, targetRoute: targetRoute, child: widget),
     );
 
     await pumpWidget(wrapper);
@@ -96,9 +96,10 @@ extension WidgetExtension on WidgetTester {
 class _MaterialWrapWidget extends StatelessWidget {
   final Widget child;
   final bool useRouter;
+  final String? targetRoute;
 
   const _MaterialWrapWidget(
-      {required this.child, this.useRouter = false, Key? key})
+      {required this.child, this.useRouter = false, this.targetRoute, Key? key})
       : super(key: key);
 
   @override
@@ -120,7 +121,16 @@ class _MaterialWrapWidget extends StatelessWidget {
               GoRoute(
                 path: '/target',
                 builder: (context, state) => child,
-              )
+              ),
+              if (targetRoute != null)
+                GoRoute(
+                  path: targetRoute!,
+                  builder: (context, state) => Scaffold(
+                    body: Center(
+                      child: Text(targetRoute!),
+                    ),
+                  ),
+                )
             ]),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               S.delegate
