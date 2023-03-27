@@ -15,9 +15,9 @@ coverage:
         - lib
         target: 80%
         threshold: 1%
-  patch:
-    default:
-      target: 80%
+    patch:
+      default:
+        target: 80%
   ignore:
     - "lib/generated"  # ignore folders and all its contents
     - "lib/gen"
