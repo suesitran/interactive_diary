@@ -30,7 +30,7 @@ void main() {
 
     manager.init();
 
-    when(remoteConfig.getBool('debug_option')).thenReturn(true);
+    when(remoteConfig.getBool('debug_options')).thenReturn(true);
     final result = manager.getValue(RemoteConfigKey.debugOption);
 
     expect(result, true);
@@ -44,7 +44,7 @@ void main() {
 
     manager.init();
 
-    when(remoteConfig.getBool('debug_option')).thenReturn(false);
+    when(remoteConfig.getBool('debug_options')).thenReturn(false);
     final result = manager.getValue(RemoteConfigKey.debugOption);
 
     expect(result, false);

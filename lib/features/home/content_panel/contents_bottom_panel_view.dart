@@ -29,7 +29,7 @@ class ContentsBottomPanelView extends StatefulWidget {
       {required this.controller,
       required this.location,
       this.address,
-        this.business,
+      this.business,
       Key? key})
       : super(key: key);
 

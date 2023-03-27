@@ -26,4 +26,19 @@ void main() {
     // verify that splash UI is just a blank screen
     expect(find.byType(SizedBox), findsOneWidget);
   });
+
+  testWidgets('verify navigate to Home', (widgetTester) async {
+    when(appConfigBloc.stream)
+        .thenAnswer((realInvocation) => Stream.value(AppConfigInitialised()));
+    when(appConfigBloc.state)
+        .thenAnswer((realInvocation) => AppConfigInitialised());
+
+    const Widget widget = SplashScreen();
+
+    await widgetTester.blocWrapAndPump<AppConfigBloc>(appConfigBloc, widget,
+        useRouter: true, targetRoute: '/home');
+
+    // verify that target route is routed
+    expect(find.text('/home'), findsOneWidget);
+  });
 }

@@ -17,13 +17,15 @@ void main() {
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
-    ServiceLocator.instance.registerSingleton<gc.GeocoderService>(geocoderService);
+    ServiceLocator.instance
+        .registerSingleton<gc.GeocoderService>(geocoderService);
   });
 
   setUp(() {
     when(locationService.getCurrentLocation()).thenAnswer(
-            (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
-    when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer((realInvocation) => Future.value(gc.LocationDetail('', '')));
+        (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
+    when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+        (realInvocation) => Future.value(gc.LocationDetail('', '')));
   });
 
   group('event request current location', () {
@@ -59,7 +61,8 @@ void main() {
     blocTest(
         'given location locationService throws error, when RequestCurrentLocationEvent, then state is UnknownLocationErrorState',
         build: () => LocationBloc(),
-        setUp: () => when(locationService.getCurrentLocation()).thenThrow(Exception()),
+        setUp: () =>
+            when(locationService.getCurrentLocation()).thenThrow(Exception()),
         act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () =>
             <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
@@ -139,9 +142,95 @@ void main() {
       setUp: () => when(locationService.requestService())
           .thenAnswer((Invocation realInvocation) => Future<bool>.value(true)),
       act: (LocationBloc bloc) => bloc.openLocationServiceSetting(),
-      verify: (LocationBloc bloc) => verify(locationService.requestService()).called(1),
+      verify: (LocationBloc bloc) =>
+          verify(locationService.requestService()).called(1),
       expect: () =>
           <TypeMatcher<LocationState>>[isA<AwaitLocationServiceSettingState>()],
     );
   });
+
+  group(
+    'GeocoderService test',
+    () {
+      blocTest(
+        'given address and name are ready, when requestCurrentLocation, then return address and name',
+        build: () => LocationBloc(),
+        setUp: () {
+          when(locationService.getCurrentLocation()).thenAnswer(
+              (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
+          when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+              (realInvocation) =>
+                  Future.value(gc.LocationDetail('address', 'business name')));
+        },
+        act: (bloc) => bloc.requestCurrentLocation(),
+        expect: () => [isA<LocationReadyState>()],
+        verify: (bloc) {
+          LocationReadyState state = bloc.state as LocationReadyState;
+          expect(state.currentLocation.latitude, 0.0);
+          expect(state.currentLocation.longitude, 0.0);
+          expect(state.address, 'address');
+          expect(state.business, 'business name');
+        },
+      );
+
+      blocTest(
+        'given failed to parse address and name, when requestCurrentLocation, then return location without address and name',
+        build: () => LocationBloc(),
+        setUp: () {
+          when(locationService.getCurrentLocation()).thenAnswer(
+              (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
+          when(geocoderService.getCurrentPlaceCoding(any, any))
+              .thenThrow(gc.GetAddressFailedException());
+        },
+        act: (bloc) => bloc.requestCurrentLocation(),
+        expect: () => [isA<LocationReadyState>()],
+        verify: (bloc) {
+          LocationReadyState state = bloc.state as LocationReadyState;
+          expect(state.currentLocation.latitude, 0.0);
+          expect(state.currentLocation.longitude, 0.0);
+          expect(state.address, isNull);
+          expect(state.business, isNull);
+        },
+      );
+
+      blocTest(
+        'given address and name are ready, when requestDefaultLocation, then return address and name',
+        build: () => LocationBloc(),
+        setUp: () {
+          when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+              (realInvocation) =>
+                  Future.value(gc.LocationDetail('address', 'business name')));
+        },
+        act: (bloc) => bloc.requestDefaultLocation(),
+        expect: () => [isA<LocationReadyState>()],
+        verify: (bloc) {
+          LocationReadyState state = bloc.state as LocationReadyState;
+          expect(state.currentLocation.latitude, 10.7725);
+          expect(state.currentLocation.longitude, 106.6980);
+          expect(state.address, 'address');
+          expect(state.business, 'business name');
+        },
+      );
+
+      blocTest(
+        'given failed to parse address and name, when requestDefaultLocation, then return location without address and name',
+        build: () => LocationBloc(),
+        setUp: () {
+          when(locationService.getCurrentLocation()).thenAnswer(
+              (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
+          when(geocoderService.getCurrentPlaceCoding(any, any))
+              .thenThrow(gc.GetAddressFailedException());
+        },
+        act: (bloc) => bloc.requestDefaultLocation(),
+        expect: () => [isA<LocationReadyState>()],
+        verify: (bloc) {
+          LocationReadyState state = bloc.state as LocationReadyState;
+          expect(state.currentLocation.latitude, 10.7725);
+          expect(state.currentLocation.longitude, 106.6980);
+          expect(state.address, isNull);
+          expect(state.business, isNull);
+        },
+      );
+    },
+  );
 }

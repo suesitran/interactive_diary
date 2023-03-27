@@ -18,7 +18,7 @@ void main() {
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<ConnectivityService>(service);
   });
-  
+
   group('event check connectivity', () {
     blocTest(
       'There is network connection, then return true',

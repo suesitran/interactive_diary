@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/route/route_extension.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -17,8 +19,7 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<LocationBloc>(
-        create: (context) => LocationBloc()
-          ..requestCurrentLocation(),
+        create: (context) => LocationBloc()..requestCurrentLocation(),
         child: const IDHomeBody(),
       );
 }
@@ -115,6 +116,13 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
 
               if (state is ConnectedState) {
                 context.hideDisconnectedOverlay();
+              }
+            },
+          ),
+          BlocListener<AppConfigBloc, AppConfigState>(
+            listener: (context, state) {
+              if (state is ShakeDetected) {
+                context.showWidgetCatalog();
               }
             },
           )

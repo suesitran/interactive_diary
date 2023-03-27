@@ -15,45 +15,51 @@ class FirstOnboardingScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 4,
-            child: SizedBox(
-              width: double.infinity,
-              child: SvgPicture.asset(
-                Assets.images.onboarding1,
-                fit: BoxFit.fill,
-              ),
-            )
-          ),
+              flex: 4,
+              child: SizedBox(
+                width: double.infinity,
+                child: SvgPicture.asset(
+                  Assets.images.onboarding1,
+                  fit: BoxFit.fill,
+                ),
+              )),
           const Gap.v20(),
           Expanded(
               flex: 3,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: NartusDimens.padding20),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: NartusDimens.padding20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(S.current.welcomeText, style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(color: NartusColor.primary),),
+                    Text(
+                      S.current.welcomeText,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: NartusColor.primary),
+                    ),
                     const Gap.v12(),
-                    Flexible(child: Text(S.current.onboardingIntroduction, style:Theme.of(context)
-                        .textTheme
-                        .displayMedium
-                        ?.copyWith(color: NartusColor.dark))),
+                    Flexible(
+                        child: Text(S.current.onboardingIntroduction,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayMedium
+                                ?.copyWith(color: NartusColor.dark))),
                     const Gap.v12(),
                     const Gap.v20(),
                     SafeArea(
                         top: false,
                         child: SizedBox(
                           width: double.infinity,
-                          child: NartusButton.primary(label: S.current.getStartedText, onPressed: () {},),
-                        )
-                    ),
+                          child: NartusButton.primary(
+                            label: S.current.getStartedText,
+                            onPressed: () {},
+                          ),
+                        )),
                   ],
                 ),
-              )
-          )
+              ))
         ],
       ),
     );
