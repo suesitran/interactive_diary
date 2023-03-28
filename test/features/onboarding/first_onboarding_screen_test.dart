@@ -8,7 +8,11 @@ import '../../widget_tester_extension.dart';
 void main() {
   testWidgets('Verify UI of First Onboarding Screen',
       (WidgetTester widgetTester) async {
-    const FirstOnboardingScreen widget = FirstOnboardingScreen();
+    int counter = 0;
+    final FirstOnboardingScreen widget =
+        FirstOnboardingScreen(onNextPageRequest: () {
+      counter = 1;
+    });
 
     await widgetTester.wrapAndPump(widget);
 
@@ -17,9 +21,13 @@ void main() {
     expect(find.text('Welcome to InnerME 🙌'), findsOneWidget);
     expect(find.text('Get Started'), findsOneWidget);
     expect(find.bySemanticsLabel('Get Started'), findsOneWidget);
-    expect(
-        find.text('Discover all the cool features right now'), findsOneWidget);
-    expect(find.bySemanticsLabel('Discover all the cool features right now'),
+    expect(find.text('A private space where you can be yourself.'),
         findsOneWidget);
+    expect(find.bySemanticsLabel('A private space where you can be yourself.'),
+        findsOneWidget);
+
+    await widgetTester.tap(find.text('Get Started'));
+    await widgetTester.pump();
+    expect(counter, 1);
   });
 }

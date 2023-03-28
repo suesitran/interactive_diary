@@ -296,10 +296,10 @@ class S {
     );
   }
 
-  /// `Discover all the cool features right now`
+  /// `A private space where you can be yourself.`
   String get onboardingIntroduction {
     return Intl.message(
-      'Discover all the cool features right now',
+      'A private space where you can be yourself.',
       name: 'onboardingIntroduction',
       desc: '',
       args: [],
