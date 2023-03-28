@@ -13,7 +13,8 @@ class SplashScreen extends StatelessWidget {
           BlocListener<AppConfigBloc, AppConfigState>(
             listener: (BuildContext context, AppConfigState state) {
               if (state is AppConfigInitialised) {
-                context.goToHome();
+                // context.goToHome();
+                context.goToOnboarding();
               }
             },
           ),

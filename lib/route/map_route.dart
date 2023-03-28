@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:interactive_diary/route/route_extra.dart';
@@ -12,6 +13,7 @@ const String splash = '/';
 const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
+const String onboardingRoute = '/onboarding';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
@@ -28,6 +30,7 @@ final GoRouter appRoute = GoRouter(
         return const IDHome();
       },
     ),
+    // write diary screen
     GoRoute(
         path: writeDiaryRoute,
         pageBuilder: (BuildContext context, GoRouterState state) {
@@ -58,5 +61,10 @@ final GoRouter appRoute = GoRouter(
         return const NoConnectionScreen();
       },
     ),
+    // onboarding screens
+    GoRoute(
+      path: onboardingRoute,
+      builder: (context, state) => OnboardingScreen(),
+    )
   ],
 );

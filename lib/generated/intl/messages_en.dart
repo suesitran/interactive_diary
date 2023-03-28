@@ -74,7 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Slow or no internet connections.\nPlease check your internet settings"),
         "noConnectionTitle": MessageLookupByLibrary.simpleMessage("Whoops!"),
         "onboardingIntroduction": MessageLookupByLibrary.simpleMessage(
-            "Discover all the cool features right now"),
+            "A private space where you can be yourself."),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "textEditorSemantic": m2,
         "toolbarMore": MessageLookupByLibrary.simpleMessage("More"),

@@ -27,7 +27,7 @@ void main() {
     expect(find.byType(SizedBox), findsOneWidget);
   });
 
-  testWidgets('verify navigate to Home', (widgetTester) async {
+  testWidgets('verify navigate to onboarding', (widgetTester) async {
     when(appConfigBloc.stream)
         .thenAnswer((realInvocation) => Stream.value(AppConfigInitialised()));
     when(appConfigBloc.state)
@@ -36,9 +36,9 @@ void main() {
     const Widget widget = SplashScreen();
 
     await widgetTester.blocWrapAndPump<AppConfigBloc>(appConfigBloc, widget,
-        useRouter: true, targetRoute: '/home');
+        useRouter: true, targetRoute: '/onboarding');
 
     // verify that target route is routed
-    expect(find.text('/home'), findsOneWidget);
+    expect(find.text('/onboarding'), findsOneWidget);
   });
 }
