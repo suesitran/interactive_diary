@@ -27,6 +27,10 @@ extension RouterExtension on BuildContext {
     GoRouter.of(this).replace(idHomeRoute);
   }
 
+  void goToOnboarding() {
+    GoRouter.of(this).replace(onboardingRoute);
+  }
+
   // show Widget catalog, by using Navigator instead of GoRouter
   void showWidgetCatalog() {
     Navigator.of(this).push(MaterialPageRoute(
