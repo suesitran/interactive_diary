@@ -13,10 +13,11 @@ class LocationView extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final String? semanticBusinessName;
   final String? semanticAddress;
-  final String? semanticCoordinate;
+  final String semanticCoordinate;
   const LocationView({
     required this.latitude,
     required this.longitude,
+    required this.semanticCoordinate,
     Key? key,
     this.address,
     this.businessName,
@@ -24,7 +25,6 @@ class LocationView extends StatelessWidget {
     String? locationIconSvg,
     this.semanticBusinessName,
     this.semanticAddress,
-    this.semanticCoordinate,
   })  : isValidLocation = businessName != null || address != null,
         locationIconSvg = locationIconSvg ?? '',
         super(key: key);

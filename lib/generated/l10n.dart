@@ -305,6 +305,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Location at latitude {lat} and longitude {lng}`
+  String semanticLocationCoordinate(Object lat, Object lng) {
+    return Intl.message(
+      'Location at latitude $lat and longitude $lng',
+      name: 'semanticLocationCoordinate',
+      desc: '',
+      args: [lat, lng],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

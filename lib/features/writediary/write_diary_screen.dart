@@ -96,6 +96,7 @@ class WriteDiaryBody extends StatelessWidget {
             businessName: business,
             latitude: latLng.lat,
             longitude: latLng.long,
+            semanticCoordinate: S.current.semanticLocationCoordinate(latLng.lat, latLng.long),
           ),
           onTextChange: (text) => _isTextWritten.value = text,
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -30,43 +31,48 @@ class LocationDemoScreen extends StatelessWidget {
               address: demoAddress,
               latitude: demoLat,
               longitude: demoLong,
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
           const Gap.v12(),
-          const _DemoItemView(
+          _DemoItemView(
             title: 'Location have business name & address',
             widget: LocationView(
               businessName: demoBusinessName,
               address: demoAddress,
               latitude: demoLat,
               longitude: demoLong,
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
           const Gap.v12(),
-          const _DemoItemView(
+          _DemoItemView(
             title: 'Location with business name but no address',
             widget: LocationView(
               businessName: demoBusinessName,
               latitude: demoLat,
               longitude: demoLong,
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
           const Gap.v12(),
-          const _DemoItemView(
+          _DemoItemView(
             title: 'Location without business name but have address',
             widget: LocationView(
               address:
                   '188 Xô Viết Nghệ Tĩnh, phường 21, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam',
               latitude: demoLat,
               longitude: demoLong,
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
           const Gap.v12(),
-          const _DemoItemView(
+          _DemoItemView(
             title: 'Invalid Location (no Business name and address)',
             widget: LocationView(
               latitude: demoLat,
               longitude: demoLong,
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
           const Gap.v12(),
@@ -77,6 +83,7 @@ class LocationDemoScreen extends StatelessWidget {
               longitude: demoLong,
               locationIconSvg: demoLocationIcon,
               borderRadius: BorderRadius.circular(12),
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
           const Gap.v12(),
@@ -88,6 +95,7 @@ class LocationDemoScreen extends StatelessWidget {
               address: demoAddress * 10,
               latitude: demoLat,
               longitude: demoLong,
+              semanticCoordinate: S.current.semanticLocationCoordinate(demoLat, demoLong),
             ),
           ),
         ],

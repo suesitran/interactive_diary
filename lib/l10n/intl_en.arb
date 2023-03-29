@@ -23,5 +23,6 @@
   "toolbarMore":"More",
   "welcomeText":"Welcome to InnerME \uD83D\uDE4C",
   "getStartedText":"Get Started",
-  "onboardingIntroduction":"A private space where you can be yourself."
+  "onboardingIntroduction":"A private space where you can be yourself.",
+  "semanticLocationCoordinate":"Location at latitude {lat} and longitude {lng}"
 }

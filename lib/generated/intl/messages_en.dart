@@ -24,7 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(count) => "+${count}";
 
-  static String m2(key) => "${Intl.select(key, {
+  static String m2(lat, lng) =>
+      "Location at latitude ${lat} and longitude ${lng}";
+
+  static String m3(key) => "${Intl.select(key, {
             'bold': 'Bold',
             'italic': 'Italic',
             'underline': 'Underline',
@@ -76,7 +79,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "onboardingIntroduction": MessageLookupByLibrary.simpleMessage(
             "A private space where you can be yourself."),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "textEditorSemantic": m2,
+        "semanticLocationCoordinate": m2,
+        "textEditorSemantic": m3,
         "toolbarMore": MessageLookupByLibrary.simpleMessage("More"),
         "unavailable":
             MessageLookupByLibrary.simpleMessage("Screen unavailable"),
