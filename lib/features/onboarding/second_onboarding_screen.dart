@@ -86,27 +86,27 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: _iconWidget(
-                        Assets.images.idGoogleIcon,
-                        S.current.continueWithGoogle,
-                      ),
+                      child: _iconWidget(Assets.images.idGoogleIcon,
+                          S.current.continueWithGoogle, () {
+                        // handle event click
+                      }),
                     ),
                     const SizedBox(width: NartusDimens.padding16),
                     Expanded(
                         flex: 1,
-                        child: _iconWidget(
-                          Assets.images.idFacebookIcon,
-                          S.current.continueWithFacebook,
-                        )),
+                        child: _iconWidget(Assets.images.idFacebookIcon,
+                            S.current.continueWithFacebook, () {
+                          // handle event click
+                        })),
                     if (isIOS(context))
                       const SizedBox(width: NartusDimens.padding16),
                     if (isIOS(context))
                       Expanded(
                         flex: 1,
-                        child: _iconWidget(
-                          Assets.images.idAppleIcon,
-                          S.current.continueWithApple,
-                        ),
+                        child: _iconWidget(Assets.images.idAppleIcon,
+                            S.current.continueWithApple, () {
+                          // handle event click
+                        }),
                       ),
                   ],
                 ),
@@ -125,14 +125,14 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
   }
 
   Widget _childPager(BuildContext context, String imagePath, String title) =>
-      Semantics(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(imagePath, fit: BoxFit.fill),
-            Padding(
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,),
+          Semantics(
+            child: Padding(
               padding: const EdgeInsets.fromLTRB(
                   NartusDimens.padding32,
                   NartusDimens.padding30,
@@ -140,27 +140,34 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                   NartusDimens.padding30),
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(color: NartusColor.dark,),
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      color: NartusColor.dark,
+                    ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
 
-  Widget _iconWidget(String iconPath, String iconSemanticLabel) => Semantics(
+  Widget _iconWidget(
+          String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
+      Semantics(
         label: iconSemanticLabel,
-        child: Container(
-          decoration: BoxDecoration(
-            color: NartusColor.white,
-            border: Border.all(
-              color: NartusColor.lightGrey,
-              width: 1.0,
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            decoration: BoxDecoration(
+              color: NartusColor.white,
+              border: Border.all(
+                color: NartusColor.lightGrey,
+                width: 1.0,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(999)),
             ),
-            borderRadius: const BorderRadius.all(Radius.circular(999)),
-          ),
-          child: IconButton(
-            icon: SvgPicture.asset(iconPath),
-            onPressed: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(NartusDimens.padding14),
+              child: SvgPicture.asset(iconPath),
+            ),
           ),
         ),
       );
