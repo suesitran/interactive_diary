@@ -61,6 +61,7 @@ dependencies:
   flutter_quill: ^6.4.4
   get_it: ^7.2.0
   shake: ^2.2.0
+  dots_indicator: ^2.0.0
 
 dev_dependencies:
   flutter_test:
