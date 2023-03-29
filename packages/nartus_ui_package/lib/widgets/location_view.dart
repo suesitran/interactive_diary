@@ -66,6 +66,7 @@ class LocationView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    textDirection: TextDirection.ltr,
                     children: [
                       if (businessName != null) Padding(
                         padding: const EdgeInsets.only(bottom: 2),
@@ -73,13 +74,15 @@ class LocationView extends StatelessWidget {
                           maxLines: 2,
                           semanticsLabel: semanticBusinessName,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(height: 1.8),),
+                          style: Theme.of(context).textTheme.labelMedium?.copyWith(height: 1.8),
+                        textDirection: TextDirection.ltr,),
                       ),
-                      Text(address ?? '$latitude, $longitude',
+                      Text(address ?? '($latitude, $longitude)',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1.8),
                         semanticsLabel: address == null ? semanticCoordinate : semanticAddress,
+                        textDirection: TextDirection.ltr,
                       )
                     ],
                   ))),

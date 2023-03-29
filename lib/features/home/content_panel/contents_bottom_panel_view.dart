@@ -4,8 +4,7 @@ import 'package:interactive_diary/features/home/content_panel/widgets/content_ca
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-
-import '../../../generated/l10n.dart';
+import 'package:interactive_diary/generated/l10n.dart';
 
 class ContentsBottomPanelController extends ChangeNotifier {
   bool _visible = false;
