@@ -111,10 +111,18 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                   ],
                 ),
                 const SizedBox(height: NartusDimens.padding24),
-                NartusButton.text(
-                  label: S.current.continueAsGuest,
-                  sizeType: SizeType.small,
-                  onPressed: () {},
+                TextButtonTheme(
+                  data: TextButtonThemeData(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(NartusColor.gray),
+                      textStyle: MaterialStateProperty.all<TextStyle>(Theme.of(context).textTheme.bodyMedium!!)
+                    ),
+                  ),
+                  child: NartusButton.text(
+                    label: S.current.continueAsGuest,
+                    sizeType: SizeType.small,
+                    onPressed: () {},
+                  )
                 )
               ],
             ),
