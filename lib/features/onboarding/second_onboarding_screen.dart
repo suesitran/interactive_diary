@@ -114,7 +114,7 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                 TextButtonTheme(
                   data: TextButtonThemeData(
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(NartusColor.gray),
+                      foregroundColor: MaterialStateProperty.all<Color>(NartusColor.grey),
                       textStyle: MaterialStateProperty.all<TextStyle>(Theme.of(context).textTheme.bodyMedium!!)
                     ),
                   ),
