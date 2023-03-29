@@ -27,27 +27,31 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Flexible(
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPageIndex = index;
-              });
-            },
-            physics: const ClampingScrollPhysics(),
-            children: [
-              _childPager(context, Assets.images.onboarding2, S.current.keepAllYourDiariesPrivate),
-              _childPager(context, Assets.images.onboarding3, S.current.accessYourDiariesAnywhere),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Flexible(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.width + 170,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPageIndex = index;
+                  });
+                },
+                physics: const ClampingScrollPhysics(),
+                children: [
+                  _childPager(context, Assets.images.onboarding2, S.current.keepAllYourDiariesPrivate),
+                  _childPager(context, Assets.images.onboarding3, S.current.accessYourDiariesAnywhere),
+                ],
+              ),
+            ),
           ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
+          Padding(
             padding: const EdgeInsets.only(left: NartusDimens.padding32),
             child: DotsIndicator(
                 dotsCount: 2,
@@ -59,76 +63,76 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                   size: Size.square(8.0),
                 )),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-              NartusDimens.padding32,
-              NartusDimens.padding30,
-              NartusDimens.padding32,
-              NartusDimens.padding40),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: NartusButton.primary(
-                  label: S.current.continueWithEmail,
-                  iconPath: Assets.images.idSmsIcon,
-                  iconSemanticLabel: '',
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: NartusDimens.padding12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: _iconWidget(
-                      Assets.images.idGoogleIcon,
-                      S.current.continueWithGoogle,
-                    ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+                NartusDimens.padding32,
+                NartusDimens.padding30,
+                NartusDimens.padding32,
+                NartusDimens.padding40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: NartusButton.primary(
+                    label: S.current.continueWithEmail,
+                    iconPath: Assets.images.idSmsIcon,
+                    iconSemanticLabel: '',
+                    onPressed: () {},
                   ),
-                  const SizedBox(width: NartusDimens.padding16),
-                  Expanded(
-                      flex: 1,
-                      child: _iconWidget(
-                        Assets.images.idFacebookIcon,
-                        S.current.continueWithFacebook,
-                      )),
-                  if (isIOS(context))
-                    const SizedBox(width: NartusDimens.padding16),
-                  if (isIOS(context))
+                ),
+                const SizedBox(height: NartusDimens.padding12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Expanded(
                       flex: 1,
                       child: _iconWidget(
-                        Assets.images.idAppleIcon,
-                        S.current.continueWithApple,
+                        Assets.images.idGoogleIcon,
+                        S.current.continueWithGoogle,
                       ),
                     ),
-                ],
-              ),
-              const SizedBox(height: NartusDimens.padding24),
-              NartusButton.text(
-                label: S.current.continueAsGuest,
-                sizeType: SizeType.small,
-                onPressed: () {},
-              )
-            ],
+                    const SizedBox(width: NartusDimens.padding16),
+                    Expanded(
+                        flex: 1,
+                        child: _iconWidget(
+                          Assets.images.idFacebookIcon,
+                          S.current.continueWithFacebook,
+                        )),
+                    if (isIOS(context))
+                      const SizedBox(width: NartusDimens.padding16),
+                    if (isIOS(context))
+                      Expanded(
+                        flex: 1,
+                        child: _iconWidget(
+                          Assets.images.idAppleIcon,
+                          S.current.continueWithApple,
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: NartusDimens.padding24),
+                NartusButton.text(
+                  label: S.current.continueAsGuest,
+                  sizeType: SizeType.small,
+                  onPressed: () {},
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _childPager(BuildContext context, String imagePath, String title) =>
       Semantics(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: SvgPicture.asset(imagePath, fit: BoxFit.fill),
-            ),
+            SvgPicture.asset(imagePath, fit: BoxFit.fill),
             Padding(
               padding: const EdgeInsets.fromLTRB(
                   NartusDimens.padding32,
