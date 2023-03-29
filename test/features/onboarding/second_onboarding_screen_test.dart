@@ -20,26 +20,34 @@ void main() {
 
     expect(find.byType(PageView), findsOneWidget);
 
-    // expect(find.byType(DotsIndicator), findsOneWidget);
+    expect(find.byType(DotsIndicator), findsOneWidget);
 
-    // expect(find.byType(SvgPicture), findsNWidgets(5));
-    //
-    // expect(find.byType(NartusButton), findsNWidgets(2));
-    //
-    // expect(find.text('Keep all your diaries private'), findsOneWidget);
-    // expect(find.bySemanticsLabel('Keep all your diaries private'), findsOneWidget);
-    //
-    // expect(find.text('Continue with Email'), findsOneWidget);
-    // expect(find.bySemanticsLabel(', Continue with Email'), findsOneWidget);
-    //
-    // expect(find.text('Continue as guest'), findsOneWidget);
-    // expect(find.bySemanticsLabel('Continue as guest'), findsOneWidget);
-    //
-    // expect(find.bySemanticsLabel('Continue with Google'), findsOneWidget);
-    // expect(find.bySemanticsLabel('Continue with Facebook'), findsOneWidget);
-    // expect(find.bySemanticsLabel('Continue with Apple'), findsOneWidget);
-    //
-    // debugDefaultTargetPlatformOverride = null;
+    expect(find.byType(SvgPicture), findsNWidgets(5));
+
+    expect(find.byType(NartusButton), findsNWidgets(2));
+
+    expect(find.text('Keep all your diaries private'), findsOneWidget);
+    expect(find.bySemanticsLabel('Keep all your diaries private'), findsOneWidget);
+
+    expect(find.text('Continue with Email'), findsOneWidget);
+    expect(find.bySemanticsLabel(', Continue with Email'), findsOneWidget);
+
+    expect(find.text('Continue as guest'), findsOneWidget);
+    expect(find.bySemanticsLabel('Continue as guest'), findsOneWidget);
+
+    expect(find.bySemanticsLabel('Continue with Google'), findsOneWidget);
+    expect(find.bySemanticsLabel('Continue with Facebook'), findsOneWidget);
+    expect(find.bySemanticsLabel('Continue with Apple'), findsOneWidget);
+
+    // swipe right
+    await widgetTester.drag(find.byType(PageView), const Offset(-500, 0));
+    // allow animation
+    await widgetTester.pumpAndSettle(const Duration(milliseconds: 201));
+    // verify page 1 is not visible
+    expect(find.text('Access your diaries anywhere'), findsOneWidget);
+    expect(find.bySemanticsLabel('Access your diaries anywhere'), findsOneWidget);
+
+    debugDefaultTargetPlatformOverride = null;
   });
 
   testWidgets('Verify UI of Second Onboarding Screen - android devices',
@@ -60,8 +68,7 @@ void main() {
     expect(find.byType(NartusButton), findsNWidgets(2));
 
     expect(find.text('Keep all your diaries private'), findsOneWidget);
-    expect(
-        find.bySemanticsLabel('Keep all your diaries private'), findsOneWidget);
+    expect(find.bySemanticsLabel('Keep all your diaries private'), findsOneWidget);
 
     expect(find.text('Continue with Email'), findsOneWidget);
     expect(find.bySemanticsLabel(', Continue with Email'), findsOneWidget);
@@ -71,6 +78,14 @@ void main() {
 
     expect(find.bySemanticsLabel('Continue with Google'), findsOneWidget);
     expect(find.bySemanticsLabel('Continue with Facebook'), findsOneWidget);
+
+    // swipe right
+    await widgetTester.drag(find.byType(PageView), const Offset(-500, 0));
+    // allow animation
+    await widgetTester.pumpAndSettle(const Duration(milliseconds: 201));
+    // verify page 1 is not visible
+    expect(find.text('Access your diaries anywhere'), findsOneWidget);
+    expect(find.bySemanticsLabel('Access your diaries anywhere'), findsOneWidget);
 
     debugDefaultTargetPlatformOverride = null;
   });
