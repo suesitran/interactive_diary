@@ -96,10 +96,9 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                 ),
                 const SizedBox(height: NartusDimens.padding12),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      flex: 1,
                       child: _iconWidget(Assets.images.idGoogleIcon,
                           S.current.continueWithGoogle, () {
                         // handle event click
@@ -107,7 +106,6 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                     ),
                     const SizedBox(width: NartusDimens.padding16),
                     Expanded(
-                        flex: 1,
                         child: _iconWidget(Assets.images.idFacebookIcon,
                             S.current.continueWithFacebook, () {
                           // handle event click
@@ -116,7 +114,6 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                       const SizedBox(width: NartusDimens.padding16),
                     if (context.isIOS)
                       Expanded(
-                        flex: 1,
                         child: _iconWidget(Assets.images.idAppleIcon,
                             S.current.continueWithApple, () {
                           // handle event click
