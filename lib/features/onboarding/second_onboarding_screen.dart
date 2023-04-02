@@ -12,17 +12,27 @@ class SecondOnboardingScreen extends StatefulWidget {
   const SecondOnboardingScreen({super.key});
 
   @override
-  State<SecondOnboardingScreen> createState() => _SecondOnboardingScreenState();
+  State<SecondOnboardingScreen> createState() =>
+      _SecondOnboardingScreenState();
 }
 
 class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
   late final PageController _pageController;
-  var _currentPageIndex = 0;
+  late final ValueNotifier<int> _currentPageNotifier;
+  static const int _numPages = 2;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _currentPageIndex);
+    _currentPageNotifier = ValueNotifier<int>(0);
+    _pageController = PageController(initialPage: _currentPageNotifier.value);
+  }
+
+  @override
+  void dispose() {
+    _currentPageNotifier.dispose();
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,29 +48,34 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
               child: PageView(
                 controller: _pageController,
                 onPageChanged: (index) {
-                  setState(() {
-                    _currentPageIndex = index;
-                  });
+                  _currentPageNotifier.value = index;
                 },
                 physics: const ClampingScrollPhysics(),
                 children: [
-                  _childPager(context, Assets.images.onboarding2, S.current.keepAllYourDiariesPrivate),
-                  _childPager(context, Assets.images.onboarding3, S.current.accessYourDiariesAnywhere),
+                  _childPager(context, Assets.images.onboarding2,
+                      S.current.keepAllYourDiariesPrivate),
+                  _childPager(context, Assets.images.onboarding3,
+                      S.current.accessYourDiariesAnywhere),
                 ],
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: NartusDimens.padding32),
-            child: DotsIndicator(
-                dotsCount: 2,
-                position: _currentPageIndex.toDouble(),
-                decorator: const DotsDecorator(
-                  activeColor: NartusColor.primary,
-                  color: Colors.grey,
-                  activeSize: Size.square(8.0),
-                  size: Size.square(8.0),
-                )),
+            child: ValueListenableBuilder<int>(
+              valueListenable: _currentPageNotifier,
+              builder: (context, pageIndex, _) {
+                return DotsIndicator(
+                    dotsCount: _numPages,
+                    position: pageIndex.toDouble(),
+                    decorator: const DotsDecorator(
+                      activeColor: NartusColor.primary,
+                      color: Colors.grey,
+                      activeSize: Size.square(8.0),
+                      size: Size.square(8.0),
+                    ));
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -69,10 +84,9 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                 NartusDimens.padding32,
                 NartusDimens.padding40),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  width: double.infinity,
                   child: NartusButton.primary(
                     label: S.current.continueWithEmail,
                     iconPath: Assets.images.idSmsIcon,
@@ -98,9 +112,9 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                             S.current.continueWithFacebook, () {
                           // handle event click
                         })),
-                    if (isIOS(context))
+                    if (context.isIOS)
                       const SizedBox(width: NartusDimens.padding16),
-                    if (isIOS(context))
+                    if (context.isIOS)
                       Expanded(
                         flex: 1,
                         child: _iconWidget(Assets.images.idAppleIcon,

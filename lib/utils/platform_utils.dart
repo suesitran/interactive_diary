@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart' show TargetPlatform, Theme;
+import 'package:flutter/material.dart' show BuildContext, TargetPlatform, Theme;
 
-bool isAndroid(context) {
-  return Theme.of(context).platform == TargetPlatform.android;
-}
-
-bool isIOS(context) {
-  return Theme.of(context).platform == TargetPlatform.iOS;
+extension PlatformContext on BuildContext {
+  bool get isIOS => Theme.of(this).platform == TargetPlatform.iOS;
+  bool get isAndroid => Theme.of(this).platform == TargetPlatform.android;
 }
