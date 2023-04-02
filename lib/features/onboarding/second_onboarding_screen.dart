@@ -1,11 +1,11 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-
 import 'package:interactive_diary/utils/platform_utils.dart';
 
 class SecondOnboardingScreen extends StatefulWidget {
@@ -44,8 +44,7 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         children: <Widget>[
           Flexible(
             child: SizedBox(
-              height: MediaQuery.of(context).size.width + 170,
-              child: PageView(
+              child: ExpandablePageView(
                 controller: _pageController,
                 onPageChanged: (index) {
                   _currentPageNotifier.value = index;
@@ -149,7 +148,10 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,),
+          SizedBox(
+            height: NartusDimens.size380,
+            child: SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,),
+          ),
           Semantics(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
