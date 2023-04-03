@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:interactive_diary/features/onboarding/widgets/second_onboardiing_pager_item.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
@@ -12,8 +12,7 @@ class SecondOnboardingScreen extends StatefulWidget {
   const SecondOnboardingScreen({super.key});
 
   @override
-  State<SecondOnboardingScreen> createState() =>
-      _SecondOnboardingScreenState();
+  State<SecondOnboardingScreen> createState() => _SecondOnboardingScreenState();
 }
 
 class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
@@ -42,23 +41,9 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Flexible(
-            child: SizedBox(
-              child: ExpandablePageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  _currentPageNotifier.value = index;
-                },
-                physics: const ClampingScrollPhysics(),
-                children: [
-                  _childPager(context, Assets.images.onboarding2,
-                      S.current.keepAllYourDiariesPrivate),
-                  _childPager(context, Assets.images.onboarding3,
-                      S.current.accessYourDiariesAnywhere),
-                ],
-              ),
-            ),
-          ),
+          SecondOnBoardingPagerView(controller: _pageController, onPageChanged: (value) {
+            _currentPageNotifier.value = value;
+          },),
           Padding(
             padding: const EdgeInsets.only(left: NartusDimens.padding32),
             child: ValueListenableBuilder<int>(
@@ -107,8 +92,8 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                     Expanded(
                         child: _iconWidget(Assets.images.idFacebookIcon,
                             S.current.continueWithFacebook, () {
-                          // handle event click
-                        })),
+                      // handle event click
+                    })),
                     if (context.isIOS)
                       const SizedBox(width: NartusDimens.padding16),
                     if (context.isIOS)
@@ -122,18 +107,18 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                 ),
                 const SizedBox(height: NartusDimens.padding24),
                 TextButtonTheme(
-                  data: TextButtonThemeData(
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(NartusColor.grey),
-                      textStyle: MaterialStateProperty.all<TextStyle>(Theme.of(context).textTheme.bodyMedium!)
+                    data: TextButtonThemeData(
+                      style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              NartusColor.grey),
+                          textStyle: MaterialStateProperty.all<TextStyle>(
+                              Theme.of(context).textTheme.bodyMedium!)),
                     ),
-                  ),
-                  child: NartusButton.text(
-                    label: S.current.continueAsGuest,
-                    sizeType: SizeType.small,
-                    onPressed: () {},
-                  )
-                )
+                    child: NartusButton.text(
+                      label: S.current.continueAsGuest,
+                      sizeType: SizeType.small,
+                      onPressed: () {},
+                    ))
               ],
             ),
           ),
@@ -141,34 +126,6 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
       ),
     );
   }
-
-  Widget _childPager(BuildContext context, String imagePath, String title) =>
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: NartusDimens.size380,
-            child: SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,),
-          ),
-          Semantics(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  NartusDimens.padding32,
-                  NartusDimens.padding30,
-                  NartusDimens.padding32,
-                  NartusDimens.padding30),
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      color: NartusColor.dark,
-                    ),
-              ),
-            ),
-          ),
-        ],
-      );
 
   Widget _iconWidget(
           String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
