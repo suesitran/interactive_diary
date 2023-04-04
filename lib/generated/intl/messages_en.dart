@@ -43,14 +43,28 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accessYourDiariesAnywhere": MessageLookupByLibrary.simpleMessage(
+            "Access your diaries anywhere"),
         "addText": MessageLookupByLibrary.simpleMessage("Add text"),
         "anonymous_profile": MessageLookupByLibrary.simpleMessage(
             "Anonymous Profile. Please login to use all features."),
         "appName": MessageLookupByLibrary.simpleMessage("Inner ME"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "continueAsGuest":
+            MessageLookupByLibrary.simpleMessage("Continue as guest"),
+        "continueWithApple":
+            MessageLookupByLibrary.simpleMessage("Continue with Apple"),
+        "continueWithEmail":
+            MessageLookupByLibrary.simpleMessage("Continue with Email"),
+        "continueWithFacebook":
+            MessageLookupByLibrary.simpleMessage("Continue with Facebook"),
+        "continueWithGoogle":
+            MessageLookupByLibrary.simpleMessage("Continue with Google"),
         "diaryDateFormatter": m0,
         "extraImageCount": m1,
         "getStartedText": MessageLookupByLibrary.simpleMessage("Get Started"),
+        "keepAllYourDiariesPrivate": MessageLookupByLibrary.simpleMessage(
+            "Keep all your diaries private"),
         "locationPermissionDeniedBottomSheetDescription":
             MessageLookupByLibrary.simpleMessage(
                 "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog"),

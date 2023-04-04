@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/features/onboarding/first_onboarding_screen.dart';
+import 'package:interactive_diary/features/onboarding/second_onboarding_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({Key? key}) : super(key: key);
@@ -18,10 +19,7 @@ class OnboardingScreen extends StatelessWidget {
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeIn);
           }),
-          // TODO update UI with Onboarding 2
-          const Center(
-            child: Text('page 2'),
-          )
+          const SecondOnboardingScreen()
         ],
       ),
     );

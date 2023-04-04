@@ -305,6 +305,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Continue with Email`
+  String get continueWithEmail {
+    return Intl.message(
+      'Continue with Email',
+      name: 'continueWithEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep all your diaries private`
+  String get keepAllYourDiariesPrivate {
+    return Intl.message(
+      'Keep all your diaries private',
+      name: 'keepAllYourDiariesPrivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Access your diaries anywhere`
+  String get accessYourDiariesAnywhere {
+    return Intl.message(
+      'Access your diaries anywhere',
+      name: 'accessYourDiariesAnywhere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue as guest`
+  String get continueAsGuest {
+    return Intl.message(
+      'Continue as guest',
+      name: 'continueAsGuest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Google`
+  String get continueWithGoogle {
+    return Intl.message(
+      'Continue with Google',
+      name: 'continueWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Facebook`
+  String get continueWithFacebook {
+    return Intl.message(
+      'Continue with Facebook',
+      name: 'continueWithFacebook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Apple`
+  String get continueWithApple {
+    return Intl.message(
+      'Continue with Apple',
+      name: 'continueWithApple',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
