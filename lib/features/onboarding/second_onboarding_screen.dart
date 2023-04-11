@@ -12,8 +12,7 @@ class SecondOnboardingScreen extends StatefulWidget {
   const SecondOnboardingScreen({super.key});
 
   @override
-  State<SecondOnboardingScreen> createState() =>
-      _SecondOnboardingScreenState();
+  State<SecondOnboardingScreen> createState() => _SecondOnboardingScreenState();
 }
 
 class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
@@ -148,10 +147,8 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: NartusDimens.size380,
-            child: SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,),
-          ),
+          SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,
+            width: MediaQuery.of(context).size.width,),
           Semantics(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
