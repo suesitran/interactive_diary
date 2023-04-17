@@ -2,8 +2,6 @@ part of '../nartus_app_settings.dart';
 
 class _AppSettingsImpl extends AppSettings {
 
-  factory _AppSettingsImpl() => _AppSettingsImpl();
-
   final String _appLaunchKey = 'app_launch_key';
 
   @override
@@ -17,7 +15,6 @@ class _AppSettingsImpl extends AppSettings {
   Future<void> registerAppLaunched() async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    await sharedPreferences.setBool(_appLaunchKey, true);
+    await sharedPreferences.setBool(_appLaunchKey, false);
   }
-
 }

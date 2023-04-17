@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'src/nartus_app_settings_impl.dart';
 
 abstract class AppSettings {
-  AppSettings._();
+  AppSettings();
 
-  factory AppSettings() => _AppSettingsImpl();
+  factory AppSettings.newInstance() => _AppSettingsImpl();
 
   Future<bool> isAppFirstLaunch();
 

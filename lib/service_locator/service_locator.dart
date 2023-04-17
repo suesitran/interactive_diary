@@ -41,7 +41,7 @@ class ServiceLocator {
     }
 
     if (!instance.isRegistered<AppSettings>()) {
-      instance.registerSingleton(AppSettings());
+      instance.registerSingleton(AppSettings.newInstance());
     }
   }
 }
