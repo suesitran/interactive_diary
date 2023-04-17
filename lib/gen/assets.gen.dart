@@ -30,8 +30,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
 
+  /// File path: assets/images/id_apple_icon.svg
+  String get idAppleIcon => 'assets/images/id_apple_icon.svg';
+
   /// File path: assets/images/id_camera_icon.svg
   String get idCameraIcon => 'assets/images/id_camera_icon.svg';
+
+  /// File path: assets/images/id_facebook_icon.svg
+  String get idFacebookIcon => 'assets/images/id_facebook_icon.svg';
+
+  /// File path: assets/images/id_google_icon.svg
+  String get idGoogleIcon => 'assets/images/id_google_icon.svg';
 
   /// File path: assets/images/id_heart_icon_padding.svg
   String get idHeartIconPadding => 'assets/images/id_heart_icon_padding.svg';
@@ -69,6 +78,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_smile_icon.svg
   String get idSmileIcon => 'assets/images/id_smile_icon.svg';
 
+  /// File path: assets/images/id_sms_icon.svg
+  String get idSmsIcon => 'assets/images/id_sms_icon.svg';
+
   /// File path: assets/images/marker_nonetap.png
   AssetGenImage get markerNonetap =>
       const AssetGenImage('assets/images/marker_nonetap.png');
@@ -83,6 +95,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/onboarding_1.svg
   String get onboarding1 => 'assets/images/onboarding_1.svg';
 
+  /// File path: assets/images/onboarding_2.svg
+  String get onboarding2 => 'assets/images/onboarding_2.svg';
+
+  /// File path: assets/images/onboarding_3.svg
+  String get onboarding3 => 'assets/images/onboarding_3.svg';
+
   /// File path: assets/images/splash_screen.png
   AssetGenImage get splashScreen =>
       const AssetGenImage('assets/images/splash_screen.png');
@@ -95,7 +113,10 @@ class $AssetsImagesGen {
         calendar,
         danger,
         icTextController,
+        idAppleIcon,
         idCameraIcon,
+        idFacebookIcon,
+        idGoogleIcon,
         idHeartIconPadding,
         idLocationIcon,
         idLocationImg,
@@ -107,10 +128,13 @@ class $AssetsImagesGen {
         idProfileUserIconPadding,
         idShareIconPadding,
         idSmileIcon,
+        idSmsIcon,
         markerNonetap,
         markerOntap,
         noConnection,
         onboarding1,
+        onboarding2,
+        onboarding3,
         splashScreen
       ];
 }

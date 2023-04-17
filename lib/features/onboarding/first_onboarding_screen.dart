@@ -28,7 +28,7 @@ class FirstOnboardingScreen extends StatelessWidget {
             flex: 3,
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: NartusDimens.padding20),
+                  horizontal: NartusDimens.padding32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

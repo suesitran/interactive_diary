@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/features/onboarding/first_onboarding_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
+import 'package:interactive_diary/features/onboarding/second_onboarding_screen.dart';
 
 import '../../widget_tester_extension.dart';
 
@@ -37,5 +38,6 @@ void main() {
     await widgetTester.pumpAndSettle(const Duration(milliseconds: 201));
     // verify page 1 is not visible
     expect(find.byType(FirstOnboardingScreen), findsNothing);
+    expect(find.byType(SecondOnboardingScreen), findsOneWidget);
   });
 }

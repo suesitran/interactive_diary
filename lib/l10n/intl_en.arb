@@ -24,5 +24,11 @@
   "welcomeText":"Welcome to InnerME \uD83D\uDE4C",
   "getStartedText":"Get Started",
   "onboardingIntroduction":"A private space where you can be yourself.",
-  "semanticLocationCoordinate":"Location at latitude {lat} and longitude {lng}"
+  "continueWithEmail": "Continue with Email",
+  "keepAllYourDiariesPrivate": "Keep all your diaries private",
+  "accessYourDiariesAnywhere": "Access your diaries anywhere",
+  "continueAsGuest": "Continue as guest",
+  "continueWithGoogle": "Continue with Google",
+  "continueWithFacebook": "Continue with Facebook",
+  "continueWithApple": "Continue with Apple"
 }
