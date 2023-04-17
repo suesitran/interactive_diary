@@ -5,3 +5,5 @@ abstract class AppConfigEvent {}
 class AppRequestInitialise extends AppConfigEvent {}
 
 class AnnounceShakeAction extends AppConfigEvent {}
+
+class CancelFirstLaunch extends AppConfigEvent {}
