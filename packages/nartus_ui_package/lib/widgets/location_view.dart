@@ -1,5 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:nartus_ui_package/generated/l10n.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +13,9 @@ class LocationView extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final String? semanticBusinessName;
   final String? semanticAddress;
-  final String semanticCoordinate;
   const LocationView({
     required this.latitude,
     required this.longitude,
-    required this.semanticCoordinate,
     Key? key,
     this.address,
     this.businessName,
@@ -81,7 +80,7 @@ class LocationView extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1.8),
-                        semanticsLabel: address == null ? semanticCoordinate : semanticAddress,
+                        semanticsLabel: address == null ? Strings.current.locationViewLatLngAlly(latitude, longitude) : semanticAddress,
                         textDirection: TextDirection.ltr,
                       )
                     ],

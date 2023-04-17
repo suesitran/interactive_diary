@@ -16,7 +16,6 @@ void main() {
       address: mockAddress,
       latitude: 1.0,
       longitude: 1.0,
-      semanticCoordinate: 'semantic coordinate',
     );
 
     await tester.pumpWidget(widget);
@@ -41,7 +40,6 @@ void main() {
       address: mockAddress,
       latitude: 1.0,
       longitude: 1.0,
-      semanticCoordinate: 'semantic coordinate',
     );
 
     await tester.wrapMaterialAndPump(widget);
@@ -61,7 +59,6 @@ void main() {
       address: mockAddress,
       latitude: 1.0,
       longitude: 1.0,
-      semanticCoordinate: 'semantic coordinate',
     );
 
     await tester.wrapMaterialAndPump(widget);
@@ -81,7 +78,6 @@ void main() {
     const LocationView widget = LocationView(
       latitude: 1.0,
       longitude: 1.0,
-      semanticCoordinate: 'semantic coordinate',
     );
 
     await tester.wrapMaterialAndPump(widget);
@@ -103,7 +99,6 @@ void main() {
     const LocationView widget = LocationView(
       latitude: 1.0,
       longitude: 1.0,
-      semanticCoordinate: 'semantic coordinate',
     );
 
     await tester.wrapMaterialAndPump(widget);
@@ -130,7 +125,6 @@ void main() {
       longitude: 1.0,
       semanticBusinessName: 'Business name semantic',
       semanticAddress: 'Address semantic',
-      semanticCoordinate: 'Coordinate semantic',
     );
 
     await tester.wrapMaterialAndPump(widget);
@@ -159,7 +153,6 @@ void main() {
       longitude: 1.0,
       semanticBusinessName: 'Business name semantic',
       semanticAddress: 'Address semantic',
-      semanticCoordinate: 'Coordinate semantic',
     );
 
     await tester.wrapMaterialAndPump(widget);

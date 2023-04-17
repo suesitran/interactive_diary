@@ -4,7 +4,6 @@ import 'package:interactive_diary/features/home/content_panel/widgets/content_ca
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:interactive_diary/generated/l10n.dart';
 
 class ContentsBottomPanelController extends ChangeNotifier {
   bool _visible = false;
@@ -147,7 +146,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                       latitude: widget.location.latitude,
                       longitude: widget.location.longitude,
                       borderRadius: BorderRadius.circular(12),
-                      semanticCoordinate: S.current.semanticLocationCoordinate(widget.location.latitude, widget.location.longitude),
                     )),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
