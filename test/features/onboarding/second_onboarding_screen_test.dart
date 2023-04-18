@@ -41,7 +41,7 @@ void main() {
 
     expect(find.byType(SvgPicture), findsNWidgets(5));
 
-    expect(find.byType(NartusButton), findsNWidgets(2));
+    expect(find.byType(NartusButton), findsNWidgets(5));
 
     expect(find.text('Keep all your diaries private'), findsOneWidget);
     expect(
@@ -84,7 +84,7 @@ void main() {
 
     expect(find.byType(SvgPicture), findsNWidgets(4));
 
-    expect(find.byType(NartusButton), findsNWidgets(2));
+    expect(find.byType(NartusButton), findsNWidgets(4));
 
     expect(find.text('Keep all your diaries private'), findsOneWidget);
     expect(
