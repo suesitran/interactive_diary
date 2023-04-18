@@ -51,30 +51,50 @@ class _NartusSecondaryButton extends StatelessWidget {
         ),
       );
     } else {
-      return Semantics(
-        explicitChildNodes: false,
-        excludeSemantics: true,
-        label: iconSemanticLabel,
-        button: true,
-        enabled: onPressed != null,
-        onTap: onPressed,
-        child: OutlinedButton(
-            onPressed: onPressed,
-            style: sizeType == SizeType.large
-                ? _iconOnlyButtonStyleLarge
-                : _iconOnlyButtonStyleSmall,
-            child: SvgPicture.asset(
-              icon!,
-              width: NartusDimens.padding20,
-              height: NartusDimens.padding20,
-              colorFilter: ColorFilter.mode(
-                  onPressed == null
-                      ? NartusColor.grey.withOpacity(0.5)
-                      : NartusColor.primary,
-                  BlendMode.srcIn),
-              semanticsLabel: iconSemanticLabel,
-            )),
-      );
+      if (sizeType == SizeType.original) {
+        return Semantics(
+          explicitChildNodes: false,
+          excludeSemantics: true,
+          label: iconSemanticLabel,
+          button: true,
+          enabled: onPressed != null,
+          onTap: onPressed,
+          child: OutlinedButton(
+              onPressed: onPressed,
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(width: 1.5, color: NartusColor.lightGrey),
+              ),
+              child: SvgPicture.asset(
+                icon!,
+                semanticsLabel: iconSemanticLabel,
+              )),
+        );
+      } else {
+        return Semantics(
+          explicitChildNodes: false,
+          excludeSemantics: true,
+          label: iconSemanticLabel,
+          button: true,
+          enabled: onPressed != null,
+          onTap: onPressed,
+          child: OutlinedButton(
+              onPressed: onPressed,
+              style: sizeType == SizeType.large
+                  ? _iconOnlyButtonStyleLarge
+                  : _iconOnlyButtonStyleSmall,
+              child: SvgPicture.asset(
+                icon!,
+                width: NartusDimens.padding20,
+                height: NartusDimens.padding20,
+                colorFilter: ColorFilter.mode(
+                    onPressed == null
+                        ? NartusColor.grey.withOpacity(0.5)
+                        : NartusColor.primary,
+                    BlendMode.srcIn),
+                semanticsLabel: iconSemanticLabel,
+              )),
+        );
+      }
     }
   }
 }

@@ -181,24 +181,10 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
 
   Widget _iconWidget(
           String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
-      Semantics(
-        label: iconSemanticLabel,
-        child: GestureDetector(
-          onTap: onPressed,
-          child: Container(
-            decoration: BoxDecoration(
-              color: NartusColor.white,
-              border: Border.all(
-                color: NartusColor.lightGrey,
-                width: 1.0,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(999)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(NartusDimens.padding14),
-              child: SvgPicture.asset(iconPath),
-            ),
-          ),
-        ),
+      NartusButton.secondary(
+        iconPath: iconPath,
+        iconSemanticLabel: iconSemanticLabel,
+        onPressed: onPressed,
+        sizeType: SizeType.original,
       );
 }

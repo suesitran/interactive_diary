@@ -149,6 +149,19 @@ void main() {
 
       expect(count, 1);
     });
+
+    testWidgets('secondary button - icon only, sizeType original',
+            (WidgetTester widgetTester) async {
+          const NartusButton text = NartusButton.primary(
+            iconPath: 'assets/facebook.svg',
+            iconSemanticLabel: 'Sample',
+          );
+
+          await widgetTester.wrapMaterialAndPump(text);
+
+          expect(find.byType(ElevatedButton), findsOneWidget);
+          expect(find.byType(SvgPicture), findsOneWidget);
+        });
   });
 
   group('Test secondary buttons', () {
@@ -293,6 +306,19 @@ void main() {
 
       expect(count, 1);
     });
+
+    testWidgets('secondary button - icon only, sizeType original',
+        (WidgetTester widgetTester) async {
+      const NartusButton text = NartusButton.secondary(
+        iconPath: 'assets/facebook.svg',
+        iconSemanticLabel: 'Sample',
+      );
+
+      await widgetTester.wrapMaterialAndPump(text);
+
+      expect(find.byType(OutlinedButton), findsOneWidget);
+      expect(find.byType(SvgPicture), findsOneWidget);
+    });
   });
 
   group('Test text buttons', () {
@@ -371,7 +397,7 @@ void main() {
       expect(find.bySemanticsLabel('Sample, Text'), findsOneWidget);
     });
 
-    testWidgets('secondary button - label and icon, icon position right',
+    testWidgets('text button - label and icon, icon position right',
         (WidgetTester widgetTester) async {
       const NartusButton text = NartusButton.text(
         label: 'Text',
@@ -444,7 +470,7 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('secondary button - label and icon, icon position right',
+    testWidgets('text button - label and icon, icon position right',
         (WidgetTester widgetTester) async {
       int count = 0;
       final NartusButton text = NartusButton.text(
