@@ -28,10 +28,10 @@ void main() {
   });
 
   testWidgets('verify navigate to onboarding', (widgetTester) async {
-    when(appConfigBloc.stream)
-        .thenAnswer((realInvocation) => Stream.value(AppConfigInitialised()));
-    when(appConfigBloc.state)
-        .thenAnswer((realInvocation) => AppConfigInitialised());
+    when(appConfigBloc.stream).thenAnswer((realInvocation) =>
+        Stream.value(AppConfigInitialised(isFirstLaunch: true)));
+    when(appConfigBloc.state).thenAnswer(
+        (realInvocation) => AppConfigInitialised(isFirstLaunch: true));
 
     const Widget widget = SplashScreen();
 
