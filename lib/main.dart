@@ -6,6 +6,7 @@ import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:nartus_ui_package/generated/l10n.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
@@ -76,8 +77,12 @@ class _MainAppState extends State<_MainApp> with WidgetsBindingObserver {
         theme: lightTheme,
         localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
           S.delegate,
+          Strings.delegate
         ],
-        supportedLocales: S.delegate.supportedLocales,
+        supportedLocales: [
+          ...S.delegate.supportedLocales,
+          ...Strings.delegate.supportedLocales,
+        ],
         builder: (context, child) {
           if (child != null) {
             final double textScaleFactor =
