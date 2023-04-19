@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+import 'package:nartus_ui_package/generated/l10n.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapAndPump(Widget widget,
@@ -133,9 +134,13 @@ class _MaterialWrapWidget extends StatelessWidget {
                 )
             ]),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-              S.delegate
+              S.delegate,
+              Strings.delegate
             ],
-            supportedLocales: S.delegate.supportedLocales,
+            supportedLocales: [
+              ...S.delegate.supportedLocales,
+              ...Strings.delegate.supportedLocales
+            ],
             locale: const Locale('en'),
           )
         : MaterialApp(
@@ -143,9 +148,13 @@ class _MaterialWrapWidget extends StatelessWidget {
               body: child,
             ),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-              S.delegate
+              S.delegate,
+              Strings.delegate
             ],
-            supportedLocales: S.delegate.supportedLocales,
+            supportedLocales: [
+              ...S.delegate.supportedLocales,
+              ...Strings.delegate.supportedLocales
+            ],
             locale: const Locale('en'),
           );
   }
