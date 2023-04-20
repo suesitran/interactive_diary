@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:nartus_connectivity/nartus_connectivity.dart';
 
 enum RemoteConfigKey {
   debugOption('debug_options', false);
@@ -20,9 +21,11 @@ class RemoteConfigManager {
       _remoteConfigUpdateStream.stream;
 
   final FirebaseRemoteConfig _remoteConfig;
+  final ConnectivityService _connectivityService;
 
-  RemoteConfigManager({FirebaseRemoteConfig? remoteConfig})
-      : _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance;
+  RemoteConfigManager({FirebaseRemoteConfig? remoteConfig, ConnectivityService? connectivityService})
+      : _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance,
+  _connectivityService = connectivityService ?? ConnectivityService(ImplType.connectivityPlus);
 
   Future<void> init() async {
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
@@ -32,7 +35,14 @@ class RemoteConfigManager {
 
     _remoteConfig.addListener(_onRemoteConfigValueUpdate);
 
-    await _remoteConfig.fetchAndActivate();
+    if (await _connectivityService.isConnected) {
+      await _remoteConfig.fetchAndActivate();
+    }
+    _connectivityService.onConnectivityChange.listen((event) {
+      if (event) {
+        _remoteConfig.fetch();
+      }
+    });
   }
 
   void _onRemoteConfigValueUpdate() {
