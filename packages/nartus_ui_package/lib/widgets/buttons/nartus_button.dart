@@ -13,7 +13,7 @@ enum ButtonType { primary, secondary, text }
 
 enum IconPosition { left, right }
 
-enum SizeType { large, small }
+enum SizeType { large, small, original }
 
 class NartusButton extends StatelessWidget {
   final String? label;

@@ -51,6 +51,21 @@ class _NartusPrimaryButton extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       );
+    } else if (sizeType == SizeType.original) {
+      return Semantics(
+        explicitChildNodes: false,
+        excludeSemantics: true,
+        label: iconSemanticLabel,
+        button: true,
+        enabled: onPressed != null,
+        onTap: onPressed,
+        child: ElevatedButton(
+            onPressed: onPressed,
+            child: SvgPicture.asset(
+              icon!,
+              semanticsLabel: iconSemanticLabel,
+            )),
+      );
     } else {
       return Semantics(
         explicitChildNodes: false,
