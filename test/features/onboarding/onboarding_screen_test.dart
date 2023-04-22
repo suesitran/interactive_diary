@@ -1,16 +1,33 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/features/onboarding/first_onboarding_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/onboarding/second_onboarding_screen.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../widget_tester_extension.dart';
+import 'onboarding_screen_test.mocks.dart';
 
+@GenerateMocks([AppConfigBloc])
 void main() {
+
+  final MockAppConfigBloc appConfigBloc = MockAppConfigBloc();
+
+  setUp(() {
+    when(appConfigBloc.state).thenAnswer((realInvocation) => AppConfigInitial());
+    when(appConfigBloc.stream).thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
+  });
+
+  tearDown(() {
+    reset(appConfigBloc);
+  });
+
   testWidgets('verify the page view of onboarding', (widgetTester) async {
     final Widget widget = OnboardingScreen();
 
-    await widgetTester.wrapAndPump(widget);
+    await widgetTester.blocWrapAndPump<AppConfigBloc>(appConfigBloc, widget);
 
     // verify there's a page view in this page
     expect(find.byType(PageView), findsOneWidget);

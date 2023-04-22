@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:nartus_app_settings/nartus_app_settings.dart';
 import 'package:nartus_remote_config/remote_config_manager.dart';
 import 'package:shake/shake.dart';
 
@@ -9,9 +10,11 @@ part 'app_config_event.dart';
 part 'app_config_state.dart';
 
 class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
-  ShakeDetector? detector;
 
-  AppConfigBloc() : super(AppConfigInitial()) {
+  ShakeDetector? detector;
+  final AppSettings _appSettings;
+
+  AppConfigBloc() : _appSettings = ServiceLocator.instance<AppSettings>(), super(AppConfigInitial()) {
     on<AppRequestInitialise>(_initialise);
 
     on<AnnounceShakeAction>(
@@ -19,6 +22,8 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
         emit(ShakeDetected(DateTime.now().millisecondsSinceEpoch));
       },
     );
+
+    on<CancelFirstLaunch>(_cancelFirstLaunch);
   }
 
   void _initialise(AppConfigEvent event, Emitter<AppConfigState> emit) async {
@@ -38,8 +43,17 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
       );
       detector?.startListening();
     }
+
+    bool isAppLaunched = await _appSettings.isAppFirstLaunch();
+
     // inform UI
-    emit(AppConfigInitialised());
+    emit(AppConfigInitialised(isFirstLaunch: isAppLaunched));
+  }
+
+  void _cancelFirstLaunch(AppConfigEvent event, Emitter<AppConfigState> emit) async {
+    await _appSettings.registerAppLaunched();
+
+    emit(AppFirstLaunchCleared());
   }
 
   @override
