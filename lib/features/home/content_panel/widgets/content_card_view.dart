@@ -33,8 +33,8 @@ class _ContentCardViewState extends State<ContentCardView> {
     return Padding(
       padding: const EdgeInsets.only(
           left: NartusDimens.padding16,
-          right: NartusDimens.radius16,
-          bottom: NartusDimens.radius16),
+          right: NartusDimens.padding16,
+          bottom: NartusDimens.padding16,),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
