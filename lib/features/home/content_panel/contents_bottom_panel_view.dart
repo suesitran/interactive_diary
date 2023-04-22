@@ -156,51 +156,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                       (BuildContext context, double value, Widget? child) =>
                           SizedBox(
                     height: value,
-                    // child: ListView.builder(
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       String text =
-                    //           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
-                    //       List<String> imageListOf1 = [
-                    //         'https://i.imgur.com/JVwkx3F.jpeg',
-                    //       ];
-                    //       List<String> imageListOf2 = [
-                    //         'https://i.imgur.com/JVwkx3F.jpeg',
-                    //         'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                    //       ];
-                    //       List<String> imageListOf3 = [
-                    //         'https://i.imgur.com/JVwkx3F.jpeg',
-                    //         'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                    //         'https://i.imgur.com/08CMzYS.jpeg',
-                    //       ];
-                    //       List<String> imageListOf4 = [
-                    //         'https://i.imgur.com/JVwkx3F.jpeg',
-                    //         'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                    //         'https://i.imgur.com/08CMzYS.jpeg',
-                    //         'https://i.imgur.com/UhfMgkH.jpeg',
-                    //       ];
-                    //       List<String> imageListOf5 = [
-                    //         'https://i.imgur.com/JVwkx3F.jpeg',
-                    //         'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                    //         'https://i.imgur.com/08CMzYS.jpeg',
-                    //         'https://i.imgur.com/UhfMgkH.jpeg',
-                    //         'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                    //       ];
-                    //       return ContentCardView(
-                    //         text: index % 5 == 0 ? text : null,
-                    //         images: index % 5 == 0
-                    //             ? imageListOf5
-                    //             : index % 4 == 0
-                    //                 ? imageListOf4
-                    //                 : index % 3 == 0
-                    //                     ? imageListOf3
-                    //                     : index % 2 == 0
-                    //                         ? imageListOf2
-                    //                         : imageListOf1,
-                    //       );
-                    //     },
-                    //     itemCount: 10,
-                    //     shrinkWrap: true,
-                    //     padding: EdgeInsets.zero),
                     child: BlocBuilder<LoadDiaryCubit, LoadDiaryState>(
                       builder: (context, state) {
                         List<DiaryDisplayContent> displayContents = [];
