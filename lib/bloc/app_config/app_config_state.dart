@@ -8,8 +8,12 @@ class AppConfigInitial extends AppConfigState {
 }
 
 class AppConfigInitialised extends AppConfigState {
+  final bool isFirstLaunch;
+
+  AppConfigInitialised({required this.isFirstLaunch});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [isFirstLaunch];
 }
 
 class ShakeDetected extends AppConfigState {
@@ -18,4 +22,9 @@ class ShakeDetected extends AppConfigState {
 
   @override
   List<Object?> get props => [shakeTime];
+}
+
+class AppFirstLaunchCleared extends AppConfigState {
+  @override
+  List<Object?> get props => [];
 }
