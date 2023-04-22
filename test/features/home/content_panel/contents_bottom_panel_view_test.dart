@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../../widget_tester_extension.dart';
+import 'contents_bottom_panel_view_test.mocks.dart';
 
+@GenerateMocks([LoadDiaryCubit])
 void main() {
+
+  final MockLoadDiaryCubit loadDiaryCubit = MockLoadDiaryCubit();
+
+  setUp(() {
+    when(loadDiaryCubit.stream).thenAnswer((realInvocation) => Stream.value(LoadDiaryInitial()));
+    when(loadDiaryCubit.state).thenAnswer((realInvocation) => LoadDiaryInitial());
+  });
+
+  tearDown(() {
+    reset(loadDiaryCubit);
+  });
+
   testWidgets(
       'when controller does not request to show panel, panel should be hidden',
       (WidgetTester widgetTester) async {
@@ -19,7 +36,7 @@ void main() {
     );
 
     await mockNetworkImagesFor(
-        () => widgetTester.wrapAndPump(contentsBottomPanelView));
+        () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -49,7 +66,7 @@ void main() {
 
     controller.show();
     await mockNetworkImagesFor(
-        () => widgetTester.wrapAndPump(contentsBottomPanelView));
+            () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -80,7 +97,7 @@ void main() {
 
     controller.show();
     await mockNetworkImagesFor(
-        () => widgetTester.wrapAndPump(contentsBottomPanelView));
+            () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -107,7 +124,7 @@ void main() {
 
     controller.show();
     await mockNetworkImagesFor(
-        () => widgetTester.wrapAndPump(contentsBottomPanelView));
+            () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
 
     // drag on Divider
     await widgetTester.drag(
