@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -29,13 +28,6 @@ class ContentCardView extends StatefulWidget {
 }
 
 class _ContentCardViewState extends State<ContentCardView> {
-  @override
-  void initState() {
-    super.initState();
-
-    initializeDateFormatting();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
