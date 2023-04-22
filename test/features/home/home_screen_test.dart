@@ -13,6 +13,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
+import 'package:nartus_storage/nartus_storage.dart' hide LatLng;
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
@@ -26,7 +27,8 @@ import 'package:intl/date_symbol_data_local.dart';
   LocationService,
   AppConfigBloc,
   GeocoderService,
-  LoadDiaryCubit
+  LoadDiaryCubit,
+  StorageService
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -38,10 +40,13 @@ void main() {
   final MockAppConfigBloc appConfigBloc = MockAppConfigBloc();
   final MockGeocoderService geocoderService = MockGeocoderService();
   final MockLoadDiaryCubit loadDiaryCubit = MockLoadDiaryCubit();
+  final MockStorageService storageService = MockStorageService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
+    ServiceLocator.instance.registerSingleton<StorageService>(storageService);
+
     when(mockConnectivityBloc.stream)
         .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
@@ -774,15 +779,18 @@ void main() {
   });
 
   // TODO fix this test when improving loading process in google_map
-  // testWidgets('Verify IDHome has a bloc and content is a IDHomeBody',
-  //     (widgetTester) async {
-  //   const Widget widget = IDHome();
-  //
-  //   await widgetTester.blocWrapAndPump<ConnectivityBloc>(
-  //       mockConnectivityBloc, widget,
-  //       infiniteAnimationWidget: true, useRouter: true);
-  //
-  //   expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
-  //   expect(find.byType(IDHomeBody), findsOneWidget);
-  // });
+  testWidgets('Verify IDHome has a bloc and content is a IDHomeBody',
+      (widgetTester) async {
+    const Widget widget = IDHome();
+
+    await widgetTester.multiBlocWrapAndPump([
+      // BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,),
+      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc,)
+    ], widget, infiniteAnimationWidget: true, useRouter: true);
+
+    expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
+    expect(find.byType(BlocProvider<LoadDiaryCubit>), findsOneWidget);
+    expect(find.byType(IDHomeBody), findsOneWidget);
+  });
 }
