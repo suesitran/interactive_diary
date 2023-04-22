@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
@@ -18,10 +19,14 @@ class IDHome extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BlocProvider<LocationBloc>(
-        create: (context) => LocationBloc()..requestCurrentLocation(),
-        child: const IDHomeBody(),
-      );
+  Widget build(BuildContext context) => MultiBlocProvider(providers: [
+    BlocProvider<LocationBloc>(
+      create: (context) => LocationBloc()..requestCurrentLocation(),
+    ),
+    BlocProvider<LoadDiaryCubit>(
+      create: (context) => LoadDiaryCubit(),
+    )
+  ], child: const IDHomeBody());
 }
 
 class IDHomeBody extends StatefulWidget {
@@ -203,6 +208,10 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
 
   void handleMenuOpen() {
     _contentBottomPanelController.show();
+
+    // load diary when panel is open
+    // TODO filter diary by location and date
+    context.read<LoadDiaryCubit>().loadDiary();
   }
 
   void handleMenuClose() {
