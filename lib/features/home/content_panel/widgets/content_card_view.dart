@@ -15,8 +15,11 @@ part 'diary_content.dart';
 class ContentCardView extends StatefulWidget {
   final String? text;
   final List<String>? images;
+  final String displayName;
+  final String photoUrl;
+  final DateTime dateTime;
 
-  ContentCardView({this.text, this.images, Key? key})
+  ContentCardView({required this.displayName, required this.photoUrl, required this.dateTime, this.text, this.images, Key? key})
       : assert(text != null || images?.isNotEmpty == true,
             'Need either text or image list to be displayed'),
         super(key: key);
@@ -44,14 +47,17 @@ class _ContentCardViewState extends State<ContentCardView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _DiaryHeader(
-            avatarPath:
-                'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c',
-            displayName: 'Hoang Nguyen',
-            dateTime: DateTime(2022, 09, 03, 22, 12),
+            avatarPath: widget.photoUrl,
+            displayName: widget.displayName,
+            dateTime: widget.dateTime,
           ),
           _DiaryContent(
             text: widget.text,
             images: widget.images,
+          ),
+          const Divider(
+            color: NartusColor.lightGrey,
+            height: 1,
           )
         ],
       ),
