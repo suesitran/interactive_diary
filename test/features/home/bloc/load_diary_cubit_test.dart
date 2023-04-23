@@ -51,19 +51,22 @@ void main() {
     },
   );
 
-  blocTest('given diary collection has 1 text diary, when load diary, then verify content of text diary', build: () => LoadDiaryCubit(),
-  setUp: () {
-    when(storageService.readDiaryForMonth(any)).thenAnswer((realInvocation) => Future.value(DiaryCollection(month: 'month', diaries: [
-      Diary(
-        title: 'title',
-        latLng: const LatLng(lat: 0.0, long: 0.0),
-        timestamp: 123456789,
-        update: 123456789, contents: [
-          TextDiary(description: '[{"insert":"description\\n"}]')
-      ]
-      )
-    ])));
-  },
+  blocTest(
+    'given diary collection has 1 text diary, when load diary, then verify content of text diary',
+    build: () => LoadDiaryCubit(),
+    setUp: () {
+      when(storageService.readDiaryForMonth(any)).thenAnswer((realInvocation) =>
+          Future.value(DiaryCollection(month: 'month', diaries: [
+            Diary(
+                title: 'title',
+                latLng: const LatLng(lat: 0.0, long: 0.0),
+                timestamp: 123456789,
+                update: 123456789,
+                contents: [
+                  TextDiary(description: '[{"insert":"description\\n"}]')
+                ])
+          ])));
+    },
     act: (bloc) => bloc.loadDiary(),
     expect: () => [isA<LoadDiaryCompleted>()],
     verify: (bloc) {

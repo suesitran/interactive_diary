@@ -102,7 +102,8 @@ void main() {
       'given app is first launched, when initialise, then return AppConfigInitialised with isFirstLaunch = true',
       build: () => AppConfigBloc(),
       setUp: () {
-        when(appSettings.isAppFirstLaunch()).thenAnswer((realInvocation) => Future.value(true));
+        when(appSettings.isAppFirstLaunch())
+            .thenAnswer((realInvocation) => Future.value(true));
       },
       act: (bloc) => bloc.add(AppRequestInitialise()),
       expect: () => [isA<AppConfigInitialised>()],
@@ -117,7 +118,8 @@ void main() {
       'given app is not first launched, when initialise, then return AppConfigInitialised with isFirstLaunch = false',
       build: () => AppConfigBloc(),
       setUp: () {
-        when(appSettings.isAppFirstLaunch()).thenAnswer((realInvocation) => Future.value(false));
+        when(appSettings.isAppFirstLaunch())
+            .thenAnswer((realInvocation) => Future.value(false));
       },
       act: (bloc) => bloc.add(AppRequestInitialise()),
       expect: () => [isA<AppConfigInitialised>()],

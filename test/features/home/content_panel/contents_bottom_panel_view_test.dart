@@ -12,12 +12,13 @@ import 'contents_bottom_panel_view_test.mocks.dart';
 
 @GenerateMocks([LoadDiaryCubit])
 void main() {
-
   final MockLoadDiaryCubit loadDiaryCubit = MockLoadDiaryCubit();
 
   setUp(() {
-    when(loadDiaryCubit.stream).thenAnswer((realInvocation) => Stream.value(LoadDiaryInitial()));
-    when(loadDiaryCubit.state).thenAnswer((realInvocation) => LoadDiaryInitial());
+    when(loadDiaryCubit.stream)
+        .thenAnswer((realInvocation) => Stream.value(LoadDiaryInitial()));
+    when(loadDiaryCubit.state)
+        .thenAnswer((realInvocation) => LoadDiaryInitial());
   });
 
   tearDown(() {
@@ -35,8 +36,9 @@ void main() {
       location: const LatLng(0, 0),
     );
 
-    await mockNetworkImagesFor(
-        () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
+    await mockNetworkImagesFor(() =>
+        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
+            loadDiaryCubit, contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -65,8 +67,9 @@ void main() {
     );
 
     controller.show();
-    await mockNetworkImagesFor(
-            () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
+    await mockNetworkImagesFor(() =>
+        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
+            loadDiaryCubit, contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -96,8 +99,9 @@ void main() {
     );
 
     controller.show();
-    await mockNetworkImagesFor(
-            () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
+    await mockNetworkImagesFor(() =>
+        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
+            loadDiaryCubit, contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -123,8 +127,9 @@ void main() {
     );
 
     controller.show();
-    await mockNetworkImagesFor(
-            () => widgetTester.blocWrapAndPump<LoadDiaryCubit>(loadDiaryCubit, contentsBottomPanelView));
+    await mockNetworkImagesFor(() =>
+        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
+            loadDiaryCubit, contentsBottomPanelView));
 
     // drag on Divider
     await widgetTester.drag(

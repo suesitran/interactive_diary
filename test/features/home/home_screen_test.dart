@@ -785,8 +785,12 @@ void main() {
 
     await widgetTester.multiBlocWrapAndPump([
       // BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-      BlocProvider<AppConfigBloc>(create: (_) => appConfigBloc,),
-      BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc,)
+      BlocProvider<AppConfigBloc>(
+        create: (_) => appConfigBloc,
+      ),
+      BlocProvider<ConnectivityBloc>(
+        create: (_) => mockConnectivityBloc,
+      )
     ], widget, infiniteAnimationWidget: true, useRouter: true);
 
     expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);

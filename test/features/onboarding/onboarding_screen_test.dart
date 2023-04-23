@@ -12,12 +12,13 @@ import 'onboarding_screen_test.mocks.dart';
 
 @GenerateMocks([AppConfigBloc])
 void main() {
-
   final MockAppConfigBloc appConfigBloc = MockAppConfigBloc();
 
   setUp(() {
-    when(appConfigBloc.state).thenAnswer((realInvocation) => AppConfigInitial());
-    when(appConfigBloc.stream).thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
+    when(appConfigBloc.state)
+        .thenAnswer((realInvocation) => AppConfigInitial());
+    when(appConfigBloc.stream)
+        .thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
   });
 
   tearDown(() {
