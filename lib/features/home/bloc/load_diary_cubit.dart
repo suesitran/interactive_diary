@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
@@ -19,7 +18,6 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
     DiaryCollection collection = await storageService.readDiaryForMonth(DateTime.now());
 
     List<DiaryDisplayContent> displayContents = [];
-    print('collection ${collection.diaries.length}');
     // TODO load user display name and display photo
     String userDisplayName = 'Hoang Nguyen';
     String userPhotoUrl = 'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
