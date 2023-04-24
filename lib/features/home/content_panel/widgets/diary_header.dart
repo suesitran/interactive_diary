@@ -39,7 +39,11 @@ class _DiaryHeader extends StatelessWidget {
                   ),
                   Text(S.current.diaryDateFormatter(
                       DateFormat(dateFormat).format(dateTime),
-                      DateFormat(timeFormat).format(dateTime)))
+                      DateFormat(timeFormat).format(dateTime)),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: NartusColor.grey,
+                    height: 1.5
+                  ),)
                 ],
               ),
             )),
