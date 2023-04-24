@@ -43,7 +43,11 @@ class _DiaryHeader extends StatelessWidget {
                 ],
               ),
             )),
-            SvgPicture.asset(Assets.images.idMoreIcon)
+            SvgPicture.asset(
+              Assets.images.idMoreIcon,
+              colorFilter:
+                  const ColorFilter.mode(NartusColor.grey, BlendMode.srcIn),
+            )
           ],
         ),
       );
