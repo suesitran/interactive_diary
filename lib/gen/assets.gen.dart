@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -26,6 +26,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/danger.svg
   String get danger => 'assets/images/danger.svg';
+
+  /// File path: assets/images/diary_list-_no_post.svg
+  String get diaryListNoPost => 'assets/images/diary_list-_no_post.svg';
 
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
@@ -112,6 +115,7 @@ class $AssetsImagesGen {
         back,
         calendar,
         danger,
+        diaryListNoPost,
         icTextController,
         idAppleIcon,
         idCameraIcon,
