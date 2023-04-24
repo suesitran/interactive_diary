@@ -48,7 +48,7 @@ class _ContentCardViewState extends State<ContentCardView> {
             images: widget.images,
           ),
           const Divider(
-            color: NartusColor.lightGrey,
+            color: NartusColor.semiLightGrey,
             height: 1,
           )
         ],
