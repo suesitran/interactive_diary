@@ -22,7 +22,7 @@ class _DiaryHeader extends StatelessWidget {
           children: [
             // TODO change avatar to be a thumbnail downloaded and store in cached file
             CircleAvatar(
-              radius: NartusDimens.radius32,
+              radius: NartusDimens.radius16,
               backgroundImage: NetworkImage(avatarPath),
             ),
             Expanded(
