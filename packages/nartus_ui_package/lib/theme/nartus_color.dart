@@ -46,6 +46,7 @@ class NartusColor {
   static const Color lightGrey = Color(0xFFECECF1);
   static const Color dark = Color(0xFF1C2025);
   static const Color black = Color(0xFF000000);
+  static const Color semiLightGrey = Color(0xFFD1D1D1);
 
   static const Color backButtonColor = Color(0xFF292D32);
 }

@@ -30,5 +30,7 @@
   "continueAsGuest": "Continue as guest",
   "continueWithGoogle": "Continue with Google",
   "continueWithFacebook": "Continue with Facebook",
-  "continueWithApple": "Continue with Apple"
+  "continueWithApple": "Continue with Apple",
+  "noPost" : "No Post",
+  "noPostHasBeenPostedYet":"No posts have been posted yet"
 }

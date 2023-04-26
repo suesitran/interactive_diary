@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
+import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
@@ -164,7 +165,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                           displayContents = state.contents;
                         }
 
-                        return ListView(
+                        return displayContents.isEmpty ? const NoPostView() : ListView(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           children: displayContents
