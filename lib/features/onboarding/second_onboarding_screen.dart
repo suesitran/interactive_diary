@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
+import 'package:interactive_diary/features/onboarding/login_with_email_bottom_sheet.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
@@ -16,6 +17,43 @@ class SecondOnboardingScreen extends StatefulWidget {
 
   @override
   State<SecondOnboardingScreen> createState() => _SecondOnboardingScreenState();
+
+  static getOptionLogin(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      Expanded(
+        child: _iconWidget(
+            Assets.images.idGoogleIcon, S.current.continueWithGoogle, () {
+          // handle event click
+        }),
+      ),
+      const SizedBox(width: NartusDimens.padding16),
+      Expanded(
+          child: _iconWidget(
+              Assets.images.idFacebookIcon, S.current.continueWithFacebook,
+                  () {
+                // handle event click
+              })),
+      if (context.isIOS) const SizedBox(width: NartusDimens.padding16),
+      if (context.isIOS)
+        Expanded(
+          child: _iconWidget(
+              Assets.images.idAppleIcon, S.current.continueWithApple, () {
+            // handle event click
+          }),
+        ),
+    ],
+  );
+
+  static Widget _iconWidget(
+      String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
+      NartusButton.secondary(
+        iconPath: iconPath,
+        iconSemanticLabel: iconSemanticLabel,
+        onPressed: onPressed,
+        sizeType: SizeType.original,
+      );
+
 }
 
 class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
@@ -93,41 +131,16 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(
-                    child: NartusButton.primary(
-                      label: S.current.continueWithEmail,
-                      iconPath: Assets.images.idSmsIcon,
-                      iconSemanticLabel: '',
-                      onPressed: () {},
-                    ),
+                  NartusButton.primary(
+                    label: S.current.continueWithEmail,
+                    iconPath: Assets.images.idSmsIcon,
+                    iconSemanticLabel: '',
+                    onPressed: () {
+                      context.showLoginWithEmailBottomSheet();
+                    },
                   ),
                   const SizedBox(height: NartusDimens.padding12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: _iconWidget(Assets.images.idGoogleIcon,
-                            S.current.continueWithGoogle, () {
-                          // handle event click
-                        }),
-                      ),
-                      const SizedBox(width: NartusDimens.padding16),
-                      Expanded(
-                          child: _iconWidget(Assets.images.idFacebookIcon,
-                              S.current.continueWithFacebook, () {
-                            // handle event click
-                          })),
-                      if (context.isIOS)
-                        const SizedBox(width: NartusDimens.padding16),
-                      if (context.isIOS)
-                        Expanded(
-                          child: _iconWidget(Assets.images.idAppleIcon,
-                              S.current.continueWithApple, () {
-                            // handle event click
-                          }),
-                        ),
-                    ],
-                  ),
+                  SecondOnboardingScreen.getOptionLogin(context),
                   const SizedBox(height: NartusDimens.padding24),
                   TextButtonTheme(
                     data: TextButtonThemeData(
@@ -179,12 +192,4 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         ],
       );
 
-  Widget _iconWidget(
-          String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
-      NartusButton.secondary(
-        iconPath: iconPath,
-        iconSemanticLabel: iconSemanticLabel,
-        onPressed: onPressed,
-        sizeType: SizeType.original,
-      );
 }

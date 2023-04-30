@@ -72,7 +72,7 @@ void main() {
 
   testWidgets('Verify UI of Second Onboarding Screen - android devices',
       (WidgetTester widgetTester) async {
-    // Set platform to iOS
+    // Set platform to android
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
 
     const SecondOnboardingScreen widget = SecondOnboardingScreen();

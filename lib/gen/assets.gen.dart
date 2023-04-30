@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
@@ -58,6 +58,9 @@ class $AssetsImagesGen {
   String get idLocationMarkerIcon =>
       'assets/images/id_location_marker_icon.svg';
 
+  /// File path: assets/images/id_login_with_email.svg
+  String get idLoginWithEmail => 'assets/images/id_login_with_email.svg';
+
   /// File path: assets/images/id_message_icon_padding.svg
   String get idMessageIconPadding =>
       'assets/images/id_message_icon_padding.svg';
@@ -104,6 +107,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/onboarding_3.svg
   String get onboarding3 => 'assets/images/onboarding_3.svg';
 
+  /// File path: assets/images/rectangle.svg
+  String get rectangle => 'assets/images/rectangle.svg';
+
   /// File path: assets/images/splash_screen.png
   AssetGenImage get splashScreen =>
       const AssetGenImage('assets/images/splash_screen.png');
@@ -125,6 +131,7 @@ class $AssetsImagesGen {
         idLocationIcon,
         idLocationImg,
         idLocationMarkerIcon,
+        idLoginWithEmail,
         idMessageIconPadding,
         idMicroIcon,
         idMoreIcon,
@@ -139,6 +146,7 @@ class $AssetsImagesGen {
         onboarding1,
         onboarding2,
         onboarding3,
+        rectangle,
         splashScreen
       ];
 }
