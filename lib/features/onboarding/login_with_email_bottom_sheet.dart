@@ -23,10 +23,10 @@ class LoginWithEmailBottomSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Center(
-                child: ExcludeSemantics(
-                  child: SvgPicture.asset(
-                    Assets.images.rectangle,
-                  ),
+                child: Container(
+                  height: NartusDimens.size2,
+                  width: NartusDimens.size50,
+                  color: NartusColor.grey,
                 ),
               ),
               const SizedBox(height: NartusDimens.padding32),
@@ -117,7 +117,7 @@ extension LoginEmailBottomSheet on BuildContext {
         context: this,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
-                top: Radius.circular(NartusDimens.radius20))),
+                top: Radius.circular(NartusDimens.radius32))),
         builder: (BuildContext builder) {
           return const LoginWithEmailBottomSheet();
         });

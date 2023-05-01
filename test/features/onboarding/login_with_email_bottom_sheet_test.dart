@@ -28,7 +28,7 @@ void main() {
         expect(find.text('Forgot Password?'), findsOneWidget);
         expect(find.text('or login with'), findsOneWidget);
         expect(find.text('Login'), findsOneWidget);
-        expect(find.byType(SvgPicture), findsNWidgets(4));
+        expect(find.byType(SvgPicture), findsNWidgets(3));
         expect(find.byType(TextField), findsNWidgets(2));
         expect(find.byType(NartusButton), findsNWidgets(3));
 
@@ -56,7 +56,7 @@ void main() {
         expect(find.text('Forgot Password?'), findsOneWidget);
         expect(find.text('or login with'), findsOneWidget);
         expect(find.text('Login'), findsOneWidget);
-        expect(find.byType(SvgPicture), findsNWidgets(5));
+        expect(find.byType(SvgPicture), findsNWidgets(4));
         expect(find.byType(TextField), findsNWidgets(2));
         expect(find.byType(NartusButton), findsNWidgets(4));
 
