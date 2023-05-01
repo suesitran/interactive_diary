@@ -107,9 +107,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/onboarding_3.svg
   String get onboarding3 => 'assets/images/onboarding_3.svg';
 
-  /// File path: assets/images/rectangle.svg
-  String get rectangle => 'assets/images/rectangle.svg';
-
   /// File path: assets/images/splash_screen.png
   AssetGenImage get splashScreen =>
       const AssetGenImage('assets/images/splash_screen.png');
@@ -146,7 +143,6 @@ class $AssetsImagesGen {
         onboarding1,
         onboarding2,
         onboarding3,
-        rectangle,
         splashScreen
       ];
 }
