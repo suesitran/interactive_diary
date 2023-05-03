@@ -12,54 +12,54 @@ void main() {
       'WHEN login with email bottom sheet opened '
       'THEN the corresponding UI is displayed',
       (WidgetTester widgetTester) async {
-        // given
-        debugDefaultTargetPlatformOverride = TargetPlatform.android;
-        const loginWithEmailBottomSheet = LoginWithEmailBottomSheet();
-        
-        // when
-        await widgetTester.wrapAndPump(loginWithEmailBottomSheet);
-        
-        // then
-        expect(find.text('Login with email'), findsOneWidget);
-        expect(find.text('Your email'), findsOneWidget);
-        expect(find.text('Enter your email'), findsOneWidget);
-        expect(find.text('Password'), findsOneWidget);
-        expect(find.text('Enter password'), findsOneWidget);
-        expect(find.text('Forgot Password?'), findsOneWidget);
-        expect(find.text('or login with'), findsOneWidget);
-        expect(find.text('Login'), findsOneWidget);
-        expect(find.byType(SvgPicture), findsNWidgets(3));
-        expect(find.byType(TextField), findsNWidgets(2));
-        expect(find.byType(NartusButton), findsNWidgets(3));
+    // given
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    const loginWithEmailBottomSheet = LoginWithEmailBottomSheet();
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    // when
+    await widgetTester.wrapAndPump(loginWithEmailBottomSheet);
+
+    // then
+    expect(find.text('Login with email'), findsOneWidget);
+    expect(find.text('Your email'), findsOneWidget);
+    expect(find.text('Enter your email'), findsOneWidget);
+    expect(find.text('Password'), findsOneWidget);
+    expect(find.text('Enter password'), findsOneWidget);
+    expect(find.text('Forgot Password?'), findsOneWidget);
+    expect(find.text('or login with'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
+    expect(find.byType(SvgPicture), findsNWidgets(3));
+    expect(find.byType(TextField), findsNWidgets(2));
+    expect(find.byType(NartusButton), findsNWidgets(3));
+
+    debugDefaultTargetPlatformOverride = null;
+  });
 
   testWidgets(
       'GIVEN android iOS '
       'WHEN login with email bottom sheet opened '
       'THEN the corresponding UI is displayed',
       (WidgetTester widgetTester) async {
-        // given
-        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-        const loginWithEmailBottomSheet = LoginWithEmailBottomSheet();
+    // given
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    const loginWithEmailBottomSheet = LoginWithEmailBottomSheet();
 
-        // when
-        await widgetTester.wrapAndPump(loginWithEmailBottomSheet);
+    // when
+    await widgetTester.wrapAndPump(loginWithEmailBottomSheet);
 
-        // then
-        expect(find.text('Login with email'), findsOneWidget);
-        expect(find.text('Your email'), findsOneWidget);
-        expect(find.text('Enter your email'), findsOneWidget);
-        expect(find.text('Password'), findsOneWidget);
-        expect(find.text('Enter password'), findsOneWidget);
-        expect(find.text('Forgot Password?'), findsOneWidget);
-        expect(find.text('or login with'), findsOneWidget);
-        expect(find.text('Login'), findsOneWidget);
-        expect(find.byType(SvgPicture), findsNWidgets(4));
-        expect(find.byType(TextField), findsNWidgets(2));
-        expect(find.byType(NartusButton), findsNWidgets(4));
+    // then
+    expect(find.text('Login with email'), findsOneWidget);
+    expect(find.text('Your email'), findsOneWidget);
+    expect(find.text('Enter your email'), findsOneWidget);
+    expect(find.text('Password'), findsOneWidget);
+    expect(find.text('Enter password'), findsOneWidget);
+    expect(find.text('Forgot Password?'), findsOneWidget);
+    expect(find.text('or login with'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
+    expect(find.byType(SvgPicture), findsNWidgets(4));
+    expect(find.byType(TextField), findsNWidgets(2));
+    expect(find.byType(NartusButton), findsNWidgets(4));
 
-        debugDefaultTargetPlatformOverride = null;
-      });
+    debugDefaultTargetPlatformOverride = null;
+  });
 }
