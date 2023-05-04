@@ -23,24 +23,25 @@ class LoginOptions extends StatelessWidget {
         const SizedBox(width: NartusDimens.padding16),
         Expanded(
             child: _iconWidget(
-                Assets.images.idFacebookIcon, S.current.continueWithFacebook,
-                    () {
-                  // handle event click
-                })),
-        if (context.isIOS) const SizedBox(width: NartusDimens.padding16),
-        if (context.isIOS)
+                Assets.images.idFacebookIcon, S.current.continueWithFacebook, () {
+                  // handle event click 
+            })
+        ),
+        if (context.isIOS) ...[
+          const SizedBox(width: NartusDimens.padding16),
           Expanded(
             child: _iconWidget(
                 Assets.images.idAppleIcon, S.current.continueWithApple, () {
               // handle event click
             }),
           ),
+        ]
       ],
     );
   }
 
   Widget _iconWidget(
-      String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
+          String iconPath, String iconSemanticLabel, VoidCallback onPressed) =>
       NartusButton.secondary(
         iconPath: iconPath,
         iconSemanticLabel: iconSemanticLabel,
