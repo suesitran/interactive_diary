@@ -11,7 +11,6 @@ import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:interactive_diary/utils/platform_utils.dart';
 
 class SecondOnboardingScreen extends StatefulWidget {
   const SecondOnboardingScreen({super.key});
