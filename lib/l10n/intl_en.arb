@@ -32,5 +32,13 @@
   "continueWithFacebook": "Continue with Facebook",
   "continueWithApple": "Continue with Apple",
   "noPost" : "No Post",
-  "noPostHasBeenPostedYet":"No posts have been posted yet"
+  "noPostHasBeenPostedYet":"No posts have been posted yet",
+  "loginWithEmail": "Login with email",
+  "yourEmail": "Your email",
+  "enterYourEmail": "Enter your email",
+  "password": "Password",
+  "enterPassword": "Enter password",
+  "forgotPassword": "Forgot Password?",
+  "login": "Login",
+  "orLoginWith": "or login with"
 }

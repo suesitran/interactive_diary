@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
@@ -57,6 +57,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_location_marker_icon.svg
   String get idLocationMarkerIcon =>
       'assets/images/id_location_marker_icon.svg';
+
+  /// File path: assets/images/id_login_with_email.svg
+  String get idLoginWithEmail => 'assets/images/id_login_with_email.svg';
 
   /// File path: assets/images/id_message_icon_padding.svg
   String get idMessageIconPadding =>
@@ -125,6 +128,7 @@ class $AssetsImagesGen {
         idLocationIcon,
         idLocationImg,
         idLocationMarkerIcon,
+        idLoginWithEmail,
         idMessageIconPadding,
         idMicroIcon,
         idMoreIcon,
