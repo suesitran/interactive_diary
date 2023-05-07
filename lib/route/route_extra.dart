@@ -1,3 +1,4 @@
+import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
 class WriteDiaryExtra {
@@ -6,4 +7,9 @@ class WriteDiaryExtra {
   final String? business;
 
   WriteDiaryExtra(this.latLng, this.address, this.business);
+}
+
+class DiaryDetailExtra {
+  final DiaryDisplayContent displayContent;
+  DiaryDetailExtra(this.displayContent);
 }

@@ -6,6 +6,7 @@ import 'package:interactive_diary/features/home/content_panel/widgets/content_ca
 import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/route/route_extension.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -165,18 +166,24 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                           displayContents = state.contents;
                         }
 
-                        return displayContents.isEmpty ? const NoPostView() : ListView(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          children: displayContents
-                              .map((e) => ContentCardView(
-                                    displayName: e.userDisplayName,
-                                    photoUrl: e.userPhotoUrl,
-                                    dateTime: e.dateTime,
-                                    text: e.plainText,
-                                  ))
-                              .toList(),
-                        );
+                        return displayContents.isEmpty
+                            ? const NoPostView()
+                            : ListView(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                children: displayContents
+                                    .map((e) => InkWell(
+                                          onTap: () =>
+                                              context.gotoDiaryDetailScreen(e),
+                                          child: ContentCardView(
+                                            displayName: e.userDisplayName,
+                                            photoUrl: e.userPhotoUrl,
+                                            dateTime: e.dateTime,
+                                            text: e.plainText,
+                                          ),
+                                        ))
+                                    .toList(),
+                              );
                       },
                     ),
                   ),

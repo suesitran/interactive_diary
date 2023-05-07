@@ -5,7 +5,7 @@ class _DiaryHeader extends StatelessWidget {
   final String displayName;
   final DateTime dateTime;
 
-  final String dateFormat = 'MMM dd, yyyy';
+  final String dateFormat = 'dd MMM, yyyy';
   final String timeFormat = 'HH:mm a';
 
   const _DiaryHeader(
@@ -37,13 +37,15 @@ class _DiaryHeader extends StatelessWidget {
                     displayName,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  Text(S.current.diaryDateFormatter(
-                      DateFormat(dateFormat).format(dateTime),
-                      DateFormat(timeFormat).format(dateTime)),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: NartusColor.grey,
-                    height: 1.5
-                  ),)
+                  Text(
+                    S.current.diaryDateFormatter(
+                        DateFormat(dateFormat).format(dateTime),
+                        DateFormat(timeFormat).format(dateTime)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: NartusColor.grey, height: 1.5),
+                  )
                 ],
               ),
             )),
