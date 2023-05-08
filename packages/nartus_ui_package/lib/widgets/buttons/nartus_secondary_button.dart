@@ -50,6 +50,24 @@ class _NartusSecondaryButton extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       );
+    } else if (sizeType == SizeType.original) {
+      return Semantics(
+        explicitChildNodes: false,
+        excludeSemantics: true,
+        label: iconSemanticLabel,
+        button: true,
+        enabled: onPressed != null,
+        onTap: onPressed,
+        child: OutlinedButton(
+            onPressed: onPressed,
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(width: 1.5, color: NartusColor.lightGrey),
+            ),
+            child: SvgPicture.asset(
+              icon!,
+              semanticsLabel: iconSemanticLabel,
+            )),
+      );
     } else {
       return Semantics(
         explicitChildNodes: false,

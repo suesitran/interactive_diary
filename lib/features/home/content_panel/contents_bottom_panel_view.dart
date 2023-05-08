@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
+import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
+import 'package:interactive_diary/features/home/data/diary_display_content.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -18,9 +24,17 @@ class ContentsBottomPanelController extends ChangeNotifier {
 }
 
 class ContentsBottomPanelView extends StatefulWidget {
+  final String? address;
+  final String? business;
+  final LatLng location;
   final ContentsBottomPanelController controller;
 
-  const ContentsBottomPanelView({required this.controller, Key? key})
+  const ContentsBottomPanelView(
+      {required this.controller,
+      required this.location,
+      this.address,
+      this.business,
+      Key? key})
       : super(key: key);
 
   @override
@@ -52,7 +66,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   @override
   void initState() {
     super.initState();
-
     widget.controller.addListener(
       () {
         if (widget.controller._visible == true) {
@@ -128,67 +141,44 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 ),
                 // location view
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                  child: LocationView(
-                    address:
-                        'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-                    latitude: 1.0,
-                    longitude: 1.0,
-                    borderRadius: BorderRadius.circular(NartusDimens.radius16),
-                  ),
-                ),
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    child: LocationView(
+                      locationIconSvg: Assets.images.idLocationIcon,
+                      address: widget.address,
+                      businessName: widget.business,
+                      latitude: widget.location.latitude,
+                      longitude: widget.location.longitude,
+                      borderRadius: BorderRadius.circular(12),
+                    )),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:
                       (BuildContext context, double value, Widget? child) =>
                           SizedBox(
                     height: value,
-                    child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) {
-                          String text =
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
-                          List<String> imageListOf1 = [
-                            'https://i.imgur.com/JVwkx3F.jpeg',
-                          ];
-                          List<String> imageListOf2 = [
-                            'https://i.imgur.com/JVwkx3F.jpeg',
-                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                          ];
-                          List<String> imageListOf3 = [
-                            'https://i.imgur.com/JVwkx3F.jpeg',
-                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                            'https://i.imgur.com/08CMzYS.jpeg',
-                          ];
-                          List<String> imageListOf4 = [
-                            'https://i.imgur.com/JVwkx3F.jpeg',
-                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                            'https://i.imgur.com/08CMzYS.jpeg',
-                            'https://i.imgur.com/UhfMgkH.jpeg',
-                          ];
-                          List<String> imageListOf5 = [
-                            'https://i.imgur.com/JVwkx3F.jpeg',
-                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                            'https://i.imgur.com/08CMzYS.jpeg',
-                            'https://i.imgur.com/UhfMgkH.jpeg',
-                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
-                          ];
-                          return ContentCardView(
-                            text: index % 5 == 0 ? text : null,
-                            images: index % 5 == 0
-                                ? imageListOf5
-                                : index % 4 == 0
-                                    ? imageListOf4
-                                    : index % 3 == 0
-                                        ? imageListOf3
-                                        : index % 2 == 0
-                                            ? imageListOf2
-                                            : imageListOf1,
-                          );
-                        },
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero),
+                    child: BlocBuilder<LoadDiaryCubit, LoadDiaryState>(
+                      builder: (context, state) {
+                        List<DiaryDisplayContent> displayContents = [];
+
+                        if (state is LoadDiaryCompleted) {
+                          displayContents = state.contents;
+                        }
+
+                        return displayContents.isEmpty ? const NoPostView() : ListView(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          children: displayContents
+                              .map((e) => ContentCardView(
+                                    displayName: e.userDisplayName,
+                                    photoUrl: e.userPhotoUrl,
+                                    dateTime: e.dateTime,
+                                    text: e.plainText,
+                                  ))
+                              .toList(),
+                        );
+                      },
+                    ),
                   ),
                 )
               ],

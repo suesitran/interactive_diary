@@ -43,6 +43,8 @@ dependencies:
     path: packages/nartus_ui_package
   nartus_location:
     path: packages/nartus_location
+  nartus_geocoder:
+    path: packages/nartus_geocoder
   nartus_authentication:
     path: packages/nartus_authentication
   nartus_connectivity:
@@ -51,6 +53,8 @@ dependencies:
     path: packages/nartus_storage
   nartus_remote_config:
     path: packages/nartus_remote_config
+  nartus_app_settings:
+    path: packages/nartus_app_settings
   go_router: ^5.1.1
   fvm: ^2.4.1
   google_maps_flutter_android: ^2.4.3
@@ -58,6 +62,9 @@ dependencies:
   firebase_core: ^2.7.0
   flutter_quill: ^6.4.4
   get_it: ^7.2.0
+  shake: ^2.2.0
+  dots_indicator: ^2.0.0
+  expandable_page_view: ^1.0.17
 
 dev_dependencies:
   flutter_test:

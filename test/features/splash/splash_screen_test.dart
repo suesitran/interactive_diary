@@ -26,4 +26,19 @@ void main() {
     // verify that splash UI is just a blank screen
     expect(find.byType(SizedBox), findsOneWidget);
   });
+
+  testWidgets('verify navigate to onboarding', (widgetTester) async {
+    when(appConfigBloc.stream).thenAnswer((realInvocation) =>
+        Stream.value(AppConfigInitialised(isFirstLaunch: true)));
+    when(appConfigBloc.state).thenAnswer(
+        (realInvocation) => AppConfigInitialised(isFirstLaunch: true));
+
+    const Widget widget = SplashScreen();
+
+    await widgetTester.blocWrapAndPump<AppConfigBloc>(appConfigBloc, widget,
+        useRouter: true, targetRoute: '/onboarding');
+
+    // verify that target route is routed
+    expect(find.text('/onboarding'), findsOneWidget);
+  });
 }

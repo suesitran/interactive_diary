@@ -22,7 +22,7 @@ class _DiaryHeader extends StatelessWidget {
           children: [
             // TODO change avatar to be a thumbnail downloaded and store in cached file
             CircleAvatar(
-              radius: NartusDimens.radius32,
+              radius: NartusDimens.radius16,
               backgroundImage: NetworkImage(avatarPath),
             ),
             Expanded(
@@ -39,11 +39,19 @@ class _DiaryHeader extends StatelessWidget {
                   ),
                   Text(S.current.diaryDateFormatter(
                       DateFormat(dateFormat).format(dateTime),
-                      DateFormat(timeFormat).format(dateTime)))
+                      DateFormat(timeFormat).format(dateTime)),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: NartusColor.grey,
+                    height: 1.5
+                  ),)
                 ],
               ),
             )),
-            SvgPicture.asset(Assets.images.idMoreIcon)
+            SvgPicture.asset(
+              Assets.images.idMoreIcon,
+              colorFilter:
+                  const ColorFilter.mode(NartusColor.grey, BlendMode.srcIn),
+            )
           ],
         ),
       );

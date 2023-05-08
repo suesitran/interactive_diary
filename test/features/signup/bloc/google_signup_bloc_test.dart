@@ -13,8 +13,9 @@ import 'google_signup_bloc_test.mocks.dart';
 void main() {
   setupFirebaseAuthMocks();
   final MockAuthenticationService service = MockAuthenticationService();
-  
-  setUpAll(() => ServiceLocator.instance.registerSingleton<AuthenticationService>(service));
+
+  setUpAll(() => ServiceLocator.instance
+      .registerSingleton<AuthenticationService>(service));
 
   group('Test event and states', () {
     blocTest(

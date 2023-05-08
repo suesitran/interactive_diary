@@ -13,9 +13,6 @@ class MainActivity: FlutterActivity() {
         // Handle the splash screen transition.
         val splashScreen = installSplashScreen()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.navigationBars())
-        }
         super.onCreate(savedInstanceState)
     }
 }

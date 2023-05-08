@@ -11,23 +11,39 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/widgets/location_view.dart';
 
 class WriteDiaryScreen extends StatelessWidget {
-  const WriteDiaryScreen({required this.latLng, Key? key}) : super(key: key);
+  const WriteDiaryScreen(
+      {required this.latLng,
+      required this.address,
+      required this.business,
+      Key? key})
+      : super(key: key);
 
   final LatLng latLng;
+  final String? address;
+  final String? business;
 
   @override
   Widget build(BuildContext context) => BlocProvider<WriteDiaryCubit>(
         create: (context) => WriteDiaryCubit(),
         child: WriteDiaryBody(
           latLng: latLng,
+          address: address,
+          business: business,
         ),
       );
 }
 
 class WriteDiaryBody extends StatelessWidget {
   final LatLng latLng;
+  final String? address;
+  final String? business;
 
-  WriteDiaryBody({required this.latLng, Key? key}) : super(key: key);
+  WriteDiaryBody(
+      {required this.latLng,
+      required this.address,
+      required this.business,
+      Key? key})
+      : super(key: key);
 
   final ValueNotifier<String> _isTextWritten = ValueNotifier<String>('');
 
@@ -75,11 +91,11 @@ class WriteDiaryBody extends StatelessWidget {
           ],
         ),
         body: AdvanceTextEditorView(
-          leading: const LocationView(
-            address:
-                'Shop 11, The Strand Arcade, 412-414 George St, Sydney NSW 2000, Australia',
-            latitude: 1.0,
-            longitude: 1.0,
+          leading: LocationView(
+            address: address,
+            businessName: business,
+            latitude: latLng.lat,
+            longitude: latLng.long,
           ),
           onTextChange: (text) => _isTextWritten.value = text,
         ),

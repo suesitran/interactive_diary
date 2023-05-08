@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
-import 'package:nartus_storage/nartus_storage.dart';
+import 'package:interactive_diary/route/route_extra.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 
 export 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ const String splash = '/';
 const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
+const String onboardingRoute = '/onboarding';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
@@ -28,11 +30,17 @@ final GoRouter appRoute = GoRouter(
         return const IDHome();
       },
     ),
+    // write diary screen
     GoRoute(
-      path: writeDiaryRoute,
-      pageBuilder: (BuildContext context, GoRouterState state) =>
-          CustomTransitionPage<Offset>(
-              child: WriteDiaryScreen(latLng: state.extra as LatLng),
+        path: writeDiaryRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          WriteDiaryExtra extra = state.extra as WriteDiaryExtra;
+          return CustomTransitionPage<Offset>(
+              child: WriteDiaryScreen(
+                latLng: extra.latLng,
+                address: extra.address,
+                business: extra.business,
+              ),
               transitionsBuilder: (BuildContext context,
                       Animation<double> animation,
                       Animation<double> secondaryAnimation,
@@ -43,8 +51,8 @@ final GoRouter appRoute = GoRouter(
                       end: Offset.zero,
                     ).animate(animation),
                     child: child,
-                  )),
-    ),
+                  ));
+        }),
     // add other 1st level route
     //no connection screen
     GoRoute(
@@ -53,5 +61,10 @@ final GoRouter appRoute = GoRouter(
         return const NoConnectionScreen();
       },
     ),
+    // onboarding screens
+    GoRoute(
+      path: onboardingRoute,
+      builder: (context, state) => OnboardingScreen(),
+    )
   ],
 );

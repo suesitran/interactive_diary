@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nartus_ui_package/generated/l10n.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapMaterialAndPump(Widget widget,
@@ -41,6 +42,10 @@ class _MaterialWrapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         theme: theme,
+        localizationsDelegates: const [
+          Strings.delegate
+        ],
+        supportedLocales: Strings.delegate.supportedLocales,
         home: Scaffold(
           body: child,
         ),

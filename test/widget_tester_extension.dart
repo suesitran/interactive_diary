@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+import 'package:nartus_ui_package/generated/l10n.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapAndPump(Widget widget,
@@ -18,17 +19,26 @@ extension WidgetExtension on WidgetTester {
     } else {
       await pumpAndSettle();
     }
+
+    if (useRouter) {
+      await tap(find.text('Start testing'));
+      if (infiniteAnimationWidget) {
+        await pump();
+      } else {
+        await pumpAndSettle();
+      }
+    }
   }
 
   Future<void> blocWrapAndPump<B extends StateStreamableSource<Object?>>(
       B bloc, Widget widget,
-      {bool infiniteAnimationWidget = false, bool useRouter = false}) async {
+      {bool infiniteAnimationWidget = false,
+      bool useRouter = false,
+      String? targetRoute}) async {
     final Widget wrapper = BlocProvider<B>(
       create: (_) => bloc,
       child: _MaterialWrapWidget(
-        useRouter: useRouter,
-        child: widget,
-      ),
+          useRouter: useRouter, targetRoute: targetRoute, child: widget),
     );
 
     await pumpWidget(wrapper);
@@ -36,6 +46,15 @@ extension WidgetExtension on WidgetTester {
       await pump();
     } else {
       await pumpAndSettle();
+    }
+
+    if (useRouter) {
+      await tap(find.text('Start testing'));
+      if (infiniteAnimationWidget) {
+        await pump();
+      } else {
+        await pumpAndSettle();
+      }
     }
 
     await pumpFrames(wrapper, const Duration(milliseconds: 16));
@@ -62,6 +81,15 @@ extension WidgetExtension on WidgetTester {
       await pumpAndSettle();
     }
 
+    if (useRouter) {
+      await tap(find.text('Start testing'));
+      if (infiniteAnimationWidget) {
+        await pump();
+      } else {
+        await pumpAndSettle();
+      }
+    }
+
     await pumpFrames(wrapper, const Duration(milliseconds: 16));
   }
 }
@@ -69,9 +97,10 @@ extension WidgetExtension on WidgetTester {
 class _MaterialWrapWidget extends StatelessWidget {
   final Widget child;
   final bool useRouter;
+  final String? targetRoute;
 
   const _MaterialWrapWidget(
-      {required this.child, this.useRouter = false, Key? key})
+      {required this.child, this.useRouter = false, this.targetRoute, Key? key})
       : super(key: key);
 
   @override
@@ -81,13 +110,37 @@ class _MaterialWrapWidget extends StatelessWidget {
             routerConfig: GoRouter(routes: [
               GoRoute(
                 path: '/',
+                builder: (context, state) => Scaffold(
+                  body: Center(
+                    child: TextButton(
+                      child: const Text('Start testing'),
+                      onPressed: () => GoRouter.of(context).push('/target'),
+                    ),
+                  ),
+                ),
+              ),
+              GoRoute(
+                path: '/target',
                 builder: (context, state) => child,
-              )
+              ),
+              if (targetRoute != null)
+                GoRoute(
+                  path: targetRoute!,
+                  builder: (context, state) => Scaffold(
+                    body: Center(
+                      child: Text(targetRoute!),
+                    ),
+                  ),
+                )
             ]),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-              S.delegate
+              S.delegate,
+              Strings.delegate
             ],
-            supportedLocales: S.delegate.supportedLocales,
+            supportedLocales: [
+              ...S.delegate.supportedLocales,
+              ...Strings.delegate.supportedLocales
+            ],
             locale: const Locale('en'),
           )
         : MaterialApp(
@@ -95,9 +148,13 @@ class _MaterialWrapWidget extends StatelessWidget {
               body: child,
             ),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-              S.delegate
+              S.delegate,
+              Strings.delegate
             ],
-            supportedLocales: S.delegate.supportedLocales,
+            supportedLocales: [
+              ...S.delegate.supportedLocales,
+              ...Strings.delegate.supportedLocales
+            ],
             locale: const Locale('en'),
           );
   }

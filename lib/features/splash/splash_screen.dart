@@ -9,17 +9,18 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         // TODO implement Splash screen here
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<AppConfigBloc, AppConfigState>(
-              listener: (BuildContext context, AppConfigState state) {
-                if (state is AppConfigInitialised) {
+        body: MultiBlocListener(listeners: [
+          BlocListener<AppConfigBloc, AppConfigState>(
+            listener: (BuildContext context, AppConfigState state) {
+              if (state is AppConfigInitialised) {
+                if (state.isFirstLaunch) {
+                  context.goToOnboarding();
+                } else {
                   context.goToHome();
                 }
-              },
-            ),
-          ],
-          child: const SizedBox.shrink()
-        ),
+              }
+            },
+          ),
+        ], child: const SizedBox.shrink()),
       );
 }

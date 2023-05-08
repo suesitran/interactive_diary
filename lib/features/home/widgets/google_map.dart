@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/map_style.dart';
-import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
+import 'package:interactive_diary/features/home/widgets/constants/map_svgs.dart';
 
 const String menuCameraMarkerLocationId = 'menuCameraMarkerLocationId';
 const String menuPencilMarkerLocationId = 'menuPencilMarkerLocationId';
@@ -17,12 +17,16 @@ const String baseMarkerCurrentLocationId = 'currentLocationId';
 
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
+  final String? address;
+  final String? business;
 
   final VoidCallback onMenuOpened;
   final VoidCallback onMenuClosed;
 
   const GoogleMapView(
       {required this.currentLocation,
+      required this.address,
+      required this.business,
       required this.onMenuOpened,
       required this.onMenuClosed,
       Key? key})
@@ -142,19 +146,17 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot =
-        await _createDrawableRoot(Assets.images.markerBase);
-    markerAddDrawableRoot = await _createDrawableRoot(Assets.images.markerAdd);
+    baseMarkerDrawableRoot = await _createDrawableRoot(markerBaseSvg);
+    markerAddDrawableRoot = await _createDrawableRoot(markerAdd);
 
     return _computeMarker();
   }
 
   // generate marker base drawable from SVG asset
-  Future<PictureInfo> _createDrawableRoot(String svgPath) async {
+  Future<PictureInfo> _createDrawableRoot(String svgContent) async {
     // load the base marker svg string from asset
-    final String baseMarkerSvgString = await rootBundle.loadString(svgPath);
     // load the base marker from svg
-    return vg.loadPicture(SvgStringLoader(baseMarkerSvgString), null);
+    return vg.loadPicture(SvgStringLoader(svgContent), null);
   }
 
   // draw complete marker with angle
@@ -227,7 +229,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
       if (!_streamController.isClosed) {
         markers.add(Marker(
             markerId: const MarkerId(baseMarkerCurrentLocationId),
-            position: widget.currentLocation,
+            position: LatLng(widget.currentLocation.latitude,
+                widget.currentLocation.longitude),
             icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
             zIndex: 1,
             onTap: () {
@@ -242,21 +245,6 @@ class _GoogleMapViewState extends State<GoogleMapView>
       }
     }
   }
-
-  // void _openContentsBottomSheet() {
-  //   context.read<GetContentsBloc>().getContents();
-  //   setState(() {
-  //     if (currentPos == 0) {
-  //       currentPos = 1;
-  //     }
-  //   });
-  // }
-  //
-  // void _closeContentsBottomSheet() {
-  //   setState(() {
-  //     currentPos = 0;
-  //   });
-  // }
 
   void _specifyCircularMenuIconsAnimation(AnimationController controller) {
     /// Offset(0.5, 1.0) : Is default anchor of Marker
@@ -317,7 +305,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
             icon: penMarkerBitmap,
             anchor: popupPenAnimation.value,
             onTap: () {
-              context.gotoWriteDiaryScreen(widget.currentLocation);
+              context.gotoWriteDiaryScreen(
+                  widget.currentLocation, widget.address, widget.business);
               _closeMenuIfOpening();
             }),
         Marker(
@@ -342,18 +331,14 @@ class _GoogleMapViewState extends State<GoogleMapView>
   }
 
   Future<void> _generateMenuBitmap() async {
-    penMarkerBitmap =
-        await _createDrawableRoot(Assets.images.idCircularIconPencil)
-            .then((PictureInfo value) => _computeMenuMarker(value));
-    emojiMarkerBitmap =
-        await _createDrawableRoot(Assets.images.idCircularIconEmoji)
-            .then((PictureInfo value) => _computeMenuMarker(value));
-    cameraMarkerBitmap =
-        await _createDrawableRoot(Assets.images.idCircularIconCamera)
-            .then((PictureInfo value) => _computeMenuMarker(value));
-    voiceMarkerBitmap =
-        await _createDrawableRoot(Assets.images.idCircularIconMicro)
-            .then((PictureInfo value) => _computeMenuMarker(value));
+    penMarkerBitmap = await _createDrawableRoot(idCircularIconPencil)
+        .then((PictureInfo value) => _computeMenuMarker(value));
+    emojiMarkerBitmap = await _createDrawableRoot(idCircularIconEmoji)
+        .then((PictureInfo value) => _computeMenuMarker(value));
+    cameraMarkerBitmap = await _createDrawableRoot(idCircularIconCamera)
+        .then((PictureInfo value) => _computeMenuMarker(value));
+    voiceMarkerBitmap = await _createDrawableRoot(idCircularIconMicro)
+        .then((PictureInfo value) => _computeMenuMarker(value));
 
     return _generateCircularMenuIcons();
   }

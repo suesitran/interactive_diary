@@ -26,6 +26,7 @@ class _DiaryContent extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // first item: show either text or image
             if (type == DiaryDisplayType.thumbnailsOnly)
@@ -36,6 +37,7 @@ class _DiaryContent extends StatelessWidget {
               Text(
                 text!,
                 style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.start,
               ),
             // second item
             // if text only, do not show this second item
@@ -85,6 +87,7 @@ class _DiaryContent extends StatelessWidget {
                                           .textTheme
                                           .titleMedium
                                           ?.copyWith(color: NartusColor.white),
+                                      textAlign: TextAlign.start,
                                     ),
                                   ),
                               ],

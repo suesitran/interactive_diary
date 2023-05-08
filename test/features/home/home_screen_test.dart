@@ -2,34 +2,70 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
+import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
+import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
+import 'package:nartus_storage/nartus_storage.dart' hide LatLng;
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-@GenerateMocks(<Type>[LocationBloc, ConnectivityBloc, LocationService])
+@GenerateMocks(<Type>[
+  LocationBloc,
+  ConnectivityBloc,
+  LocationService,
+  AppConfigBloc,
+  GeocoderService,
+  LoadDiaryCubit,
+  StorageService
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  initializeDateFormatting();
 
   final MockLocationBloc mockLocationBloc = MockLocationBloc();
   final MockConnectivityBloc mockConnectivityBloc = MockConnectivityBloc();
   final MockLocationService locationService = MockLocationService();
+  final MockAppConfigBloc appConfigBloc = MockAppConfigBloc();
+  final MockGeocoderService geocoderService = MockGeocoderService();
+  final MockLoadDiaryCubit loadDiaryCubit = MockLoadDiaryCubit();
+  final MockStorageService storageService = MockStorageService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
+    ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
+    ServiceLocator.instance.registerSingleton<StorageService>(storageService);
+
     when(mockConnectivityBloc.stream)
         .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
 
-    when(locationService.getCurrentLocation()).thenAnswer((realInvocation) => Future.value(LocationDetails(0.0, 0.0)));
+    when(locationService.getCurrentLocation()).thenAnswer(
+        (realInvocation) => Future.value(LocationDetails(0.0, 0.0)));
+
+    when(appConfigBloc.state).thenReturn(AppConfigInitial());
+    when(appConfigBloc.stream)
+        .thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
+
+    when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+        (realInvocation) =>
+            Future.value(LocationDetail('address', 'business')));
+
+    when(loadDiaryCubit.state)
+        .thenAnswer((realInvocation) => LoadDiaryInitial());
+    when(loadDiaryCubit.stream)
+        .thenAnswer((realInvocation) => Stream.value(LoadDiaryInitial()));
   });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
@@ -37,16 +73,21 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022')));
-    when(mockLocationBloc.state).thenAnswer(
-        (_) => LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022'));
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null)));
+    when(mockLocationBloc.state).thenAnswer((_) =>
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null));
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
           BlocProvider<LocationBloc>(create: (_) {
             return mockLocationBloc;
           }),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          ),
+          BlocProvider<LoadDiaryCubit>(
+            create: (_) => loadDiaryCubit,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(
@@ -60,29 +101,33 @@ void main() {
   });
 
   // comment out because of issue https://github.com/flutter/flutter/issues/120556
-  // testWidgets(
-  //     'When State is LocationReadyState, then GoogleMapView is presented',
-  //     (WidgetTester widgetTester) async {
-  //   const IDHome widget = IDHome();
-  //
-  //   final LocationReadyState state =
-  //       LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022');
-  //
-  //   when(mockLocationBloc.stream)
-  //       .thenAnswer((_) => Stream<LocationState>.value(state));
-  //   when(mockLocationBloc.state).thenAnswer((_) => state);
-  //
-  //   await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-  //           <BlocProvider<StateStreamableSource<Object?>>>[
-  //             BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-  //             BlocProvider<ConnectivityBloc>(
-  //                 create: (_) => mockConnectivityBloc)
-  //           ],
-  //           widget));
-  //   await widgetTester.pumpAndSettle();
-  //
-  //   expect(find.byType(GoogleMapView), findsOneWidget);
-  // });
+  testWidgets(
+      'When State is LocationReadyState, then GoogleMapView is presented',
+      (WidgetTester widgetTester) async {
+    const IDHomeBody widget = IDHomeBody();
+
+    final LocationReadyState state =
+        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null);
+
+    when(mockLocationBloc.stream)
+        .thenAnswer((_) => Stream<LocationState>.value(state));
+    when(mockLocationBloc.state).thenAnswer((_) => state);
+
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
+            BlocProvider<StateStreamableSource<Object?>>>[
+          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          ),
+          BlocProvider<LoadDiaryCubit>(
+            create: (_) => loadDiaryCubit,
+          )
+        ], widget, useRouter: true));
+    await widgetTester.pumpAndSettle();
+
+    expect(find.byType(GoogleMapView), findsOneWidget);
+  });
 
   testWidgets(
       'When state is LocationInitial, then CircularProgressIndicator is presented',
@@ -97,7 +142,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -116,7 +164,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.text('Location Permission not granted'), findsOneWidget);
@@ -141,7 +192,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
     expect(find.text('Turn on your location'), findsOneWidget);
@@ -166,7 +220,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -189,7 +246,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -212,7 +272,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -235,7 +298,10 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
             BlocProvider<StateStreamableSource<Object?>>>[
           BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc)
+          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
+          BlocProvider<AppConfigBloc>(
+            create: (_) => appConfigBloc,
+          )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
@@ -262,6 +328,9 @@ void main() {
               ),
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
+              ),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
               )
             ],
             widget,
@@ -296,6 +365,9 @@ void main() {
               ),
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
+              ),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
               )
             ],
             widget,
@@ -328,6 +400,9 @@ void main() {
               ),
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
+              ),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
               )
             ],
             widget,
@@ -359,6 +434,9 @@ void main() {
               ),
               BlocProvider<LocationBloc>(
                 create: (_) => mockLocationBloc,
+              ),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
               )
             ],
             widget,
@@ -395,6 +473,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -422,6 +503,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -455,6 +539,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -489,6 +576,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -523,6 +613,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -562,6 +655,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -595,6 +691,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -628,6 +727,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -643,7 +745,9 @@ void main() {
       verify(mockLocationBloc.requestDefaultLocation()).called(1);
     });
 
-    testWidgets('given requesting location permission', (widgetTester) async {
+    testWidgets(
+        'given requesting location permission, when return to screen, then call onReturnFromSettings',
+        (widgetTester) async {
       const IDHomeBody widget = IDHomeBody();
 
       when(mockLocationBloc.stream).thenAnswer((_) =>
@@ -659,6 +763,9 @@ void main() {
                 ),
                 BlocProvider<LocationBloc>(
                   create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
                 )
               ],
               widget,
@@ -672,15 +779,22 @@ void main() {
   });
 
   // TODO fix this test when improving loading process in google_map
-  // testWidgets('Verify IDHome has a bloc and content is a IDHomeBody',
-  //     (widgetTester) async {
-  //   const Widget widget = IDHome();
-  //
-  //   await widgetTester.blocWrapAndPump<ConnectivityBloc>(
-  //       mockConnectivityBloc, widget,
-  //       infiniteAnimationWidget: true, useRouter: true);
-  //
-  //   expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
-  //   expect(find.byType(IDHomeBody), findsOneWidget);
-  // });
+  testWidgets('Verify IDHome has a bloc and content is a IDHomeBody',
+      (widgetTester) async {
+    const Widget widget = IDHome();
+
+    await widgetTester.multiBlocWrapAndPump([
+      // BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+      BlocProvider<AppConfigBloc>(
+        create: (_) => appConfigBloc,
+      ),
+      BlocProvider<ConnectivityBloc>(
+        create: (_) => mockConnectivityBloc,
+      )
+    ], widget, infiniteAnimationWidget: true, useRouter: true);
+
+    expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
+    expect(find.byType(BlocProvider<LoadDiaryCubit>), findsOneWidget);
+    expect(find.byType(IDHomeBody), findsOneWidget);
+  });
 }

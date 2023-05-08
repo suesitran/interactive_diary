@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
@@ -24,25 +24,26 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/danger.svg
+  String get danger => 'assets/images/danger.svg';
+
+  /// File path: assets/images/diary_list-_no_post.svg
+  String get diaryListNoPost => 'assets/images/diary_list-_no_post.svg';
+
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
+
+  /// File path: assets/images/id_apple_icon.svg
+  String get idAppleIcon => 'assets/images/id_apple_icon.svg';
 
   /// File path: assets/images/id_camera_icon.svg
   String get idCameraIcon => 'assets/images/id_camera_icon.svg';
 
-  /// File path: assets/images/id_circular_icon_camera.svg
-  String get idCircularIconCamera =>
-      'assets/images/id_circular_icon_camera.svg';
+  /// File path: assets/images/id_facebook_icon.svg
+  String get idFacebookIcon => 'assets/images/id_facebook_icon.svg';
 
-  /// File path: assets/images/id_circular_icon_emoji.svg
-  String get idCircularIconEmoji => 'assets/images/id_circular_icon_emoji.svg';
-
-  /// File path: assets/images/id_circular_icon_micro.svg
-  String get idCircularIconMicro => 'assets/images/id_circular_icon_micro.svg';
-
-  /// File path: assets/images/id_circular_icon_pencil.svg
-  String get idCircularIconPencil =>
-      'assets/images/id_circular_icon_pencil.svg';
+  /// File path: assets/images/id_google_icon.svg
+  String get idGoogleIcon => 'assets/images/id_google_icon.svg';
 
   /// File path: assets/images/id_heart_icon_padding.svg
   String get idHeartIconPadding => 'assets/images/id_heart_icon_padding.svg';
@@ -56,6 +57,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_location_marker_icon.svg
   String get idLocationMarkerIcon =>
       'assets/images/id_location_marker_icon.svg';
+
+  /// File path: assets/images/id_login_with_email.svg
+  String get idLoginWithEmail => 'assets/images/id_login_with_email.svg';
 
   /// File path: assets/images/id_message_icon_padding.svg
   String get idMessageIconPadding =>
@@ -80,11 +84,8 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_smile_icon.svg
   String get idSmileIcon => 'assets/images/id_smile_icon.svg';
 
-  /// File path: assets/images/marker_add.svg
-  String get markerAdd => 'assets/images/marker_add.svg';
-
-  /// File path: assets/images/marker_base.svg
-  String get markerBase => 'assets/images/marker_base.svg';
+  /// File path: assets/images/id_sms_icon.svg
+  String get idSmsIcon => 'assets/images/id_sms_icon.svg';
 
   /// File path: assets/images/marker_nonetap.png
   AssetGenImage get markerNonetap =>
@@ -97,6 +98,15 @@ class $AssetsImagesGen {
   /// File path: assets/images/no_connection.svg
   String get noConnection => 'assets/images/no_connection.svg';
 
+  /// File path: assets/images/onboarding_1.svg
+  String get onboarding1 => 'assets/images/onboarding_1.svg';
+
+  /// File path: assets/images/onboarding_2.svg
+  String get onboarding2 => 'assets/images/onboarding_2.svg';
+
+  /// File path: assets/images/onboarding_3.svg
+  String get onboarding3 => 'assets/images/onboarding_3.svg';
+
   /// File path: assets/images/splash_screen.png
   AssetGenImage get splashScreen =>
       const AssetGenImage('assets/images/splash_screen.png');
@@ -107,16 +117,18 @@ class $AssetsImagesGen {
         arrowDown,
         back,
         calendar,
+        danger,
+        diaryListNoPost,
         icTextController,
+        idAppleIcon,
         idCameraIcon,
-        idCircularIconCamera,
-        idCircularIconEmoji,
-        idCircularIconMicro,
-        idCircularIconPencil,
+        idFacebookIcon,
+        idGoogleIcon,
         idHeartIconPadding,
         idLocationIcon,
         idLocationImg,
         idLocationMarkerIcon,
+        idLoginWithEmail,
         idMessageIconPadding,
         idMicroIcon,
         idMoreIcon,
@@ -124,11 +136,13 @@ class $AssetsImagesGen {
         idProfileUserIconPadding,
         idShareIconPadding,
         idSmileIcon,
-        markerAdd,
-        markerBase,
+        idSmsIcon,
         markerNonetap,
         markerOntap,
         noConnection,
+        onboarding1,
+        onboarding2,
+        onboarding3,
         splashScreen
       ];
 }
