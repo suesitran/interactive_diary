@@ -29,7 +29,6 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
       Document? document;
       for (Content content in diary.contents) {
         if (content is TextDiary) {
-          print('print ${content.description}');
           final textJson = jsonDecode(content.description);
           document = Document.fromJson(textJson);
           plainText += '${document.toPlainText()}\n';
