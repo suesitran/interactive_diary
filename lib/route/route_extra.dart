@@ -1,4 +1,3 @@
-import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
 class WriteDiaryExtra {

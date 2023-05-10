@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_detail_cubit.dart';
 import 'package:interactive_diary/features/diary_detail/widgets/diary_header.dart';
-import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';

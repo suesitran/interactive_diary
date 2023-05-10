@@ -1,5 +1,3 @@
-import 'package:flutter_quill/flutter_quill.dart';
-
 class DiaryDisplayContent {
   final String userDisplayName;
   final DateTime dateTime;

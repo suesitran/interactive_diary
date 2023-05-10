@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as map
     show LatLng;
-import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/route/route_extra.dart';
 import 'package:nartus_storage/nartus_storage.dart';
