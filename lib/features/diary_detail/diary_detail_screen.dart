@@ -64,8 +64,7 @@ class _DiaryDetailBodyState extends State<DiaryDetailBody> {
                     label: state.contents.plainText ?? '',
                     child: QuillEditor(
                       padding: EdgeInsets.zero,
-                      controller:
-                          state.contents.richText ?? QuillController.basic(),
+                      controller: state.richText,
                       readOnly: true,
                       autoFocus: true,
                       expands: false,

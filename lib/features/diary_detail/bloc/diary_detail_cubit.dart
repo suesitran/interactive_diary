@@ -127,11 +127,11 @@ class DiaryDetailCubit extends Cubit<DiaryDetailState> {
         'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
 
     DiaryDisplayContent displayContents = DiaryDisplayContent(
-        userDisplayName: userDisplayName,
-        dateTime: dateTime,
-        userPhotoUrl: userPhotoUrl,
-        plainText: plainText.trim(),
-        richText: richText);
+      userDisplayName: userDisplayName,
+      dateTime: dateTime,
+      userPhotoUrl: userPhotoUrl,
+      plainText: plainText.trim(),
+    );
 
     emit(LoadDiaryDetailCompleted(displayContents, richText));
   }
