@@ -174,7 +174,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                                 children: displayContents
                                     .map((e) => InkWell(
                                           onTap: () =>
-                                              context.gotoDiaryDetailScreen(e),
+                                              context.gotoDiaryDetailScreen(),
                                           child: ContentCardView(
                                             displayName: e.userDisplayName,
                                             photoUrl: e.userPhotoUrl,

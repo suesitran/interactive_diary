@@ -8,8 +8,3 @@ class WriteDiaryExtra {
 
   WriteDiaryExtra(this.latLng, this.address, this.business);
 }
-
-class DiaryDetailExtra {
-  final DiaryDisplayContent displayContent;
-  DiaryDetailExtra(this.displayContent);
-}

@@ -58,23 +58,8 @@ final GoRouter appRoute = GoRouter(
 
     GoRoute(
         path: diaryDetailRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) {
-          DiaryDetailExtra extra = state.extra as DiaryDetailExtra;
-          return CustomTransitionPage<Offset>(
-              child: DiaryDetailBody(
-                displayContent: extra.displayContent,
-              ),
-              transitionsBuilder: (BuildContext context,
-                      Animation<double> animation,
-                      Animation<double> secondaryAnimation,
-                      Widget child) =>
-                  SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0.0, 1.0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ));
+        builder: (BuildContext context, GoRouterState state) {
+          return const DiaryDetailScreen();
         }),
 
     // add other 1st level route

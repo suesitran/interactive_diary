@@ -6,13 +6,12 @@ class DiaryDisplayContent {
   final String userPhotoUrl;
   final String? plainText;
   final List<String> imageUrl;
-  final Document? document;
 
-  DiaryDisplayContent(
-      {required this.userDisplayName,
-      required this.dateTime,
-      required this.userPhotoUrl,
-      this.plainText,
-      this.imageUrl = const [],
-      this.document});
+  DiaryDisplayContent({
+    required this.userDisplayName,
+    required this.dateTime,
+    required this.userPhotoUrl,
+    this.plainText,
+    this.imageUrl = const [],
+  });
 }

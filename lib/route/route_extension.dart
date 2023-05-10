@@ -24,9 +24,8 @@ extension RouterExtension on BuildContext {
             business));
   }
 
-  void gotoDiaryDetailScreen(DiaryDisplayContent displayContent) {
-    GoRouter.of(this)
-        .push(diaryDetailRoute, extra: DiaryDetailExtra(displayContent));
+  void gotoDiaryDetailScreen() {
+    GoRouter.of(this).push(diaryDetailRoute);
   }
 
   void goToHome() {

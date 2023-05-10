@@ -8,3 +8,12 @@ abstract class DiaryDetailState extends Equatable {
 }
 
 class DiaryDetailInitial extends DiaryDetailState {}
+
+class LoadDiaryDetailCompleted extends DiaryDetailState {
+  final DiaryDisplayContent contents;
+  final QuillController richText;
+
+  const LoadDiaryDetailCompleted(this.contents, this.richText);
+  @override
+  List<Object> get props => [contents, richText];
+}
