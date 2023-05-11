@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:interactive_diary/features/diary_detail/bloc/diary_detail_cubit.dart';
 import 'package:interactive_diary/features/diary_detail/widgets/diary_header.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
@@ -14,36 +12,130 @@ class DiaryDetailScreen extends StatelessWidget {
   const DiaryDetailScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BlocProvider<DiaryDetailCubit>(
-        create: (context) => DiaryDetailCubit()..loadDiaryDetail(),
-        child: const DiaryDetailBody(),
-      );
-}
-
-class DiaryDetailBody extends StatelessWidget {
-  const DiaryDetailBody({Key? key}) : super(key: key);
-
-  @override
   Widget build(BuildContext context) {
+    int timeStamp = 1683310211667;
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
+
+    List<Map<String, Object>> textJson = [
+      {
+        'insert':
+            'Steak anchovies parmesan ipsum white ipsum personal string platter. White platter ipsum ',
+        'attributes': {'italic': true}
+      },
+      {
+        'insert':
+            'lasagna wing style ricotta. Bell white thin platter thin bacon Chicago. '
+      },
+      {
+        'insert': 'Mayo sausage NY green lasagna Aussie deep roll bacon. ',
+        'attributes': {'bold': true, 'italic': true, 'underline': true}
+      },
+      {
+        'insert':
+            'Ricotta thin and large pork lovers. Dolor pizza personal green broccoli green Aussie pesto melted black. Banana broccoli spinach meat meat sautéed bell. '
+      },
+      {
+        'insert':
+            'Pesto bacon pepperoni sausage wing mozzarella. Pie mayo meat pesto and pepperoni dolor dolor thin.',
+        'attributes': {'background': '#2f89eb', 'color': '#faa49e'}
+      },
+      {'insert': '\n\n'},
+      {
+        'insert': 'Lorem ipsum dolor sit amet',
+        'attributes': {'color': '#0fabe2'}
+      },
+      {'insert': '\n'},
+      {
+        'insert':
+            'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+        'attributes': {'color': '#0fabe2'}
+      },
+      {'insert': '\n\n'},
+      {
+        'insert':
+            'Steak anchovies parmesan ipsum white ipsum personal string platter. White platter ipsum ',
+        'attributes': {'italic': true}
+      },
+      {
+        'insert':
+            'lasagna wing style ricotta. Bell white thin platter thin bacon Chicago. '
+      },
+      {
+        'insert': 'Mayo sausage NY green lasagna Aussie deep roll bacon. ',
+        'attributes': {'bold': true, 'italic': true, 'underline': true}
+      },
+      {
+        'insert':
+            'Ricotta thin and large pork lovers. Dolor pizza personal green broccoli green Aussie pesto melted black. Banana broccoli spinach meat meat sautéed bell. '
+      },
+      {
+        'insert':
+            'Pesto bacon pepperoni sausage wing mozzarella. Pie mayo meat pesto and pepperoni dolor dolor thin.',
+        'attributes': {'background': '#2f89eb', 'color': '#faa49e'}
+      },
+      {'insert': '\n\n'},
+      {
+        'insert': 'Lorem ipsum dolor sit amet',
+        'attributes': {'color': '#0fabe2'}
+      },
+      {'insert': '\n'},
+      {
+        'insert':
+            'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+        'attributes': {'color': '#00eeff'}
+      },
+      {'insert': '\n\n'},
+      {
+        'insert':
+            'lasagna wing style ricotta. Bell white thin platter thin bacon Chicago. '
+      },
+      {
+        'insert': 'Mayo sausage NY green lasagna Aussie deep roll bacon. ',
+        'attributes': {'bold': true, 'italic': true, 'underline': true}
+      },
+      {
+        'insert':
+            'Ricotta thin and large pork lovers. Dolor pizza personal green broccoli green Aussie pesto melted black. Banana broccoli spinach meat meat sautéed bell. '
+      },
+      {
+        'insert':
+            'Pesto bacon pepperoni sausage wing mozzarella. Pie mayo meat pesto and pepperoni dolor dolor thin.',
+        'attributes': {'background': '#2f89eb', 'color': '#faa49e'}
+      },
+      {
+        'insert':
+            'Steak anchovies parmesan ipsum white ipsum personal string platter. White platter ipsum ',
+        'attributes': {'italic': true}
+      },
+      {
+        'insert':
+            'lasagna wing style ricotta. Bell white thin platter thin bacon Chicago. '
+      },
+      {
+        'insert': 'Mayo sausage NY green lasagna Aussie deep roll bacon. ',
+        'attributes': {'bold': true, 'italic': true, 'underline': true}
+      },
+      {
+        'insert':
+            'Ricotta thin and large pork lovers. Dolor pizza personal green broccoli green Aussie pesto melted black. Banana broccoli spinach meat meat sautéed bell. '
+      },
+      {'insert': '\n\n'},
+    ];
+
+    String userDisplayName = 'Hoang Nguyen';
+    String userPhotoUrl =
+        'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
+    Document? document = Document.fromJson(textJson);
+    QuillController richText = QuillController(
+        document: document,
+        selection: const TextSelection.collapsed(offset: 0));
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        title: BlocBuilder<DiaryDetailCubit, DiaryDetailState>(
-          builder: (context, state) {
-            String? avatarPath = '';
-            String? displayName = '';
-            DateTime dateTime = DateTime.now();
-            if (state is LoadDiaryDetailCompleted) {
-              displayName = state.contents.userDisplayName;
-              avatarPath = state.contents.userPhotoUrl;
-              dateTime = state.contents.dateTime;
-            }
-            return DiaryHeaderAppbar(
-              avatarPath: avatarPath,
-              displayName: displayName,
-              dateTime: dateTime,
-            );
-          },
+        title: DiaryHeaderAppbar(
+          avatarPath: userPhotoUrl,
+          displayName: userDisplayName,
+          dateTime: dateTime,
         ),
         backgroundColor: NartusColor.background,
         leading: NartusButton.text(
@@ -62,30 +154,19 @@ class DiaryDetailBody extends StatelessWidget {
             bottom: NartusDimens.padding16),
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
-          child: BlocBuilder<DiaryDetailCubit, DiaryDetailState>(
-            builder: (context, state) {
-              QuillController? richText = QuillController.basic();
-              if (state is LoadDiaryDetailCompleted) {
-                Document? document = Document.fromJson(state.textJson);
-                richText = QuillController(
-                    document: document,
-                    selection: const TextSelection.collapsed(offset: 0));
-              }
-              return Semantics(
-                child: QuillEditor(
-                  padding: EdgeInsets.zero,
-                  controller: richText,
-                  readOnly: true,
-                  autoFocus: true,
-                  expands: false,
-                  scrollable: true,
-                  focusNode: FocusNode()..canRequestFocus = false,
-                  scrollController: ScrollController(),
-                  enableInteractiveSelection: false,
-                  enableSelectionToolbar: false,
-                ),
-              );
-            },
+          child: Semantics(
+            child: QuillEditor(
+              padding: EdgeInsets.zero,
+              controller: richText,
+              readOnly: true,
+              autoFocus: true,
+              expands: false,
+              scrollable: true,
+              focusNode: FocusNode()..canRequestFocus = false,
+              scrollController: ScrollController(),
+              enableInteractiveSelection: false,
+              enableSelectionToolbar: false,
+            ),
           ),
         ),
       ),
