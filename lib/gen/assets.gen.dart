@@ -24,11 +24,20 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/close_icon.svg
+  String get closeIcon => 'assets/images/close_icon.svg';
+
   /// File path: assets/images/danger.svg
   String get danger => 'assets/images/danger.svg';
 
   /// File path: assets/images/diary_list-_no_post.svg
   String get diaryListNoPost => 'assets/images/diary_list-_no_post.svg';
+
+  /// File path: assets/images/flip_icon.svg
+  String get flipIcon => 'assets/images/flip_icon.svg';
+
+  /// File path: assets/images/gallery_icon.svg
+  String get galleryIcon => 'assets/images/gallery_icon.svg';
 
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
@@ -117,8 +126,11 @@ class $AssetsImagesGen {
         arrowDown,
         back,
         calendar,
+        closeIcon,
         danger,
         diaryListNoPost,
+        flipIcon,
+        galleryIcon,
         icTextController,
         idAppleIcon,
         idCameraIcon,
@@ -211,7 +223,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 
