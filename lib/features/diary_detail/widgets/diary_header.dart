@@ -28,9 +28,11 @@ class DiaryHeaderAppbar extends StatelessWidget {
           child: Row(
             children: [
               // TODO change avatar to be a thumbnail downloaded and store in cached file
-              CircleAvatar(
-                radius: NartusDimens.radius16,
-                backgroundImage: NetworkImage(avatarPath),
+              ExcludeSemantics(
+                child: CircleAvatar(
+                  radius: NartusDimens.radius16,
+                  backgroundImage: NetworkImage(avatarPath),
+                ),
               ),
               Expanded(
                   child: Padding(

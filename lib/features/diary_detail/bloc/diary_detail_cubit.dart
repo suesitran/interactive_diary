@@ -12,7 +12,7 @@ class DiaryDetailCubit extends Cubit<DiaryDetailState> {
     int timeStamp = 1683310211667;
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
 
-    var textJson = [
+    List<Map<String, Object>> textJson = [
       {
         'insert':
             'Steak anchovies parmesan ipsum white ipsum personal string platter. White platter ipsum ',
@@ -117,11 +117,7 @@ class DiaryDetailCubit extends Cubit<DiaryDetailState> {
       },
       {'insert': '\n\n'},
     ];
-    Document? document = Document.fromJson(textJson);
-    String plainText = document.toPlainText();
-    QuillController richText = QuillController(
-        document: document,
-        selection: const TextSelection.collapsed(offset: 0));
+
     String userDisplayName = 'Hoang Nguyen';
     String userPhotoUrl =
         'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
@@ -130,9 +126,8 @@ class DiaryDetailCubit extends Cubit<DiaryDetailState> {
       userDisplayName: userDisplayName,
       dateTime: dateTime,
       userPhotoUrl: userPhotoUrl,
-      plainText: plainText.trim(),
     );
 
-    emit(LoadDiaryDetailCompleted(displayContents, richText));
+    emit(LoadDiaryDetailCompleted(displayContents, textJson));
   }
 }

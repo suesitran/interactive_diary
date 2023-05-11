@@ -11,9 +11,9 @@ class DiaryDetailInitial extends DiaryDetailState {}
 
 class LoadDiaryDetailCompleted extends DiaryDetailState {
   final DiaryDisplayContent contents;
-  final QuillController richText;
+  final List<Map<String, Object>> textJson;
 
-  const LoadDiaryDetailCompleted(this.contents, this.richText);
+  const LoadDiaryDetailCompleted(this.contents, this.textJson);
   @override
-  List<Object> get props => [contents, richText];
+  List<Object> get props => [contents, textJson];
 }

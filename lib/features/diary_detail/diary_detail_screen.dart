@@ -20,70 +20,79 @@ class DiaryDetailScreen extends StatelessWidget {
       );
 }
 
-class DiaryDetailBody extends StatefulWidget {
+class DiaryDetailBody extends StatelessWidget {
   const DiaryDetailBody({Key? key}) : super(key: key);
 
   @override
-  State<DiaryDetailBody> createState() => _DiaryDetailBodyState();
-}
-
-class _DiaryDetailBodyState extends State<DiaryDetailBody> {
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DiaryDetailCubit, DiaryDetailState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is LoadDiaryDetailCompleted) {
-            return Scaffold(
-              appBar: AppBar(
-                titleSpacing: 0,
-                title: DiaryHeaderAppbar(
-                  avatarPath: state.contents.userPhotoUrl,
-                  displayName: state.contents.userDisplayName,
-                  dateTime: state.contents.dateTime,
-                ),
-                backgroundColor: NartusColor.background,
-                leading: NartusButton.text(
-                  iconPath: Assets.images.back,
-                  iconSemanticLabel: S.of(context).back,
-                  onPressed: () {
-                    _returnToPreviousPage(context);
-                  },
-                ),
-                elevation: 0.0,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.only(
-                    left: NartusDimens.padding16,
-                    right: NartusDimens.padding16,
-                    bottom: NartusDimens.padding32),
-                child: SingleChildScrollView(
-                  // physics: const ClampingScrollPhysics(),
-                  child: Semantics(
-                    label: state.contents.plainText ?? '',
-                    child: QuillEditor(
-                      padding: EdgeInsets.zero,
-                      controller: state.richText,
-                      readOnly: true,
-                      autoFocus: true,
-                      expands: false,
-                      scrollable: true,
-                      focusNode: FocusNode()..canRequestFocus = false,
-                      scrollController: ScrollController(),
-                      enableInteractiveSelection: false,
-                      enableSelectionToolbar: false,
-                    ),
-                  ),
-                ),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: BlocBuilder<DiaryDetailCubit, DiaryDetailState>(
+          builder: (context, state) {
+            String? avatarPath = '';
+            String? displayName = '';
+            DateTime dateTime = DateTime.now();
+            if (state is LoadDiaryDetailCompleted) {
+              displayName = state.contents.userDisplayName;
+              avatarPath = state.contents.userPhotoUrl;
+              dateTime = state.contents.dateTime;
+            }
+            return DiaryHeaderAppbar(
+              avatarPath: avatarPath,
+              displayName: displayName,
+              dateTime: dateTime,
             );
-          }
-          return const SizedBox();
-        });
+          },
+        ),
+        backgroundColor: NartusColor.background,
+        leading: NartusButton.text(
+          iconPath: Assets.images.back,
+          iconSemanticLabel: S.of(context).back,
+          onPressed: () {
+            _returnToPreviousPage(context);
+          },
+        ),
+        elevation: 0.0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(
+            left: NartusDimens.padding16,
+            right: NartusDimens.padding16,
+            bottom: NartusDimens.padding16),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: BlocBuilder<DiaryDetailCubit, DiaryDetailState>(
+            builder: (context, state) {
+              QuillController? richText = QuillController.basic();
+              if (state is LoadDiaryDetailCompleted) {
+                Document? document = Document.fromJson(state.textJson);
+                richText = QuillController(
+                    document: document,
+                    selection: const TextSelection.collapsed(offset: 0));
+              }
+              return Semantics(
+                child: QuillEditor(
+                  padding: EdgeInsets.zero,
+                  controller: richText,
+                  readOnly: true,
+                  autoFocus: true,
+                  expands: false,
+                  scrollable: true,
+                  focusNode: FocusNode()..canRequestFocus = false,
+                  scrollController: ScrollController(),
+                  enableInteractiveSelection: false,
+                  enableSelectionToolbar: false,
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   void _returnToPreviousPage(BuildContext context) {
-    // WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     Navigator.of(context).pop();
   }
 }
