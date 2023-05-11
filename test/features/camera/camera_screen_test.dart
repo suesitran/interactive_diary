@@ -29,6 +29,7 @@ void main() {
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen, useRouter: true));
 
+    await widgetTester.pumpAndSettle();
     await widgetTester.tap(find.bySemanticsLabel(S.current.close));
     await widgetTester.pumpAndSettle();
     expect(find.byType(CameraScreen), findsNothing);
@@ -43,6 +44,7 @@ void main() {
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen, useRouter: true));
 
+    await widgetTester.pumpAndSettle();
     await widgetTester.tap(find.byType(CaptureMediaButton));
     await widgetTester.pumpAndSettle();
     expect(find.byType(CameraScreen), findsNothing);

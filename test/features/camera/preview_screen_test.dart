@@ -32,6 +32,7 @@ void main() {
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen, useRouter: true));
 
+    await widgetTester.pumpAndSettle();
     await widgetTester.tap(find.bySemanticsLabel(S.current.close));
     await widgetTester.pumpAndSettle();
     expect(find.byType(PreviewScreen), findsNothing);
