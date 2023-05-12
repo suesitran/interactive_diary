@@ -29,21 +29,23 @@ class PreviewScreen extends StatelessWidget {
                       bottomRight: Radius.circular(NartusDimens.padding24),
                     ),
                     image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
-                          ))
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
+                        ))
                   ),
                 ),
                 Positioned(
-                    top: NartusDimens.padding40 + NartusDimens.padding4,
-                    left: NartusDimens.padding16,
+                  top: NartusDimens.padding16,
+                  left: NartusDimens.padding16,
+                  child: SafeArea(
                     child: CircleButton(
                       size: NartusDimens.padding40,
                       iconPath: Assets.images.closeIcon,
                       semantic: S.current.close,
                       onPressed: () => context.pop(),
-                    )),
+                    ),
+                  )),
               ],
             ),
             Expanded(

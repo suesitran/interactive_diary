@@ -27,17 +27,16 @@ class CameraScreen extends StatelessWidget {
                 ))),
           ),
           Positioned(
-              /// Detect if phone has notch
-              top: MediaQuery.of(context).padding.top > 24
-                ? MediaQuery.of(context).padding.top
-                : MediaQuery.of(context).padding.top + NartusDimens.padding16,
-              left: NartusDimens.padding16,
+            top: NartusDimens.padding16,
+            left: NartusDimens.padding16,
+            child: SafeArea(
               child: CircleButton(
                 size: NartusDimens.padding40,
                 iconPath: Assets.images.closeIcon,
                 semantic: S.current.close,
                 onPressed: () => context.pop(),
-              )),
+              ),
+            )),
           Positioned(
             left: 0, right: 0,
             bottom: MediaQuery.of(context).viewPadding.bottom > 0
