@@ -37,18 +37,4 @@ void main() {
     await widgetTester.pumpAndSettle();
     expect(find.byType(PreviewScreen), findsNothing);
   });
-
-  // testWidgets(
-  //     '[GIVEN] User is in Camera Screen'
-  //     '[WHEN]  User tap on CAPTURE button, '
-  //     '[THEN]  User will be moved to Preview Screen',
-  //     (WidgetTester widgetTester) async {
-  //   final CameraScreen screen = CameraScreen();
-
-  //   await widgetTester.wrapAndPump(screen);
-
-  //   await widgetTester.tap(find.byType(CaptureMediaButton));
-  //   await widgetTester.pump();
-  //   expect(find.byType(PreviewScreen), findsOneWidget);
-  // });
 }

@@ -12,12 +12,11 @@ void main() {
     '[WHEN]  User open camera screen, '
     '[THEN]  User will see 4 buttons (close, gallery, flip camera, capture) in the screen',
     (WidgetTester widgetTester) async {
-    final CameraScreen screen = CameraScreen();
+    const CameraScreen screen = CameraScreen();
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen));
 
     expect(find.byType(CircleButton), findsNWidgets(3));
-    expect(find.byType(CaptureMediaButton), findsOneWidget);
   });
 
   testWidgets(
@@ -25,7 +24,7 @@ void main() {
     '[WHEN]  User tap on CLOSE button, '
     '[THEN]  User will be redirected back to previous screen (Home Screen)',
     (WidgetTester widgetTester) async {
-    final CameraScreen screen = CameraScreen();
+    const CameraScreen screen = CameraScreen();
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen, useRouter: true));
 
@@ -40,12 +39,12 @@ void main() {
     '[WHEN]  User tap on CAPTURE button, '
     '[THEN]  User will be moved to Preview Screen',
     (WidgetTester widgetTester) async {
-    final CameraScreen screen = CameraScreen();
+    const CameraScreen screen = CameraScreen();
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen, useRouter: true));
 
     await widgetTester.pumpAndSettle();
-    await widgetTester.tap(find.byType(CaptureMediaButton));
+    await widgetTester.tap(find.bySemanticsLabel(S.current.captureMediaButton));
     await widgetTester.pumpAndSettle();
     expect(find.byType(CameraScreen), findsNothing);
   });

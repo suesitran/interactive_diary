@@ -11,112 +11,102 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/camera/widgets/buttons.dart';
 
 class CameraScreen extends StatelessWidget {
-  CameraScreen({Key? key}) : super(key: key);
-
-  final ValueNotifier<bool> _isRecordingVideo = ValueNotifier<bool>(false);
+  const CameraScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        _isRecordingVideo.dispose();
-        return Future.value(true);
-      },
-      child: Scaffold(
-          body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Stack(
-          children: [
-            Container(
-              height: double.infinity,
-              alignment: Alignment.center,
-               decoration: const BoxDecoration(
+    return Scaffold(
+        body: SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
-                  )
-                )
-              ),
-              
-            ),
-            Positioned(
-                top: NartusDimens.padding40 + NartusDimens.padding4,
-                left: NartusDimens.padding16,
-                child: CircleButton(
-                  size: NartusDimens.padding40,
-                  iconPath: Assets.images.closeIcon,
-                  semantic: S.current.close,
-                  onPressed: () => context.pop(),
-                )),
-            if (_isRecordingVideo.value)
-              ...[]
-            else ...[
-              Positioned(
-                left: 0, right: 0,
-                // bottom: NartusDimens.padding4 + NartusDimens.padding20,
-                bottom: MediaQuery.of(context).viewPadding.bottom,
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ValueListenableBuilder<bool>(
-                          valueListenable: _isRecordingVideo,
-                          builder: (_, isRecording, __) {
-                            if (!isRecording) {
-                              return CircleButton(
-                                size: NartusDimens.padding40,
-                                iconPath: Assets.images.galleryIcon,
-                                semantic: S.current.openDeviceGallery,
-                                onPressed: () => context.goToHome(),
-                              );
-                            }
-                            return const SizedBox();
-                          }),
-                      CaptureMediaButton(
-                        onCapturedImage: () => context.gotoPreviewMediaScreen(),
-                        onEndRecordVideo: () {
-                          _isRecordingVideo.value = false;
-                          context.gotoPreviewMediaScreen();
-                        },
-                        onStartRecordVideo: () =>
-                            _isRecordingVideo.value = true,
-                      ),
-                      ValueListenableBuilder<bool>(
-                          valueListenable: _isRecordingVideo,
-                          builder: (_, isRecording, __) {
-                            if (!isRecording) {
-                              return CircleButton(
-                                size: NartusDimens.padding40,
-                                iconPath: Assets.images.flipIcon,
-                                semantic: S.current.flipCamera,
-                                onPressed: () => context.goToHome(),
-                              );
-                            }
-                            return const SizedBox();
-                          }),
-                    ],
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
+                    ))),
+          ),
+          Positioned(
+              top: NartusDimens.padding40 + NartusDimens.padding4,
+              left: NartusDimens.padding16,
+              child: CircleButton(
+                size: NartusDimens.padding40,
+                iconPath: Assets.images.closeIcon,
+                semantic: S.current.close,
+                onPressed: () => context.pop(),
+              )),
+          Positioned(
+            left: 0, right: 0,
+            // bottom: NartusDimens.padding4 + NartusDimens.padding20,
+            bottom: MediaQuery.of(context).viewPadding.bottom,
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleButton(
+                    size: NartusDimens.padding40,
+                    iconPath: Assets.images.galleryIcon,
+                    semantic: S.current.openDeviceGallery,
+                    onPressed: () => context.goToHome(),
                   ),
-                  const Gap.v16(),
-                  const Gap.v20(),
-                  ValueListenableBuilder<bool>(
-                      valueListenable: _isRecordingVideo,
-                      builder: (_, isRecording, __) {
-                        return Text(
-                          !isRecording ? S.current.holdToRecord : '',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: NartusColor.white,
-                                  ),
-                        );
-                      }),
-                ]),
+                  Semantics(
+                    button: true,
+                    enabled: true,
+                    excludeSemantics: true,
+                    explicitChildNodes: false,
+                    label: S.current.captureMediaButton,
+                    child: Container(
+                      width: NartusDimens.padding40 +
+                          NartusDimens.padding32 +
+                          NartusDimens.padding4,
+                      height: NartusDimens.padding40 +
+                          NartusDimens.padding32 +
+                          NartusDimens.padding4,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: NartusColor.white,
+                              width: NartusDimens.padding4),
+                          color: Colors.transparent),
+                      padding: const EdgeInsets.all(NartusDimens.padding2),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                                Border.all(color: NartusColor.white, width: 4),
+                            color: Colors.white),
+                        child: NartusButton.text(
+                          label: '',
+                          onPressed: () => context.gotoPreviewMediaScreen(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  CircleButton(
+                    size: NartusDimens.padding40,
+                    iconPath: Assets.images.flipIcon,
+                    semantic: S.current.flipCamera,
+                    onPressed: () => context.goToHome(),
+                  )
+                ],
+              ),
+              const Gap.v16(),
+              const Gap.v20(),
+              Text(
+                S.current.holdToRecord,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: NartusColor.white,
+                    ),
               )
-            ]
-          ],
-        ),
-      )),
-    );
+            ]),
+          )
+        ],
+      ),
+    ));
   }
 }
