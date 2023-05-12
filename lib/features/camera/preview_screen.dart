@@ -5,7 +5,7 @@ import 'package:interactive_diary/route/map_route.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-import 'widgets/buttons.dart';
+import 'package:interactive_diary/features/camera/widgets/buttons.dart';
 
 
 class PreviewScreen extends StatelessWidget {
