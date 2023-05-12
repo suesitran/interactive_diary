@@ -73,7 +73,7 @@ final GoRouter appRoute = GoRouter(
     GoRoute(
         path: addMediaRoute,
         builder: (BuildContext context, GoRouterState state) =>
-            CameraScreen()),
+            const CameraScreen()),
     GoRoute(
         path: previewMediaRoute,
         builder: (BuildContext context, GoRouterState state) => const PreviewScreen()),
