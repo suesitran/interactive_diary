@@ -1,11 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
-import 'package:nartus_ui_package/theme/nartus_theme.dart';
-import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
