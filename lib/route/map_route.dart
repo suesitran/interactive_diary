@@ -71,11 +71,22 @@ final GoRouter appRoute = GoRouter(
       builder: (context, state) => OnboardingScreen(),
     ),
     GoRoute(
-        path: addMediaRoute,
-        builder: (BuildContext context, GoRouterState state) =>
-            const CameraScreen()),
+      path: addMediaRoute,
+      pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
+        key: state.pageKey,
+        child: const CameraScreen(),
+        transitionsBuilder: (_, animation, __, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0, 1.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      )),
     GoRoute(
-        path: previewMediaRoute,
-        builder: (BuildContext context, GoRouterState state) => const PreviewScreen()),
+      path: previewMediaRoute,
+      builder: (BuildContext context, GoRouterState state) => const PreviewScreen()),
   ],
 );

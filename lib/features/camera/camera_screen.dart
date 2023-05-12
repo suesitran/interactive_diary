@@ -14,23 +14,23 @@ class CameraScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: Stack(
+      body: Stack(
         children: [
           Container(
             height: double.infinity,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
-                    ))),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
+                ))),
           ),
           Positioned(
-              top: NartusDimens.padding40 + NartusDimens.padding4,
+              /// Detect if phone has notch
+              top: MediaQuery.of(context).padding.top > 24
+                ? MediaQuery.of(context).padding.top
+                : MediaQuery.of(context).padding.top + NartusDimens.padding16,
               left: NartusDimens.padding16,
               child: CircleButton(
                 size: NartusDimens.padding40,
@@ -40,8 +40,9 @@ class CameraScreen extends StatelessWidget {
               )),
           Positioned(
             left: 0, right: 0,
-            // bottom: NartusDimens.padding4 + NartusDimens.padding20,
-            bottom: MediaQuery.of(context).viewPadding.bottom,
+            bottom: MediaQuery.of(context).viewPadding.bottom > 0
+              ? MediaQuery.of(context).viewPadding.bottom
+              : NartusDimens.padding4 + NartusDimens.padding20,
             child: Column(children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -50,7 +51,7 @@ class CameraScreen extends StatelessWidget {
                     size: NartusDimens.padding40,
                     iconPath: Assets.images.galleryIcon,
                     semantic: S.current.openDeviceGallery,
-                    onPressed: () => context.goToHome(),
+                    onPressed: () {},
                   ),
                   Semantics(
                     button: true,
@@ -74,10 +75,9 @@ class CameraScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(NartusDimens.padding2),
                       child: Container(
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border:
-                                Border.all(color: NartusColor.white, width: 4),
-                            color: Colors.white),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: NartusColor.white, width: 4),
+                          color: Colors.white),
                         child: NartusButton.text(
                           label: '',
                           onPressed: () => context.gotoPreviewMediaScreen(),
@@ -89,7 +89,7 @@ class CameraScreen extends StatelessWidget {
                     size: NartusDimens.padding40,
                     iconPath: Assets.images.flipIcon,
                     semantic: S.current.flipCamera,
-                    onPressed: () => context.goToHome(),
+                    onPressed: () {},
                   )
                 ],
               ),
@@ -98,13 +98,13 @@ class CameraScreen extends StatelessWidget {
               Text(
                 S.current.holdToRecord,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: NartusColor.white,
-                    ),
+                  color: NartusColor.white,
+                ),
               )
             ]),
           )
         ],
-      ),
-    ));
+      )
+    );
   }
 }
