@@ -9,7 +9,6 @@ import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
-part 'diary_header.dart';
 part 'diary_content.dart';
 
 class ContentCardView extends StatefulWidget {
