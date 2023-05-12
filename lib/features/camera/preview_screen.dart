@@ -36,14 +36,17 @@ class PreviewScreen extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: NartusDimens.padding16,
+                  top: 0 ,
                   left: NartusDimens.padding16,
                   child: SafeArea(
-                    child: CircleButton(
-                      size: NartusDimens.padding40,
-                      iconPath: Assets.images.closeIcon,
-                      semantic: S.current.close,
-                      onPressed: () => context.pop(),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: NartusDimens.padding16),
+                      child: CircleButton(
+                        size: NartusDimens.padding40,
+                        iconPath: Assets.images.closeIcon,
+                        semantic: S.current.close,
+                        onPressed: () => context.pop(),
+                      ),
                     ),
                   )),
               ],
