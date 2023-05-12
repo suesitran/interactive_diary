@@ -39,68 +39,68 @@ class CameraScreen extends StatelessWidget {
             )),
           Positioned(
             left: 0, right: 0,
-            bottom: MediaQuery.of(context).viewPadding.bottom > 0
-              ? MediaQuery.of(context).viewPadding.bottom
-              : NartusDimens.padding4 + NartusDimens.padding20,
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CircleButton(
-                    size: NartusDimens.padding40,
-                    iconPath: Assets.images.galleryIcon,
-                    semantic: S.current.openDeviceGallery,
-                    onPressed: () {},
-                  ),
-                  Semantics(
-                    button: true,
-                    enabled: true,
-                    excludeSemantics: true,
-                    explicitChildNodes: false,
-                    label: S.current.captureMediaButton,
-                    child: Container(
-                      width: NartusDimens.padding40 +
-                          NartusDimens.padding32 +
-                          NartusDimens.padding4,
-                      height: NartusDimens.padding40 +
-                          NartusDimens.padding32 +
-                          NartusDimens.padding4,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color: NartusColor.white,
-                              width: NartusDimens.padding4),
-                          color: Colors.transparent),
-                      padding: const EdgeInsets.all(NartusDimens.padding2),
+            bottom: NartusDimens.padding16,
+            child: SafeArea(
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleButton(
+                      size: NartusDimens.padding40,
+                      iconPath: Assets.images.galleryIcon,
+                      semantic: S.current.openDeviceGallery,
+                      onPressed: () {},
+                    ),
+                    Semantics(
+                      button: true,
+                      enabled: true,
+                      excludeSemantics: true,
+                      explicitChildNodes: false,
+                      label: S.current.captureMediaButton,
                       child: Container(
+                        width: NartusDimens.padding40 +
+                            NartusDimens.padding32 +
+                            NartusDimens.padding4,
+                        height: NartusDimens.padding40 +
+                            NartusDimens.padding32 +
+                            NartusDimens.padding4,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: NartusColor.white, width: 4),
-                          color: Colors.white),
-                        child: NartusButton.text(
-                          label: '',
-                          onPressed: () => context.gotoPreviewMediaScreen(),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: NartusColor.white,
+                                width: NartusDimens.padding4),
+                            color: Colors.transparent),
+                        padding: const EdgeInsets.all(NartusDimens.padding2),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: NartusColor.white, width: 4),
+                              color: Colors.white),
+                          child: NartusButton.text(
+                            label: '',
+                            onPressed: () => context.gotoPreviewMediaScreen(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  CircleButton(
-                    size: NartusDimens.padding40,
-                    iconPath: Assets.images.flipIcon,
-                    semantic: S.current.flipCamera,
-                    onPressed: () {},
-                  )
-                ],
-              ),
-              const Gap.v16(),
-              const Gap.v20(),
-              Text(
-                S.current.holdToRecord,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: NartusColor.white,
+                    CircleButton(
+                      size: NartusDimens.padding40,
+                      iconPath: Assets.images.flipIcon,
+                      semantic: S.current.flipCamera,
+                      onPressed: () {},
+                    )
+                  ],
                 ),
-              )
-            ]),
+                const Gap.v16(),
+                const Gap.v20(),
+                Text(
+                  S.current.holdToRecord,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: NartusColor.white,
+                  ),
+                )
+              ]),
+            ),
           )
         ],
       )
