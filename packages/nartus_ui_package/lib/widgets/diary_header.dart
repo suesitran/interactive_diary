@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
-import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 
 class DiaryHeaderAppbar extends StatelessWidget {
   final String avatarPath;
   final String displayName;
-  final DateTime dateTime;
-  final String dateFormat = 'dd MMM, yyyy';
-  final String timeFormat = 'HH:mm a';
+  final String dateTime;
+  final String? semanticsIcon;
+  final String icon;
 
   const DiaryHeaderAppbar(
       {required this.avatarPath,
       required this.displayName,
       required this.dateTime,
+      required this.icon,
+      this.semanticsIcon,
       Key? key})
       : super(key: key);
 
@@ -49,9 +48,7 @@ class DiaryHeaderAppbar extends StatelessWidget {
                       semanticsLabel: displayName,
                     ),
                     Text(
-                      S.current.diaryDateFormatter(
-                          DateFormat(dateFormat).format(dateTime),
-                          DateFormat(timeFormat).format(dateTime)),
+                      dateTime,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -61,8 +58,8 @@ class DiaryHeaderAppbar extends StatelessWidget {
                 ),
               )),
               SvgPicture.asset(
-                Assets.images.idMoreIcon,
-                semanticsLabel: S.current.toolbarMore,
+                icon,
+                semanticsLabel: semanticsIcon,
                 colorFilter:
                     const ColorFilter.mode(NartusColor.grey, BlendMode.srcIn),
               )

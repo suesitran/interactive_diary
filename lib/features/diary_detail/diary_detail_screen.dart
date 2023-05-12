@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:interactive_diary/features/diary_detail/widgets/diary_header.dart';
+import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/buttons/nartus_button.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
@@ -129,13 +130,19 @@ class DiaryDetailScreen extends StatelessWidget {
     QuillController richText = QuillController(
         document: document,
         selection: const TextSelection.collapsed(offset: 0));
+    String dateFormat = 'dd MMM, yyyy';
+    String timeFormat = 'HH:mm a';
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
         title: DiaryHeaderAppbar(
+          icon: Assets.images.idMoreIcon,
+          semanticsIcon: S.current.toolbarMore,
           avatarPath: userPhotoUrl,
           displayName: userDisplayName,
-          dateTime: dateTime,
+          dateTime: S.current.diaryDateFormatter(
+              DateFormat(dateFormat).format(dateTime),
+              DateFormat(timeFormat).format(dateTime)),
         ),
         backgroundColor: NartusColor.background,
         leading: NartusButton.text(
