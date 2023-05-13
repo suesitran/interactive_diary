@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:interactive_diary/features/camera/camera_screen.dart';
+import 'package:interactive_diary/features/camera/preview_screen.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
@@ -14,6 +16,8 @@ const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
 const String onboardingRoute = '/onboarding';
+const String addMediaRoute = '/addMedia';
+const String previewMediaRoute = '/previewMedia';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
@@ -65,6 +69,24 @@ final GoRouter appRoute = GoRouter(
     GoRoute(
       path: onboardingRoute,
       builder: (context, state) => OnboardingScreen(),
-    )
+    ),
+    GoRoute(
+      path: addMediaRoute,
+      pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
+        key: state.pageKey,
+        child: const CameraScreen(),
+        transitionsBuilder: (_, animation, __, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0, 1.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      )),
+    GoRoute(
+      path: previewMediaRoute,
+      builder: (BuildContext context, GoRouterState state) => const PreviewScreen()),
   ],
 );

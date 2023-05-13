@@ -297,6 +297,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
             icon: cameraMarkerBitmap,
             anchor: popupCameraAnimation.value,
             onTap: () {
+              context.gotoAddMediaScreen();
               _closeMenuIfOpening();
             }),
         Marker(
