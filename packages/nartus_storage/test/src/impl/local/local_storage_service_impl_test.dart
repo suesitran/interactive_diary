@@ -31,12 +31,12 @@ void main() {
         LocalStorageServiceImpl(storage: storage);
 
     final DateTime dateTime = DateTime(2022, 10, 20);
-    when(storage.readDiaryForMonth(dateTime)).thenAnswer(
+    when(storage.readDiaryForMonth(month: dateTime, countryCode: 'AU', postalCode: '2345')).thenAnswer(
         (Invocation realInvocation) => Future<DiaryCollection>.value(
             const DiaryCollection(month: '102022', diaries: <Diary>[])));
-    localStorageServiceImpl.readDiaryForMonth(dateTime);
+    localStorageServiceImpl.readDiaryForMonth(month: dateTime, countryCode: 'AU', postalCode: '2345');
 
-    verify(storage.readDiaryForMonth(dateTime)).called(1);
+    verify(storage.readDiaryForMonth(month: dateTime, countryCode: 'AU', postalCode: '2345')).called(1);
   });
 
   test('when save diary, then call hiveStorage to save data', () {
@@ -45,6 +45,9 @@ void main() {
 
     Diary diary = Diary(
         timestamp: 123456,
+        countryCode: 'AU',
+        postalCode: '2345',
+        addressLine: '123 heaven street',
         latLng: const LatLng(long: 0.0, lat: 0.0),
         title: 'title',
         contents: <Content>[TextDiary(description: 'description')],
@@ -61,11 +64,11 @@ void main() {
     LocalStorageServiceImpl localStorageServiceImpl =
         LocalStorageServiceImpl(storage: storage);
 
-    when(storage.deleteDiary(123456))
+    when(storage.deleteDiary(timestamp: 123456, countryCode: 'AU', postalCode: '2345'))
         .thenAnswer((Invocation realInvocation) => Future<bool>.value(true));
-    localStorageServiceImpl.deleteDiary(123456);
+    localStorageServiceImpl.deleteDiary(timestamp: 123456, countryCode: 'AU', postalCode: '2345');
 
-    verify(storage.deleteDiary(123456)).called(1);
+    verify(storage.deleteDiary(timestamp: 123456, countryCode: 'AU', postalCode: '2345')).called(1);
   });
 
   test('when save user, then call hiveStorage to save data', () {

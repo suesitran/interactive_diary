@@ -39,6 +39,9 @@ void main() {
 
   final Diary diary = Diary(
       timestamp: timestamp,
+      countryCode: 'AU',
+      postalCode: '2345',
+      addressLine: '123 heaven street',
       latLng: const LatLng(lat: 0.0, long: 0.0),
       title: 'title',
       contents: <Content>[],
@@ -50,6 +53,7 @@ void main() {
 
   setUp(() {
     when(hiveHelper.init()).thenAnswer((_) => Future<void>.value(null));
+    when(hiveHelper.open(any, any, path: anyNamed('path'), key: anyNamed('key'))).thenAnswer((_) => Future<BoxCollection>.value(boxCollection));
   });
 
   test(
@@ -65,7 +69,7 @@ void main() {
     HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-    final bool result = await hiveLocalStorage.deleteDiary(timestamp);
+    final bool result = await hiveLocalStorage.deleteDiary(timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
 
     expect(result, false);
 
@@ -85,7 +89,7 @@ void main() {
     HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-    final bool result = await hiveLocalStorage.deleteDiary(timestamp);
+    final bool result = await hiveLocalStorage.deleteDiary(timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
 
     expect(result, true);
 
@@ -111,7 +115,7 @@ void main() {
 
     DateTime month = DateTime(2022, 11, 11);
     final DiaryCollection result =
-        await hiveLocalStorage.readDiaryForMonth(month);
+        await hiveLocalStorage.readDiaryForMonth(month: month, countryCode: 'AU', postalCode: '2345');
 
     expect(result.month, '112022');
     expect(result.diaries.length, 0);
@@ -136,7 +140,7 @@ void main() {
 
     DateTime month = DateTime(2022, 11, 11);
     final DiaryCollection result =
-        await hiveLocalStorage.readDiaryForMonth(month);
+        await hiveLocalStorage.readDiaryForMonth(month: month, countryCode: 'AU', postalCode: '2345');
 
     expect(result.month, '112022');
     expect(result.diaries.length, 1);

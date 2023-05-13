@@ -143,7 +143,9 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                     currentLocation: state.currentLocation,
                     address: state.address,
                     business: state.business,
-                    onMenuOpened: handleMenuOpen,
+                    onMenuOpened: () {
+                      handleMenuOpen(countryCode: state.countryCode, postalCode: state.postalCode);
+                    },
                     onMenuClosed: handleMenuClose,
                   ),
                   Column(
@@ -206,12 +208,12 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void handleMenuOpen() {
+  void handleMenuOpen({required String? countryCode, required String? postalCode}) {
     _contentBottomPanelController.show();
 
     // load diary when panel is open
     // TODO filter diary by location and date
-    context.read<LoadDiaryCubit>().loadDiary();
+    context.read<LoadDiaryCubit>().loadDiary(countryCode: countryCode, postalCode: postalCode);
   }
 
   void handleMenuClose() {
