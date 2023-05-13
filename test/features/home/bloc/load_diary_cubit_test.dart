@@ -57,6 +57,9 @@ void main() {
           Future.value(DiaryCollection(month: 'month', diaries: [
             Diary(
                 title: 'title',
+                countryCode: 'AU',
+                postalCode: '2345',
+                addressLine: '123 heaven street',
                 latLng: const LatLng(lat: 0.0, long: 0.0),
                 timestamp: 123456789,
                 update: 123456789,

@@ -25,7 +25,7 @@ void main() {
     when(locationService.getCurrentLocation()).thenAnswer(
         (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
     when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
-        (realInvocation) => Future.value(gc.LocationDetail('', '')));
+        (realInvocation) => Future.value(gc.LocationDetail(address: '', postalCode: '', countryCode: '', business: '')));
   });
 
   group('event request current location', () {
@@ -160,7 +160,7 @@ void main() {
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
           when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
               (realInvocation) =>
-                  Future.value(gc.LocationDetail('address', 'business name')));
+                  Future.value(gc.LocationDetail(address: 'address', business: 'business name', countryCode: 'AU', postalCode: '2345')));
         },
         act: (bloc) => bloc.requestCurrentLocation(),
         expect: () => [isA<LocationReadyState>()],
@@ -199,7 +199,7 @@ void main() {
         setUp: () {
           when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
               (realInvocation) =>
-                  Future.value(gc.LocationDetail('address', 'business name')));
+                  Future.value(gc.LocationDetail(address: 'address', business: 'business name', countryCode: 'AU', postalCode: '2345')));
         },
         act: (bloc) => bloc.requestDefaultLocation(),
         expect: () => [isA<LocationReadyState>()],

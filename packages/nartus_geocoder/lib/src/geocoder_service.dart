@@ -27,7 +27,24 @@ class GeocoderService {
       // data is null, this placemark is invalid
       throw GetAddressFailedException();
     }
-    return LocationDetail(_computeAddress(info), info.name);
+
+    print('name: ${info.name}');
+        print('street: ${info.street}');
+            print('isoCountryCode: ${info.isoCountryCode}');
+                print('country: ${info.country}');
+                    print('postalCode: ${info.postalCode}');
+                        print('administrativeArea: ${info.administrativeArea}');
+                            print('subAdministrativeArea: ${info.subAdministrativeArea}');
+                                print('locality: ${info.locality}');
+    print('subLocality: ${info.subLocality}');
+    print('thoroughfare: ${info.thoroughfare}');
+    print('subThoroughfare: ${info.subThoroughfare}');
+
+    return LocationDetail(
+      address: _computeAddress(info),
+        business: info.name,
+    countryCode: info.isoCountryCode ?? info.country,
+    postalCode: info.postalCode ?? info.administrativeArea ?? info.subAdministrativeArea);
   }
 
   String _computeAddress(Placemark place) =>

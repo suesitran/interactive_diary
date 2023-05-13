@@ -31,9 +31,9 @@ abstract class StorageService {
   /// Diary implementation
   Future<void> saveDiary(Diary diary);
 
-  Future<DiaryCollection> readDiaryForMonth(DateTime month);
+  Future<DiaryCollection> readDiaryForMonth({required String? countryCode, required String? postalCode, required DateTime month});
 
-  Future<bool> deleteDiary(int timestamp);
+  Future<bool> deleteDiary({required String countryCode, required String postalCode, required int timestamp});
 
   /// user implementation
   Future<void> saveUserDetail(User user);
@@ -43,4 +43,7 @@ abstract class StorageService {
   Future<bool> deleteUser(String uid);
 
   Future<bool> updateUserDetail(User user);
+
+  String get defaultCountryCode => 'Unknown';
+  String get defaultPostalCode => 'Unknown';
 }

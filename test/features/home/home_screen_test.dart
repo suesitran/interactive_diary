@@ -60,7 +60,7 @@ void main() {
 
     when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
         (realInvocation) =>
-            Future.value(LocationDetail('address', 'business')));
+            Future.value(LocationDetail(address: 'address', business: 'business', countryCode: 'AU', postalCode: '2345')));
 
     when(loadDiaryCubit.state)
         .thenAnswer((realInvocation) => LoadDiaryInitial());
