@@ -37,10 +37,10 @@ void main() {
     'given diary collection is blank, when load diary, then emit state with empty list',
     build: () => LoadDiaryCubit(),
     setUp: () {
-      when(storageService.readDiaryForMonth(any)).thenAnswer((realInvocation) =>
+      when(storageService.readDiaryForMonth(month: anyNamed('month'), countryCode: anyNamed('countryCode'), postalCode: anyNamed('postalCode'))).thenAnswer((realInvocation) =>
           Future.value(const DiaryCollection(month: 'month', diaries: [])));
     },
-    act: (bloc) => bloc.loadDiary(),
+    act: (bloc) => bloc.loadDiary(countryCode: 'AU', postalCode: '2345'),
     expect: () => [isA<LoadDiaryCompleted>()],
     verify: (bloc) {
       LoadDiaryState state = bloc.state;
@@ -53,7 +53,7 @@ void main() {
     'given diary collection has 1 text diary, when load diary, then verify content of text diary',
     build: () => LoadDiaryCubit(),
     setUp: () {
-      when(storageService.readDiaryForMonth(any)).thenAnswer((realInvocation) =>
+      when(storageService.readDiaryForMonth(month: anyNamed('month'), countryCode: anyNamed('countryCode'), postalCode: anyNamed('postalCode'))).thenAnswer((realInvocation) =>
           Future.value(DiaryCollection(month: 'month', diaries: [
             Diary(
                 title: 'title',
@@ -68,7 +68,7 @@ void main() {
                 ])
           ])));
     },
-    act: (bloc) => bloc.loadDiary(),
+    act: (bloc) => bloc.loadDiary(countryCode: 'AU', postalCode: '2345'),
     expect: () => [isA<LoadDiaryCompleted>()],
     verify: (bloc) {
       LoadDiaryCompleted state = bloc.state as LoadDiaryCompleted;

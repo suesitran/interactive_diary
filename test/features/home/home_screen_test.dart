@@ -73,9 +73,9 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null)));
+        LocationReadyState(currentLocation: const LatLng(0.0, 0.0), dateDisplay: '17-07-2022', address:  null, business: null, countryCode: null, postalCode: null)));
     when(mockLocationBloc.state).thenAnswer((_) =>
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null));
+        LocationReadyState(currentLocation: const LatLng(0.0, 0.0), dateDisplay: '17-07-2022', address:  null, business: null, countryCode: null, postalCode: null));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
           BlocProvider<LocationBloc>(create: (_) {
@@ -107,7 +107,7 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     final LocationReadyState state =
-        LocationReadyState(const LatLng(0.0, 0.0), '17-07-2022', null, null);
+        LocationReadyState(currentLocation:  const LatLng(0.0, 0.0),dateDisplay: '17-07-2022',address:  null,business:  null, postalCode: null, countryCode: null);
 
     when(mockLocationBloc.stream)
         .thenAnswer((_) => Stream<LocationState>.value(state));

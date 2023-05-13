@@ -53,6 +53,7 @@ void main() {
 
   setUp(() {
     when(hiveHelper.init()).thenAnswer((_) => Future<void>.value(null));
+    when(hiveHelper.open(any, any, path: anyNamed('path'), key: anyNamed('key'))).thenAnswer((_) => Future.value(boxCollection));
   });
 
   test(
