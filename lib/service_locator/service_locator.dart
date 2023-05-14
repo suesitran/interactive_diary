@@ -3,6 +3,7 @@ import 'package:nartus_authentication/nartus_authentication.dart';
 import 'package:nartus_connectivity/nartus_connectivity.dart';
 import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
+import 'package:nartus_media/nartus_media.dart';
 import 'package:nartus_remote_config/remote_config_manager.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_app_settings/nartus_app_settings.dart';
@@ -42,6 +43,10 @@ class ServiceLocator {
 
     if (!instance.isRegistered<AppSettings>()) {
       instance.registerSingleton(AppSettings.newInstance());
+    }
+
+    if (!instance.isRegistered<NartusMediaService>()) {
+      instance.registerSingleton(NartusMediaService());
     }
   }
 }

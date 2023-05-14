@@ -24,6 +24,7 @@ void main() async {
   }
   // init Firebase
   await Firebase.initializeApp(
+    name: 'InnerME',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
