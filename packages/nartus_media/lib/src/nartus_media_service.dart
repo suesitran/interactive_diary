@@ -52,5 +52,7 @@ class NartusMediaService {
     }
   }
 
+  Future<void> openSettings() => openAppSettings();
+
   // TODO add other video and photo handler here
 }

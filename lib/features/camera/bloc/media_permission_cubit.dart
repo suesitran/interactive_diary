@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:nartus_media/nartus_media.dart';
@@ -10,27 +10,22 @@ class MediaPermissionCubit extends Cubit<MediaPermissionState> {
 
   final NartusMediaService mediaService = ServiceLocator.instance.get<NartusMediaService>();
 
-  void checkMediaPermission() async {
+  Future<void> checkMediaPermission() async {
     emit(StartCheckingMediaPermission());
     MediaPermission permission = await mediaService.checkMediaPermission();
 
-    switch(permission) {
-      case MediaPermission.granted:
-      case MediaPermission.limited:
-        if (!isClosed) {
-          emit(GoToPhotoAlbum());
-        }
-        break;
-      default:
-        if (!isClosed) {
-          emit(RequestMediaPermission());
-        }
-    }
+    _handlePermission(permission);
   }
 
   void requestMediaPermission() async {
     MediaPermission permission = await mediaService.requestPermission();
 
+    _handlePermission(permission);
+  }
+
+  void openSettings() => mediaService.openSettings();
+
+  void _handlePermission(MediaPermission permission) {
     switch(permission) {
       case MediaPermission.granted:
       case MediaPermission.limited:
@@ -38,9 +33,14 @@ class MediaPermissionCubit extends Cubit<MediaPermissionState> {
           emit(GoToPhotoAlbum());
         }
         break;
+      case MediaPermission.deniedForever:
+        if (!isClosed) {
+          emit(PermissionDeniedForever());
+        }
+        break;
       default:
         if (!isClosed) {
-          emit(MediaPermissionDenied());
+          emit(RequestMediaPermission());
         }
     }
   }

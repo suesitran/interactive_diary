@@ -36,6 +36,10 @@ class CameraScreen extends StatelessWidget {
               if (state is MediaPermissionDenied) {
                 // do nothing
               }
+
+              if (state is PermissionDeniedForever) {
+                // show popup to let user allow permission in settings
+              }
             },
           )
         ],
