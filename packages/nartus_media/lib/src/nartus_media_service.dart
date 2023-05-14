@@ -1,15 +1,39 @@
+import 'dart:io';
+
 import 'package:nartus_media/src/data/permissions.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class NartusMediaService {
   Future<MediaPermission> checkMediaPermission() async {
-    PermissionStatus status = await Permission.photos.status;
+    PermissionStatus status;
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt <= 32) {
+        status = await Permission.storage.status;
+      }  else {
+        status = await Permission.photos.status;
+      }
+    } else {
+      status = await Permission.photos.status;
+    }
 
     return _toMediaPermission(status);
   }
 
   Future<MediaPermission> requestPermission() async {
-    PermissionStatus status = await Permission.photos.request();
+    PermissionStatus status;
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+
+      if (androidInfo.version.sdkInt <= 32) {
+        status = await Permission.storage.request();
+      } else {
+        status = await Permission.photos.request();
+      }
+    } else {
+      status = await Permission.photos.request();
+    }
 
     return _toMediaPermission(status);
   }
