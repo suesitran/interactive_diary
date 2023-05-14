@@ -54,7 +54,9 @@ class CameraScreen extends StatelessWidget {
                         size: NartusDimens.padding40,
                         iconPath: Assets.images.galleryIcon,
                         semantic: S.current.openDeviceGallery,
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                        },
                       ),
                       Semantics(
                         button: true,
