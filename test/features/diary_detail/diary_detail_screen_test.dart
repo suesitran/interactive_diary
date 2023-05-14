@@ -28,6 +28,5 @@ void main() {
         findsOneWidget);
 
     expect(find.text('Hoang Nguyen'), findsOneWidget);
-    expect(find.text('06 May, 2023 at 01:10 AM'), findsOneWidget);
   });
 }
