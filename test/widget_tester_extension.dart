@@ -10,8 +10,8 @@ extension WidgetExtension on WidgetTester {
       {bool infiniteAnimationWidget = false, bool useRouter = false, String? targetRoute}) async {
     final Widget wrapper = _MaterialWrapWidget(
       useRouter: useRouter,
-      child: widget,
       targetRoute: targetRoute,
+      child: widget,
     );
 
     await pumpWidget(wrapper);
@@ -73,8 +73,8 @@ extension WidgetExtension on WidgetTester {
         providers: providers,
         child: _MaterialWrapWidget(
           useRouter: useRouter,
-          child: widget,
           targetRoute: targetRoute,
+          child: widget,
         ));
 
     await pumpWidget(wrapper);
