@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:nartus_media/src/data/permissions.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -7,7 +6,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 class NartusMediaService {
   Future<MediaPermission> checkMediaPermission() async {
     PermissionStatus status;
-    if (Platform.isAndroid) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
       if (androidInfo.version.sdkInt <= 32) {
         status = await Permission.storage.status;
@@ -23,7 +22,7 @@ class NartusMediaService {
 
   Future<MediaPermission> requestPermission() async {
     PermissionStatus status;
-    if (Platform.isAndroid) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
 
       if (androidInfo.version.sdkInt <= 32) {

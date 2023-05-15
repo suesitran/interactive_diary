@@ -25,7 +25,7 @@ class RequestMediaPermission extends MediaPermissionState {
 
 class MediaPermissionDenied extends MediaPermissionState {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class PermissionDeniedForever extends MediaPermissionState {

@@ -26,7 +26,7 @@ class CameraScreen extends StatelessWidget {
           BlocListener<MediaPermissionCubit, MediaPermissionState>(
             listener: (context, state) {
               if (state is GoToPhotoAlbum) {
-                // TODO navigate to photo album
+                context.goToPhotoAlbum();
               }
 
               if (state is RequestMediaPermission) {
