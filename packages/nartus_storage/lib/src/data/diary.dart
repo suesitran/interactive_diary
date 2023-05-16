@@ -15,6 +15,9 @@ class LatLng {
 class Diary {
   /// this timestamp is used as key for this diary content, and will never be changed
   final int timestamp; // milliseconds since Epoch
+  final String countryCode;
+  final String postalCode;
+  final String addressLine;
   final LatLng latLng;
   final String title;
   final List<Content> contents;
@@ -23,6 +26,9 @@ class Diary {
 
   Diary(
       {required this.timestamp,
+        required this.countryCode,
+        required this.postalCode,
+        required this.addressLine,
       required this.latLng,
       required this.title,
       required this.contents,

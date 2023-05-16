@@ -10,20 +10,29 @@ class HiveDiary {
   @HiveField(0)
   final int timestamp; // milliseconds since Epoch
   @HiveField(1)
-  final HiveLatLng latLng;
+  final String countryCode;
   @HiveField(2)
+  final String postalCode;
+  @HiveField(3)
+  final String addressLine;
+  @HiveField(4)
+  final HiveLatLng latLng;
+  @HiveField(5)
   final String title;
-  @HiveField(3, defaultValue: <HiveTextDiary>[])
+  @HiveField(6, defaultValue: <HiveTextDiary>[])
   final List<HiveTextDiary> textContents;
-  @HiveField(4, defaultValue: <HiveImageDiary>[])
+  @HiveField(7, defaultValue: <HiveImageDiary>[])
   final List<HiveImageDiary> imageContents;
-  @HiveField(5, defaultValue: <HiveVideoDiary>[])
+  @HiveField(8, defaultValue: <HiveVideoDiary>[])
   final List<HiveVideoDiary> videoContents;
-  @HiveField(6)
+  @HiveField(9)
   final int update; // milliseconds since Epoch
 
   HiveDiary(
       {required this.timestamp,
+        required this.countryCode,
+        required this.postalCode,
+        required this.addressLine,
       required this.latLng,
       required this.title,
       required this.textContents,
@@ -33,6 +42,9 @@ class HiveDiary {
 
   HiveDiary.fromDiary(Diary diary)
       : timestamp = diary.timestamp,
+  countryCode = diary.countryCode,
+  postalCode = diary.postalCode,
+  addressLine = diary.addressLine,
         latLng = HiveLatLng(lat: diary.latLng.lat, long: diary.latLng.long),
         title = diary.title,
         textContents = diary.contents
@@ -55,6 +67,9 @@ class HiveDiary {
 
   Diary toDiary() => Diary(
       timestamp: timestamp,
+      countryCode: countryCode,
+      postalCode: postalCode,
+      addressLine: addressLine,
       latLng: latLng.toLatLng(),
       title: title,
       contents: <Content>[
