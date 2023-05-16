@@ -18,35 +18,44 @@ class HiveDiaryAdapter extends TypeAdapter<HiveDiary> {
     };
     return HiveDiary(
       timestamp: fields[0] as int,
-      latLng: fields[1] as HiveLatLng,
-      title: fields[2] as String,
+      countryCode: fields[1] as String,
+      postalCode: fields[2] as String,
+      addressLine: fields[3] as String,
+      latLng: fields[4] as HiveLatLng,
+      title: fields[5] as String,
       textContents:
-          fields[3] == null ? [] : (fields[3] as List).cast<HiveTextDiary>(),
+          fields[6] == null ? [] : (fields[6] as List).cast<HiveTextDiary>(),
       imageContents:
-          fields[4] == null ? [] : (fields[4] as List).cast<HiveImageDiary>(),
+          fields[7] == null ? [] : (fields[7] as List).cast<HiveImageDiary>(),
       videoContents:
-          fields[5] == null ? [] : (fields[5] as List).cast<HiveVideoDiary>(),
-      update: fields[6] as int,
+          fields[8] == null ? [] : (fields[8] as List).cast<HiveVideoDiary>(),
+      update: fields[9] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveDiary obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.timestamp)
       ..writeByte(1)
-      ..write(obj.latLng)
+      ..write(obj.countryCode)
       ..writeByte(2)
-      ..write(obj.title)
+      ..write(obj.postalCode)
       ..writeByte(3)
-      ..write(obj.textContents)
+      ..write(obj.addressLine)
       ..writeByte(4)
-      ..write(obj.imageContents)
+      ..write(obj.latLng)
       ..writeByte(5)
-      ..write(obj.videoContents)
+      ..write(obj.title)
       ..writeByte(6)
+      ..write(obj.textContents)
+      ..writeByte(7)
+      ..write(obj.imageContents)
+      ..writeByte(8)
+      ..write(obj.videoContents)
+      ..writeByte(9)
       ..write(obj.update);
   }
 

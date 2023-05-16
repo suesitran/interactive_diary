@@ -1,8 +1,10 @@
 part of "../nartus_geocoder.dart";
 
 class LocationDetail {
-  String address;
-  String? business;
+  final String address;
+  final String? business;
+  final String? countryCode;
+  final String? postalCode;
 
-  LocationDetail(this.address, this.business);
+  LocationDetail({required this.address, required this.countryCode, required this.postalCode, required this.business});
 }

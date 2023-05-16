@@ -11,18 +11,23 @@ import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/widgets/widgets.dart';
 
 import '../../widget_tester_extension.dart';
 import 'write_diary_screen_test.mocks.dart';
 
-@GenerateMocks(<Type>[WriteDiaryCubit, StorageService])
+@GenerateMocks(<Type>[WriteDiaryCubit, StorageService, GeocoderService])
 void main() {
   final MockWriteDiaryCubit writeDiaryCubit = MockWriteDiaryCubit();
+  final MockGeocoderService geocoderService = MockGeocoderService();
 
-  setUpAll(() => ServiceLocator.instance
-      .registerSingleton<StorageService>(MockStorageService()));
+  setUpAll(() {
+    ServiceLocator.instance
+        .registerSingleton<StorageService>(MockStorageService());
+    ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
+  });
 
   setUp(() {
     when(writeDiaryCubit.state).thenAnswer((_) => WriteDiaryInitial());

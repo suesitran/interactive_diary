@@ -14,8 +14,11 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
   LoadDiaryCubit() : super(LoadDiaryInitial());
 
-  void loadDiary() async {
-    DiaryCollection collection = await storageService.readDiaryForMonth(DateTime.now());
+  void loadDiary({required String? countryCode, required String? postalCode}) async {
+    DiaryCollection collection = await storageService.readDiaryForMonth(
+        countryCode: countryCode,
+        postalCode: postalCode,
+        month: DateTime.now());
 
     List<DiaryDisplayContent> displayContents = [];
     // TODO load user display name and display photo

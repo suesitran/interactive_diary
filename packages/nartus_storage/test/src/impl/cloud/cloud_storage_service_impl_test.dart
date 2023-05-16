@@ -6,17 +6,20 @@ void main() {
   test('expect all methods to throw UnimplementedError', () {
     CloudStorageServiceImpl cloudStorageServiceImpl = CloudStorageServiceImpl();
 
-    expect(() async => await cloudStorageServiceImpl.deleteDiary(1234567),
+    expect(() async => await cloudStorageServiceImpl.deleteDiary(timestamp: 1234567, countryCode: 'AU', postalCode: '2345'),
         throwsA(isA<UnimplementedError>()));
     expect(() async => await cloudStorageServiceImpl.deleteUser('uid'),
         throwsA(isA<UnimplementedError>()));
     expect(
         () async => await cloudStorageServiceImpl
-            .readDiaryForMonth(DateTime(2022, 10, 11)),
+            .readDiaryForMonth(month: DateTime(2022, 10, 11), countryCode: 'AU', postalCode: '2345'),
         throwsA(isA<UnimplementedError>()));
     expect(
         () async => await cloudStorageServiceImpl.saveDiary(Diary(
             timestamp: 12345677,
+            countryCode: 'AU',
+            postalCode: '2345',
+            addressLine: '123 heaven street',
             latLng: const LatLng(lat: 0.0, long: 0.0),
             title: 'title',
             contents: <Content>[],

@@ -41,4 +41,12 @@ extension RouterExtension on BuildContext {
       builder: (context) => const WidgetCatalog(),
     ));
   }
+
+  void gotoAddMediaScreen() {
+    GoRouter.of(this).push(addMediaRoute);
+  }
+
+  void gotoPreviewMediaScreen() {
+    GoRouter.of(this).push(previewMediaRoute);
+  }
 }
