@@ -7,9 +7,10 @@ import 'package:nartus_ui_package/generated/l10n.dart';
 
 extension WidgetExtension on WidgetTester {
   Future<void> wrapAndPump(Widget widget,
-      {bool infiniteAnimationWidget = false, bool useRouter = false}) async {
+      {bool infiniteAnimationWidget = false, bool useRouter = false, String? targetRoute}) async {
     final Widget wrapper = _MaterialWrapWidget(
       useRouter: useRouter,
+      targetRoute: targetRoute,
       child: widget,
     );
 
@@ -66,11 +67,13 @@ extension WidgetExtension on WidgetTester {
     Widget widget, {
     bool infiniteAnimationWidget = false,
     bool useRouter = false,
+        String? targetRoute
   }) async {
     final Widget wrapper = MultiBlocProvider(
         providers: providers,
         child: _MaterialWrapWidget(
           useRouter: useRouter,
+          targetRoute: targetRoute,
           child: widget,
         ));
 

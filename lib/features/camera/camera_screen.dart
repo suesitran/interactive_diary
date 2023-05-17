@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interactive_diary/features/camera/bloc/media_permission_cubit.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/route/map_route.dart';
@@ -13,103 +15,139 @@ class CameraScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: double.infinity,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
-                ))),
-          ),
-          Positioned(
-            top: 0,
-            left: NartusDimens.padding16,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: NartusDimens.padding16),
-                child: CircleButton(
-                  size: NartusDimens.padding40,
-                  iconPath: Assets.images.closeIcon,
-                  semantic: S.current.close,
-                  onPressed: () => context.pop(),
-                ),
-              ),
-            )),          
-          Positioned(
-            left: 0, right: 0,
-            bottom: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircleButton(
-                        size: NartusDimens.padding40,
-                        iconPath: Assets.images.galleryIcon,
-                        semantic: S.current.openDeviceGallery,
-                        onPressed: () {},
-                      ),
-                      Semantics(
-                        button: true,
-                        enabled: true,
-                        excludeSemantics: true,
-                        explicitChildNodes: false,
-                        label: S.current.captureMediaButton,
-                        child: Container(
-                          width: NartusDimens.padding40 +
-                              NartusDimens.padding32 +
-                              NartusDimens.padding4,
-                          height: NartusDimens.padding40 +
-                              NartusDimens.padding32 +
-                              NartusDimens.padding4,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: NartusColor.white,
-                                  width: NartusDimens.padding4),
-                              color: Colors.transparent),
-                          padding: const EdgeInsets.all(NartusDimens.padding2),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: NartusColor.white, width: 4),
-                                color: Colors.white),
-                            child: NartusButton.text(
-                              label: '',
-                              onPressed: () => context.gotoPreviewMediaScreen(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      CircleButton(
-                        size: NartusDimens.padding40,
-                        iconPath: Assets.images.flipIcon,
-                        semantic: S.current.flipCamera,
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                  const Gap.v16(),
-                  const Gap.v20(),
-                  Text(
-                    S.current.holdToRecord,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: NartusColor.white,
-                    ),
-                  )
-                ]),
-              ),
-            ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MediaPermissionCubit>(
+          create: (context) => MediaPermissionCubit(),
+        )
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<MediaPermissionCubit, MediaPermissionState>(
+            listener: (context, state) {
+              if (state is GoToPhotoAlbum) {
+                context.goToPhotoAlbum();
+              }
+
+              if (state is RequestMediaPermission) {
+                context.read<MediaPermissionCubit>().requestMediaPermission();
+              }
+
+              if (state is MediaPermissionDenied) {
+                // do nothing
+              }
+
+              if (state is PermissionDeniedForever) {
+                // show popup to let user allow permission in settings
+              }
+            },
           )
         ],
-      )
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Container(
+                height: double.infinity,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
+                    ))),
+              ),
+              Positioned(
+                top: 0,
+                left: NartusDimens.padding16,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: NartusDimens.padding16),
+                    child: CircleButton(
+                      size: NartusDimens.padding40,
+                      iconPath: Assets.images.closeIcon,
+                      semantic: S.current.close,
+                      onPressed: () => context.pop(),
+                    ),
+                  ),
+                )),
+              Positioned(
+                left: 0, right: 0,
+                bottom: 0,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Builder(
+                            builder: (context) {
+                              return CircleButton(
+                                size: NartusDimens.padding40,
+                                iconPath: Assets.images.galleryIcon,
+                                semantic: S.current.openDeviceGallery,
+                                onPressed: () {
+                                  context.read<MediaPermissionCubit>().checkMediaPermission();
+                                },
+                              );
+                            }
+                          ),
+                          Semantics(
+                            button: true,
+                            enabled: true,
+                            excludeSemantics: true,
+                            explicitChildNodes: false,
+                            label: S.current.captureMediaButton,
+                            child: Container(
+                              width: NartusDimens.padding40 +
+                                  NartusDimens.padding32 +
+                                  NartusDimens.padding4,
+                              height: NartusDimens.padding40 +
+                                  NartusDimens.padding32 +
+                                  NartusDimens.padding4,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: NartusColor.white,
+                                      width: NartusDimens.padding4),
+                                  color: Colors.transparent),
+                              padding: const EdgeInsets.all(NartusDimens.padding2),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: NartusColor.white, width: 4),
+                                    color: Colors.white),
+                                child: NartusButton.text(
+                                  label: '',
+                                  onPressed: () => context.gotoPreviewMediaScreen(),
+                                ),
+                              ),
+                            ),
+                          ),
+                          CircleButton(
+                            size: NartusDimens.padding40,
+                            iconPath: Assets.images.flipIcon,
+                            semantic: S.current.flipCamera,
+                            onPressed: () {},
+                          )
+                        ],
+                      ),
+                      const Gap.v16(),
+                      const Gap.v20(),
+                      Text(
+                        S.current.holdToRecord,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: NartusColor.white,
+                        ),
+                      )
+                    ]),
+                  ),
+                ),
+              )
+            ],
+          )
+        ),
+      ),
     );
   }
 }

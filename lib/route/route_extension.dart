@@ -43,6 +43,10 @@ extension RouterExtension on BuildContext {
   }
 
   void gotoPreviewMediaScreen() {
-    GoRouter.of(this).push(previewMediaRoute);
+    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute');
+  }
+
+  void goToPhotoAlbum() {
+    GoRouter.of(this).push('$addMediaRoute/$photoAlbum');
   }
 }
