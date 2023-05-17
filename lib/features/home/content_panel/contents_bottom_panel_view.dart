@@ -140,17 +140,28 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                   ),
                 ),
                 // location view
-                Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                    child: LocationView(
-                      locationIconSvg: Assets.images.idLocationIcon,
-                      address: widget.address,
-                      businessName: widget.business,
-                      latitude: widget.location.latitude,
-                      longitude: widget.location.longitude,
-                      borderRadius: BorderRadius.circular(12),
-                    )),
+                GestureDetector(
+                  onVerticalDragUpdate: (DragUpdateDetails details) {
+                    double height = _draggedHeight.value;
+                    height -= (details.primaryDelta ?? details.delta.dy);
+
+                    if (height <= constraints.maxHeight - minHeight &&
+                        height >= 0) {
+                      _draggedHeight.value = height;
+                    }
+                  },
+                  child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                      child: LocationView(
+                        locationIconSvg: Assets.images.idLocationIcon,
+                        address: widget.address,
+                        businessName: widget.business,
+                        latitude: widget.location.latitude,
+                        longitude: widget.location.longitude,
+                        borderRadius: BorderRadius.circular(12),
+                      )),
+                ),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:
