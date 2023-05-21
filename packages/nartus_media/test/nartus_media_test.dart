@@ -159,7 +159,7 @@ void main() {
 
       final NartusMediaService service = NartusMediaService();
 
-      MediaPermission permission = await service.requestPermission();
+      MediaPermission permission = await service.requestMediaPermission();
 
       expect(permission, MediaPermission.denied);
 
@@ -189,7 +189,7 @@ void main() {
 
       final NartusMediaService service = NartusMediaService();
 
-      MediaPermission permission = await service.requestPermission();
+      MediaPermission permission = await service.requestMediaPermission();
 
       expect(permission, MediaPermission.denied);
 
@@ -217,7 +217,7 @@ void main() {
 
       final NartusMediaService service = NartusMediaService();
 
-      MediaPermission permission = await service.requestPermission();
+      MediaPermission permission = await service.requestMediaPermission();
 
       expect(permission, MediaPermission.denied);
 

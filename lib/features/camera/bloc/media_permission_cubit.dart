@@ -18,7 +18,7 @@ class MediaPermissionCubit extends Cubit<MediaPermissionState> {
   }
 
   void requestMediaPermission() async {
-    MediaPermission permission = await mediaService.requestPermission();
+    MediaPermission permission = await mediaService.requestMediaPermission();
 
     _handlePermission(permission);
   }
