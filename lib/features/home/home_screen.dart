@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
+import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
@@ -25,7 +26,10 @@ class IDHome extends StatelessWidget {
     ),
     BlocProvider<LoadDiaryCubit>(
       create: (context) => LoadDiaryCubit(),
-    )
+    ),
+    BlocProvider<CameraPermissionBloc>(
+      create: (context) => CameraPermissionBloc()
+    ),
   ], child: const IDHomeBody());
 }
 
@@ -128,6 +132,22 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
             listener: (context, state) {
               if (state is ShakeDetected) {
                 context.showWidgetCatalog();
+              }
+            },
+          ),
+          BlocListener<CameraPermissionBloc,  CameraPermissionState>(
+            listener: (context, state) {
+              // TODO add listener here
+              if (state is GoToCameraScreen) {
+                context.gotoAddMediaScreen();
+              }
+
+              if (state is RequestCameraPermission) {
+                context.read<CameraPermissionBloc>().add(RequestCameraPermissionEvent());
+              }
+
+              if (state is PermissionDeniedForever) {
+                // TODO handle permanently denied scenario
               }
             },
           )

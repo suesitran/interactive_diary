@@ -3,8 +3,10 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/route/route_extension.dart';
 import 'package:interactive_diary/features/home/widgets/constants/map_svgs.dart';
@@ -297,7 +299,7 @@ class _GoogleMapViewState extends State<GoogleMapView>
             icon: cameraMarkerBitmap,
             anchor: popupCameraAnimation.value,
             onTap: () {
-              context.gotoAddMediaScreen();
+              context.read<CameraPermissionBloc>().add(RequestOpenCameraScreenEvent());
               _closeMenuIfOpening();
             }),
         Marker(
