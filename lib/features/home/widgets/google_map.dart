@@ -6,8 +6,7 @@ import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/features/home/widgets/controller/map_animation_controller.dart';
 import 'package:interactive_diary/features/home/widgets/markers/map_markers_generator.dart';
 import 'package:interactive_diary/route/route_extension.dart';
-
-import '../../../bloc/camera_permission/camera_permission_bloc.dart';
+import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
