@@ -25,7 +25,7 @@ class CameraScreen extends StatelessWidget {
         listeners: [
           BlocListener<MediaPermissionCubit, MediaPermissionState>(
             listener: (context, state) {
-              if (state is GoToPhotoAlbum) {
+              if (state is MediaPermissionGranted) {
                 context.goToPhotoAlbum();
               }
 
@@ -37,7 +37,7 @@ class CameraScreen extends StatelessWidget {
                 // do nothing
               }
 
-              if (state is PermissionDeniedForever) {
+              if (state is MediaPermissionDeniedForever) {
                 // show popup to let user allow permission in settings
               }
             },

@@ -9,7 +9,7 @@ class CameraPermissionInitial extends CameraPermissionState {
   List<Object> get props => [];
 }
 
-class GoToCameraScreen extends CameraPermissionState {
+class CameraPermissionGranted extends CameraPermissionState {
   @override
   List<Object?> get props => [];
 }
@@ -19,17 +19,17 @@ class CameraPermissionValidationStart extends CameraPermissionState {
   List<Object?> get props => [];
 }
 
-class CameraPermissionRequestStart  extends CameraPermissionState {
+class CameraPermissionRequestStart extends CameraPermissionState {
   @override
   List<Object?> get props => [];
 }
 
-class PermissionDeniedForever extends CameraPermissionState {
+class CameraPermissionDeniedForever extends CameraPermissionState {
   @override
   List<Object?> get props => [];
 }
 
-class RequestCameraPermission extends CameraPermissionState {
+class CameraPermissionDenied extends CameraPermissionState {
   @override
   List<Object?> get props => [];
 }

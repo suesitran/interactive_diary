@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nartus_media/nartus_media.dart';
@@ -8,56 +6,64 @@ import 'package:interactive_diary/service_locator/service_locator.dart';
 part 'camera_permission_event.dart';
 part 'camera_permission_state.dart';
 
-class CameraPermissionBloc extends Bloc<CameraPermissionEvent, CameraPermissionState> {
-  final NartusMediaService mediaService = ServiceLocator.instance.get<NartusMediaService>();
+class CameraPermissionBloc
+    extends Bloc<CameraPermissionEvent, CameraPermissionState> {
+  final NartusMediaService mediaService =
+      ServiceLocator.instance.get<NartusMediaService>();
 
   CameraPermissionBloc() : super(CameraPermissionInitial()) {
-    on<RequestOpenCameraScreenEvent>(_validateCameraPermission);
+    on<ValidateCameraPermissionEvent>(_validateCameraPermission);
 
     on<RequestCameraPermissionEvent>(_requestCameraPermission);
   }
 
-  void _validateCameraPermission(CameraPermissionEvent event, Emitter<CameraPermissionState> emit) async {
+  void _validateCameraPermission(
+      CameraPermissionEvent event, Emitter<CameraPermissionState> emit) async {
     emit(CameraPermissionValidationStart());
-    final MediaPermission permission = await mediaService.checkCameraPermission();
+    final MediaPermission permission =
+        await mediaService.checkCameraPermission();
 
-    switch(permission) {
+    switch (permission) {
       case MediaPermission.granted:
       case MediaPermission.limited:
         if (!isClosed) {
-          emit(GoToCameraScreen());
+          emit(CameraPermissionGranted());
         }
         break;
       case MediaPermission.deniedForever:
         if (!isClosed) {
-          emit(PermissionDeniedForever());
+          emit(CameraPermissionDeniedForever());
         }
         break;
       default:
         if (!isClosed) {
-          emit(RequestCameraPermission());
+          emit(CameraPermissionDenied());
         }
     }
   }
 
-  void _requestCameraPermission(CameraPermissionEvent event, Emitter<CameraPermissionState> emit) async {
+  void _requestCameraPermission(
+      CameraPermissionEvent event, Emitter<CameraPermissionState> emit) async {
     emit(CameraPermissionRequestStart());
-    final MediaPermission permission = await mediaService.requestCameraPermission();
+    final MediaPermission permission =
+        await mediaService.requestCameraPermission();
 
-    switch(permission) {
+    switch (permission) {
       case MediaPermission.granted:
       case MediaPermission.limited:
         if (!isClosed) {
-          emit(GoToCameraScreen());
+          emit(CameraPermissionGranted());
         }
         break;
       case MediaPermission.deniedForever:
         if (!isClosed) {
-          emit(PermissionDeniedForever());
+          emit(CameraPermissionDeniedForever());
         }
         break;
       default:
-        // user denied  permission, do nothing.
+        if (!isClosed) {
+          emit(CameraPermissionDenied());
+        }
     }
   }
 }

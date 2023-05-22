@@ -10,7 +10,7 @@ class NartusMediaService {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
       if (androidInfo.version.sdkInt <= 32) {
         status = await Permission.storage.status;
-      }  else {
+      } else {
         status = await Permission.photos.status;
       }
     } else {
@@ -50,7 +50,7 @@ class NartusMediaService {
   }
 
   MediaPermission _toMediaPermission(PermissionStatus status) {
-    switch(status) {
+    switch (status) {
       case PermissionStatus.granted:
         return MediaPermission.granted;
       case PermissionStatus.limited:

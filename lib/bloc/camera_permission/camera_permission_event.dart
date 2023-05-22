@@ -4,7 +4,7 @@ abstract class CameraPermissionEvent extends Equatable {
   const CameraPermissionEvent();
 }
 
-class RequestOpenCameraScreenEvent extends CameraPermissionEvent {
+class ValidateCameraPermissionEvent extends CameraPermissionEvent {
   @override
   List<Object?> get props => [];
 }
