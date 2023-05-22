@@ -55,6 +55,8 @@ dependencies:
     path: packages/nartus_remote_config
   nartus_app_settings:
     path: packages/nartus_app_settings
+  nartus_media:
+    path: packages/nartus_media
   go_router: ^5.1.1
   fvm: ^2.4.1
   google_maps_flutter_android: ^2.4.3

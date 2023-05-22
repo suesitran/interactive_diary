@@ -987,6 +987,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  nartus_media:
+    dependency: "direct main"
+    description:
+      path: "packages/nartus_media"
+      relative: true
+    source: path
+    version: "0.0.1"
   nartus_remote_config:
     dependency: "direct main"
     description:
