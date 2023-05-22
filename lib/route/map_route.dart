@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/camera/camera_screen.dart';
 import 'package:interactive_diary/features/camera/preview_screen.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/diary_detail/diary_detail_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
@@ -19,6 +20,7 @@ const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
 const String onboardingRoute = '/onboarding';
+const String diaryDetailRoute = '/diaryDetailRoute';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
@@ -58,6 +60,13 @@ final GoRouter appRoute = GoRouter(
                     child: child,
                   ));
         }),
+
+    GoRoute(
+        path: diaryDetailRoute,
+        builder: (BuildContext context, GoRouterState state) {
+          return const DiaryDetailScreen();
+        }),
+
     // add other 1st level route
     //no connection screen
     GoRoute(
@@ -71,6 +80,21 @@ final GoRouter appRoute = GoRouter(
       path: onboardingRoute,
       builder: (context, state) => OnboardingScreen(),
     ),
+    GoRoute(
+        path: addMediaRoute,
+        pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
+              key: state.pageKey,
+              child: const CameraScreen(),
+              transitionsBuilder: (_, animation, __, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.0, 1.0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+            )),
     // add media shell
     addMediaShell,
   ],
