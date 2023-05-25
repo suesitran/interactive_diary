@@ -3,25 +3,28 @@ import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/camera/camera_screen.dart';
 import 'package:interactive_diary/features/camera/preview_screen.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/diary_detail/diary_detail_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:interactive_diary/route/route_extra.dart';
+import 'package:interactive_diary/features/camera/photo_album/photo_album_screen.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
 
 export 'package:go_router/go_router.dart';
+
+part 'shell/media_shell.dart';
 
 const String splash = '/';
 const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
 const String onboardingRoute = '/onboarding';
-const String addMediaRoute = '/addMedia';
-const String previewMediaRoute = '/previewMedia';
+const String diaryDetailRoute = '/diaryDetailRoute';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
-  routes: <GoRoute>[
+  routes: <RouteBase>[
     // splash screen
     GoRoute(
         path: splash,
@@ -57,6 +60,13 @@ final GoRouter appRoute = GoRouter(
                     child: child,
                   ));
         }),
+
+    GoRoute(
+        path: diaryDetailRoute,
+        builder: (BuildContext context, GoRouterState state) {
+          return const DiaryDetailScreen();
+        }),
+
     // add other 1st level route
     //no connection screen
     GoRoute(
@@ -71,22 +81,35 @@ final GoRouter appRoute = GoRouter(
       builder: (context, state) => OnboardingScreen(),
     ),
     GoRoute(
-      path: addMediaRoute,
-      pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
-        key: state.pageKey,
-        child: const CameraScreen(),
-        transitionsBuilder: (_, animation, __, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0.0, 1.0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-      )),
-    GoRoute(
-      path: previewMediaRoute,
-      builder: (BuildContext context, GoRouterState state) => const PreviewScreen()),
+        path: addMediaRoute,
+        pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
+              key: state.pageKey,
+              child: const CameraScreen(),
+              transitionsBuilder: (_, animation, __, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.0, 1.0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+            )),
+    // add media shell
+    addMediaShell,
   ],
 );
+
+CustomTransitionPage _bottomUpTransition(Widget child) =>
+    CustomTransitionPage<Offset>(
+      child: child,
+      transitionsBuilder: (_, animation, __, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.0, 1.0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+    );

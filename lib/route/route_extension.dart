@@ -23,6 +23,10 @@ extension RouterExtension on BuildContext {
             business));
   }
 
+  void gotoDiaryDetailScreen() {
+    GoRouter.of(this).push(diaryDetailRoute);
+  }
+
   void goToHome() {
     GoRouter.of(this).replace(idHomeRoute);
   }
@@ -43,6 +47,10 @@ extension RouterExtension on BuildContext {
   }
 
   void gotoPreviewMediaScreen() {
-    GoRouter.of(this).push(previewMediaRoute);
+    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute');
+  }
+
+  void goToPhotoAlbum() {
+    GoRouter.of(this).push('$addMediaRoute/$photoAlbum');
   }
 }
