@@ -67,6 +67,7 @@ dependencies:
   shake: ^2.2.0
   dots_indicator: ^2.0.0
   expandable_page_view: ^1.0.17
+  camera: ^0.10.5+2
 
 dev_dependencies:
   flutter_test:
