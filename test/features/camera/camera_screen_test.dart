@@ -126,7 +126,7 @@ void main() {
       // given
       when(nartusMediaService.checkMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
-      when(nartusMediaService.requestPermission())
+      when(nartusMediaService.requestMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
 
       const CameraScreen widget = CameraScreen();
@@ -140,7 +140,7 @@ void main() {
 
       // expect to not see dummy route
       expect(find.text('/addMedia/photoAlbum'), findsNothing);
-      verify(nartusMediaService.requestPermission()).called(1);
+      verify(nartusMediaService.requestMediaPermission()).called(1);
     });
 
     testWidgets(
@@ -150,7 +150,7 @@ void main() {
       // given
       when(nartusMediaService.checkMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
-      when(nartusMediaService.requestPermission())
+      when(nartusMediaService.requestMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
 
       const CameraScreen widget = CameraScreen();
@@ -174,7 +174,7 @@ void main() {
       // given
       when(nartusMediaService.checkMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
-      when(nartusMediaService.requestPermission()).thenAnswer(
+      when(nartusMediaService.requestMediaPermission()).thenAnswer(
           (realInvocation) => Future.value(MediaPermission.granted));
 
       const CameraScreen widget = CameraScreen();
@@ -213,7 +213,7 @@ void main() {
       expect(find.text('/addMedia/photoAlbum'), findsNothing);
       expect(find.byType(CameraScreen), findsOneWidget);
 
-      verifyNever(nartusMediaService.requestPermission());
+      verifyNever(nartusMediaService.requestMediaPermission());
     });
   });
 }
