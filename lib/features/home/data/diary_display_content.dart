@@ -10,6 +10,6 @@ class DiaryDisplayContent {
     required this.dateTime,
     required this.userPhotoUrl,
     this.plainText,
-    this.imageUrl = const []
-});
+    this.imageUrl = const [],
+  });
 }

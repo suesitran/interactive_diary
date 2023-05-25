@@ -23,6 +23,10 @@ extension RouterExtension on BuildContext {
             business));
   }
 
+  void gotoDiaryDetailScreen() {
+    GoRouter.of(this).push(diaryDetailRoute);
+  }
+
   void goToHome() {
     GoRouter.of(this).replace(idHomeRoute);
   }
