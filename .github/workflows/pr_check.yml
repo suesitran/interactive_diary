@@ -4,6 +4,9 @@ name: Interactive Diary PR Check
 
 # Controls when the workflow will run
 on:
+  pull_request:
+    branches:
+      - suesi/upgrade-to-flutter-3.10
   pull_request_target:
     branches: 
       - dev
@@ -41,7 +44,7 @@ jobs:
     - name: Install Flutter 
       uses: subosito/flutter-action@v2.8.0
       with:
-        flutter-version: '3.7.1'
+        flutter-version: '3.10.2'
         channel: 'stable'
 #    enable it when issue is fixed
 #    - name: Format code
