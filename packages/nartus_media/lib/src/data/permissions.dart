@@ -1,6 +1,1 @@
-enum MediaPermission {
-  granted,
-  limited,
-  denied,
-  deniedForever
-}
+enum MediaPermission { granted, limited, denied, deniedForever }

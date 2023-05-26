@@ -10,7 +10,7 @@ class NartusMediaService {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
       if (androidInfo.version.sdkInt <= 32) {
         status = await Permission.storage.status;
-      }  else {
+      } else {
         status = await Permission.photos.status;
       }
     } else {
@@ -20,7 +20,7 @@ class NartusMediaService {
     return _toMediaPermission(status);
   }
 
-  Future<MediaPermission> requestPermission() async {
+  Future<MediaPermission> requestMediaPermission() async {
     PermissionStatus status;
     if (defaultTargetPlatform == TargetPlatform.android) {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
@@ -37,8 +37,20 @@ class NartusMediaService {
     return _toMediaPermission(status);
   }
 
+  Future<MediaPermission> checkCameraPermission() async {
+    PermissionStatus status = await Permission.camera.status;
+
+    return _toMediaPermission(status);
+  }
+
+  Future<MediaPermission> requestCameraPermission() async {
+    PermissionStatus status = await Permission.camera.request();
+
+    return _toMediaPermission(status);
+  }
+
   MediaPermission _toMediaPermission(PermissionStatus status) {
-    switch(status) {
+    switch (status) {
       case PermissionStatus.granted:
         return MediaPermission.granted;
       case PermissionStatus.limited:

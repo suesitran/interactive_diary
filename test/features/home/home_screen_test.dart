@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
+import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
+import 'package:interactive_diary/debug/widget_catalog/widget_catalog.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
@@ -16,6 +18,7 @@ import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_storage/nartus_storage.dart' hide LatLng;
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:nartus_media/nartus_media.dart';
 
 import '../../widget_tester_extension.dart';
 import 'home_screen_test.mocks.dart';
@@ -28,7 +31,9 @@ import 'package:intl/date_symbol_data_local.dart';
   AppConfigBloc,
   GeocoderService,
   LoadDiaryCubit,
-  StorageService
+  StorageService,
+  CameraPermissionBloc,
+  NartusMediaService
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -41,12 +46,18 @@ void main() {
   final MockGeocoderService geocoderService = MockGeocoderService();
   final MockLoadDiaryCubit loadDiaryCubit = MockLoadDiaryCubit();
   final MockStorageService storageService = MockStorageService();
+  final MockCameraPermissionBloc cameraPermissionBloc =
+      MockCameraPermissionBloc();
+  final MockNartusMediaService mediaService = MockNartusMediaService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
     ServiceLocator.instance.registerSingleton<StorageService>(storageService);
+    ServiceLocator.instance.registerSingleton<NartusMediaService>(mediaService);
+  });
 
+  setUp(() {
     when(mockConnectivityBloc.stream)
         .thenAnswer((_) => Stream<ConnectivityState>.value(ConnectedState()));
     when(mockConnectivityBloc.state).thenAnswer((_) => ConnectedState());
@@ -58,14 +69,39 @@ void main() {
     when(appConfigBloc.stream)
         .thenAnswer((realInvocation) => Stream.value(AppConfigInitial()));
 
+    when(mockLocationBloc.state)
+        .thenReturn(LocationInitial(PermissionStatusDiary.granted));
+    when(mockLocationBloc.stream).thenAnswer((realInvocation) =>
+        Stream.value(LocationInitial(PermissionStatusDiary.granted)));
+
     when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
-        (realInvocation) =>
-            Future.value(LocationDetail(address: 'address', business: 'business', countryCode: 'AU', postalCode: '2345')));
+        (realInvocation) => Future.value(LocationDetail(
+            address: 'address',
+            business: 'business',
+            countryCode: 'AU',
+            postalCode: '2345')));
 
     when(loadDiaryCubit.state)
         .thenAnswer((realInvocation) => LoadDiaryInitial());
     when(loadDiaryCubit.stream)
         .thenAnswer((realInvocation) => Stream.value(LoadDiaryInitial()));
+
+    when(cameraPermissionBloc.state)
+        .thenAnswer((realInvocation) => CameraPermissionInitial());
+    when(cameraPermissionBloc.stream).thenAnswer(
+        (realInvocation) => Stream.value(CameraPermissionInitial()));
+  });
+
+  tearDown(() {
+    reset(mockLocationBloc);
+    reset(mockConnectivityBloc);
+    reset(locationService);
+    reset(appConfigBloc);
+    reset(geocoderService);
+    reset(loadDiaryCubit);
+    reset(storageService);
+    reset(cameraPermissionBloc);
+    reset(mediaService);
   });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
@@ -73,9 +109,20 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(currentLocation: const LatLng(0.0, 0.0), dateDisplay: '17-07-2022', address:  null, business: null, countryCode: null, postalCode: null)));
-    when(mockLocationBloc.state).thenAnswer((_) =>
-        LocationReadyState(currentLocation: const LatLng(0.0, 0.0), dateDisplay: '17-07-2022', address:  null, business: null, countryCode: null, postalCode: null));
+        LocationReadyState(
+            currentLocation: const LatLng(0.0, 0.0),
+            dateDisplay: '17-07-2022',
+            address: null,
+            business: null,
+            countryCode: null,
+            postalCode: null)));
+    when(mockLocationBloc.state).thenAnswer((_) => LocationReadyState(
+        currentLocation: const LatLng(0.0, 0.0),
+        dateDisplay: '17-07-2022',
+        address: null,
+        business: null,
+        countryCode: null,
+        postalCode: null));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
           BlocProvider<LocationBloc>(create: (_) {
@@ -87,6 +134,9 @@ void main() {
           ),
           BlocProvider<LoadDiaryCubit>(
             create: (_) => loadDiaryCubit,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
@@ -106,8 +156,13 @@ void main() {
       (WidgetTester widgetTester) async {
     const IDHomeBody widget = IDHomeBody();
 
-    final LocationReadyState state =
-        LocationReadyState(currentLocation:  const LatLng(0.0, 0.0),dateDisplay: '17-07-2022',address:  null,business:  null, postalCode: null, countryCode: null);
+    final LocationReadyState state = LocationReadyState(
+        currentLocation: const LatLng(0.0, 0.0),
+        dateDisplay: '17-07-2022',
+        address: null,
+        business: null,
+        postalCode: null,
+        countryCode: null);
 
     when(mockLocationBloc.stream)
         .thenAnswer((_) => Stream<LocationState>.value(state));
@@ -122,6 +177,9 @@ void main() {
           ),
           BlocProvider<LoadDiaryCubit>(
             create: (_) => loadDiaryCubit,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, useRouter: true));
     await widgetTester.pumpAndSettle();
@@ -145,6 +203,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
@@ -167,6 +228,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
@@ -195,6 +259,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
@@ -223,6 +290,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
@@ -249,6 +319,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
@@ -275,6 +348,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
@@ -301,6 +377,9 @@ void main() {
           BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
           BlocProvider<AppConfigBloc>(
             create: (_) => appConfigBloc,
+          ),
+          BlocProvider<CameraPermissionBloc>(
+            create: (_) => cameraPermissionBloc,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
     // wait for animation to complete
@@ -331,6 +410,9 @@ void main() {
               ),
               BlocProvider<AppConfigBloc>(
                 create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
               )
             ],
             widget,
@@ -368,6 +450,9 @@ void main() {
               ),
               BlocProvider<AppConfigBloc>(
                 create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
               )
             ],
             widget,
@@ -403,6 +488,9 @@ void main() {
               ),
               BlocProvider<AppConfigBloc>(
                 create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
               )
             ],
             widget,
@@ -437,6 +525,9 @@ void main() {
               ),
               BlocProvider<AppConfigBloc>(
                 create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
               )
             ],
             widget,
@@ -476,6 +567,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -506,6 +600,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -542,6 +639,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -579,6 +679,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -616,6 +719,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -658,6 +764,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -694,6 +803,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -730,6 +842,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -766,6 +881,9 @@ void main() {
                 ),
                 BlocProvider<AppConfigBloc>(
                   create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
                 )
               ],
               widget,
@@ -790,11 +908,239 @@ void main() {
       ),
       BlocProvider<ConnectivityBloc>(
         create: (_) => mockConnectivityBloc,
-      )
+      ),
     ], widget, infiniteAnimationWidget: true, useRouter: true);
 
     expect(find.byType(BlocProvider<LocationBloc>), findsOneWidget);
     expect(find.byType(BlocProvider<LoadDiaryCubit>), findsOneWidget);
+    expect(find.byType(BlocProvider<CameraPermissionBloc>), findsOneWidget);
+    expect(
+        find.byType(BlocListener<CameraPermissionBloc, CameraPermissionState>),
+        findsOneWidget);
     expect(find.byType(IDHomeBody), findsOneWidget);
   });
+
+  group('test camera permission reaction', () {
+    testWidgets(
+        'given camera permission granted, then navigate to camera screen',
+        (widgetTester) async {
+      const Widget widget = IDHomeBody();
+
+      when(cameraPermissionBloc.state)
+          .thenAnswer((realInvocation) => CameraPermissionGranted());
+      when(cameraPermissionBloc.stream).thenAnswer(
+          (realInvocation) => Stream.value(CameraPermissionGranted()));
+
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+              <BlocProvider<StateStreamableSource<Object?>>>[
+                BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc,
+                ),
+                BlocProvider<LocationBloc>(
+                  create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
+                )
+              ],
+              widget,
+              infiniteAnimationWidget: true,
+              useRouter: true,
+              targetRoute: '/addMedia'));
+      await widgetTester.pump();
+
+      // expect navigate to /addMedia
+      expect(find.text('/addMedia'), findsOneWidget);
+    });
+
+    testWidgets(
+        'given camera permission denied, then request camera permission',
+        (widgetTester) async {
+      const Widget widget = IDHomeBody();
+
+      when(cameraPermissionBloc.state)
+          .thenAnswer((realInvocation) => CameraPermissionDenied());
+      when(cameraPermissionBloc.stream).thenAnswer(
+          (realInvocation) => Stream.value(CameraPermissionDenied()));
+
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+              <BlocProvider<StateStreamableSource<Object?>>>[
+                BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc,
+                ),
+                BlocProvider<LocationBloc>(
+                  create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
+                )
+              ],
+              widget,
+              infiniteAnimationWidget: true,
+              useRouter: true,
+              targetRoute: '/addMedia'));
+      await widgetTester.pump();
+
+      // expect navigate to /addMedia
+      verify(cameraPermissionBloc.add(RequestCameraPermissionEvent()))
+          .called(1);
+    });
+
+    testWidgets('given camera permission denied forever, then do nothing',
+        (widgetTester) async {
+      const Widget widget = IDHomeBody();
+
+      when(cameraPermissionBloc.state)
+          .thenAnswer((realInvocation) => CameraPermissionDeniedForever());
+      when(cameraPermissionBloc.stream).thenAnswer(
+          (realInvocation) => Stream.value(CameraPermissionDeniedForever()));
+
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+              <BlocProvider<StateStreamableSource<Object?>>>[
+                BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc,
+                ),
+                BlocProvider<LocationBloc>(
+                  create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
+                )
+              ],
+              widget,
+              infiniteAnimationWidget: true,
+              useRouter: true,
+              targetRoute: '/addMedia'));
+      await widgetTester.pump();
+
+      // expect navigate to /addMedia
+      verifyNever(cameraPermissionBloc.add(ValidateCameraPermissionEvent()));
+      verifyNever(cameraPermissionBloc.add(RequestCameraPermissionEvent()));
+    });
+  });
+
+  group(
+    'Verify pop when AwaitLocationServiceSettingState',
+    () {
+      testWidgets(
+        'given state is AwaitLocationServiceSettingState,'
+        'when AppLifecycleState is resumed,'
+        'then pop navigation',
+        (widgetTester) async {
+          // given
+          when(mockLocationBloc.state)
+              .thenReturn(AwaitLocationServiceSettingState());
+          when(mockLocationBloc.stream).thenAnswer((realInvocation) =>
+              Stream.value(AwaitLocationServiceSettingState()));
+
+          const Widget widget = IDHomeBody();
+
+          await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+                <BlocProvider<StateStreamableSource<Object?>>>[
+                  BlocProvider<ConnectivityBloc>(
+                    create: (_) => mockConnectivityBloc,
+                  ),
+                  BlocProvider<LocationBloc>(
+                    create: (_) => mockLocationBloc,
+                  ),
+                  BlocProvider<AppConfigBloc>(
+                    create: (_) => appConfigBloc,
+                  ),
+                  BlocProvider<CameraPermissionBloc>(
+                    create: (_) => cameraPermissionBloc,
+                  )
+                ],
+                widget,
+                infiniteAnimationWidget: true,
+                useRouter: true,
+              ));
+
+          // when
+          widgetTester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+          await widgetTester.pumpAndSettle();
+
+          // then
+          expect(find.byType(IDHomeBody), findsNothing);
+        },
+      );
+    },
+  );
+  
+  group('verify no-internet connection banner', () {
+    testWidgets('given no internet connection, when launch home screen, then navigate to no connection', (widgetTester) async  {
+      // given
+      when(mockConnectivityBloc.state).thenReturn(DisconnectedState());
+      when(mockConnectivityBloc.stream).thenAnswer((realInvocation) => Stream.value(DisconnectedState()));
+
+      // when
+      const Widget widget = IDHomeBody();
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            ),
+            BlocProvider<AppConfigBloc>(
+              create: (_) => appConfigBloc,
+            ),
+            BlocProvider<CameraPermissionBloc>(
+              create: (_) => cameraPermissionBloc,
+            )
+          ],
+          widget,
+          infiniteAnimationWidget: true,
+          useRouter: true,
+          targetRoute: '/noConnection'));
+      await widgetTester.pumpAndSettle();
+
+      // then
+      expect(find.text('/noConnection'), findsOneWidget);
+    });
+  },);
+
+  group('verify shake action to show widget catalog', () {
+    testWidgets('given device is shaked, when launch home screen, then navigate to widget catalog', (widgetTester) async  {
+      // given
+      when(appConfigBloc.state).thenReturn(ShakeDetected(0));
+      when(appConfigBloc.stream).thenAnswer((realInvocation) => Stream.value(ShakeDetected(0)));
+
+      // when
+      const Widget widget = IDHomeBody();
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+          <BlocProvider<StateStreamableSource<Object?>>>[
+            BlocProvider<ConnectivityBloc>(
+              create: (_) => mockConnectivityBloc,
+            ),
+            BlocProvider<LocationBloc>(
+              create: (_) => mockLocationBloc,
+            ),
+            BlocProvider<AppConfigBloc>(
+              create: (_) => appConfigBloc,
+            ),
+            BlocProvider<CameraPermissionBloc>(
+              create: (_) => cameraPermissionBloc,
+            )
+          ],
+          widget,
+          infiniteAnimationWidget: true,
+          useRouter: true,
+          targetRoute: '/noConnection'));
+      await widgetTester.pumpAndSettle();
+
+      // then
+      expect(find.byType(WidgetCatalog), findsOneWidget);
+    });
+  },);
 }
