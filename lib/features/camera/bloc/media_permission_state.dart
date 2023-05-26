@@ -13,7 +13,8 @@ class StartCheckingMediaPermission extends MediaPermissionState {
   @override
   List<Object?> get props => [];
 }
-class GoToPhotoAlbum extends MediaPermissionState {
+
+class MediaPermissionGranted extends MediaPermissionState {
   @override
   List<Object?> get props => [];
 }
@@ -28,7 +29,7 @@ class MediaPermissionDenied extends MediaPermissionState {
   List<Object?> get props => [];
 }
 
-class PermissionDeniedForever extends MediaPermissionState {
+class MediaPermissionDeniedForever extends MediaPermissionState {
   @override
   List<Object?> get props => [];
 }
