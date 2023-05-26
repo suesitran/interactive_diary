@@ -37,8 +37,9 @@ void main() {
 
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
         return 3;
       });
@@ -56,8 +57,9 @@ void main() {
 
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
         return 0;
       });
@@ -74,8 +76,9 @@ void main() {
 
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
         return 2;
       });
@@ -94,8 +97,9 @@ void main() {
 
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
         return 4;
       });
@@ -114,8 +118,8 @@ void main() {
 
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),(MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
         return 1;
       });
@@ -136,8 +140,9 @@ void main() {
 
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
         return 1;
       });
@@ -225,8 +230,9 @@ void main() {
         () {
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         // expect to call this method from method channel
         expect(methodCall.method, 'checkPermissionStatus');
         return 1;
@@ -243,8 +249,9 @@ void main() {
         () {
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         if (methodCall.method == 'checkPermissionStatus') {
           // given
           return 0;
@@ -262,8 +269,9 @@ void main() {
         () {
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         if (methodCall.method == 'checkPermissionStatus') {
           // given
           return 2;
@@ -281,8 +289,9 @@ void main() {
         () {
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         if (methodCall.method == 'checkPermissionStatus') {
           // given
           return 3;
@@ -300,8 +309,9 @@ void main() {
         () {
       // mock method channel to avoid mocking on extension
       // ref: https://github.com/Baseflow/flutter-permission-handler/issues/262
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         if (methodCall.method == 'checkPermissionStatus') {
           // given
           return 4;
