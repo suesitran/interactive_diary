@@ -5,14 +5,14 @@ name: Interactive Diary PR Check
 # Controls when the workflow will run
 on:
   pull_request:
-  pull_request_target:
-    branches: 
-      - dev
-    types:
-      - opened
-      - edited
-      - reopened
-      - synchronize
+#  pull_request_target:
+#    branches:
+#      - dev
+#    types:
+#      - opened
+#      - edited
+#      - reopened
+#      - synchronize
 
 #   pull_request:
 #     branches:
