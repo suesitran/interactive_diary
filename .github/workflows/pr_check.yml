@@ -4,7 +4,6 @@ name: Interactive Diary PR Check
 
 # Controls when the workflow will run
 on:
-  pull_request:
 #  pull_request_target:
 #    branches:
 #      - dev
@@ -14,9 +13,9 @@ on:
 #      - reopened
 #      - synchronize
 
-#   pull_request:
-#     branches:
-#       - dev
+  pull_request:
+    branches:
+      - dev
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -68,21 +67,6 @@ jobs:
     - name: Install dependencies
       shell: bash
       run: sh scripts/generate_dependencies.sh
-#        flutter clean
-#        flutter pub get
-#        dart run build_runner build --delete-conflicting-outputs
-#        dart run intl_utils:generate
-#        for d in $(ls packages); do
-#          echo Run on package $d;
-#          cd packages/$d;
-#          flutter pub get;
-#          grep=$(grep "build_runner" pubspec.yaml);
-#          if [[ "$grep" != "" ]]; then
-#            echo "Run build_runner on $d"
-#            dart run build_runner build --delete-conflicting-outputs;
-#          fi;
-#          cd -;
-#        done
     - name: analyse code
       run: flutter analyze
     - name: Run tests
