@@ -67,21 +67,22 @@ jobs:
         echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
     - name: Install dependencies
       shell: bash
-      run: |
-        flutter clean
-        flutter pub get
-        flutter pub run build_runner build --delete-conflicting-outputs
-        flutter pub run intl_utils:generate
-        for d in $(ls packages); do 
-          echo Test on package $d; 
-          cd packages/$d; 
-          flutter pub get; 
-          grep=$(grep "build_runner" pubspec.yaml); 
-          if [[ "$grep" != "" ]]; then 
-            flutter pub run build_runner build --delete-conflicting-outputs; 
-          fi; 
-          cd -; 
-        done
+      run: sh scripts/generate_dependencies.sh
+#        flutter clean
+#        flutter pub get
+#        dart run build_runner build --delete-conflicting-outputs
+#        dart run intl_utils:generate
+#        for d in $(ls packages); do
+#          echo Run on package $d;
+#          cd packages/$d;
+#          flutter pub get;
+#          grep=$(grep "build_runner" pubspec.yaml);
+#          if [[ "$grep" != "" ]]; then
+#            echo "Run build_runner on $d"
+#            dart run build_runner build --delete-conflicting-outputs;
+#          fi;
+#          cd -;
+#        done
     - name: analyse code
       run: flutter analyze
     - name: Run tests
