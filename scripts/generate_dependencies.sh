@@ -7,7 +7,7 @@ NC='\033[0m'
 
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
-dart --no-color run intl_utils:generate
+dart run intl_utils:generate
 #fluttergen -c pubspec.yaml
 
 for d in $(ls packages); do
