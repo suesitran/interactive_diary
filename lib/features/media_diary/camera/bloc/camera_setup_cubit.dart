@@ -13,7 +13,9 @@ class CameraSetupCubit extends Cubit<CameraSetupState> {
     if (state is CameraPictureReady) {
       // retake picture, delete old one
       File file = File((state as CameraPictureReady).path);
-      await file.delete();
+      if (file.existsSync()) {
+        file.deleteSync();
+      }
     }
 
     emit(CameraPictureStart());

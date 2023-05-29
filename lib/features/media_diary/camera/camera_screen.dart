@@ -94,7 +94,7 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> {
           ValueListenableBuilder<bool>(
             valueListenable: _cameraReady,
             builder: (context, value, child) =>
-                value ? controller.buildPreview() : const SizedBox(),
+                value ? controller.buildPreview() : const SizedBox.expand(),
           ),
           Positioned(
               top: 0,

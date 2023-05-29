@@ -10,7 +10,9 @@ class PreviewInteractionCubit extends Cubit<PreviewInteractionState> {
 
   void onCancelPreview(String path) {
     File file = File(path);
-    file.deleteSync();
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
 
     emit(OnFileDeleted());
   }

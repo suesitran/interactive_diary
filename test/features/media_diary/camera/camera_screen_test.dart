@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
+import 'package:interactive_diary/features/media_diary/camera/bloc/camera_setup_cubit.dart';
+import 'package:interactive_diary/features/media_diary/camera/bloc/media_permission_cubit.dart';
 import 'package:interactive_diary/features/media_diary/camera/camera_screen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
@@ -11,13 +16,28 @@ import 'package:network_image_mock/network_image_mock.dart';
 import '../../../widget_tester_extension.dart';
 import 'camera_screen_test.mocks.dart';
 
-@GenerateMocks([NartusMediaService])
+@GenerateMocks([NartusMediaService, CameraSetupCubit, MediaPermissionCubit])
 void main() {
   final MockNartusMediaService nartusMediaService = MockNartusMediaService();
+  final MockCameraSetupCubit cameraSetupCubit = MockCameraSetupCubit();
+  final MockMediaPermissionCubit mediaPermissionCubit =
+      MockMediaPermissionCubit();
 
   setUpAll(() {
     ServiceLocator.instance
         .registerSingleton<NartusMediaService>(nartusMediaService);
+
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+            const MethodChannel('plugins.flutter.io/camera'),
+            (MethodCall methodCall) async {
+      expect(methodCall.method, 'availableCameras');
+
+      // return 1 back camera
+      return [
+        {'name': 'sample', 'lensFacing': 'back', 'sensorOrientation': 0}
+      ];
+    });
   });
 
   tearDown(() {
@@ -30,11 +50,11 @@ void main() {
       testWidgets(
           '[GIVEN] User is in the app'
           '[WHEN]  User open camera screen, '
-          '[THEN]  User will see 4 buttons (close, gallery, flip camera, capture) in the screen',
+          '[THEN]  User will see 3 buttons (close, gallery, flip camera) in the screen',
           (WidgetTester widgetTester) async {
         const CameraScreen screen = CameraScreen();
 
-        await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen));
+        await widgetTester.wrapAndPump(screen);
 
         expect(find.byType(CircleButton), findsNWidgets(3));
       });
@@ -46,10 +66,9 @@ void main() {
           (WidgetTester widgetTester) async {
         const CameraScreen screen = CameraScreen();
 
-        await mockNetworkImagesFor(
-            () => widgetTester.wrapAndPump(screen, useRouter: true));
-
+        await widgetTester.wrapAndPump(screen, useRouter: true);
         await widgetTester.pumpAndSettle();
+
         await widgetTester.tap(find.bySemanticsLabel(S.current.close));
         await widgetTester.pumpAndSettle();
         expect(find.byType(CameraScreen), findsNothing);
@@ -60,15 +79,33 @@ void main() {
           '[WHEN]  User tap on CAPTURE button, '
           '[THEN]  User will be moved to Preview Screen',
           (WidgetTester widgetTester) async {
-        const CameraScreen screen = CameraScreen();
+        when(cameraSetupCubit.takePhoto(any)).thenAnswer((realInvocation) {});
 
-        await mockNetworkImagesFor(
-            () => widgetTester.wrapAndPump(screen, useRouter: true));
+        when(cameraSetupCubit.state).thenReturn(CameraSetupInitial());
+        when(cameraSetupCubit.stream)
+            .thenAnswer((realInvocation) => Stream.value(CameraSetupInitial()));
+
+        const CameraPreviewBody screen = CameraPreviewBody();
+
+        await widgetTester.multiBlocWrapAndPump([
+          BlocProvider<CameraSetupCubit>(
+            create: (context) => cameraSetupCubit,
+          ),
+          BlocProvider<MediaPermissionCubit>(
+            create: (context) => mediaPermissionCubit,
+          )
+        ], screen, useRouter: true);
 
         await widgetTester.pumpAndSettle();
         await widgetTester
             .tap(find.bySemanticsLabel(S.current.captureMediaButton));
+        when(cameraSetupCubit.state)
+            .thenReturn(const CameraPictureReady('path'));
+        when(cameraSetupCubit.stream).thenAnswer(
+            (realInvocation) => Stream.value(const CameraPictureReady('path')));
         await widgetTester.pumpAndSettle();
+
+        verify(cameraSetupCubit.takePhoto(any)).called(1);
         expect(find.byType(CameraScreen), findsNothing);
       });
     },
