@@ -50,6 +50,9 @@ void main() {
     expect(find.byType(FirstOnboardingScreen), findsOneWidget);
     expect(find.text('Get Started'), findsOneWidget);
 
+    // drag until Get Started is visible
+    await widgetTester.dragUntilVisible(find.text('Get Started'),
+        find.byType(SingleChildScrollView), const Offset(0, 100));
     // click on Get Started button
     await widgetTester.tap(find.text('Get Started'));
     // allow animation
