@@ -9,13 +9,9 @@ class CameraSetupInitial extends CameraSetupState {
   List<Object> get props => [];
 }
 
-class CameraControllerReady extends CameraSetupState {
-  final CameraController controller;
-
-  const CameraControllerReady(this.controller);
-
+class CameraPictureStart extends CameraSetupState {
   @override
-  List<Object?> get props => [controller];
+  List<Object?> get props => [];
 }
 
 class CameraPictureReady extends CameraSetupState {

@@ -23,7 +23,7 @@ class CameraScreen extends StatelessWidget {
           create: (context) => MediaPermissionCubit(),
         ),
         BlocProvider<CameraSetupCubit>(
-          create: (_) => CameraSetupCubit()..initCameraController(),
+          create: (_) => CameraSetupCubit(),
         )
       ],
       child: MultiBlocListener(
@@ -55,7 +55,7 @@ class CameraScreen extends StatelessWidget {
             },
           )
         ],
-        child: CameraPreviewBody(),
+        child: const CameraPreviewBody(),
       ),
     );
   }
@@ -68,43 +68,34 @@ class CameraPreviewBody extends StatefulWidget {
   State<CameraPreviewBody> createState() => _CameraPreviewBodyState();
 }
 
-class _CameraPreviewBodyState extends State<CameraPreviewBody> with WidgetsBindingObserver {
+class _CameraPreviewBodyState extends State<CameraPreviewBody> {
+  late final CameraController controller;
+  late List<CameraDescription> cameras;
+
+  final ValueNotifier<bool> _cameraReady = ValueNotifier(false);
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
+
+    _initCamera();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-
-    print('life cycle state $state');
-
-    if (state == AppLifecycleState.resumed) {
-      context.read<CameraSetupCubit>().initCameraController();
-    }
+    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: Stack(
+          body: Stack(
         children: [
-          BlocBuilder<CameraSetupCubit, CameraSetupState>(
-            builder: (context, state) {
-              if (state is CameraControllerReady) {
-                return state.controller.buildPreview();
-              }
-
-              return const SizedBox();
-            },
+          ValueListenableBuilder<bool>(
+            valueListenable: _cameraReady,
+            builder: (context, value, child) =>
+                value ? controller.buildPreview() : const SizedBox(),
           ),
           Positioned(
               top: 0,
@@ -121,7 +112,8 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> with WidgetsBindi
                 ),
               )),
           Positioned(
-            left: 0, right: 0,
+            left: 0,
+            right: 0,
             bottom: 0,
             child: SafeArea(
               child: Padding(
@@ -130,18 +122,18 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> with WidgetsBindi
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Builder(
-                          builder: (context) {
-                            return CircleButton(
-                              size: NartusDimens.padding40,
-                              iconPath: Assets.images.galleryIcon,
-                              semantic: S.current.openDeviceGallery,
-                              onPressed: () {
-                                context.read<MediaPermissionCubit>().checkMediaPermission();
-                              },
-                            );
-                          }
-                      ),
+                      Builder(builder: (context) {
+                        return CircleButton(
+                          size: NartusDimens.padding40,
+                          iconPath: Assets.images.galleryIcon,
+                          semantic: S.current.openDeviceGallery,
+                          onPressed: () {
+                            context
+                                .read<MediaPermissionCubit>()
+                                .checkMediaPermission();
+                          },
+                        );
+                      }),
                       Semantics(
                         button: true,
                         enabled: true,
@@ -165,12 +157,15 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> with WidgetsBindi
                           child: Container(
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: NartusColor.white, width: 4),
+                                border: Border.all(
+                                    color: NartusColor.white, width: 4),
                                 color: Colors.white),
                             child: NartusButton.text(
                               label: '',
                               onPressed: () {
-                                context.read<CameraSetupCubit>().takePhoto();
+                                context
+                                    .read<CameraSetupCubit>()
+                                    .takePhoto(controller);
                               },
                             ),
                           ),
@@ -189,14 +184,39 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> with WidgetsBindi
                   Text(
                     S.current.holdToRecord,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: NartusColor.white,
-                    ),
+                          color: NartusColor.white,
+                        ),
                   )
                 ]),
               ),
             ),
           )
         ],
-      )
-  );
+      ));
+
+  Future<void> _initCamera() async {
+    cameras = await availableCameras();
+
+    if (cameras.isEmpty) {
+      // TODO handle when device has no camera
+      return;
+    }
+
+    // start with back camera
+    controller =
+        CameraController(_findBackCamera(cameras), ResolutionPreset.max);
+    try {
+      await controller.initialize();
+    } on CameraException catch (_) {
+      // TODO handle when camera fails to initialise
+    }
+    _cameraReady.value = controller.value.isInitialized;
+  }
+
+  // CameraDescription _findFrontCamera(List<CameraDescription> cameras) => cameras.firstWhere((element) => element.lensDirection == CameraLensDirection.front, orElse: () => cameras.first,);
+  CameraDescription _findBackCamera(List<CameraDescription> cameras) =>
+      cameras.firstWhere(
+        (element) => element.lensDirection == CameraLensDirection.back,
+        orElse: () => cameras.first,
+      );
 }
