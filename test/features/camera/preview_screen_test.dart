@@ -13,7 +13,7 @@ void main() {
       '[WHEN]  User finished capturing media (take picture, record video, choose media from library), '
       '[THEN]  User will see 2 buttons (back, save) in the screen',
       (WidgetTester widgetTester) async {
-    const PreviewScreen screen = PreviewScreen();
+    const PreviewScreen screen = PreviewScreen('');
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen));
 
@@ -28,7 +28,7 @@ void main() {
     '[THEN]  User will be redirected back to previous screen (Camera Screen)',
     (WidgetTester widgetTester) async {
 
-    const PreviewScreen screen = PreviewScreen();
+    const PreviewScreen screen = PreviewScreen('');
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(screen, useRouter: true));
 
