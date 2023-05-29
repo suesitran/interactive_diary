@@ -25,10 +25,24 @@ class CameraSetupCubit extends Cubit<CameraSetupState> {
      } on CameraException catch (e) {
        // TODO handle when camera fails to initialise
      }
+  }
 
+  void takePhoto() async {
+    if (state is! CameraControllerReady) {
+      // it should never happen
+      return;
+    }
+
+    CameraController controller = (state as CameraControllerReady).controller;
+
+    XFile picture = await controller.takePicture();
+
+    print('picture ${picture.path}');
+    await controller.dispose();
+
+    emit(CameraPictureReady(picture.path));
   }
 
   CameraDescription _findFrontCamera(List<CameraDescription> cameras) => cameras.firstWhere((element) => element.lensDirection == CameraLensDirection.front, orElse: () => cameras.first,);
   CameraDescription _findBackCamera(List<CameraDescription> cameras) => cameras.firstWhere((element) => element.lensDirection == CameraLensDirection.back, orElse: () => cameras.first,);
-
 }

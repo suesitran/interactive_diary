@@ -46,8 +46,8 @@ extension RouterExtension on BuildContext {
     GoRouter.of(this).push(addMediaRoute);
   }
 
-  void gotoPreviewMediaScreen() {
-    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute');
+  void gotoPreviewMediaScreen(String pathToPreview) {
+    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute', extra: pathToPreview);
   }
 
   void goToPhotoAlbum() {

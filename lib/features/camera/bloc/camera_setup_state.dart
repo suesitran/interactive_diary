@@ -17,3 +17,12 @@ class CameraControllerReady extends CameraSetupState {
   @override
   List<Object?> get props => [controller];
 }
+
+class CameraPictureReady extends CameraSetupState {
+  final String path;
+
+  const CameraPictureReady(this.path);
+
+  @override
+  List<Object?> get props => [path];
+}

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -9,7 +11,8 @@ import 'package:interactive_diary/features/camera/widgets/buttons.dart';
 
 
 class PreviewScreen extends StatelessWidget {
-  const PreviewScreen({super.key});
+  final String path;
+  const PreviewScreen(this.path, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +25,16 @@ class PreviewScreen extends StatelessWidget {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height * .8,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: NartusColor.secondaryContainer,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(NartusDimens.padding24),
                       bottomRight: Radius.circular(NartusDimens.padding24),
                     ),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                          'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
+                        image: FileImage(File(path))
                         ))
-                  ),
                 ),
                 Positioned(
                   top: 0 ,

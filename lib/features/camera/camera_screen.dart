@@ -12,14 +12,8 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 
 import 'package:interactive_diary/features/camera/widgets/buttons.dart';
 
-class CameraScreen extends StatefulWidget {
+class CameraScreen extends StatelessWidget {
   const CameraScreen({Key? key}) : super(key: key);
-
-  @override
-  State<CameraScreen> createState() => _CameraScreenState();
-}
-
-class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -52,112 +46,157 @@ class _CameraScreenState extends State<CameraScreen> {
                 // show popup to let user allow permission in settings
               }
             },
+          ),
+          BlocListener<CameraSetupCubit, CameraSetupState>(
+            listener: (context, state) {
+              if (state is CameraPictureReady) {
+                context.gotoPreviewMediaScreen(state.path);
+              }
+            },
           )
         ],
-        child: Scaffold(
-          body: Stack(
-            children: [
-              BlocBuilder<CameraSetupCubit, CameraSetupState>(
-                builder: (context, state) {
-                  if (state is CameraControllerReady) {
-                    return state.controller.buildPreview();
-                  }
-
-                  return const SizedBox();
-                },
-              ),
-              Positioned(
-                top: 0,
-                left: NartusDimens.padding16,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: NartusDimens.padding16),
-                    child: CircleButton(
-                      size: NartusDimens.padding40,
-                      iconPath: Assets.images.closeIcon,
-                      semantic: S.current.close,
-                      onPressed: () => context.pop(),
-                    ),
-                  ),
-                )),
-              Positioned(
-                left: 0, right: 0,
-                bottom: 0,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Builder(
-                            builder: (context) {
-                              return CircleButton(
-                                size: NartusDimens.padding40,
-                                iconPath: Assets.images.galleryIcon,
-                                semantic: S.current.openDeviceGallery,
-                                onPressed: () {
-                                  context.read<MediaPermissionCubit>().checkMediaPermission();
-                                },
-                              );
-                            }
-                          ),
-                          Semantics(
-                            button: true,
-                            enabled: true,
-                            excludeSemantics: true,
-                            explicitChildNodes: false,
-                            label: S.current.captureMediaButton,
-                            child: Container(
-                              width: NartusDimens.padding40 +
-                                  NartusDimens.padding32 +
-                                  NartusDimens.padding4,
-                              height: NartusDimens.padding40 +
-                                  NartusDimens.padding32 +
-                                  NartusDimens.padding4,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                      color: NartusColor.white,
-                                      width: NartusDimens.padding4),
-                                  color: Colors.transparent),
-                              padding: const EdgeInsets.all(NartusDimens.padding2),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: NartusColor.white, width: 4),
-                                    color: Colors.white),
-                                child: NartusButton.text(
-                                  label: '',
-                                  onPressed: () => context.gotoPreviewMediaScreen(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          CircleButton(
-                            size: NartusDimens.padding40,
-                            iconPath: Assets.images.flipIcon,
-                            semantic: S.current.flipCamera,
-                            onPressed: () {},
-                          )
-                        ],
-                      ),
-                      const Gap.v16(),
-                      const Gap.v20(),
-                      Text(
-                        S.current.holdToRecord,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: NartusColor.white,
-                        ),
-                      )
-                    ]),
-                  ),
-                ),
-              )
-            ],
-          )
-        ),
+        child: CameraPreviewBody(),
       ),
     );
   }
+}
+
+class CameraPreviewBody extends StatefulWidget {
+  const CameraPreviewBody({Key? key}) : super(key: key);
+
+  @override
+  State<CameraPreviewBody> createState() => _CameraPreviewBodyState();
+}
+
+class _CameraPreviewBodyState extends State<CameraPreviewBody> with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    print('life cycle state $state');
+
+    if (state == AppLifecycleState.resumed) {
+      context.read<CameraSetupCubit>().initCameraController();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+      body: Stack(
+        children: [
+          BlocBuilder<CameraSetupCubit, CameraSetupState>(
+            builder: (context, state) {
+              if (state is CameraControllerReady) {
+                return state.controller.buildPreview();
+              }
+
+              return const SizedBox();
+            },
+          ),
+          Positioned(
+              top: 0,
+              left: NartusDimens.padding16,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: NartusDimens.padding16),
+                  child: CircleButton(
+                    size: NartusDimens.padding40,
+                    iconPath: Assets.images.closeIcon,
+                    semantic: S.current.close,
+                    onPressed: () => context.pop(),
+                  ),
+                ),
+              )),
+          Positioned(
+            left: 0, right: 0,
+            bottom: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Builder(
+                          builder: (context) {
+                            return CircleButton(
+                              size: NartusDimens.padding40,
+                              iconPath: Assets.images.galleryIcon,
+                              semantic: S.current.openDeviceGallery,
+                              onPressed: () {
+                                context.read<MediaPermissionCubit>().checkMediaPermission();
+                              },
+                            );
+                          }
+                      ),
+                      Semantics(
+                        button: true,
+                        enabled: true,
+                        excludeSemantics: true,
+                        explicitChildNodes: false,
+                        label: S.current.captureMediaButton,
+                        child: Container(
+                          width: NartusDimens.padding40 +
+                              NartusDimens.padding32 +
+                              NartusDimens.padding4,
+                          height: NartusDimens.padding40 +
+                              NartusDimens.padding32 +
+                              NartusDimens.padding4,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: NartusColor.white,
+                                  width: NartusDimens.padding4),
+                              color: Colors.transparent),
+                          padding: const EdgeInsets.all(NartusDimens.padding2),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: NartusColor.white, width: 4),
+                                color: Colors.white),
+                            child: NartusButton.text(
+                              label: '',
+                              onPressed: () {
+                                context.read<CameraSetupCubit>().takePhoto();
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      CircleButton(
+                        size: NartusDimens.padding40,
+                        iconPath: Assets.images.flipIcon,
+                        semantic: S.current.flipCamera,
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                  const Gap.v16(),
+                  const Gap.v20(),
+                  Text(
+                    S.current.holdToRecord,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: NartusColor.white,
+                    ),
+                  )
+                ]),
+              ),
+            ),
+          )
+        ],
+      )
+  );
 }

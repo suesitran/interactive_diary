@@ -15,8 +15,11 @@ final ShellRoute addMediaShell = ShellRoute(navigatorKey: _mediaKey, routes: [
       routes: [
         GoRoute(
             path: previewMediaRoute,
-            builder: (BuildContext context, GoRouterState state) =>
-                const PreviewScreen()),
+            builder: (BuildContext context, GoRouterState state) {
+              String path = state.extra as String;
+
+              return PreviewScreen(path);
+            }),
         GoRoute(
             path: photoAlbum,
             pageBuilder: (_, GoRouterState state) =>
