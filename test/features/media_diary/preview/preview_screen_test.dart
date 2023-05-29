@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/features/camera/preview_screen.dart';
-import 'package:interactive_diary/features/camera/widgets/buttons.dart';
+import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
+import 'package:interactive_diary/features/media_diary/preview/preview_screen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import '../../widget_tester_extension.dart';
+import '../../../widget_tester_extension.dart';
 
 void main() {
   testWidgets(

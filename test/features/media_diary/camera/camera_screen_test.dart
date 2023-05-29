@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/features/camera/camera_screen.dart';
-import 'package:interactive_diary/features/camera/widgets/buttons.dart';
+import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
+import 'package:interactive_diary/features/media_diary/camera/camera_screen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:nartus_media/nartus_media.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import '../../widget_tester_extension.dart';
+import '../../../widget_tester_extension.dart';
 import 'camera_screen_test.mocks.dart';
 
 @GenerateMocks([NartusMediaService])

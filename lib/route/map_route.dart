@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:interactive_diary/features/camera/camera_screen.dart';
-import 'package:interactive_diary/features/camera/preview_screen.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/diary_detail/diary_detail_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:interactive_diary/route/route_extra.dart';
-import 'package:interactive_diary/features/camera/photo_album/photo_album_screen.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
+import 'package:interactive_diary/features/media_diary/camera/camera_screen.dart';
+import 'package:interactive_diary/features/media_diary/photo_album/photo_album_screen.dart';
+import 'package:interactive_diary/features/media_diary/preview/preview_screen.dart';
 
 export 'package:go_router/go_router.dart';
 
