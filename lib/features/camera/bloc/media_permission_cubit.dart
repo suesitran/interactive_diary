@@ -8,34 +8,23 @@ part 'media_permission_state.dart';
 class MediaPermissionCubit extends Cubit<MediaPermissionState> {
   MediaPermissionCubit() : super(MediaPermissionInitial());
 
-  final NartusMediaService mediaService = ServiceLocator.instance.get<NartusMediaService>();
+  final NartusMediaService mediaService =
+      ServiceLocator.instance.get<NartusMediaService>();
 
   Future<void> checkMediaPermission() async {
     emit(StartCheckingMediaPermission());
     MediaPermission permission = await mediaService.checkMediaPermission();
 
-    _handlePermission(permission);
-  }
-
-  void requestMediaPermission() async {
-    MediaPermission permission = await mediaService.requestPermission();
-
-    _handlePermission(permission);
-  }
-
-  void openSettings() => mediaService.openSettings();
-
-  void _handlePermission(MediaPermission permission) {
-    switch(permission) {
+    switch (permission) {
       case MediaPermission.granted:
       case MediaPermission.limited:
         if (!isClosed) {
-          emit(GoToPhotoAlbum());
+          emit(MediaPermissionGranted());
         }
         break;
       case MediaPermission.deniedForever:
         if (!isClosed) {
-          emit(PermissionDeniedForever());
+          emit(MediaPermissionDeniedForever());
         }
         break;
       default:
@@ -44,4 +33,28 @@ class MediaPermissionCubit extends Cubit<MediaPermissionState> {
         }
     }
   }
+
+  void requestMediaPermission() async {
+    MediaPermission permission = await mediaService.requestMediaPermission();
+
+    switch (permission) {
+      case MediaPermission.granted:
+      case MediaPermission.limited:
+        if (!isClosed) {
+          emit(MediaPermissionGranted());
+        }
+        break;
+      case MediaPermission.deniedForever:
+        if (!isClosed) {
+          emit(MediaPermissionDeniedForever());
+        }
+        break;
+      default:
+        if (!isClosed) {
+          emit(MediaPermissionDenied());
+        }
+    }
+  }
+
+  void openSettings() => mediaService.openSettings();
 }

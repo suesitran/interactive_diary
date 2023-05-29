@@ -45,19 +45,20 @@ void main() {
   'serialNumber': 'serialNumber',
   };
 
-  group('checkPermissionGroup', () {
+  group('Media checkPermissionGroup', () {
     test('given device is Android with SDK less than 32, when checkMediaPermission, then check storage permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),(MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(31);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 15 - storage
@@ -79,15 +80,17 @@ void main() {
     test('given device is Android with SDK more than 32, when checkMediaPermission, then check photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+                  (MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(33);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 9 - Photo
@@ -109,13 +112,15 @@ void main() {
     test('given device is iOS, when checkMediaPermission, then check photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+          (MethodCall methodCall) async {
         throw Exception('This method must not be called');
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 9 - Photo
@@ -135,19 +140,21 @@ void main() {
     });
   });
 
-  group('requestPermission group', () {
+  group('media requestPermission group', () {
     test('given device is Android with SDK less than 32, when requestPermissions, then request storage permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(31);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 15 - storage
@@ -159,7 +166,7 @@ void main() {
 
       final NartusMediaService service = NartusMediaService();
 
-      MediaPermission permission = await service.requestPermission();
+      MediaPermission permission = await service.requestMediaPermission();
 
       expect(permission, MediaPermission.denied);
 
@@ -169,15 +176,18 @@ void main() {
     test('given device is Android with SDK more than 32, when requestPermissions, then request photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(33);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 9 - Photo
@@ -189,7 +199,7 @@ void main() {
 
       final NartusMediaService service = NartusMediaService();
 
-      MediaPermission permission = await service.requestPermission();
+      MediaPermission permission = await service.requestMediaPermission();
 
       expect(permission, MediaPermission.denied);
 
@@ -199,13 +209,16 @@ void main() {
     test('given device is iOS, when requestPermissions, then request photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+              (MethodCall methodCall) async {
         throw Exception('This method must not be called');
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 9 - Photo
@@ -217,11 +230,246 @@ void main() {
 
       final NartusMediaService service = NartusMediaService();
 
-      MediaPermission permission = await service.requestPermission();
+      MediaPermission permission = await service.requestMediaPermission();
 
       expect(permission, MediaPermission.denied);
 
       debugDefaultTargetPlatformOverride = null;
+    });
+  });
+
+  group('Camera check permission group', () {
+    test('given permission is granted, when checkCameraPermission, then return MediaPermission.granted', () async {
+      // given
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'checkPermissionStatus');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, 1);
+
+        // return granted
+        return 1;
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.checkCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.granted);
+    });
+
+    test('given permission is limited, when checkCameraPermission, then return MediaPermission.limited', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'checkPermissionStatus');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, 1);
+
+        // return limited
+        return 3;
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.checkCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.limited);
+    });
+
+    test('given permission is restricted, when checkCameraPermission, then return MediaPermission.denied', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'checkPermissionStatus');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, 1);
+
+        // return restricted
+        return 2;
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.checkCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.denied);
+    });
+
+    test('given permission is denied, when checkCameraPermission, then return MediaPermission.denied', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'checkPermissionStatus');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, 1);
+
+        // return denied
+        return 0;
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.checkCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.denied);
+    });
+
+    test('given permission is denied forever, when checkCameraPermission, then return MediaPermission.deniedForever', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'checkPermissionStatus');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, 1);
+
+        // return deniedforever
+        return 4;
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.checkCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.deniedForever);
+    });
+  });
+
+  group('Camera request permission group', () {
+    test('given permission is granted, when requestCameraPermission, then return MediaPermission.granted', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'requestPermissions');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, [1]);
+
+        // return granted
+        return {1: 1};
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.requestCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.granted);
+    });
+
+    test('given permission is limited, when requestCameraPermission, then return MediaPermission.limited', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'requestPermissions');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, [1]);
+
+        // return limited
+        return {1: 3};
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.requestCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.limited);
+    });
+
+    test('given permission is restricted, when requestCameraPermission, then return MediaPermission.denied', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'requestPermissions');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, [1]);
+
+        // return restricted
+        return {1: 2};
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.requestCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.denied);
+    });
+
+    test('given permission is denied, when requestCameraPermission, then return MediaPermission.denied', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
+        expect(methodCall.method, 'requestPermissions');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, [1]);
+
+        // return denied
+        return {1: 0};
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.requestCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.denied);
+    });
+
+    test('given permission is denied forever, when requestCameraPermission, then return MediaPermission.deniedForever', () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
+        expect(methodCall.method, 'requestPermissions');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, [1]);
+
+        // return deniedforever
+        return {1: 4};
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.requestCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.deniedForever);
     });
   });
 }

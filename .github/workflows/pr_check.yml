@@ -5,7 +5,7 @@ name: Interactive Diary PR Check
 # Controls when the workflow will run
 on:
   pull_request_target:
-    branches: 
+    branches:
       - dev
     types:
       - opened
@@ -13,9 +13,9 @@ on:
       - reopened
       - synchronize
 
-#   pull_request:
-#     branches:
-#       - dev
+#  pull_request:
+#    branches:
+#      - dev
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
     - name: Install Flutter 
       uses: subosito/flutter-action@v2.8.0
       with:
-        flutter-version: '3.7.1'
+        flutter-version: '3.10.2'
         channel: 'stable'
 #    enable it when issue is fixed
 #    - name: Format code
@@ -66,13 +66,7 @@ jobs:
         echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
     - name: Install dependencies
       shell: bash
-      run: |
-        flutter doctor -v
-        flutter clean
-        flutter pub get
-        flutter pub run build_runner build --delete-conflicting-outputs
-        flutter pub run intl_utils:generate
-        for d in $(ls packages); do cd packages/$d; flutter pub get; flutter pub run build_runner build --delete-conflicting-outputs; cd -; done
+      run: sh scripts/generate_dependencies.sh
     - name: analyse code
       run: flutter analyze
     - name: Run tests

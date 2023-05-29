@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
+import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
@@ -20,13 +21,15 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(providers: [
-    BlocProvider<LocationBloc>(
-      create: (context) => LocationBloc()..requestCurrentLocation(),
-    ),
-    BlocProvider<LoadDiaryCubit>(
-      create: (context) => LoadDiaryCubit(),
-    )
-  ], child: const IDHomeBody());
+        BlocProvider<LocationBloc>(
+          create: (context) => LocationBloc()..requestCurrentLocation(),
+        ),
+        BlocProvider<LoadDiaryCubit>(
+          create: (context) => LoadDiaryCubit(),
+        ),
+        BlocProvider<CameraPermissionBloc>(
+            create: (context) => CameraPermissionBloc()),
+      ], child: const IDHomeBody());
 }
 
 class IDHomeBody extends StatefulWidget {
@@ -130,6 +133,23 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                 context.showWidgetCatalog();
               }
             },
+          ),
+          BlocListener<CameraPermissionBloc, CameraPermissionState>(
+            listener: (context, state) {
+              if (state is CameraPermissionGranted) {
+                context.gotoAddMediaScreen();
+              }
+
+              if (state is CameraPermissionDenied) {
+                context
+                    .read<CameraPermissionBloc>()
+                    .add(RequestCameraPermissionEvent());
+              }
+
+              if (state is CameraPermissionDeniedForever) {
+                // TODO handle permanently denied scenario
+              }
+            },
           )
         ],
         child: BlocBuilder<LocationBloc, LocationState>(
@@ -144,7 +164,9 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                     address: state.address,
                     business: state.business,
                     onMenuOpened: () {
-                      handleMenuOpen(countryCode: state.countryCode, postalCode: state.postalCode);
+                      handleMenuOpen(
+                          countryCode: state.countryCode,
+                          postalCode: state.postalCode);
                     },
                     onMenuClosed: handleMenuClose,
                   ),
@@ -192,6 +214,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       final LocationState blocState = context.read<LocationBloc>().state;
+
       context.read<LocationBloc>().onReturnFromSettings();
 
       if (blocState is AwaitLocationServiceSettingState &&
@@ -208,12 +231,15 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void handleMenuOpen({required String? countryCode, required String? postalCode}) {
+  void handleMenuOpen(
+      {required String? countryCode, required String? postalCode}) {
     _contentBottomPanelController.show();
 
     // load diary when panel is open
     // TODO filter diary by location and date
-    context.read<LoadDiaryCubit>().loadDiary(countryCode: countryCode, postalCode: postalCode);
+    context
+        .read<LoadDiaryCubit>()
+        .loadDiary(countryCode: countryCode, postalCode: postalCode);
   }
 
   void handleMenuClose() {

@@ -9,8 +9,7 @@ void main() {
   const MethodChannel methodChannel = MethodChannel('plugins.flutter.io/shared_preferences');
 
   test('given shared preference has no data, when check isAppFirstLaunch, then return true', () async {
-    methodChannel
-        .setMockMethodCallHandler((MethodCall methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(methodChannel, (MethodCall methodCall) async {
       expect(methodCall.method, 'getAll');
       return {};
     });
