@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interactive_diary/features/camera/bloc/camera_setup_cubit.dart';
 import 'package:interactive_diary/features/camera/bloc/media_permission_cubit.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -10,8 +12,14 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 
 import 'package:interactive_diary/features/camera/widgets/buttons.dart';
 
-class CameraScreen extends StatelessWidget {
+class CameraScreen extends StatefulWidget {
   const CameraScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CameraScreen> createState() => _CameraScreenState();
+}
+
+class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +27,9 @@ class CameraScreen extends StatelessWidget {
       providers: [
         BlocProvider<MediaPermissionCubit>(
           create: (context) => MediaPermissionCubit(),
+        ),
+        BlocProvider<CameraSetupCubit>(
+          create: (_) => CameraSetupCubit()..initCameraController(),
         )
       ],
       child: MultiBlocListener(
@@ -46,15 +57,14 @@ class CameraScreen extends StatelessWidget {
         child: Scaffold(
           body: Stack(
             children: [
-              Container(
-                height: double.infinity,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      'https://images.pexels.com/photos/2396220/pexels-photo-2396220.jpeg?cs=srgb&dl=pexels-tyler-nix-2396220.jpg&fm=jpg',
-                    ))),
+              BlocBuilder<CameraSetupCubit, CameraSetupState>(
+                builder: (context, state) {
+                  if (state is CameraControllerReady) {
+                    return state.controller.buildPreview();
+                  }
+
+                  return const SizedBox();
+                },
               ),
               Positioned(
                 top: 0,
