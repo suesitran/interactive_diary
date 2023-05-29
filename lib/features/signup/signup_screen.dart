@@ -23,9 +23,9 @@ class IDSignUpBody extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: Dimension.spacing12),
       width: double.infinity,
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           SizedBox(
             width: double.infinity,
             child: Text(
