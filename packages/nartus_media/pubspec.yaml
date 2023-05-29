@@ -7,8 +7,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  build_runner: ^2.3.3
-  device_info_plus: ^8.1.0
+  device_info_plus: ^9.0.1
   flutter:
     sdk: flutter
   permission_handler: ^10.2.0

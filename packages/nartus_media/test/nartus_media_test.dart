@@ -49,15 +49,16 @@ void main() {
     test('given device is Android with SDK less than 32, when checkMediaPermission, then check storage permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),(MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(31);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+                  (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 15 - storage
@@ -79,15 +80,17 @@ void main() {
     test('given device is Android with SDK more than 32, when checkMediaPermission, then check photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+                  (MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(33);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 9 - Photo
@@ -109,13 +112,15 @@ void main() {
     test('given device is iOS, when checkMediaPermission, then check photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+          (MethodCall methodCall) async {
         throw Exception('This method must not be called');
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 9 - Photo
@@ -139,15 +144,17 @@ void main() {
     test('given device is Android with SDK less than 32, when requestPermissions, then request storage permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(31);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 15 - storage
@@ -169,15 +176,18 @@ void main() {
     test('given device is Android with SDK more than 32, when requestPermissions, then request photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'getDeviceInfo');
 
         return androidDeviceInfo(33);
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 9 - Photo
@@ -199,13 +209,16 @@ void main() {
     test('given device is iOS, when requestPermissions, then request photo permission', () async {
       // device is Android
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      const MethodChannel('dev.fluttercommunity.plus/device_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('dev.fluttercommunity.plus/device_info'),
+              (MethodCall methodCall) async {
         throw Exception('This method must not be called');
       });
 
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 9 - Photo
@@ -228,8 +241,10 @@ void main() {
   group('Camera check permission group', () {
     test('given permission is granted, when checkCameraPermission, then return MediaPermission.granted', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 1 - camera
@@ -250,8 +265,9 @@ void main() {
 
     test('given permission is limited, when checkCameraPermission, then return MediaPermission.limited', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 1 - camera
@@ -272,8 +288,9 @@ void main() {
 
     test('given permission is restricted, when checkCameraPermission, then return MediaPermission.denied', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 1 - camera
@@ -294,8 +311,9 @@ void main() {
 
     test('given permission is denied, when checkCameraPermission, then return MediaPermission.denied', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 1 - camera
@@ -316,8 +334,9 @@ void main() {
 
     test('given permission is denied forever, when checkCameraPermission, then return MediaPermission.deniedForever', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'checkPermissionStatus');
 
         // argument is 1 - camera
@@ -340,8 +359,9 @@ void main() {
   group('Camera request permission group', () {
     test('given permission is granted, when requestCameraPermission, then return MediaPermission.granted', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 1 - camera
@@ -362,8 +382,9 @@ void main() {
 
     test('given permission is limited, when requestCameraPermission, then return MediaPermission.limited', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 1 - camera
@@ -384,8 +405,9 @@ void main() {
 
     test('given permission is restricted, when requestCameraPermission, then return MediaPermission.denied', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 1 - camera
@@ -406,8 +428,9 @@ void main() {
 
     test('given permission is denied, when requestCameraPermission, then return MediaPermission.denied', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 1 - camera
@@ -428,8 +451,9 @@ void main() {
 
     test('given permission is denied forever, when requestCameraPermission, then return MediaPermission.deniedForever', () async {
       // given
-      const MethodChannel('flutter.baseflow.com/permissions/methods')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
         expect(methodCall.method, 'requestPermissions');
 
         // argument is 1 - camera
