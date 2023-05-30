@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class Gap extends StatelessWidget {
   final double? vGap;
   final double? hGap;
+  const Gap.v32({Key? key})
+      : vGap = 32.0,
+        hGap = 0.0,
+        super(key: key);
   const Gap.v20({Key? key})
       : vGap = 20.0,
         hGap = 0.0,

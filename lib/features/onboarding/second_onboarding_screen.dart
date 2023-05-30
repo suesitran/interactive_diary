@@ -136,8 +136,12 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(imagePath, fit: BoxFit.fill, excludeFromSemantics: true,
-            width: MediaQuery.of(context).size.width,),
+          AspectRatio(
+            aspectRatio: 1,
+              child: SvgPicture.asset(imagePath, fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
+                excludeFromSemantics: true,
+            width: MediaQuery.of(context).size.width,)),
           Semantics(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
