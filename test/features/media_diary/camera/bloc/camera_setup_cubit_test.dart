@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/camera_setup_cubit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -25,12 +26,12 @@ void main() {
       File file = File('sampleFile.jpg');
       file.createSync();
     },
-    seed: () => const CameraPictureReady('sampleFile.jpg'),
+    seed: () => const CameraMediaReady('sampleFile.jpg', MediaType.picture),
     act: (bloc) => bloc.takePhoto(cameraController),
     verify: (bloc) {
       File file = File('sampleFile.jpg');
       expect(file.existsSync(), false);
     },
-    expect: () => [isA<CameraPictureStart>(), isA<CameraPictureReady>()],
+    expect: () => [isA<CameraMediaStart>(), isA<CameraMediaReady>()],
   );
 }

@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -48,8 +49,8 @@ class CameraScreen extends StatelessWidget {
           ),
           BlocListener<CameraSetupCubit, CameraSetupState>(
             listener: (context, state) {
-              if (state is CameraPictureReady) {
-                context.gotoPreviewMediaScreen(state.path);
+              if (state is CameraMediaReady) {
+                context.gotoPreviewMediaScreen(state.path, state.type);
               }
             },
           )
@@ -159,13 +160,22 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> {
                                 border: Border.all(
                                     color: NartusColor.white, width: 4),
                                 color: Colors.white),
-                            child: NartusButton.text(
-                              label: '',
-                              onPressed: () {
-                                context
+                            child: Material(
+                              color: Colors.transparent,
+                              child: GestureDetector(
+                                onTap: () => context
                                     .read<CameraSetupCubit>()
-                                    .takePhoto(controller);
-                              },
+                                    .takePhoto(controller),
+                                onLongPressStart: (details) {
+                                  HapticFeedback.mediumImpact();
+                                  context.read<CameraSetupCubit>()
+                                      .recordVideo(controller);
+                                },
+                                onLongPressEnd: (details) {
+                                  context.read<CameraSetupCubit>()
+                                      .stopRecordVideo(controller);
+                                },
+                              ),
                             ),
                           ),
                         ),

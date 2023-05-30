@@ -16,9 +16,9 @@ final ShellRoute addMediaShell = ShellRoute(navigatorKey: _mediaKey, routes: [
         GoRoute(
             path: previewMediaRoute,
             builder: (BuildContext context, GoRouterState state) {
-              String path = state.extra as String;
+              PreviewMediaExtra extra = state.extra as PreviewMediaExtra;
 
-              return PreviewScreen(path);
+              return PreviewScreen(extra.path, extra.type);
             }),
         GoRoute(
             path: photoAlbum,

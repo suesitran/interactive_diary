@@ -9,16 +9,17 @@ class CameraSetupInitial extends CameraSetupState {
   List<Object> get props => [];
 }
 
-class CameraPictureStart extends CameraSetupState {
+class CameraMediaStart extends CameraSetupState {
   @override
   List<Object?> get props => [];
 }
 
-class CameraPictureReady extends CameraSetupState {
+class CameraMediaReady extends CameraSetupState {
   final String path;
+  final MediaType type;
 
-  const CameraPictureReady(this.path);
+  const CameraMediaReady(this.path, this.type);
 
   @override
-  List<Object?> get props => [path];
+  List<Object?> get props => [path, type];
 }

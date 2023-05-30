@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/camera_setup_cubit.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/media_permission_cubit.dart';
@@ -100,9 +100,9 @@ void main() {
         await widgetTester
             .tap(find.bySemanticsLabel(S.current.captureMediaButton));
         when(cameraSetupCubit.state)
-            .thenReturn(const CameraPictureReady('path'));
+            .thenReturn(const CameraMediaReady('path', MediaType.picture));
         when(cameraSetupCubit.stream).thenAnswer(
-            (realInvocation) => Stream.value(const CameraPictureReady('path')));
+            (realInvocation) => Stream.value(const CameraMediaReady('path', MediaType.picture)));
         await widgetTester.pumpAndSettle();
 
         verify(cameraSetupCubit.takePhoto(any)).called(1);
