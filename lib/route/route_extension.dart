@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as map
     show LatLng;
+import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/route/route_extra.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -46,8 +47,9 @@ extension RouterExtension on BuildContext {
     GoRouter.of(this).push(addMediaRoute);
   }
 
-  void gotoPreviewMediaScreen() {
-    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute');
+  void gotoPreviewMediaScreen(String pathToPreview, MediaType type) {
+    PreviewMediaExtra extra = PreviewMediaExtra(pathToPreview, type);
+    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute', extra: extra);
   }
 
   void goToPhotoAlbum() {

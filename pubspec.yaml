@@ -67,6 +67,8 @@ dependencies:
   shake: ^2.2.0
   dots_indicator: ^2.0.0
   expandable_page_view: ^1.0.17
+  camera: ^0.10.5+2
+  video_player: ^2.6.1
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +87,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
   network_image_mock: ^2.1.1
+  video_player_platform_interface: ^6.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

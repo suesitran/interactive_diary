@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/features/camera/bloc/media_permission_cubit.dart';
+import 'package:interactive_diary/features/media_diary/camera/bloc/media_permission_cubit.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
