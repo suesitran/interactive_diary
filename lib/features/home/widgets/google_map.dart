@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/map_style.dart';
 import 'package:interactive_diary/features/home/widgets/controller/map_animation_controller.dart';
+import 'package:interactive_diary/features/home/widgets/map_handler/map_handler.dart';
+import 'package:interactive_diary/features/home/widgets/map_type/map_type_bottom_sheet.dart';
 import 'package:interactive_diary/features/home/widgets/markers/map_markers_generator.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
 import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
+import 'package:nartus_ui_package/dimens/dimens.dart';
 
 class GoogleMapView extends StatefulWidget {
   final LatLng currentLocation;
@@ -42,6 +46,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
   late Animation<double> currentLocationAnimation;
 
   late final MapMarkerGenerator mapMarkerGenerator;
+
+  final ValueNotifier<MapType> _mapType = ValueNotifier(MapType.normal);
 
   @override
   void initState() {
@@ -107,26 +113,55 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Set<Marker>>(
-        stream: mapMarkerGenerator.markerData,
-        builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
-            animation: _controller,
-            builder: (BuildContext context, Widget? child) => GoogleMap(
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(widget.currentLocation.latitude,
-                        widget.currentLocation.longitude),
-                    zoom: 15),
-                onMapCreated: (GoogleMapController controller) =>
-                    _onMapCreated(controller),
-                onCameraMoveStarted: () => _closeMenuIfOpening(),
-                onTap: (_) => _closeMenuIfOpening(),
-                onLongPress: (_) => _closeMenuIfOpening(),
-                markers: data.data ?? <Marker>{},
-                myLocationEnabled: false,
-                zoomControlsEnabled: false,
-                mapToolbarEnabled: false,
-                compassEnabled: false,
-                myLocationButtonEnabled: false)));
+    return Stack(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: _mapType,
+          builder: (context, mapType, child) => StreamBuilder<Set<Marker>>(
+              stream: mapMarkerGenerator.markerData,
+              builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
+                  animation: _controller,
+                  builder: (BuildContext context, Widget? child) => GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(widget.currentLocation.latitude,
+                              widget.currentLocation.longitude),
+                          zoom: 15),
+                      onMapCreated: (GoogleMapController controller) =>
+                          _onMapCreated(controller),
+                      onCameraMoveStarted: () => _closeMenuIfOpening(),
+                      onTap: (_) => _closeMenuIfOpening(),
+                      onLongPress: (_) => _closeMenuIfOpening(),
+                      markers: data.data ?? <Marker>{},
+                      myLocationEnabled: false,
+                      zoomControlsEnabled: false,
+                      mapToolbarEnabled: false,
+                      compassEnabled: false,
+                      myLocationButtonEnabled: false,
+                    mapType: mapType,
+                  ))),
+        ),
+        Container(
+          alignment: Alignment.bottomCenter,
+          padding: const EdgeInsets.only(
+              left: NartusDimens.padding24,
+              right: NartusDimens.padding24,
+              bottom: NartusDimens.padding32),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MapHandlerButton(svgPath: Assets.images.icMapType, onTap: () {
+                context.showMapTypeBottomSheet(_mapType.value, (type) {
+                  _mapType.value = type;
+                },);
+              }),
+              MapHandlerButton(
+                  svgPath: Assets.images.icMapLocation, onTap: () {}),
+            ],
+          ),
+        )
+      ],
+    );
   }
 
   void _closeMenuIfOpening() {
