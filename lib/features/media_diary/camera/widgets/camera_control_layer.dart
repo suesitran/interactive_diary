@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/media_diary/camera/widgets/shutter_button.dart';
 import 'package:interactive_diary/features/media_diary/camera/widgets/time_label.dart';
+import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';
@@ -45,11 +48,37 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
           .animate(_preparationController);
   late final Animation<Offset> _slideUp = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(0.0, -2.0),
+    end: const Offset(0.0, -2.5),
   ).animate(_preparationController);
 
   late final Animation<double> _opacity =
       Tween<double>(begin: 0.0, end: 1.0).animate(_preparationController);
+
+  final ValueNotifier<String> _timeDisplay = ValueNotifier('00:00');
+  final NumberFormat _numberFormat = NumberFormat('00');
+
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _preparationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        timer?.cancel();
+        timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          final int tick = timer.tick;
+
+          if (tick < 60) {
+            _timeDisplay.value = '00:${_numberFormat.format(tick)}';
+          } else {
+            timer.cancel();
+            _preparationController.reverse();
+          }
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) => Column(
@@ -59,7 +88,8 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: NartusDimens.padding16, left: NartusDimens.padding16),
+                  top: NartusDimens.padding16,
+                  left: NartusDimens.padding16),
               child: CircleButton(
                 size: NartusDimens.padding40,
                 iconPath: Assets.images.closeIcon,
@@ -93,7 +123,8 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
                         SlideTransition(
                             position: _slideUp,
                             child: FadeTransition(
-                                opacity: _opacity, child: const TimeLabel())),
+                                opacity: _opacity,
+                                child: TimeLabel(display: _timeDisplay,))),
                         ShutterButton(
                             animationController: _preparationController,
                             onShutterTapped: widget.onShutterTapped,
@@ -102,6 +133,7 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
                               widget.onShutterLongPressStart();
                             },
                             onShutterLongPressEnd: () {
+                              timer?.cancel();
                               widget.onShutterLongPressEnd();
                               _preparationController.reverse();
                             }),
