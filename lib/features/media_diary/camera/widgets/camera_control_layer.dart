@@ -8,7 +8,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../generated/l10n.dart';
 import '../../_shared/widgets/buttons.dart';
 
-class CameraControlsLayer extends StatelessWidget {
+class CameraControlsLayer extends StatefulWidget {
   final VoidCallback onGalleryTapped;
   final VoidCallback onShutterTapped;
   final VoidCallback onShutterLongPressStart;
@@ -21,6 +21,28 @@ class CameraControlsLayer extends StatelessWidget {
       required this.onShutterLongPressEnd,
       Key? key})
       : super(key: key);
+
+  @override
+  State<CameraControlsLayer> createState() => _CameraControlsLayerState();
+}
+
+class _CameraControlsLayerState extends State<CameraControlsLayer> with TickerProviderStateMixin {
+
+  late final AnimationController _preparationController = AnimationController(vsync: this)
+      ..duration = const Duration(seconds: 3);
+
+  late final Animation<Offset> _slideLeft = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(-3.0, 0.0)
+  ).animate(_preparationController);
+  late final Animation<Offset> _slideRight = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(3.0, 0.0)
+  ).animate(_preparationController);
+  late final Animation<Offset> _slideDown = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.0, 3.0)
+  ).animate(_preparationController);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -49,14 +71,15 @@ class CameraControlsLayer extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Builder(builder: (context) {
-                      return CircleButton(
+                    SlideTransition(
+                      position: _slideLeft,
+                      child: CircleButton(
                         size: NartusDimens.padding40,
                         iconPath: Assets.images.galleryIcon,
                         semantic: S.current.openDeviceGallery,
-                        onPressed: onGalleryTapped,
-                      );
-                    }),
+                        onPressed: widget.onGalleryTapped,
+                      ),
+                    ),
                     Semantics(
                       button: true,
                       enabled: true,
@@ -86,33 +109,40 @@ class CameraControlsLayer extends StatelessWidget {
                           child: Material(
                             color: Colors.transparent,
                             child: GestureDetector(
-                              onTap: onShutterTapped,
+                              onTap: widget.onShutterTapped,
                               onLongPressStart: (details) {
-                                onShutterLongPressStart();
+                                _preparationController.forward();
+                                widget.onShutterLongPressStart();
                               },
                               onLongPressEnd: (details) {
-                                onShutterLongPressEnd();
+                                widget.onShutterLongPressEnd();
                               },
                             ),
                           ),
                         ),
                       ),
                     ),
-                    CircleButton(
-                      size: NartusDimens.padding40,
-                      iconPath: Assets.images.flipIcon,
-                      semantic: S.current.flipCamera,
-                      onPressed: () {},
+                    SlideTransition(
+                      position: _slideRight,
+                      child: CircleButton(
+                        size: NartusDimens.padding40,
+                        iconPath: Assets.images.flipIcon,
+                        semantic: S.current.flipCamera,
+                        onPressed: () {},
+                      ),
                     )
                   ],
                 ),
                 const Gap.v16(),
                 const Gap.v20(),
-                Text(
-                  S.current.holdToRecord,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: NartusColor.white,
-                      ),
+                SlideTransition(
+                  position: _slideDown,
+                  child: Text(
+                    S.current.holdToRecord,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: NartusColor.white,
+                        ),
+                  ),
                 )
               ]),
             ),
