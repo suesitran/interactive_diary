@@ -45,5 +45,9 @@
   "close": "Close",
   "captureMediaButton": "Tap to take picture, hold to record video",
   "flipCamera": "Tap to switch camera",
-  "openDeviceGallery": "Tap to open gallery album"
+  "openDeviceGallery": "Tap to open gallery album",
+  "mapType":"Map Type",
+  "mapTypeDefault":"Default",
+  "mapTypeSatellite":"Satellite",
+  "mapTypeTerrain":"Terrain"
 }
