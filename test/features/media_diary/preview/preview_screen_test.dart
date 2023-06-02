@@ -23,6 +23,14 @@ class MockVideoPlayerPlatform extends VideoPlayerPlatform {
   Stream<VideoEvent> videoEventsFor(int textureId) {
     return Stream.value(VideoEvent(eventType: VideoEventType.completed));
   }
+
+  @override
+  Future<void> pause(int textureId) async {
+  }
+
+  @override
+  Future<void> dispose(int textureId) async {
+  }
 }
 void main() {
   testWidgets(
