@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +5,6 @@ import 'package:interactive_diary/features/media_diary/_shared/constant/media_ty
 import 'package:interactive_diary/features/media_diary/camera/bloc/camera_setup_cubit.dart';
 import 'package:interactive_diary/features/media_diary/camera/widgets/shutter_button.dart';
 import 'package:interactive_diary/features/media_diary/camera/widgets/time_label.dart';
-import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';

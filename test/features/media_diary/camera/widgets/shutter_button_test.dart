@@ -70,8 +70,7 @@ void main() {
         matching: find.descendant(
             of: find.byType(Container),
             matching: find.ancestor(
-                of: find.byType(Material),
-                matching: find.byType(Container)))));
+                of: find.byType(Material), matching: find.byType(Container)))));
     expect(innerRing.constraints?.maxWidth, 64);
     expect(innerRing.constraints?.maxHeight, 64);
   });

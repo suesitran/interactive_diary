@@ -6,7 +6,8 @@ import '../../../../widget_tester_extension.dart';
 
 void main() {
   testWidgets('Verify UI component of TimeLabel', (widgetTester) async {
-    final AnimationController timerController = AnimationController(vsync: TestVSync());
+    final AnimationController timerController =
+        AnimationController(vsync: const TestVSync());
     final Widget timeLabel = TimeLabel(controller: timerController);
 
     await widgetTester.wrapAndPump(timeLabel);
