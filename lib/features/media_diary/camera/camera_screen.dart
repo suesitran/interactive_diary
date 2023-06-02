@@ -3,15 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/media_diary/camera/widgets/camera_control_layer.dart';
-import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:interactive_diary/generated/l10n.dart';
-import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/route/route_extension.dart';
-import 'package:nartus_ui_package/dimens/dimens.dart';
-import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/camera_setup_cubit.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/media_permission_cubit.dart';
-import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 
 class CameraScreen extends StatelessWidget {
   const CameraScreen({Key? key}) : super(key: key);

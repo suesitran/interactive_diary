@@ -13,7 +13,7 @@ class ShutterButton extends StatefulWidget {
   final VoidCallback onShutterLongPressStart;
   final VoidCallback onShutterLongPressEnd;
 
-  ShutterButton(
+  const ShutterButton(
       {required this.ticker,
       required this.animationController,
       required this.onShutterTapped,

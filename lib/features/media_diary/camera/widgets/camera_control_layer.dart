@@ -9,9 +9,9 @@ import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';
 
-import '../../../../gen/assets.gen.dart';
-import '../../../../generated/l10n.dart';
-import '../../_shared/widgets/buttons.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/generated/l10n.dart';
+import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 
 class CameraControlsLayer extends StatefulWidget {
   final VoidCallback onGalleryTapped;
