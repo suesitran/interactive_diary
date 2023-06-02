@@ -122,23 +122,23 @@ class _GoogleMapViewState extends State<GoogleMapView>
               builder: (_, AsyncSnapshot<Set<Marker>> data) => AnimatedBuilder(
                   animation: _controller,
                   builder: (BuildContext context, Widget? child) => GoogleMap(
-                      initialCameraPosition: CameraPosition(
-                          target: LatLng(widget.currentLocation.latitude,
-                              widget.currentLocation.longitude),
-                          zoom: 15),
-                      onMapCreated: (GoogleMapController controller) =>
-                          _onMapCreated(controller),
-                      onCameraMoveStarted: () => _closeMenuIfOpening(),
-                      onTap: (_) => _closeMenuIfOpening(),
-                      onLongPress: (_) => _closeMenuIfOpening(),
-                      markers: data.data ?? <Marker>{},
-                      myLocationEnabled: false,
-                      zoomControlsEnabled: false,
-                      mapToolbarEnabled: false,
-                      compassEnabled: false,
-                      myLocationButtonEnabled: false,
-                    mapType: mapType,
-                  ))),
+                        initialCameraPosition: CameraPosition(
+                            target: LatLng(widget.currentLocation.latitude,
+                                widget.currentLocation.longitude),
+                            zoom: 15),
+                        onMapCreated: (GoogleMapController controller) =>
+                            _onMapCreated(controller),
+                        onCameraMoveStarted: () => _closeMenuIfOpening(),
+                        onTap: (_) => _closeMenuIfOpening(),
+                        onLongPress: (_) => _closeMenuIfOpening(),
+                        markers: data.data ?? <Marker>{},
+                        myLocationEnabled: false,
+                        zoomControlsEnabled: false,
+                        mapToolbarEnabled: false,
+                        compassEnabled: false,
+                        myLocationButtonEnabled: false,
+                        mapType: mapType,
+                      ))),
         ),
         Container(
           alignment: Alignment.bottomCenter,
@@ -150,11 +150,16 @@ class _GoogleMapViewState extends State<GoogleMapView>
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MapHandlerButton(svgPath: Assets.images.icMapType, onTap: () {
-                context.showMapTypeBottomSheet(_mapType.value, (type) {
-                  _mapType.value = type;
-                },);
-              }),
+              MapHandlerButton(
+                  svgPath: Assets.images.icMapType,
+                  onTap: () {
+                    context.showMapTypeBottomSheet(
+                      _mapType.value,
+                      (type) {
+                        _mapType.value = type;
+                      },
+                    );
+                  }),
               MapHandlerButton(
                   svgPath: Assets.images.icMapLocation, onTap: () {}),
             ],

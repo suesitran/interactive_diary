@@ -8,8 +8,7 @@ import 'package:interactive_diary/generated/l10n.dart';
 
 class MapTypeBottomSheet extends StatelessWidget {
   final MapType currentType;
-  const MapTypeBottomSheet(
-      {required this.currentType, Key? key})
+  const MapTypeBottomSheet({required this.currentType, Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) => Column(
