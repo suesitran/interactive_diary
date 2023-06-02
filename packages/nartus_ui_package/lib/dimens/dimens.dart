@@ -37,4 +37,5 @@ class NartusDimens {
   static const double radius20 = 20.0;
   static const double radius24 = 24.0;
   static const double radius32 = 32.0;
+  static const double radius40 = 40.0;
 }

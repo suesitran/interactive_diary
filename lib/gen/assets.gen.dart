@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -38,6 +38,12 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/gallery_icon.svg
   String get galleryIcon => 'assets/images/gallery_icon.svg';
+
+  /// File path: assets/images/ic_map_location.svg
+  String get icMapLocation => 'assets/images/ic_map_location.svg';
+
+  /// File path: assets/images/ic_map_type.svg
+  String get icMapType => 'assets/images/ic_map_type.svg';
 
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
@@ -96,6 +102,19 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_sms_icon.svg
   String get idSmsIcon => 'assets/images/id_sms_icon.svg';
 
+  /// File path: assets/images/map_type_default.svg
+  String get mapTypeDefault => 'assets/images/map_type_default.svg';
+
+  /// File path: assets/images/map_type_default_selected.svg
+  String get mapTypeDefaultSelected =>
+      'assets/images/map_type_default_selected.svg';
+
+  /// File path: assets/images/map_type_satellite.svg
+  String get mapTypeSatellite => 'assets/images/map_type_satellite.svg';
+
+  /// File path: assets/images/map_type_terrain.svg
+  String get mapTypeTerrain => 'assets/images/map_type_terrain.svg';
+
   /// File path: assets/images/marker_nonetap.png
   AssetGenImage get markerNonetap =>
       const AssetGenImage('assets/images/marker_nonetap.png');
@@ -131,6 +150,8 @@ class $AssetsImagesGen {
         diaryListNoPost,
         flipIcon,
         galleryIcon,
+        icMapLocation,
+        icMapType,
         icTextController,
         idAppleIcon,
         idCameraIcon,
@@ -149,6 +170,10 @@ class $AssetsImagesGen {
         idShareIconPadding,
         idSmileIcon,
         idSmsIcon,
+        mapTypeDefault,
+        mapTypeDefaultSelected,
+        mapTypeSatellite,
+        mapTypeTerrain,
         markerNonetap,
         markerOntap,
         noConnection,
