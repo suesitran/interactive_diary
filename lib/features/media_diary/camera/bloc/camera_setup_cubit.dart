@@ -11,8 +11,6 @@ part 'camera_setup_state.dart';
 class CameraSetupCubit extends Cubit<CameraSetupState> {
   CameraSetupCubit() : super(CameraSetupInitial());
 
-  Timer? timer;
-
   void takePhoto(CameraController controller) async {
     _deleteMediaIfNeeded();
 
@@ -29,18 +27,10 @@ class CameraSetupCubit extends Cubit<CameraSetupState> {
     emit(CameraMediaStart());
 
     await controller.prepareForVideoRecording();
-
-    timer = Timer(const Duration(minutes: 1), () {
-      stopRecordVideo(controller);
-    });
-
     await controller.startVideoRecording();
   }
 
   void stopRecordVideo(CameraController controller) async {
-    timer?.cancel();
-    timer = null;
-
     if (!controller.value.isRecordingVideo) {
       return;
     }
