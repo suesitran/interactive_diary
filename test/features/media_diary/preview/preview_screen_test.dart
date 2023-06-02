@@ -25,13 +25,12 @@ class MockVideoPlayerPlatform extends VideoPlayerPlatform {
   }
 
   @override
-  Future<void> pause(int textureId) async {
-  }
+  Future<void> pause(int textureId) async {}
 
   @override
-  Future<void> dispose(int textureId) async {
-  }
+  Future<void> dispose(int textureId) async {}
 }
+
 void main() {
   testWidgets(
       '[GIVEN] User is in Camera Screen'
@@ -72,7 +71,8 @@ void main() {
     expect(file.existsSync(), false);
   });
 
-  testWidgets('given media is type Picture, '
+  testWidgets(
+      'given media is type Picture, '
       'when user in Preview Screen, '
       'then Image is displayed', (widgetTester) async {
     const Widget widget = PreviewScreen('path', MediaType.picture);
@@ -83,7 +83,8 @@ void main() {
     expect(find.byType(VideoPreview), findsNothing);
   });
 
-  testWidgets('given media is type Video, '
+  testWidgets(
+      'given media is type Video, '
       'when user in Preview Screen, '
       'then VideoPlayer is displayed', (widgetTester) async {
     VideoPlayerPlatform.instance = MockVideoPlayerPlatform();

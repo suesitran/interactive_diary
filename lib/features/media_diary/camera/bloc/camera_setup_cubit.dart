@@ -14,7 +14,7 @@ class CameraSetupCubit extends Cubit<CameraSetupState> {
   void takePhoto(CameraController controller) async {
     _deleteMediaIfNeeded();
 
-    emit(CameraMediaStart());
+    emit(const CameraMediaStart(MediaType.picture));
 
     XFile picture = await controller.takePicture();
 
@@ -24,10 +24,9 @@ class CameraSetupCubit extends Cubit<CameraSetupState> {
   void recordVideo(CameraController controller) async {
     _deleteMediaIfNeeded();
 
-    emit(CameraMediaStart());
-
     await controller.prepareForVideoRecording();
     await controller.startVideoRecording();
+    emit(const CameraMediaStart(MediaType.video));
   }
 
   void stopRecordVideo(CameraController controller) async {

@@ -14,9 +14,8 @@ class ShutterButton extends StatefulWidget {
   final VoidCallback onShutterLongPressEnd;
 
   const ShutterButton(
-      {
-      required this.preparationController,
-        required this.timerController,
+      {required this.preparationController,
+      required this.timerController,
       required this.onShutterTapped,
       required this.onShutterLongPressStart,
       required this.onShutterLongPressEnd,
@@ -35,7 +34,6 @@ class _ShutterButtonState extends State<ShutterButton>
   late final Animation<double> _outerRing =
       Tween<double>(begin: 76, end: 90).animate(widget.preparationController);
 
-
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
@@ -52,10 +50,9 @@ class _ShutterButtonState extends State<ShutterButton>
               builder: (context, child) => Container(
                 width: _outerRing.value,
                 height: _outerRing.value,
-                decoration:
-                    RingTimerDecoration(
-                        size: _outerRing.value,
-                        progress: widget.timerController.value),
+                decoration: RingTimerDecoration(
+                    size: _outerRing.value,
+                    progress: widget.timerController.value),
                 alignment: Alignment.center,
                 child: AnimatedBuilder(
                   animation: _innerRing,
