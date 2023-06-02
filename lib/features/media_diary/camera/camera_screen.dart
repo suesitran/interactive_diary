@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interactive_diary/features/media_diary/camera/widgets/camera_control_layer.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/route/map_route.dart';
@@ -97,108 +98,19 @@ class _CameraPreviewBodyState extends State<CameraPreviewBody> {
             builder: (context, value, child) =>
                 value ? controller.buildPreview() : const SizedBox.expand(),
           ),
-          Positioned(
-              top: 0,
-              left: NartusDimens.padding16,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: NartusDimens.padding16),
-                  child: CircleButton(
-                    size: NartusDimens.padding40,
-                    iconPath: Assets.images.closeIcon,
-                    semantic: S.current.close,
-                    onPressed: () => context.pop(),
-                  ),
-                ),
-              )),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: NartusDimens.padding16),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Builder(builder: (context) {
-                        return CircleButton(
-                          size: NartusDimens.padding40,
-                          iconPath: Assets.images.galleryIcon,
-                          semantic: S.current.openDeviceGallery,
-                          onPressed: () {
-                            context
-                                .read<MediaPermissionCubit>()
-                                .checkMediaPermission();
-                          },
-                        );
-                      }),
-                      Semantics(
-                        button: true,
-                        enabled: true,
-                        excludeSemantics: true,
-                        explicitChildNodes: false,
-                        label: S.current.captureMediaButton,
-                        child: Container(
-                          width: NartusDimens.padding40 +
-                              NartusDimens.padding32 +
-                              NartusDimens.padding4,
-                          height: NartusDimens.padding40 +
-                              NartusDimens.padding32 +
-                              NartusDimens.padding4,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: NartusColor.white,
-                                  width: NartusDimens.padding4),
-                              color: Colors.transparent),
-                          padding: const EdgeInsets.all(NartusDimens.padding2),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: NartusColor.white, width: 4),
-                                color: Colors.white),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: GestureDetector(
-                                onTap: () => context
-                                    .read<CameraSetupCubit>()
-                                    .takePhoto(controller),
-                                onLongPressStart: (details) {
-                                  HapticFeedback.mediumImpact();
-                                  context.read<CameraSetupCubit>()
-                                      .recordVideo(controller);
-                                },
-                                onLongPressEnd: (details) {
-                                  context.read<CameraSetupCubit>()
-                                      .stopRecordVideo(controller);
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      CircleButton(
-                        size: NartusDimens.padding40,
-                        iconPath: Assets.images.flipIcon,
-                        semantic: S.current.flipCamera,
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                  const Gap.v16(),
-                  const Gap.v20(),
-                  Text(
-                    S.current.holdToRecord,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: NartusColor.white,
-                        ),
-                  )
-                ]),
-              ),
-            ),
+          CameraControlsLayer(
+            onGalleryTapped: () {
+              context.read<MediaPermissionCubit>().checkMediaPermission();
+            },
+            onShutterTapped: () =>
+                context.read<CameraSetupCubit>().takePhoto(controller),
+            onShutterLongPressStart: () {
+              HapticFeedback.mediumImpact();
+              context.read<CameraSetupCubit>().recordVideo(controller);
+            },
+            onShutterLongPressEnd: () {
+              context.read<CameraSetupCubit>().stopRecordVideo(controller);
+            },
           )
         ],
       ));
