@@ -55,6 +55,7 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
       Tween<double>(begin: 0.0, end: 1.0).animate(_preparationController);
 
   final ValueNotifier<String> _timeDisplay = ValueNotifier('00:00');
+  final ValueNotifier<int> _timerTicker = ValueNotifier(0);
   final NumberFormat _numberFormat = NumberFormat('00');
 
   Timer? timer;
@@ -71,11 +72,16 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
 
           if (tick < 60) {
             _timeDisplay.value = '00:${_numberFormat.format(tick)}';
+            _timerTicker.value = tick;
           } else {
-            timer.cancel();
             _preparationController.reverse();
           }
         });
+      }
+
+      if (status == AnimationStatus.dismissed) {
+        timer?.cancel();
+        _timerTicker.value = 0;
       }
     });
   }
@@ -88,8 +94,7 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: NartusDimens.padding16,
-                  left: NartusDimens.padding16),
+                  top: NartusDimens.padding16, left: NartusDimens.padding16),
               child: CircleButton(
                 size: NartusDimens.padding40,
                 iconPath: Assets.images.closeIcon,
@@ -124,8 +129,11 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
                             position: _slideUp,
                             child: FadeTransition(
                                 opacity: _opacity,
-                                child: TimeLabel(display: _timeDisplay,))),
+                                child: TimeLabel(
+                                  display: _timeDisplay,
+                                ))),
                         ShutterButton(
+                            ticker: _timerTicker,
                             animationController: _preparationController,
                             onShutterTapped: widget.onShutterTapped,
                             onShutterLongPressStart: () {
@@ -134,6 +142,7 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
                             },
                             onShutterLongPressEnd: () {
                               timer?.cancel();
+                              _timerTicker.value = 0;
                               widget.onShutterLongPressEnd();
                               _preparationController.reverse();
                             }),
