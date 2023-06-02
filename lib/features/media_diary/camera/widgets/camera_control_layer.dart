@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/media_diary/camera/widgets/shutter_button.dart';
+import 'package:interactive_diary/features/media_diary/camera/widgets/time_label.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';
@@ -27,23 +28,28 @@ class CameraControlsLayer extends StatefulWidget {
   State<CameraControlsLayer> createState() => _CameraControlsLayerState();
 }
 
-class _CameraControlsLayerState extends State<CameraControlsLayer> with TickerProviderStateMixin {
+class _CameraControlsLayerState extends State<CameraControlsLayer>
+    with TickerProviderStateMixin {
+  late final AnimationController _preparationController =
+      AnimationController(vsync: this)
+        ..duration = const Duration(milliseconds: 100);
 
-  late final AnimationController _preparationController = AnimationController(vsync: this)
-      ..duration = const Duration(seconds: 3);
+  late final Animation<Offset> _slideLeft =
+      Tween<Offset>(begin: Offset.zero, end: const Offset(-3.0, 0.0))
+          .animate(_preparationController);
+  late final Animation<Offset> _slideRight =
+      Tween<Offset>(begin: Offset.zero, end: const Offset(3.0, 0.0))
+          .animate(_preparationController);
+  late final Animation<Offset> _slideDown =
+      Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, 3.0))
+          .animate(_preparationController);
+  late final Animation<Offset> _slideUp = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.0, -2.0),
+  ).animate(_preparationController);
 
-  late final Animation<Offset> _slideLeft = Tween<Offset>(
-    begin: Offset.zero,
-    end: const Offset(-3.0, 0.0)
-  ).animate(_preparationController);
-  late final Animation<Offset> _slideRight = Tween<Offset>(
-    begin: Offset.zero,
-    end: const Offset(3.0, 0.0)
-  ).animate(_preparationController);
-  late final Animation<Offset> _slideDown = Tween<Offset>(
-    begin: Offset.zero,
-    end: const Offset(0.0, 3.0)
-  ).animate(_preparationController);
+  late final Animation<double> _opacity =
+      Tween<double>(begin: 0.0, end: 1.0).animate(_preparationController);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -81,16 +87,26 @@ class _CameraControlsLayerState extends State<CameraControlsLayer> with TickerPr
                         onPressed: widget.onGalleryTapped,
                       ),
                     ),
-                    ShutterButton(
-                        onShutterTapped: widget.onShutterTapped,
-                        onShutterLongPressStart: () {
-                          _preparationController.forward();
-                          widget.onShutterLongPressStart();
-                        },
-                        onShutterLongPressEnd: () {
-                          widget.onShutterLongPressEnd();
-                          _preparationController.reverse();
-                        }),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SlideTransition(
+                            position: _slideUp,
+                            child: FadeTransition(
+                                opacity: _opacity, child: const TimeLabel())),
+                        ShutterButton(
+                            animationController: _preparationController,
+                            onShutterTapped: widget.onShutterTapped,
+                            onShutterLongPressStart: () {
+                              _preparationController.forward();
+                              widget.onShutterLongPressStart();
+                            },
+                            onShutterLongPressEnd: () {
+                              widget.onShutterLongPressEnd();
+                              _preparationController.reverse();
+                            }),
+                      ],
+                    ),
                     SlideTransition(
                       position: _slideRight,
                       child: CircleButton(
