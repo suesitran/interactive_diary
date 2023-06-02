@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:interactive_diary/features/media_diary/camera/widgets/shutter_button.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/theme/nartus_theme.dart';
 import 'package:nartus_ui_package/widgets/gaps.dart';
@@ -80,48 +81,16 @@ class _CameraControlsLayerState extends State<CameraControlsLayer> with TickerPr
                         onPressed: widget.onGalleryTapped,
                       ),
                     ),
-                    Semantics(
-                      button: true,
-                      enabled: true,
-                      excludeSemantics: true,
-                      explicitChildNodes: false,
-                      label: S.current.captureMediaButton,
-                      child: Container(
-                        width: NartusDimens.padding40 +
-                            NartusDimens.padding32 +
-                            NartusDimens.padding4,
-                        height: NartusDimens.padding40 +
-                            NartusDimens.padding32 +
-                            NartusDimens.padding4,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: NartusColor.white,
-                                width: NartusDimens.padding4),
-                            color: Colors.transparent),
-                        padding: const EdgeInsets.all(NartusDimens.padding2),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: NartusColor.white, width: 4),
-                              color: Colors.white),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: GestureDetector(
-                              onTap: widget.onShutterTapped,
-                              onLongPressStart: (details) {
-                                _preparationController.forward();
-                                widget.onShutterLongPressStart();
-                              },
-                              onLongPressEnd: (details) {
-                                widget.onShutterLongPressEnd();
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    ShutterButton(
+                        onShutterTapped: widget.onShutterTapped,
+                        onShutterLongPressStart: () {
+                          _preparationController.forward();
+                          widget.onShutterLongPressStart();
+                        },
+                        onShutterLongPressEnd: () {
+                          widget.onShutterLongPressEnd();
+                          _preparationController.reverse();
+                        }),
                     SlideTransition(
                       position: _slideRight,
                       child: CircleButton(
