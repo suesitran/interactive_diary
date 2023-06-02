@@ -37,6 +37,9 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
       AnimationController(vsync: this)
         ..duration = const Duration(milliseconds: 100);
 
+  late final AnimationController _timerController = AnimationController(vsync: this)
+  ..duration = const Duration(minutes: 1);
+
   late final Animation<Offset> _slideLeft =
       Tween<Offset>(begin: Offset.zero, end: const Offset(-3.0, 0.0))
           .animate(_preparationController);
@@ -54,11 +57,13 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
   late final Animation<double> _opacity =
       Tween<double>(begin: 0.0, end: 1.0).animate(_preparationController);
 
-  final ValueNotifier<String> _timeDisplay = ValueNotifier('00:00');
-  final ValueNotifier<int> _timerTicker = ValueNotifier(0);
-  final NumberFormat _numberFormat = NumberFormat('00');
 
-  Timer? timer;
+  @override
+  void dispose() {
+    _preparationController.dispose();
+    _timerController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -66,22 +71,11 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
 
     _preparationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        timer?.cancel();
-        timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-          final int tick = timer.tick;
-
-          if (tick < 60) {
-            _timeDisplay.value = '00:${_numberFormat.format(tick)}';
-            _timerTicker.value = tick;
-          } else {
-            _preparationController.reverse();
-          }
-        });
+        _timerController.forward();
       }
 
       if (status == AnimationStatus.dismissed) {
-        timer?.cancel();
-        _timerTicker.value = 0;
+        _timerController.reset();
       }
     });
   }
@@ -130,19 +124,17 @@ class _CameraControlsLayerState extends State<CameraControlsLayer>
                             child: FadeTransition(
                                 opacity: _opacity,
                                 child: TimeLabel(
-                                  display: _timeDisplay,
+                                  controller: _timerController,
                                 ))),
                         ShutterButton(
-                            ticker: _timerTicker,
-                            animationController: _preparationController,
+                            preparationController: _preparationController,
+                            timerController: _timerController,
                             onShutterTapped: widget.onShutterTapped,
                             onShutterLongPressStart: () {
                               _preparationController.forward();
                               widget.onShutterLongPressStart();
                             },
                             onShutterLongPressEnd: () {
-                              timer?.cancel();
-                              _timerTicker.value = 0;
                               widget.onShutterLongPressEnd();
                               _preparationController.reverse();
                             }),
