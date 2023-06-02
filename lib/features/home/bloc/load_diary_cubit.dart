@@ -22,9 +22,9 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
     List<DiaryDisplayContent> displayContents = [];
     // TODO load user display name and display photo
-    String userDisplayName = 'Hoang Nguyen';
-    String userPhotoUrl = 'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
 
+    String userDisplayName = 'Guest';
+    String userPhotoUrl = 'https://lh3.googleusercontent.com/d/1_aTuBIour-Fn9jgj7bh1Y1P2PJja8dbD';
     for (Diary diary in collection.diaries) {
       String plainText = '';
 
