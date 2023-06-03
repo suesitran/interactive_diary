@@ -13,4 +13,4 @@ for d in $(ls packages)
 	flutter pub run build_runner build --delete-conflicting-outputs
 	cd -
 done
-Anh ko thao tac' dc ' -> Em vao setting, tools -> flutter -> chon directory sdk cho Flutter
+
