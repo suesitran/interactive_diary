@@ -10,8 +10,12 @@ class CameraSetupInitial extends CameraSetupState {
 }
 
 class CameraMediaStart extends CameraSetupState {
+  final MediaType type;
+
+  const CameraMediaStart(this.type);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [type];
 }
 
 class CameraMediaReady extends CameraSetupState {

@@ -108,6 +108,13 @@ class _VideoPreviewState extends State<VideoPreview> {
   }
 
   @override
+  void dispose() {
+    _controller.pause();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) =>
       ValueListenableBuilder<VideoPlayerValue>(
         valueListenable: _controller,

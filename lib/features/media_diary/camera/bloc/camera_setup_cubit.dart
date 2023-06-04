@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,12 +10,10 @@ part 'camera_setup_state.dart';
 class CameraSetupCubit extends Cubit<CameraSetupState> {
   CameraSetupCubit() : super(CameraSetupInitial());
 
-  Timer? timer;
-
   void takePhoto(CameraController controller) async {
     _deleteMediaIfNeeded();
 
-    emit(CameraMediaStart());
+    emit(const CameraMediaStart(MediaType.picture));
 
     XFile picture = await controller.takePicture();
 
@@ -26,21 +23,12 @@ class CameraSetupCubit extends Cubit<CameraSetupState> {
   void recordVideo(CameraController controller) async {
     _deleteMediaIfNeeded();
 
-    emit(CameraMediaStart());
-
     await controller.prepareForVideoRecording();
-
-    timer = Timer(const Duration(minutes: 1), () {
-      stopRecordVideo(controller);
-    });
-
     await controller.startVideoRecording();
+    emit(const CameraMediaStart(MediaType.video));
   }
 
   void stopRecordVideo(CameraController controller) async {
-    timer?.cancel();
-    timer = null;
-
     if (!controller.value.isRecordingVideo) {
       return;
     }
