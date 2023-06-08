@@ -210,6 +210,7 @@ class MapMarkerGenerator {
 
     if (pngBytes != null) {
       if (!_streamController.isClosed) {
+        _markers.clear();
         _markers.add(Marker(
             markerId: const MarkerId(baseMarkerCurrentLocationId),
             position: LatLng(currentLocation?.latitude ?? 0.0,
