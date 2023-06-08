@@ -41,12 +41,18 @@ class MapMarkerGenerator {
   Offset smileyMenuPosition = Offset.zero;
   bool showMenu = false;
 
+  bool initialised = false;
+
   void setup(LatLng currentLocation) async {
     this.currentLocation = currentLocation;
 
-    if (this.currentLocation != null) {
+    if (!initialised) {
+      initialised = true;
       await _generateMarkerIcon();
       await _computeMarker();
+    }
+
+    if (this.currentLocation != null) {
       _generateCircularMenuIcons();
     }
   }

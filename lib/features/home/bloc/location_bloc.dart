@@ -16,6 +16,8 @@ class LocationBloc extends Cubit<LocationState> {
       : _locationService = ServiceLocator.instance.get<LocationService>(),
         super(LocationInitial(PermissionStatusDiary.denied));
 
+  bool useDefaultLocation = false;
+
   Future<void> requestCurrentLocation() async {
     emit(LocationUpdateStart());
     try {
@@ -48,6 +50,7 @@ class LocationBloc extends Cubit<LocationState> {
 
   Future<void> requestDefaultLocation() async {
     emit(LocationUpdateStart());
+    useDefaultLocation = true;
     emit(LocationReadyState(currentLocation: _defaultLocation));
   }
 
@@ -64,4 +67,12 @@ class LocationBloc extends Cubit<LocationState> {
   }
 
   Future<void> onReturnFromSettings() => requestCurrentLocation();
+
+  Future<void> requestUpdateLocation() {
+    if (useDefaultLocation) {
+      return requestDefaultLocation();
+    } else {
+      return requestCurrentLocation();
+    }
+  }
 }
