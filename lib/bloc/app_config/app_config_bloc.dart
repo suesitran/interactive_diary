@@ -10,11 +10,12 @@ part 'app_config_event.dart';
 part 'app_config_state.dart';
 
 class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
-
   ShakeDetector? detector;
   final AppSettings _appSettings;
 
-  AppConfigBloc() : _appSettings = ServiceLocator.instance<AppSettings>(), super(AppConfigInitial()) {
+  AppConfigBloc()
+      : _appSettings = ServiceLocator.instance<AppSettings>(),
+        super(AppConfigInitial()) {
     on<AppRequestInitialise>(_initialise);
 
     on<AnnounceShakeAction>(
@@ -50,7 +51,8 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
     emit(AppConfigInitialised(isFirstLaunch: isAppLaunched));
   }
 
-  void _cancelFirstLaunch(AppConfigEvent event, Emitter<AppConfigState> emit) async {
+  void _cancelFirstLaunch(
+      AppConfigEvent event, Emitter<AppConfigState> emit) async {
     await _appSettings.registerAppLaunched();
 
     emit(AppFirstLaunchCleared());

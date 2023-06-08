@@ -23,10 +23,10 @@ class LoginOptions extends StatelessWidget {
         const SizedBox(width: NartusDimens.padding16),
         Expanded(
             child: _iconWidget(
-                Assets.images.idFacebookIcon, S.current.continueWithFacebook, () {
-                  // handle event click 
-            })
-        ),
+                Assets.images.idFacebookIcon, S.current.continueWithFacebook,
+                () {
+          // handle event click
+        })),
         if (context.isIOS) ...[
           const SizedBox(width: NartusDimens.padding16),
           Expanded(

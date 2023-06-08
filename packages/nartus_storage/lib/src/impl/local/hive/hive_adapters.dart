@@ -30,9 +30,9 @@ class HiveDiary {
 
   HiveDiary(
       {required this.timestamp,
-        required this.countryCode,
-        required this.postalCode,
-        required this.addressLine,
+      required this.countryCode,
+      required this.postalCode,
+      required this.addressLine,
       required this.latLng,
       required this.title,
       required this.textContents,
@@ -42,9 +42,9 @@ class HiveDiary {
 
   HiveDiary.fromDiary(Diary diary)
       : timestamp = diary.timestamp,
-  countryCode = diary.countryCode,
-  postalCode = diary.postalCode,
-  addressLine = diary.addressLine,
+        countryCode = diary.countryCode,
+        postalCode = diary.postalCode,
+        addressLine = diary.addressLine,
         latLng = HiveLatLng(lat: diary.latLng.lat, long: diary.latLng.long),
         title = diary.title,
         textContents = diary.contents

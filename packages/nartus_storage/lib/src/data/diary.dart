@@ -26,9 +26,9 @@ class Diary {
 
   Diary(
       {required this.timestamp,
-        required this.countryCode,
-        required this.postalCode,
-        required this.addressLine,
+      required this.countryCode,
+      required this.postalCode,
+      required this.addressLine,
       required this.latLng,
       required this.title,
       required this.contents,

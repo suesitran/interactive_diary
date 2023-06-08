@@ -31,12 +31,17 @@ void main() {
         LocalStorageServiceImpl(storage: storage);
 
     final DateTime dateTime = DateTime(2022, 10, 20);
-    when(storage.readDiaryForMonth(month: dateTime, countryCode: 'AU', postalCode: '2345')).thenAnswer(
-        (Invocation realInvocation) => Future<DiaryCollection>.value(
-            const DiaryCollection(month: '102022', diaries: <Diary>[])));
-    localStorageServiceImpl.readDiaryForMonth(month: dateTime, countryCode: 'AU', postalCode: '2345');
+    when(storage.readDiaryForMonth(
+            month: dateTime, countryCode: 'AU', postalCode: '2345'))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<DiaryCollection>.value(
+                const DiaryCollection(month: '102022', diaries: <Diary>[])));
+    localStorageServiceImpl.readDiaryForMonth(
+        month: dateTime, countryCode: 'AU', postalCode: '2345');
 
-    verify(storage.readDiaryForMonth(month: dateTime, countryCode: 'AU', postalCode: '2345')).called(1);
+    verify(storage.readDiaryForMonth(
+            month: dateTime, countryCode: 'AU', postalCode: '2345'))
+        .called(1);
   });
 
   test('when save diary, then call hiveStorage to save data', () {
@@ -64,11 +69,15 @@ void main() {
     LocalStorageServiceImpl localStorageServiceImpl =
         LocalStorageServiceImpl(storage: storage);
 
-    when(storage.deleteDiary(timestamp: 123456, countryCode: 'AU', postalCode: '2345'))
+    when(storage.deleteDiary(
+            timestamp: 123456, countryCode: 'AU', postalCode: '2345'))
         .thenAnswer((Invocation realInvocation) => Future<bool>.value(true));
-    localStorageServiceImpl.deleteDiary(timestamp: 123456, countryCode: 'AU', postalCode: '2345');
+    localStorageServiceImpl.deleteDiary(
+        timestamp: 123456, countryCode: 'AU', postalCode: '2345');
 
-    verify(storage.deleteDiary(timestamp: 123456, countryCode: 'AU', postalCode: '2345')).called(1);
+    verify(storage.deleteDiary(
+            timestamp: 123456, countryCode: 'AU', postalCode: '2345'))
+        .called(1);
   });
 
   test('when save user, then call hiveStorage to save data', () {

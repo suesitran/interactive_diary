@@ -8,10 +8,10 @@ part 'write_diary_state.dart';
 
 class WriteDiaryCubit extends Cubit<WriteDiaryState> {
   final StorageService service = ServiceLocator.instance<StorageService>();
-  final GeocoderService _geocoderService = ServiceLocator.instance<GeocoderService>();
+  final GeocoderService _geocoderService =
+      ServiceLocator.instance<GeocoderService>();
 
-
-  WriteDiaryCubit() :super(WriteDiaryInitial());
+  WriteDiaryCubit() : super(WriteDiaryInitial());
 
   Future<void> saveTextDiary(
       {required String title,
@@ -21,7 +21,8 @@ class WriteDiaryCubit extends Cubit<WriteDiaryState> {
 
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
 
-    final LocationDetail detail = await _geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
+    final LocationDetail detail =
+        await _geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
     await service.saveDiary(Diary(
         timestamp: timestamp,
         countryCode: detail.countryCode ?? 'Unknown',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
@@ -39,7 +38,6 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     await mockNetworkImagesFor(() =>
@@ -69,7 +67,6 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     controller.show();
@@ -101,7 +98,6 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     controller.show();
@@ -129,7 +125,6 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     controller.show();
@@ -162,7 +157,6 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     await mockNetworkImagesFor(() =>
@@ -191,7 +185,6 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     await mockNetworkImagesFor(() =>

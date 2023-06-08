@@ -6,5 +6,9 @@ class LocationDetail {
   final String? countryCode;
   final String? postalCode;
 
-  LocationDetail({required this.address, required this.countryCode, required this.postalCode, required this.business});
+  LocationDetail(
+      {required this.address,
+      required this.countryCode,
+      required this.postalCode,
+      required this.business});
 }

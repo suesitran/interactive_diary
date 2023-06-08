@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
@@ -25,17 +26,9 @@ class ContentsBottomPanelController extends ChangeNotifier {
 }
 
 class ContentsBottomPanelView extends StatefulWidget {
-  final String? address;
-  final String? business;
-  final LatLng location;
   final ContentsBottomPanelController controller;
 
-  const ContentsBottomPanelView(
-      {required this.controller,
-      required this.location,
-      this.address,
-      this.business,
-      Key? key})
+  const ContentsBottomPanelView({required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -144,13 +137,35 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 Padding(
                     padding:
                         const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                    child: LocationView(
-                      locationIconSvg: Assets.images.idLocationIcon,
-                      address: widget.address,
-                      businessName: widget.business,
-                      latitude: widget.location.latitude,
-                      longitude: widget.location.longitude,
-                      borderRadius: BorderRadius.circular(12),
+                    child: BlocBuilder<AddressCubit, AddressState>(
+                      builder: (context, state) {
+                        double lat = 0.0;
+                        double lng = 0.0;
+
+                        String? address;
+                        String? business;
+
+                        if (state is AddressReadyState) {
+                          address = state.address;
+                          business = state.business;
+                        }
+
+                        LocationState locationState =
+                            context.read<LocationBloc>().state;
+
+                        if (locationState is LocationReadyState) {
+                          lat = locationState.currentLocation.latitude;
+                          lng = locationState.currentLocation.longitude;
+                        }
+                        return LocationView(
+                          locationIconSvg: Assets.images.idLocationIcon,
+                          address: address,
+                          businessName: business,
+                          latitude: lat,
+                          longitude: lng,
+                          borderRadius: BorderRadius.circular(12),
+                        );
+                      },
                     )),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,

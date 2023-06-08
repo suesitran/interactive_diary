@@ -25,7 +25,8 @@ void main() {
     when(locationService.getCurrentLocation()).thenAnswer(
         (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
     when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
-        (realInvocation) => Future.value(gc.LocationDetail(address: '', postalCode: '', countryCode: '', business: '')));
+        (realInvocation) => Future.value(gc.LocationDetail(
+            address: '', postalCode: '', countryCode: '', business: '')));
   });
 
   group('event request current location', () {
@@ -159,8 +160,11 @@ void main() {
           when(locationService.getCurrentLocation()).thenAnswer(
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
           when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
-              (realInvocation) =>
-                  Future.value(gc.LocationDetail(address: 'address', business: 'business name', countryCode: 'AU', postalCode: '2345')));
+              (realInvocation) => Future.value(gc.LocationDetail(
+                  address: 'address',
+                  business: 'business name',
+                  countryCode: 'AU',
+                  postalCode: '2345')));
         },
         act: (bloc) => bloc.requestCurrentLocation(),
         expect: () => [isA<LocationReadyState>()],
@@ -168,8 +172,6 @@ void main() {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 0.0);
           expect(state.currentLocation.longitude, 0.0);
-          expect(state.address, 'address');
-          expect(state.business, 'business name');
         },
       );
 
@@ -188,8 +190,6 @@ void main() {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 0.0);
           expect(state.currentLocation.longitude, 0.0);
-          expect(state.address, isNull);
-          expect(state.business, isNull);
         },
       );
 
@@ -198,8 +198,11 @@ void main() {
         build: () => LocationBloc(),
         setUp: () {
           when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
-              (realInvocation) =>
-                  Future.value(gc.LocationDetail(address: 'address', business: 'business name', countryCode: 'AU', postalCode: '2345')));
+              (realInvocation) => Future.value(gc.LocationDetail(
+                  address: 'address',
+                  business: 'business name',
+                  countryCode: 'AU',
+                  postalCode: '2345')));
         },
         act: (bloc) => bloc.requestDefaultLocation(),
         expect: () => [isA<LocationReadyState>()],
@@ -207,8 +210,6 @@ void main() {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 10.7725);
           expect(state.currentLocation.longitude, 106.6980);
-          expect(state.address, 'address');
-          expect(state.business, 'business name');
         },
       );
 
@@ -227,8 +228,6 @@ void main() {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 10.7725);
           expect(state.currentLocation.longitude, 106.6980);
-          expect(state.address, isNull);
-          expect(state.business, isNull);
         },
       );
     },

@@ -17,7 +17,6 @@ class SecondOnboardingScreen extends StatefulWidget {
 
   @override
   State<SecondOnboardingScreen> createState() => _SecondOnboardingScreenState();
-
 }
 
 class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
@@ -107,20 +106,22 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
                   const LoginOptions(),
                   const SizedBox(height: NartusDimens.padding24),
                   TextButtonTheme(
-                    data: TextButtonThemeData(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(NartusColor.grey),
-                        textStyle: MaterialStateProperty.all<TextStyle>(Theme.of(context).textTheme.bodyMedium!)
+                      data: TextButtonThemeData(
+                        style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                NartusColor.grey),
+                            textStyle: MaterialStateProperty.all<TextStyle>(
+                                Theme.of(context).textTheme.bodyMedium!)),
                       ),
-                    ),
-                    child: NartusButton.text(
-                      label: S.current.continueAsGuest,
-                      sizeType: SizeType.small,
-                      onPressed: () {
-                        context.read<AppConfigBloc>().add(CancelFirstLaunch());
-                      },
-                    )
-                  )
+                      child: NartusButton.text(
+                        label: S.current.continueAsGuest,
+                        sizeType: SizeType.small,
+                        onPressed: () {
+                          context
+                              .read<AppConfigBloc>()
+                              .add(CancelFirstLaunch());
+                        },
+                      ))
                 ],
               ),
             ),
@@ -137,11 +138,14 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AspectRatio(
-            aspectRatio: 1,
-              child: SvgPicture.asset(imagePath, fit: BoxFit.cover,
+              aspectRatio: 1,
+              child: SvgPicture.asset(
+                imagePath,
+                fit: BoxFit.cover,
                 alignment: Alignment.bottomCenter,
                 excludeFromSemantics: true,
-            width: MediaQuery.of(context).size.width,)),
+                width: MediaQuery.of(context).size.width,
+              )),
           Semantics(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
@@ -159,5 +163,4 @@ class _SecondOnboardingScreenState extends State<SecondOnboardingScreen> {
           ),
         ],
       );
-
 }

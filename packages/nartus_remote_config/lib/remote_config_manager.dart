@@ -23,9 +23,12 @@ class RemoteConfigManager {
   final FirebaseRemoteConfig _remoteConfig;
   final ConnectivityService _connectivityService;
 
-  RemoteConfigManager({FirebaseRemoteConfig? remoteConfig, ConnectivityService? connectivityService})
+  RemoteConfigManager(
+      {FirebaseRemoteConfig? remoteConfig,
+      ConnectivityService? connectivityService})
       : _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance,
-  _connectivityService = connectivityService ?? ConnectivityService(ImplType.connectivityPlus);
+        _connectivityService = connectivityService ??
+            ConnectivityService(ImplType.connectivityPlus);
 
   Future<void> init() async {
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(

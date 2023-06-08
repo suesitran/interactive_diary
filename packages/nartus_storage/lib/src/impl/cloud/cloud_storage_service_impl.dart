@@ -4,7 +4,10 @@ class CloudStorageServiceImpl extends StorageService {
   CloudStorageServiceImpl() : super._(StorageType.cloud);
 
   @override
-  Future<bool> deleteDiary({required String countryCode, required String postalCode, required int timestamp}) {
+  Future<bool> deleteDiary(
+      {required String countryCode,
+      required String postalCode,
+      required int timestamp}) {
     // TODO: implement deleteDiary
     throw UnimplementedError();
   }
@@ -16,7 +19,10 @@ class CloudStorageServiceImpl extends StorageService {
   }
 
   @override
-  Future<DiaryCollection> readDiaryForMonth({required String? countryCode, required String? postalCode, required DateTime month}) {
+  Future<DiaryCollection> readDiaryForMonth(
+      {required String? countryCode,
+      required String? postalCode,
+      required DateTime month}) {
     // TODO: implement readDiaryForMonth
     throw UnimplementedError();
   }

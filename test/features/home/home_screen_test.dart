@@ -109,20 +109,9 @@ void main() {
     const IDHomeBody widget = IDHomeBody();
 
     when(mockLocationBloc.stream).thenAnswer((_) => Stream<LocationState>.value(
-        LocationReadyState(
-            currentLocation: const LatLng(0.0, 0.0),
-            dateDisplay: '17-07-2022',
-            address: null,
-            business: null,
-            countryCode: null,
-            postalCode: null)));
-    when(mockLocationBloc.state).thenAnswer((_) => LocationReadyState(
-        currentLocation: const LatLng(0.0, 0.0),
-        dateDisplay: '17-07-2022',
-        address: null,
-        business: null,
-        countryCode: null,
-        postalCode: null));
+        LocationReadyState(currentLocation: const LatLng(0.0, 0.0))));
+    when(mockLocationBloc.state).thenAnswer(
+        (_) => LocationReadyState(currentLocation: const LatLng(0.0, 0.0)));
 
     await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
           BlocProvider<LocationBloc>(create: (_) {
@@ -156,32 +145,30 @@ void main() {
       (WidgetTester widgetTester) async {
     const IDHomeBody widget = IDHomeBody();
 
-    final LocationReadyState state = LocationReadyState(
-        currentLocation: const LatLng(0.0, 0.0),
-        dateDisplay: '17-07-2022',
-        address: null,
-        business: null,
-        postalCode: null,
-        countryCode: null);
+    final LocationReadyState state =
+        LocationReadyState(currentLocation: const LatLng(0.0, 0.0));
 
     when(mockLocationBloc.stream)
         .thenAnswer((_) => Stream<LocationState>.value(state));
     when(mockLocationBloc.state).thenAnswer((_) => state);
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<LoadDiaryCubit>(
-            create: (_) => loadDiaryCubit,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (_) => loadDiaryCubit,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            useRouter: true));
     await widgetTester.pumpAndSettle();
 
     expect(find.byType(GoogleMapView), findsOneWidget);
@@ -197,17 +184,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationInitial(PermissionStatusDiary.denied));
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
@@ -222,17 +213,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
 
     expect(find.text('Location Permission not granted'), findsOneWidget);
     expect(
@@ -253,17 +248,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
 
     expect(find.text('Turn on your location'), findsOneWidget);
     expect(
@@ -284,17 +283,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -313,17 +316,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedState());
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -342,17 +349,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -371,17 +382,21 @@ void main() {
     when(mockLocationBloc.state)
         .thenAnswer((_) => LocationPermissionDeniedForeverState());
 
-    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(<
-            BlocProvider<StateStreamableSource<Object?>>>[
-          BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
-          BlocProvider<ConnectivityBloc>(create: (_) => mockConnectivityBloc),
-          BlocProvider<AppConfigBloc>(
-            create: (_) => appConfigBloc,
-          ),
-          BlocProvider<CameraPermissionBloc>(
-            create: (_) => cameraPermissionBloc,
-          )
-        ], widget, infiniteAnimationWidget: true, useRouter: true));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+            <BlocProvider<StateStreamableSource<Object?>>>[
+              BlocProvider<LocationBloc>(create: (_) => mockLocationBloc),
+              BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc),
+              BlocProvider<AppConfigBloc>(
+                create: (_) => appConfigBloc,
+              ),
+              BlocProvider<CameraPermissionBloc>(
+                create: (_) => cameraPermissionBloc,
+              )
+            ],
+            widget,
+            infiniteAnimationWidget: true,
+            useRouter: true));
     // wait for animation to complete
     await widgetTester.pump(const Duration(seconds: 1));
 
@@ -1075,72 +1090,84 @@ void main() {
       );
     },
   );
-  
-  group('verify no-internet connection banner', () {
-    testWidgets('given no internet connection, when launch home screen, then navigate to no connection', (widgetTester) async  {
-      // given
-      when(mockConnectivityBloc.state).thenReturn(DisconnectedState());
-      when(mockConnectivityBloc.stream).thenAnswer((realInvocation) => Stream.value(DisconnectedState()));
 
-      // when
-      const Widget widget = IDHomeBody();
-      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-          <BlocProvider<StateStreamableSource<Object?>>>[
-            BlocProvider<ConnectivityBloc>(
-              create: (_) => mockConnectivityBloc,
-            ),
-            BlocProvider<LocationBloc>(
-              create: (_) => mockLocationBloc,
-            ),
-            BlocProvider<AppConfigBloc>(
-              create: (_) => appConfigBloc,
-            ),
-            BlocProvider<CameraPermissionBloc>(
-              create: (_) => cameraPermissionBloc,
-            )
-          ],
-          widget,
-          infiniteAnimationWidget: true,
-          useRouter: true,
-          targetRoute: '/noConnection'));
-      await widgetTester.pumpAndSettle();
+  group(
+    'verify no-internet connection banner',
+    () {
+      testWidgets(
+          'given no internet connection, when launch home screen, then navigate to no connection',
+          (widgetTester) async {
+        // given
+        when(mockConnectivityBloc.state).thenReturn(DisconnectedState());
+        when(mockConnectivityBloc.stream)
+            .thenAnswer((realInvocation) => Stream.value(DisconnectedState()));
 
-      // then
-      expect(find.text('/noConnection'), findsOneWidget);
-    });
-  },);
+        // when
+        const Widget widget = IDHomeBody();
+        await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+                <BlocProvider<StateStreamableSource<Object?>>>[
+                  BlocProvider<ConnectivityBloc>(
+                    create: (_) => mockConnectivityBloc,
+                  ),
+                  BlocProvider<LocationBloc>(
+                    create: (_) => mockLocationBloc,
+                  ),
+                  BlocProvider<AppConfigBloc>(
+                    create: (_) => appConfigBloc,
+                  ),
+                  BlocProvider<CameraPermissionBloc>(
+                    create: (_) => cameraPermissionBloc,
+                  )
+                ],
+                widget,
+                infiniteAnimationWidget: true,
+                useRouter: true,
+                targetRoute: '/noConnection'));
+        await widgetTester.pumpAndSettle();
 
-  group('verify shake action to show widget catalog', () {
-    testWidgets('given device is shaked, when launch home screen, then navigate to widget catalog', (widgetTester) async  {
-      // given
-      when(appConfigBloc.state).thenReturn(ShakeDetected(0));
-      when(appConfigBloc.stream).thenAnswer((realInvocation) => Stream.value(ShakeDetected(0)));
+        // then
+        expect(find.text('/noConnection'), findsOneWidget);
+      });
+    },
+  );
 
-      // when
-      const Widget widget = IDHomeBody();
-      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
-          <BlocProvider<StateStreamableSource<Object?>>>[
-            BlocProvider<ConnectivityBloc>(
-              create: (_) => mockConnectivityBloc,
-            ),
-            BlocProvider<LocationBloc>(
-              create: (_) => mockLocationBloc,
-            ),
-            BlocProvider<AppConfigBloc>(
-              create: (_) => appConfigBloc,
-            ),
-            BlocProvider<CameraPermissionBloc>(
-              create: (_) => cameraPermissionBloc,
-            )
-          ],
-          widget,
-          infiniteAnimationWidget: true,
-          useRouter: true,
-          targetRoute: '/noConnection'));
-      await widgetTester.pumpAndSettle();
+  group(
+    'verify shake action to show widget catalog',
+    () {
+      testWidgets(
+          'given device is shaked, when launch home screen, then navigate to widget catalog',
+          (widgetTester) async {
+        // given
+        when(appConfigBloc.state).thenReturn(ShakeDetected(0));
+        when(appConfigBloc.stream)
+            .thenAnswer((realInvocation) => Stream.value(ShakeDetected(0)));
 
-      // then
-      expect(find.byType(WidgetCatalog), findsOneWidget);
-    });
-  },);
+        // when
+        const Widget widget = IDHomeBody();
+        await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+                <BlocProvider<StateStreamableSource<Object?>>>[
+                  BlocProvider<ConnectivityBloc>(
+                    create: (_) => mockConnectivityBloc,
+                  ),
+                  BlocProvider<LocationBloc>(
+                    create: (_) => mockLocationBloc,
+                  ),
+                  BlocProvider<AppConfigBloc>(
+                    create: (_) => appConfigBloc,
+                  ),
+                  BlocProvider<CameraPermissionBloc>(
+                    create: (_) => cameraPermissionBloc,
+                  )
+                ],
+                widget,
+                infiniteAnimationWidget: true,
+                useRouter: true,
+                targetRoute: '/noConnection'));
+        await widgetTester.pumpAndSettle();
+
+        // then
+        expect(find.byType(WidgetCatalog), findsOneWidget);
+      });
+    },
+  );
 }

@@ -14,7 +14,7 @@ const String menuVoiceMarkerLocationId = 'menuVoiceMarkerLocationId';
 const String baseMarkerCurrentLocationId = 'currentLocationId';
 
 class MapMarkerGenerator {
-  final LatLng currentLocation;
+  LatLng? currentLocation;
   final VoidCallback onCurrentLocationMarkerTapped;
   final VoidCallback onCameraTapped;
   final VoidCallback onPenTapped;
@@ -22,8 +22,7 @@ class MapMarkerGenerator {
   final VoidCallback onSmileyTapped;
 
   MapMarkerGenerator(
-      {required this.currentLocation,
-      required this.onCurrentLocationMarkerTapped,
+      {required this.onCurrentLocationMarkerTapped,
       required this.onCameraTapped,
       required this.onPenTapped,
       required this.onMicTapped,
@@ -42,10 +41,14 @@ class MapMarkerGenerator {
   Offset smileyMenuPosition = Offset.zero;
   bool showMenu = false;
 
-  void setup() async {
-    await _generateMarkerIcon();
-    await _computeMarker();
-    _generateCircularMenuIcons();
+  void setup(LatLng currentLocation) async {
+    this.currentLocation = currentLocation;
+
+    if (this.currentLocation != null) {
+      await _generateMarkerIcon();
+      await _computeMarker();
+      _generateCircularMenuIcons();
+    }
   }
 
   void onAnimation(
@@ -203,8 +206,8 @@ class MapMarkerGenerator {
       if (!_streamController.isClosed) {
         _markers.add(Marker(
             markerId: const MarkerId(baseMarkerCurrentLocationId),
-            position:
-                LatLng(currentLocation.latitude, currentLocation.longitude),
+            position: LatLng(currentLocation?.latitude ?? 0.0,
+                currentLocation?.longitude ?? 0.0),
             icon: BitmapDescriptor.fromBytes(Uint8List.view(pngBytes.buffer)),
             zIndex: 1,
             onTap: () {
@@ -221,8 +224,8 @@ class MapMarkerGenerator {
         // default marker without customise image
         return Marker(
             markerId: const MarkerId(baseMarkerCurrentLocationId),
-            position:
-                LatLng(currentLocation.latitude, currentLocation.longitude),
+            position: LatLng(currentLocation?.latitude ?? 0.0,
+                currentLocation?.longitude ?? 0.0),
             zIndex: 1,
             onTap: () {
               onCurrentLocationMarkerTapped();
@@ -236,25 +239,25 @@ class MapMarkerGenerator {
       _markers.addAll(<Marker>{
         Marker(
             markerId: const MarkerId(menuCameraMarkerLocationId),
-            position: currentLocation,
+            position: currentLocation!,
             icon: cameraMarkerBitmap,
             anchor: cameraMenuPosition,
             onTap: onCameraTapped),
         Marker(
             markerId: const MarkerId(menuPencilMarkerLocationId),
-            position: currentLocation,
+            position: currentLocation!,
             icon: penMarkerBitmap,
             anchor: penMenuPosition,
             onTap: onPenTapped),
         Marker(
             markerId: const MarkerId(menuEmojiMarkerLocationId),
-            position: currentLocation,
+            position: currentLocation!,
             icon: emojiMarkerBitmap,
             anchor: smileyMenuPosition,
             onTap: onSmileyTapped),
         Marker(
             markerId: const MarkerId(menuVoiceMarkerLocationId),
-            position: currentLocation,
+            position: currentLocation!,
             icon: voiceMarkerBitmap,
             anchor: micMenuPosition,
             onTap: onMicTapped),
