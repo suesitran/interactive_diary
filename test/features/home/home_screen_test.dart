@@ -6,6 +6,7 @@ import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
 import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/debug/widget_catalog/widget_catalog.dart';
+import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
@@ -33,7 +34,8 @@ import 'package:intl/date_symbol_data_local.dart';
   LoadDiaryCubit,
   StorageService,
   CameraPermissionBloc,
-  NartusMediaService
+  NartusMediaService,
+  AddressCubit
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +51,7 @@ void main() {
   final MockCameraPermissionBloc cameraPermissionBloc =
       MockCameraPermissionBloc();
   final MockNartusMediaService mediaService = MockNartusMediaService();
+  final MockAddressCubit addressCubit = MockAddressCubit();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
@@ -90,6 +93,10 @@ void main() {
         .thenAnswer((realInvocation) => CameraPermissionInitial());
     when(cameraPermissionBloc.stream).thenAnswer(
         (realInvocation) => Stream.value(CameraPermissionInitial()));
+
+    when(addressCubit.state).thenReturn(AddressInitial());
+    when(addressCubit.stream)
+        .thenAnswer((realInvocation) => Stream.value(AddressInitial()));
   });
 
   tearDown(() {
@@ -102,6 +109,7 @@ void main() {
     reset(storageService);
     reset(cameraPermissionBloc);
     reset(mediaService);
+    reset(addressCubit);
   });
 
   testWidgets('When screen is loaded, then check if UI is in a Scaffold',
@@ -126,6 +134,9 @@ void main() {
           ),
           BlocProvider<CameraPermissionBloc>(
             create: (_) => cameraPermissionBloc,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
           )
         ], widget, infiniteAnimationWidget: true, useRouter: true));
 
@@ -165,6 +176,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -194,6 +208,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -223,6 +240,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -258,6 +278,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -293,6 +316,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -326,6 +352,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -359,6 +388,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -392,6 +424,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -428,6 +463,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -468,6 +506,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -506,6 +547,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -543,6 +587,9 @@ void main() {
               ),
               BlocProvider<CameraPermissionBloc>(
                 create: (_) => cameraPermissionBloc,
+              ),
+              BlocProvider<AddressCubit>(
+                create: (context) => addressCubit,
               )
             ],
             widget,
@@ -585,6 +632,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -618,6 +668,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -657,6 +710,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -697,6 +753,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -737,6 +796,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -782,6 +844,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -821,6 +886,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -860,6 +928,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -899,6 +970,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -959,6 +1033,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -994,6 +1071,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -1029,6 +1109,9 @@ void main() {
                 ),
                 BlocProvider<CameraPermissionBloc>(
                   create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
                 )
               ],
               widget,
@@ -1072,6 +1155,9 @@ void main() {
                   ),
                   BlocProvider<CameraPermissionBloc>(
                     create: (_) => cameraPermissionBloc,
+                  ),
+                  BlocProvider<AddressCubit>(
+                    create: (context) => addressCubit,
                   )
                 ],
                 widget,
@@ -1117,6 +1203,9 @@ void main() {
                   ),
                   BlocProvider<CameraPermissionBloc>(
                     create: (_) => cameraPermissionBloc,
+                  ),
+                  BlocProvider<AddressCubit>(
+                    create: (context) => addressCubit,
                   )
                 ],
                 widget,
@@ -1157,6 +1246,9 @@ void main() {
                   ),
                   BlocProvider<CameraPermissionBloc>(
                     create: (_) => cameraPermissionBloc,
+                  ),
+                  BlocProvider<AddressCubit>(
+                    create: (context) => addressCubit,
                   )
                 ],
                 widget,

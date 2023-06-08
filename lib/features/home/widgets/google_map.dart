@@ -102,7 +102,8 @@ class _GoogleMapViewState extends State<GoogleMapView>
 
           mapController?.animateCamera(CameraUpdate.newLatLngZoom(
               LatLng(state.currentLocation.latitude,
-                  state.currentLocation.longitude), 15));
+                  state.currentLocation.longitude),
+              15));
         }
       },
       child: Stack(
@@ -169,9 +170,10 @@ class _GoogleMapViewState extends State<GoogleMapView>
                       );
                     }),
                 MapHandlerButton(
-                    svgPath: Assets.images.icMapLocation, onTap: () {
+                    svgPath: Assets.images.icMapLocation,
+                    onTap: () {
                       context.read<LocationBloc>().requestUpdateLocation();
-                }),
+                    }),
               ],
             ),
           )

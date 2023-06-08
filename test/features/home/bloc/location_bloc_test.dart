@@ -38,7 +38,10 @@ void main() {
         setUp: () => when(locationService.getCurrentLocation()).thenAnswer(
             (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0))),
         act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
-        expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
+        expect: () => <TypeMatcher<LocationState>>[
+              isA<LocationUpdateStart>(),
+              isA<LocationReadyState>()
+            ]);
 
     blocTest(
         'given location permission denied, when RequestCurrentLocationEvent, then state is LocationPermissionDeniedState',
@@ -46,8 +49,10 @@ void main() {
         setUp: () => when(locationService.getCurrentLocation())
             .thenThrow(LocationPermissionDeniedException()),
         act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
-        expect: () =>
-            <TypeMatcher<LocationState>>[isA<LocationPermissionDeniedState>()]);
+        expect: () => <TypeMatcher<LocationState>>[
+              isA<LocationUpdateStart>(),
+              isA<LocationPermissionDeniedState>()
+            ]);
 
     blocTest(
         'given location permission denied forever, when RequestCurrentLocationEvent, then state is LocationPermissionDeniedForeverState',
@@ -56,6 +61,7 @@ void main() {
             .thenThrow(LocationPermissionDeniedForeverException()),
         act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
         expect: () => <TypeMatcher<LocationState>>[
+              isA<LocationUpdateStart>(),
               isA<LocationPermissionDeniedForeverState>()
             ]);
 
@@ -65,8 +71,10 @@ void main() {
         setUp: () =>
             when(locationService.getCurrentLocation()).thenThrow(Exception()),
         act: (LocationBloc bloc) => bloc.requestCurrentLocation(),
-        expect: () =>
-            <TypeMatcher<LocationState>>[isA<UnknownLocationErrorState>()]);
+        expect: () => <TypeMatcher<LocationState>>[
+              isA<LocationUpdateStart>(),
+              isA<UnknownLocationErrorState>()
+            ]);
   });
 
   group('Show dialog to request permission', () {
@@ -83,7 +91,7 @@ void main() {
               (_) => Future<LocationDetails>.value(LocationDetails(0.0, 0.0)));
         },
         act: (LocationBloc bloc) => bloc.showDialogRequestPermissionEvent(),
-        expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
+        expect: () => [isA<LocationUpdateStart>(), isA<LocationReadyState>()]);
 
     blocTest(
         'given permission is denied, when ShowDialogRequestPermissionEvent, then state is LocationPermissionDeniedState',
@@ -111,7 +119,7 @@ void main() {
     blocTest('verify default location',
         build: () => LocationBloc(),
         act: (LocationBloc bloc) => bloc.requestDefaultLocation(),
-        expect: () => <TypeMatcher<LocationState>>[isA<LocationReadyState>()]);
+        expect: () => [isA<LocationUpdateStart>(), isA<LocationReadyState>()]);
 
     blocTest(
         'when open app settings, then state is AwaitLocationPermissionFromAppSettingState',
@@ -134,7 +142,7 @@ void main() {
         act: (LocationBloc bloc) => bloc.onReturnFromSettings(),
         expect: () {
           verify(locationService.getCurrentLocation()).called(1);
-          return <TypeMatcher<LocationState>>[isA<LocationReadyState>()];
+          return [isA<LocationUpdateStart>(), isA<LocationReadyState>()];
         });
 
     blocTest(
@@ -145,8 +153,7 @@ void main() {
       act: (LocationBloc bloc) => bloc.openLocationServiceSetting(),
       verify: (LocationBloc bloc) =>
           verify(locationService.requestService()).called(1),
-      expect: () =>
-          <TypeMatcher<LocationState>>[isA<AwaitLocationServiceSettingState>()],
+      expect: () => [isA<AwaitLocationServiceSettingState>()],
     );
   });
 
@@ -167,7 +174,7 @@ void main() {
                   postalCode: '2345')));
         },
         act: (bloc) => bloc.requestCurrentLocation(),
-        expect: () => [isA<LocationReadyState>()],
+        expect: () => [isA<LocationUpdateStart>(), isA<LocationReadyState>()],
         verify: (bloc) {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 0.0);
@@ -185,7 +192,7 @@ void main() {
               .thenThrow(gc.GetAddressFailedException());
         },
         act: (bloc) => bloc.requestCurrentLocation(),
-        expect: () => [isA<LocationReadyState>()],
+        expect: () => [isA<LocationUpdateStart>(), isA<LocationReadyState>()],
         verify: (bloc) {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 0.0);
@@ -205,7 +212,7 @@ void main() {
                   postalCode: '2345')));
         },
         act: (bloc) => bloc.requestDefaultLocation(),
-        expect: () => [isA<LocationReadyState>()],
+        expect: () => [isA<LocationUpdateStart>(), isA<LocationReadyState>()],
         verify: (bloc) {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 10.7725);
@@ -223,7 +230,7 @@ void main() {
               .thenThrow(gc.GetAddressFailedException());
         },
         act: (bloc) => bloc.requestDefaultLocation(),
-        expect: () => [isA<LocationReadyState>()],
+        expect: () => [isA<LocationUpdateStart>(), isA<LocationReadyState>()],
         verify: (bloc) {
           LocationReadyState state = bloc.state as LocationReadyState;
           expect(state.currentLocation.latitude, 10.7725);

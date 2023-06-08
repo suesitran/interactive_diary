@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:nartus_location/nartus_location.dart';
 
 import '../../../widget_tester_extension.dart';
+import '../content_panel/contents_bottom_panel_view_test.mocks.dart';
 
+@GenerateMocks([LocationBloc])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  final MockLocationBloc locationBloc = MockLocationBloc();
+
+  setUp(() {
+    when(locationBloc.state)
+        .thenReturn(LocationInitial(PermissionStatusDiary.granted));
+    when(locationBloc.stream).thenAnswer((realInvocation) =>
+        Stream.value(LocationInitial(PermissionStatusDiary.granted)));
+  });
+
+  tearDown(() {
+    reset(locationBloc);
+  });
 
   testWidgets(
       'when load GoogleMapView, then show GoogleMap widget inside AnimatedBuilder',
@@ -16,7 +35,13 @@ void main() {
       onMenuClosed: () {},
     );
 
-    await widgetTester.wrapAndPump(
+    when(locationBloc.state).thenReturn(
+        LocationReadyState(currentLocation: const LatLng(0.0, 0.0)));
+    when(locationBloc.stream).thenAnswer((realInvocation) => Stream.value(
+        LocationReadyState(currentLocation: const LatLng(0.0, 0.0))));
+
+    await widgetTester.blocWrapAndPump<LocationBloc>(
+        locationBloc,
         Directionality(
           textDirection: TextDirection.ltr,
           child: widget,
