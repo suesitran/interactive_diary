@@ -16,7 +16,7 @@ class FirstOnboardingScreen extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AspectRatio(
-            aspectRatio: 1,
+              aspectRatio: 1,
               child: SvgPicture.asset(
                 Assets.images.onboarding1,
                 width: double.infinity,
@@ -25,8 +25,8 @@ class FirstOnboardingScreen extends StatelessWidget {
               )),
           const Gap.v20(),
           Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: NartusDimens.padding32),
+            padding:
+                const EdgeInsets.symmetric(horizontal: NartusDimens.padding32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -38,13 +38,15 @@ class FirstOnboardingScreen extends StatelessWidget {
                       ?.copyWith(color: NartusColor.primary),
                 ),
                 const Gap.v12(),
-                Text(S.current.onboardingIntroduction,
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium
-                        ?.copyWith(color: NartusColor.dark),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,),
+                Text(
+                  S.current.onboardingIntroduction,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium
+                      ?.copyWith(color: NartusColor.dark),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const Gap.v32(),
                 NartusButton.primary(
                   label: S.current.getStartedText,

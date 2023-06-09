@@ -9,7 +9,7 @@ class NoPostView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
-    child: Column(
+        child: Column(
           children: [
             SvgPicture.asset(Assets.images.diaryListNoPost),
             const SizedBox(
@@ -34,5 +34,5 @@ class NoPostView extends StatelessWidget {
             )
           ],
         ),
-  );
+      );
 }

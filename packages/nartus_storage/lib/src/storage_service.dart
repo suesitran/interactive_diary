@@ -31,9 +31,15 @@ abstract class StorageService {
   /// Diary implementation
   Future<void> saveDiary(Diary diary);
 
-  Future<DiaryCollection> readDiaryForMonth({required String? countryCode, required String? postalCode, required DateTime month});
+  Future<DiaryCollection> readDiaryForMonth(
+      {required String? countryCode,
+      required String? postalCode,
+      required DateTime month});
 
-  Future<bool> deleteDiary({required String countryCode, required String postalCode, required int timestamp});
+  Future<bool> deleteDiary(
+      {required String countryCode,
+      required String postalCode,
+      required int timestamp});
 
   /// user implementation
   Future<void> saveUserDetail(User user);

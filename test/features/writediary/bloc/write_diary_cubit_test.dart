@@ -16,8 +16,7 @@ void main() {
   final MockGeocoderService geocoderService = MockGeocoderService();
 
   setUpAll(() {
-    ServiceLocator.instance
-        .registerSingleton<StorageService>(storageService);
+    ServiceLocator.instance.registerSingleton<StorageService>(storageService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
   });
 
@@ -34,8 +33,12 @@ void main() {
       setUp: () {
         when(storageService.saveDiary(argThat(isA<Diary>())))
             .thenAnswer((_) => Future<void>.value(null));
-        when(geocoderService.getCurrentPlaceCoding(any, any))
-        .thenAnswer((realInvocation) => Future.value(LocationDetail(address: 'address', countryCode: 'countryCode', postalCode: 'postalCode', business: 'business')));
+        when(geocoderService.getCurrentPlaceCoding(any, any)).thenAnswer(
+            (realInvocation) => Future.value(LocationDetail(
+                address: 'address',
+                countryCode: 'countryCode',
+                postalCode: 'postalCode',
+                business: 'business')));
       },
       seed: () => WriteDiaryInitial(),
       expect: () => <TypeMatcher<WriteDiaryState>>[

@@ -101,8 +101,8 @@ void main() {
             .tap(find.bySemanticsLabel(S.current.captureMediaButton));
         when(cameraSetupCubit.state)
             .thenReturn(const CameraMediaReady('path', MediaType.picture));
-        when(cameraSetupCubit.stream).thenAnswer(
-            (realInvocation) => Stream.value(const CameraMediaReady('path', MediaType.picture)));
+        when(cameraSetupCubit.stream).thenAnswer((realInvocation) =>
+            Stream.value(const CameraMediaReady('path', MediaType.picture)));
         await widgetTester.pumpAndSettle();
 
         verify(cameraSetupCubit.takePhoto(any)).called(1);

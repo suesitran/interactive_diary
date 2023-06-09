@@ -23,7 +23,8 @@ void main() {
   setUp(() {
     when(remoteConfig.fetchAndActivate()).thenAnswer((_) => Future.value(true));
     when(connectivityService.isConnected).thenAnswer((_) => Future.value(true));
-    when(connectivityService.onConnectivityChange).thenAnswer((realInvocation) => const Stream.empty());
+    when(connectivityService.onConnectivityChange)
+        .thenAnswer((realInvocation) => const Stream.empty());
   });
 
   tearDown(() {
@@ -34,8 +35,8 @@ void main() {
   test(
       'test getValue - when debug option remote config is true, then return true',
       () async {
-    RemoteConfigManager manager =
-        RemoteConfigManager(remoteConfig: remoteConfig, connectivityService: connectivityService);
+    RemoteConfigManager manager = RemoteConfigManager(
+        remoteConfig: remoteConfig, connectivityService: connectivityService);
 
     await manager.init();
 
@@ -48,8 +49,8 @@ void main() {
   test(
       'test getValue - when debug option remote config is false, then return false',
       () async {
-    RemoteConfigManager manager =
-        RemoteConfigManager(remoteConfig: remoteConfig, connectivityService: connectivityService);
+    RemoteConfigManager manager = RemoteConfigManager(
+        remoteConfig: remoteConfig, connectivityService: connectivityService);
 
     await manager.init();
 
@@ -59,10 +60,14 @@ void main() {
     expect(result, false);
   });
 
-  test('when connectivity is not connected, then do not fetch and activate remote config', () async {
-    when(connectivityService.isConnected).thenAnswer((realInvocation) => Future.value(false));
+  test(
+      'when connectivity is not connected, then do not fetch and activate remote config',
+      () async {
+    when(connectivityService.isConnected)
+        .thenAnswer((realInvocation) => Future.value(false));
 
-    RemoteConfigManager manager = RemoteConfigManager(remoteConfig: remoteConfig, connectivityService: connectivityService);
+    RemoteConfigManager manager = RemoteConfigManager(
+        remoteConfig: remoteConfig, connectivityService: connectivityService);
 
     await manager.init();
 
@@ -70,9 +75,11 @@ void main() {
   });
 
   test('when onConnectivityChange return false, do nothing', () async {
-    when(connectivityService.onConnectivityChange).thenAnswer((realInvocation) => Stream.value(false));
+    when(connectivityService.onConnectivityChange)
+        .thenAnswer((realInvocation) => Stream.value(false));
 
-    RemoteConfigManager manager = RemoteConfigManager(remoteConfig: remoteConfig, connectivityService: connectivityService);
+    RemoteConfigManager manager = RemoteConfigManager(
+        remoteConfig: remoteConfig, connectivityService: connectivityService);
 
     await manager.init();
 
@@ -81,10 +88,14 @@ void main() {
     verifyNever(remoteConfig.fetch());
   });
 
-  test('when onConnectivityChange return true, then fetch data from remote config', () async {
-    when(connectivityService.onConnectivityChange).thenAnswer((realInvocation) => Stream.value(true));
+  test(
+      'when onConnectivityChange return true, then fetch data from remote config',
+      () async {
+    when(connectivityService.onConnectivityChange)
+        .thenAnswer((realInvocation) => Stream.value(true));
 
-    RemoteConfigManager manager = RemoteConfigManager(remoteConfig: remoteConfig, connectivityService: connectivityService);
+    RemoteConfigManager manager = RemoteConfigManager(
+        remoteConfig: remoteConfig, connectivityService: connectivityService);
 
     await manager.init();
 

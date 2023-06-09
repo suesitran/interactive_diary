@@ -33,59 +33,74 @@ class LocationView extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: NartusColor.gradient, borderRadius: borderRadius),
         child: Row(
-          /// Why must specify textDirection ?
-          /// Using this widget works fine without textDirection, but failed when testing.
-          /// in order to pass the tests, we have to specify textDirection.
-          textDirection: TextDirection.ltr,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            if (locationIconSvg.isNotEmpty) ...<Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    NartusDimens.padding16,
-                    NartusDimens.padding24,
-                    NartusDimens.padding12,
-                    NartusDimens.padding16),
-                child: SvgPicture.asset(
-                  locationIconSvg,
-                  width: 13,
-                  height: 15,
+
+            /// Why must specify textDirection ?
+            /// Using this widget works fine without textDirection, but failed when testing.
+            /// in order to pass the tests, we have to specify textDirection.
+            textDirection: TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              if (locationIconSvg.isNotEmpty) ...<Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      NartusDimens.padding16,
+                      NartusDimens.padding24,
+                      NartusDimens.padding12,
+                      NartusDimens.padding16),
+                  child: SvgPicture.asset(
+                    locationIconSvg,
+                    width: 13,
+                    height: 15,
+                  ),
                 ),
-              ),
-            ],
-            Flexible(
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      left:
-                          locationIconSvg.isNotEmpty ? 0 : NartusDimens.padding16,
-                      right: NartusDimens.padding16,
-                      bottom: NartusDimens.padding16,
-                      top: NartusDimens.padding16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    textDirection: TextDirection.ltr,
-                    children: [
-                      if (businessName != null) Padding(
-                        padding: const EdgeInsets.only(bottom: 2),
-                        child: Text( businessName!,
-                          maxLines: 2,
-                          semanticsLabel: semanticBusinessName,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(height: 1.8),
-                        textDirection: TextDirection.ltr,),
-                      ),
-                      Text(address ?? '($latitude, $longitude)',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1.8),
-                        semanticsLabel: address == null ? Strings.current.locationViewLatLngAlly(latitude, longitude) : semanticAddress,
+              ],
+              Flexible(
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          left: locationIconSvg.isNotEmpty
+                              ? 0
+                              : NartusDimens.padding16,
+                          right: NartusDimens.padding16,
+                          bottom: NartusDimens.padding16,
+                          top: NartusDimens.padding16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         textDirection: TextDirection.ltr,
-                      )
-                    ],
-                  ))),
-          ]),
+                        children: [
+                          if (businessName != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 2),
+                              child: Text(
+                                businessName!,
+                                maxLines: 2,
+                                semanticsLabel: semanticBusinessName,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(height: 1.8),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ),
+                          Text(
+                            address ?? '($latitude, $longitude)',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(height: 1.8),
+                            semanticsLabel: address == null
+                                ? Strings.current
+                                    .locationViewLatLngAlly(latitude, longitude)
+                                : semanticAddress,
+                            textDirection: TextDirection.ltr,
+                          )
+                        ],
+                      ))),
+            ]),
       ),
     );
   }

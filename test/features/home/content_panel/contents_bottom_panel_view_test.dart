@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nartus_location/nartus_location.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../../widget_tester_extension.dart';
 import 'contents_bottom_panel_view_test.mocks.dart';
 
-@GenerateMocks([LoadDiaryCubit])
+@GenerateMocks([LoadDiaryCubit, AddressCubit, LocationBloc])
 void main() {
   initializeDateFormatting();
 
   final MockLoadDiaryCubit loadDiaryCubit = MockLoadDiaryCubit();
+  final MockAddressCubit addressCubit = MockAddressCubit();
+  final MockLocationBloc locationBloc = MockLocationBloc();
 
   setUp(() {
     when(loadDiaryCubit.stream)
         .thenAnswer((realInvocation) => Stream.value(LoadDiaryInitial()));
     when(loadDiaryCubit.state)
         .thenAnswer((realInvocation) => LoadDiaryInitial());
+
+    when(addressCubit.state).thenReturn(AddressInitial());
+    when(addressCubit.stream)
+        .thenAnswer((realInvocation) => Stream.value(AddressInitial()));
+
+    when(locationBloc.state)
+        .thenReturn(LocationInitial(PermissionStatusDiary.granted));
+    when(locationBloc.stream).thenAnswer((realInvocation) =>
+        Stream.value(LocationInitial(PermissionStatusDiary.granted)));
   });
 
   tearDown(() {
     reset(loadDiaryCubit);
+    reset(addressCubit);
   });
 
   testWidgets(
@@ -39,12 +53,19 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
-    await mockNetworkImagesFor(() =>
-        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
-            loadDiaryCubit, contentsBottomPanelView));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
+          BlocProvider<LoadDiaryCubit>(
+            create: (context) => loadDiaryCubit,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (context) => locationBloc,
+          )
+        ], contentsBottomPanelView));
 
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
@@ -69,14 +90,20 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     controller.show();
-    await mockNetworkImagesFor(() =>
-        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
-            loadDiaryCubit, contentsBottomPanelView));
-
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
+          BlocProvider<LoadDiaryCubit>(
+            create: (context) => loadDiaryCubit,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (context) => locationBloc,
+          )
+        ], contentsBottomPanelView));
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
         widgetTester.widget(find.byType(SlideTransition));
@@ -101,14 +128,20 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     controller.show();
-    await mockNetworkImagesFor(() =>
-        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
-            loadDiaryCubit, contentsBottomPanelView));
-
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
+          BlocProvider<LoadDiaryCubit>(
+            create: (context) => loadDiaryCubit,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (context) => locationBloc,
+          )
+        ], contentsBottomPanelView));
     // before show, slide animation stays at Offset(0.0, 1.0)
     final SlideTransition slideTransition =
         widgetTester.widget(find.byType(SlideTransition));
@@ -129,14 +162,20 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
     controller.show();
-    await mockNetworkImagesFor(() =>
-        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
-            loadDiaryCubit, contentsBottomPanelView));
-
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
+          BlocProvider<LoadDiaryCubit>(
+            create: (context) => loadDiaryCubit,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (context) => locationBloc,
+          )
+        ], contentsBottomPanelView));
     // drag on Divider
     await widgetTester.drag(
         find.descendant(
@@ -162,13 +201,19 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
-    await mockNetworkImagesFor(() =>
-        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
-            loadDiaryCubit, contentsBottomPanelView));
-
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
+          BlocProvider<LoadDiaryCubit>(
+            create: (context) => loadDiaryCubit,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (context) => locationBloc,
+          )
+        ], contentsBottomPanelView));
     expect(find.byType(NoPostView), findsOneWidget);
   });
 
@@ -191,12 +236,19 @@ void main() {
     final ContentsBottomPanelView contentsBottomPanelView =
         ContentsBottomPanelView(
       controller: controller,
-      location: const LatLng(0, 0),
     );
 
-    await mockNetworkImagesFor(() =>
-        widgetTester.blocWrapAndPump<LoadDiaryCubit>(
-            loadDiaryCubit, contentsBottomPanelView));
+    await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump([
+          BlocProvider<LoadDiaryCubit>(
+            create: (context) => loadDiaryCubit,
+          ),
+          BlocProvider<AddressCubit>(
+            create: (context) => addressCubit,
+          ),
+          BlocProvider<LocationBloc>(
+            create: (context) => locationBloc,
+          )
+        ], contentsBottomPanelView));
 
     expect(find.byType(NoPostView), findsNothing);
   });

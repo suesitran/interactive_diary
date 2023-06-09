@@ -5,10 +5,12 @@ class MapAnimationController extends AnimationController {
   final VoidCallback onAnimationBackward;
   final Function(double) onUpdate;
 
-  MapAnimationController({required this.onAnimationForward,
-    required this.onAnimationBackward,
-    required this.onUpdate,
-    required super.vsync, super.duration}) {
+  MapAnimationController(
+      {required this.onAnimationForward,
+      required this.onAnimationBackward,
+      required this.onUpdate,
+      required super.vsync,
+      super.duration}) {
     addStatusListener((status) {
       if (status == AnimationStatus.dismissed) {
         reset();
@@ -24,5 +26,4 @@ class MapAnimationController extends AnimationController {
       onUpdate(value);
     });
   }
-
 }

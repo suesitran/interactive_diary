@@ -53,7 +53,9 @@ void main() {
 
   setUp(() {
     when(hiveHelper.init()).thenAnswer((_) => Future<void>.value(null));
-    when(hiveHelper.open(any, any, path: anyNamed('path'), key: anyNamed('key'))).thenAnswer((_) => Future<BoxCollection>.value(boxCollection));
+    when(hiveHelper.open(any, any,
+            path: anyNamed('path'), key: anyNamed('key')))
+        .thenAnswer((_) => Future<BoxCollection>.value(boxCollection));
   });
 
   test(
@@ -69,7 +71,8 @@ void main() {
     HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-    final bool result = await hiveLocalStorage.deleteDiary(timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
+    final bool result = await hiveLocalStorage.deleteDiary(
+        timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
 
     expect(result, false);
 
@@ -89,7 +92,8 @@ void main() {
     HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-    final bool result = await hiveLocalStorage.deleteDiary(timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
+    final bool result = await hiveLocalStorage.deleteDiary(
+        timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
 
     expect(result, true);
 
@@ -114,8 +118,8 @@ void main() {
         HiveLocalStorage(hiveHelper: hiveHelper);
 
     DateTime month = DateTime(2022, 11, 11);
-    final DiaryCollection result =
-        await hiveLocalStorage.readDiaryForMonth(month: month, countryCode: 'AU', postalCode: '2345');
+    final DiaryCollection result = await hiveLocalStorage.readDiaryForMonth(
+        month: month, countryCode: 'AU', postalCode: '2345');
 
     expect(result.month, '112022');
     expect(result.diaries.length, 0);
@@ -139,8 +143,8 @@ void main() {
         HiveLocalStorage(hiveHelper: hiveHelper);
 
     DateTime month = DateTime(2022, 11, 11);
-    final DiaryCollection result =
-        await hiveLocalStorage.readDiaryForMonth(month: month, countryCode: 'AU', postalCode: '2345');
+    final DiaryCollection result = await hiveLocalStorage.readDiaryForMonth(
+        month: month, countryCode: 'AU', postalCode: '2345');
 
     expect(result.month, '112022');
     expect(result.diaries.length, 1);

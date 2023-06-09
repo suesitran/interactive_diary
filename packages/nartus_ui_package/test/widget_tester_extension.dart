@@ -42,9 +42,7 @@ class _MaterialWrapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         theme: theme,
-        localizationsDelegates: const [
-          Strings.delegate
-        ],
+        localizationsDelegates: const [Strings.delegate],
         supportedLocales: Strings.delegate.supportedLocales,
         home: Scaffold(
           body: child,

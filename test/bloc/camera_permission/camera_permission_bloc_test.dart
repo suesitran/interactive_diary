@@ -1,4 +1,3 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
@@ -145,13 +144,16 @@ void main() {
     final CameraPermissionGranted granted = CameraPermissionGranted();
     expect(granted.props.length, 0);
 
-    final CameraPermissionValidationStart validationStart = CameraPermissionValidationStart();
+    final CameraPermissionValidationStart validationStart =
+        CameraPermissionValidationStart();
     expect(validationStart.props.length, 0);
 
-    final CameraPermissionRequestStart requestStart = CameraPermissionRequestStart();
+    final CameraPermissionRequestStart requestStart =
+        CameraPermissionRequestStart();
     expect(requestStart.props.length, 0);
 
-    final CameraPermissionDeniedForever deniedForever = CameraPermissionDeniedForever();
+    final CameraPermissionDeniedForever deniedForever =
+        CameraPermissionDeniedForever();
     expect(deniedForever.props.length, 0);
 
     final CameraPermissionDenied denied = CameraPermissionDenied();

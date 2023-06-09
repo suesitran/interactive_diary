@@ -29,12 +29,21 @@ class GeocoderService {
     }
 
     return LocationDetail(
-      address: _computeAddress(info),
+        address: _computeAddress(info),
         business: info.name,
-    countryCode: info.isoCountryCode ?? info.country,
-    postalCode: info.postalCode ?? info.administrativeArea ?? info.subAdministrativeArea);
+        countryCode: info.isoCountryCode ?? info.country,
+        postalCode: info.postalCode ??
+            info.administrativeArea ??
+            info.subAdministrativeArea);
   }
 
-  String _computeAddress(Placemark place) =>
-      '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+  String _computeAddress(Placemark place) => [
+        place.street,
+        place.subAdministrativeArea ??
+            place.subLocality ??
+            place.subThoroughfare,
+        place.administrativeArea ?? place.locality ?? place.thoroughfare,
+        place.postalCode,
+        place.country
+      ].where((element) => element?.isNotEmpty == true).join(', ');
 }

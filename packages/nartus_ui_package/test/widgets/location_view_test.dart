@@ -157,8 +157,7 @@ void main() {
 
     await tester.wrapMaterialAndPump(widget);
 
-    final Finder businessName =
-        find.bySemanticsLabel('Business name semantic');
+    final Finder businessName = find.bySemanticsLabel('Business name semantic');
     final Finder address = find.bySemanticsLabel('Address semantic');
     final Finder coordinates =
         find.bySemanticsLabel('Location at latitude 1.0 and longitude 1.0');

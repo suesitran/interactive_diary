@@ -5,11 +5,11 @@ class PhotoAlbumScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Photo Album'),
-    ),
-    body: const Center(
-      child: Text('Dummy screen'),
-    ),
-  );
+        appBar: AppBar(
+          title: const Text('Photo Album'),
+        ),
+        body: const Center(
+          child: Text('Dummy screen'),
+        ),
+      );
 }
