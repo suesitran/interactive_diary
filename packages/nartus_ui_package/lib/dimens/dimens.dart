@@ -32,6 +32,7 @@ class NartusDimens {
   static const double size380 = 380.0;
 
   // radius
+  static const double radius10 = 10.0;
   static const double radius12 = 12.0;
   static const double radius16 = 16.0;
   static const double radius20 = 20.0;

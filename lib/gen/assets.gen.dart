@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -105,10 +105,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/map_type_default.svg
   String get mapTypeDefault => 'assets/images/map_type_default.svg';
 
-  /// File path: assets/images/map_type_default_selected.svg
-  String get mapTypeDefaultSelected =>
-      'assets/images/map_type_default_selected.svg';
-
   /// File path: assets/images/map_type_satellite.svg
   String get mapTypeSatellite => 'assets/images/map_type_satellite.svg';
 
@@ -171,7 +167,6 @@ class $AssetsImagesGen {
         idSmileIcon,
         idSmsIcon,
         mapTypeDefault,
-        mapTypeDefaultSelected,
         mapTypeSatellite,
         mapTypeTerrain,
         markerNonetap,

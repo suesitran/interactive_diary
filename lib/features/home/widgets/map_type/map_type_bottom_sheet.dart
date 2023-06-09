@@ -83,23 +83,25 @@ class MapTypeDisplay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(NartusDimens.radius12),
-                child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(NartusDimens.radius12),
-                        border: Border.all(
-                            color: isSelected
-                                ? NartusColor.primary
-                                : NartusColor.white,
-                            width: 2,
-                            style: BorderStyle.solid)),
-                    child: SvgPicture.asset(
-                      typePath,
-                      width: 99,
-                      height: 70,
-                    ))),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius:
+                  BorderRadius.circular(NartusDimens.radius12),
+                  border: Border.all(
+                      color: isSelected
+                          ? NartusColor.primary
+                          : NartusColor.white,
+                      width: 2,
+                      style: BorderStyle.solid)),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(NartusDimens.radius10),
+                  clipBehavior: Clip.antiAlias,
+                  child: SvgPicture.asset(
+                    typePath,
+                    width: 99,
+                    height: 70,
+                  )),
+            ),
             Text(name, style: Theme.of(context).textTheme.bodyMedium)
           ],
         ),
