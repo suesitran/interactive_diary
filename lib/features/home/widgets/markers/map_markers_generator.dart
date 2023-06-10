@@ -166,9 +166,9 @@ class MapMarkerGenerator {
 
     // draw marker add
     // translate to desired location on canvas
-    final double width = _baseMarkerDrawableRoot?.size.width ?? 0.0;
+    final double baseWidth = _baseMarkerDrawableRoot?.size.width ?? 0.0;
     // 3 quarter of base marker
-    final double markerAddSize = width * scale * 3 / 4;
+    final double markerAddSize = baseWidth * scale * 3 / 4;
     final double newPos = (markerSize - markerAddSize) / 4;
     canvas.translate(newPos, newPos);
 
@@ -191,10 +191,15 @@ class MapMarkerGenerator {
       canvas.translate(translateX, translateY);
       canvas.rotate(angle);
 
-      canvas.scale(markerAddSize / width,
-          markerAddSize / height);
-      if (picture != null) {
-        canvas.drawPicture(picture);
+      final double plusWidth = _markerAddDrawableRoot?.size.width ?? 0.0;
+      final double plusHeight = _markerAddDrawableRoot?.size.height ?? 0.0;
+      if (plusWidth > 0 &&  plusHeight > 0) {
+        canvas.scale(markerAddSize / plusWidth,
+            markerAddSize / plusHeight);
+        final Picture? plusPicture = _markerAddDrawableRoot?.picture;
+        if (plusPicture != null) {
+          canvas.drawPicture(plusPicture);
+        }
       }
 
       // unlock canvas
@@ -202,11 +207,17 @@ class MapMarkerGenerator {
     } else {
       // do normal drawing
       canvas.save();
-      canvas.scale(markerAddSize / width,
-          markerAddSize / height);
-      if (picture != null) {
-        canvas.drawPicture(picture);
+      final double plusWidth = _markerAddDrawableRoot?.size.width ?? 0.0;
+      final double plusHeight = _markerAddDrawableRoot?.size.height ?? 0.0;
+      if (plusWidth > 0 &&  plusHeight > 0) {
+        canvas.scale(markerAddSize / plusWidth,
+            markerAddSize / plusHeight);
+        final Picture? plusPicture = _markerAddDrawableRoot?.picture;
+        if (plusPicture != null) {
+          canvas.drawPicture(plusPicture);
+        }
       }
+
       canvas.restore();
     }
 
