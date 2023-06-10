@@ -189,7 +189,7 @@ void main() {
   });
 
   testWidgets(
-      'When state is LocationInitial, then CircularProgressIndicator is presented',
+      'When state is LocationInitial, then GoogleMap is presented',
       (WidgetTester widgetTester) async {
     const IDHomeBody widget = IDHomeBody();
 
@@ -211,13 +211,16 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
             infiniteAnimationWidget: true,
             useRouter: true));
 
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.byType(GoogleMap), findsOneWidget);
   });
 
   testWidgets(
@@ -243,6 +246,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -281,6 +287,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -319,6 +328,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -355,6 +367,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -391,6 +406,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -427,6 +445,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -466,6 +487,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -509,6 +533,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -550,6 +577,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -590,6 +620,9 @@ void main() {
               ),
               BlocProvider<AddressCubit>(
                 create: (context) => addressCubit,
+              ),
+              BlocProvider<LoadDiaryCubit>(
+                create: (context) => loadDiaryCubit,
               )
             ],
             widget,
@@ -635,6 +668,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -671,6 +707,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -713,6 +752,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -756,6 +798,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -799,6 +844,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -847,6 +895,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -889,6 +940,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -931,6 +985,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -973,6 +1030,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -1036,6 +1096,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -1074,6 +1137,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -1112,6 +1178,9 @@ void main() {
                 ),
                 BlocProvider<AddressCubit>(
                   create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
                 )
               ],
               widget,
@@ -1158,6 +1227,9 @@ void main() {
                   ),
                   BlocProvider<AddressCubit>(
                     create: (context) => addressCubit,
+                  ),
+                  BlocProvider<LoadDiaryCubit>(
+                    create: (context) => loadDiaryCubit,
                   )
                 ],
                 widget,
@@ -1206,6 +1278,9 @@ void main() {
                   ),
                   BlocProvider<AddressCubit>(
                     create: (context) => addressCubit,
+                  ),
+                  BlocProvider<LoadDiaryCubit>(
+                    create: (context) => loadDiaryCubit,
                   )
                 ],
                 widget,
@@ -1249,6 +1324,9 @@ void main() {
                   ),
                   BlocProvider<AddressCubit>(
                     create: (context) => addressCubit,
+                  ),
+                  BlocProvider<LoadDiaryCubit>(
+                    create: (context) => loadDiaryCubit,
                   )
                 ],
                 widget,
