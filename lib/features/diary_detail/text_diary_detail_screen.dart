@@ -6,8 +6,8 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
-class DiaryDetailScreen extends StatelessWidget {
-  const DiaryDetailScreen({Key? key}) : super(key: key);
+class TextDiaryDetailScreen extends StatelessWidget {
+  const TextDiaryDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -45,6 +45,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/ic_map_type.svg
   String get icMapType => 'assets/images/ic_map_type.svg';
 
+  /// File path: assets/images/ic_privacy_friend.svg
+  String get icPrivacyFriend => 'assets/images/ic_privacy_friend.svg';
+
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
 
@@ -148,6 +151,7 @@ class $AssetsImagesGen {
         galleryIcon,
         icMapLocation,
         icMapType,
+        icPrivacyFriend,
         icTextController,
         idAppleIcon,
         idCameraIcon,

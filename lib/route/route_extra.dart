@@ -15,3 +15,11 @@ class PreviewMediaExtra {
 
   PreviewMediaExtra(this.path, this.type);
 }
+
+class PictureDiaryDetailExtra {
+  final String dateTime;
+  final String postalCode;
+  final String countryCode;
+
+  PictureDiaryDetailExtra (this.dateTime, this.countryCode, this.postalCode);
+}

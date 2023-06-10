@@ -31,10 +31,16 @@ abstract class StorageService {
   /// Diary implementation
   Future<void> saveDiary(Diary diary);
 
+<<<<<<< Updated upstream
   Future<DiaryCollection> readDiaryForMonth(
       {required String? countryCode,
       required String? postalCode,
       required DateTime month});
+=======
+  Future<Diary?> getDiary({required String dateTime, required String? countryCode, required String? postalCode, required DateTime month});
+
+  Future<DiaryCollection> readDiaryForMonth({required String? countryCode, required String? postalCode, required DateTime month});
+>>>>>>> Stashed changes
 
   Future<bool> deleteDiary(
       {required String countryCode,

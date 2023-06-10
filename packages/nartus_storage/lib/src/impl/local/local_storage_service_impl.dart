@@ -28,6 +28,14 @@ class LocalStorageServiceImpl extends StorageService {
           month: month);
 
   @override
+  Future<Diary?> getDiary({required String dateTime, required String? countryCode, required String? postalCode, required DateTime month}) =>
+    _hiveLocalStorage.getDiary(
+        dateTime: dateTime,
+        countryCode: countryCode ?? defaultCountryCode,
+        postalCode: postalCode ?? defaultPostalCode,
+        month: month);
+
+  @override
   Future<void> saveDiary(Diary diary) => _hiveLocalStorage.saveDiary(diary);
 
   @override
