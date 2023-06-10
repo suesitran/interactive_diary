@@ -44,10 +44,11 @@ class PreviewScreen extends StatelessWidget {
                         clipBehavior: Clip.antiAlias,
                         child: Container(
                           color: NartusColor.onSecondaryContainer,
+                          width: MediaQuery.of(context).size.width,
                           child: type == MediaType.picture
                               ? Image.file(
-                                  File(path),
-                                  fit: BoxFit.fitWidth,
+                            File(path),
+                                  fit: BoxFit.cover,
                                 )
                               : VideoPreview(path),
                         ),
