@@ -75,21 +75,21 @@ class MapMarkerGenerator {
   }
 
   void dispose() {
-    markerAddDrawableRoot.picture.dispose();
-    baseMarkerDrawableRoot.picture.dispose();
+    _markerAddDrawableRoot?.picture.dispose();
+    _baseMarkerDrawableRoot?.picture.dispose();
 
     _streamController.close();
   }
 
   // region private helper
   // to draw marker with animation
-  late final PictureInfo baseMarkerDrawableRoot;
-  late final PictureInfo markerAddDrawableRoot;
+  PictureInfo? _baseMarkerDrawableRoot;
+  PictureInfo? _markerAddDrawableRoot;
 
-  late final BitmapDescriptor penMarkerBitmap;
-  late final BitmapDescriptor emojiMarkerBitmap;
-  late final BitmapDescriptor cameraMarkerBitmap;
-  late final BitmapDescriptor voiceMarkerBitmap;
+  late final BitmapDescriptor _penMarkerBitmap;
+  late final BitmapDescriptor _emojiMarkerBitmap;
+  late final BitmapDescriptor _cameraMarkerBitmap;
+  late final BitmapDescriptor _voiceMarkerBitmap;
 
   // generate marker base drawable from SVG asset
   Future<PictureInfo> _createDrawableRoot(String svgContent) async {
@@ -99,15 +99,15 @@ class MapMarkerGenerator {
   }
 
   Future<void> _generateMarkerIcon() async {
-    baseMarkerDrawableRoot = await _createDrawableRoot(markerBaseSvg);
-    markerAddDrawableRoot = await _createDrawableRoot(markerAdd);
-    penMarkerBitmap = await _createDrawableRoot(idCircularIconPencil)
+    _baseMarkerDrawableRoot = await _createDrawableRoot(markerBaseSvg);
+    _markerAddDrawableRoot = await _createDrawableRoot(markerAdd);
+    _penMarkerBitmap = await _createDrawableRoot(idCircularIconPencil)
         .then((PictureInfo value) => _computeMenuMarker(value));
-    emojiMarkerBitmap = await _createDrawableRoot(idCircularIconEmoji)
+    _emojiMarkerBitmap = await _createDrawableRoot(idCircularIconEmoji)
         .then((PictureInfo value) => _computeMenuMarker(value));
-    cameraMarkerBitmap = await _createDrawableRoot(idCircularIconCamera)
+    _cameraMarkerBitmap = await _createDrawableRoot(idCircularIconCamera)
         .then((PictureInfo value) => _computeMenuMarker(value));
-    voiceMarkerBitmap = await _createDrawableRoot(idCircularIconMicro)
+    _voiceMarkerBitmap = await _createDrawableRoot(idCircularIconMicro)
         .then((PictureInfo value) => _computeMenuMarker(value));
   }
 
@@ -155,17 +155,20 @@ class MapMarkerGenerator {
     // draw baseMarker on canvas
     canvas.save();
     // calculate max scale by height
-    final double scale = markerSize / baseMarkerDrawableRoot.size.height;
+    final double height = _baseMarkerDrawableRoot?.size.height ?? 0.0;
+    final double scale = height > 0 ? markerSize / height : 0.0;
     canvas.scale(scale, scale);
-    canvas.drawPicture(baseMarkerDrawableRoot.picture);
+    final Picture? picture = _baseMarkerDrawableRoot?.picture;
+    if (picture != null) {
+      canvas.drawPicture(picture);
+    }
     canvas.restore();
 
     // draw marker add
     // translate to desired location on canvas
-    final double markerAddSize = baseMarkerDrawableRoot.size.width *
-        scale *
-        3 /
-        4; // 3 quarter of base marker
+    final double baseWidth = _baseMarkerDrawableRoot?.size.width ?? 0.0;
+    // 3 quarter of base marker
+    final double markerAddSize = baseWidth * scale * 3 / 4;
     final double newPos = (markerSize - markerAddSize) / 4;
     canvas.translate(newPos, newPos);
 
@@ -188,18 +191,33 @@ class MapMarkerGenerator {
       canvas.translate(translateX, translateY);
       canvas.rotate(angle);
 
-      canvas.scale(markerAddSize / markerAddDrawableRoot.size.width,
-          markerAddSize / markerAddDrawableRoot.size.height);
-      canvas.drawPicture(markerAddDrawableRoot.picture);
+      final double plusWidth = _markerAddDrawableRoot?.size.width ?? 0.0;
+      final double plusHeight = _markerAddDrawableRoot?.size.height ?? 0.0;
+      if (plusWidth > 0 &&  plusHeight > 0) {
+        canvas.scale(markerAddSize / plusWidth,
+            markerAddSize / plusHeight);
+        final Picture? plusPicture = _markerAddDrawableRoot?.picture;
+        if (plusPicture != null) {
+          canvas.drawPicture(plusPicture);
+        }
+      }
 
       // unlock canvas
       canvas.restore();
     } else {
       // do normal drawing
       canvas.save();
-      canvas.scale(markerAddSize / markerAddDrawableRoot.size.width,
-          markerAddSize / markerAddDrawableRoot.size.height);
-      canvas.drawPicture(markerAddDrawableRoot.picture);
+      final double plusWidth = _markerAddDrawableRoot?.size.width ?? 0.0;
+      final double plusHeight = _markerAddDrawableRoot?.size.height ?? 0.0;
+      if (plusWidth > 0 &&  plusHeight > 0) {
+        canvas.scale(markerAddSize / plusWidth,
+            markerAddSize / plusHeight);
+        final Picture? plusPicture = _markerAddDrawableRoot?.picture;
+        if (plusPicture != null) {
+          canvas.drawPicture(plusPicture);
+        }
+      }
+
       canvas.restore();
     }
 
@@ -247,25 +265,25 @@ class MapMarkerGenerator {
         Marker(
             markerId: const MarkerId(menuCameraMarkerLocationId),
             position: currentLocation!,
-            icon: cameraMarkerBitmap,
+            icon: _cameraMarkerBitmap,
             anchor: cameraMenuPosition,
             onTap: onCameraTapped),
         Marker(
             markerId: const MarkerId(menuPencilMarkerLocationId),
             position: currentLocation!,
-            icon: penMarkerBitmap,
+            icon: _penMarkerBitmap,
             anchor: penMenuPosition,
             onTap: onPenTapped),
         Marker(
             markerId: const MarkerId(menuEmojiMarkerLocationId),
             position: currentLocation!,
-            icon: emojiMarkerBitmap,
+            icon: _emojiMarkerBitmap,
             anchor: smileyMenuPosition,
             onTap: onSmileyTapped),
         Marker(
             markerId: const MarkerId(menuVoiceMarkerLocationId),
             position: currentLocation!,
-            icon: voiceMarkerBitmap,
+            icon: _voiceMarkerBitmap,
             anchor: micMenuPosition,
             onTap: onMicTapped),
       });

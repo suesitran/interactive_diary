@@ -43,4 +43,10 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
       emit(DisconnectedState());
     }
   }
+
+  @override
+  Future<void> close() {
+    _connectivity.dispose();
+    return super.close();
+  }
 }
