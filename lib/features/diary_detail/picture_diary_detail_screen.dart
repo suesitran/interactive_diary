@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
-import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_state.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/utils/date_utils.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';

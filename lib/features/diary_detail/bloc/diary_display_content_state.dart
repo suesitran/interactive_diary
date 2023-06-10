@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:interactive_diary/features/home/data/diary_display_content.dart';
+part of 'diary_display_content_cubit.dart';
 
-abstract class DiaryDisplayContentState extends Equatable {
+abstract class DiaryDisplayContentState {
   const DiaryDisplayContentState();
 
   @override

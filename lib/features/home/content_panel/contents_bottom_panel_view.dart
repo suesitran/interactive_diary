@@ -213,12 +213,10 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   }
 
   void _onItemClicked(DiaryDisplayContent content) {
-    context.gotoPictureDiaryDetailScreen(content.dateTime.toString(), content.countryCode, content.postalCode);
-
-    // if (content.imageUrl.isEmpty) {
-    //   context.gotoDiaryDetailScreen();
-    // } else {
-    //   context.gotoPictureDiaryDetailScreen(content.dateTime.toString(), content.countryCode, content.postalCode);
-    // }
+    if (content.imageUrl.isEmpty) {
+      context.gotoDiaryDetailScreen();
+    } else {
+      context.gotoPictureDiaryDetailScreen(content.dateTime.toString(), content.countryCode, content.postalCode);
+    }
   }
 }

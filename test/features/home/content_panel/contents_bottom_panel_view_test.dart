@@ -225,7 +225,9 @@ void main() {
           userDisplayName: 'userDisplayName',
           dateTime: DateTime.now(),
           userPhotoUrl: 'userPhotoUrl',
-          plainText: 'plainText')
+          plainText: 'plainText',
+          countryCode: 'countryCode',
+          postalCode: 'postalCode')
     ]);
     when(loadDiaryCubit.state).thenAnswer((realInvocation) => state);
     when(loadDiaryCubit.stream)

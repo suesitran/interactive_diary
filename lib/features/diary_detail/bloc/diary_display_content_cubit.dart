@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_state.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:nartus_storage/nartus_storage.dart';
+
+part 'diary_display_content_state.dart';
 
 class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
 
