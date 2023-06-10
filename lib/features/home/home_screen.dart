@@ -171,18 +171,6 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
               WidgetsBinding.instance.addObserver(this);
             }
 
-            if (state is LocationInitial ||
-                state is LocationServiceDisableState ||
-                state is LocationPermissionDeniedState ||
-                state is LocationPermissionDeniedForeverState ||
-                state is AwaitLocationPermissionFromAppSettingState ||
-                state is AwaitLocationServiceSettingState ||
-                state is UnknownLocationErrorState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
             return Stack(
               children: <Widget>[
                 GoogleMapView(
