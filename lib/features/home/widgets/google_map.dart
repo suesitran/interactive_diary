@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/constants/map_style.dart';
+import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/widgets/controller/map_animation_controller.dart';
 import 'package:interactive_diary/features/home/widgets/map_handler/map_handler.dart';
@@ -10,6 +11,7 @@ import 'package:interactive_diary/features/home/widgets/map_type/map_type_bottom
 import 'package:interactive_diary/features/home/widgets/markers/map_markers_generator.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
+import 'package:interactive_diary/route/route_extension.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 
 class GoogleMapView extends StatefulWidget {
@@ -56,8 +58,14 @@ class _GoogleMapViewState extends State<GoogleMapView>
       context.read<CameraPermissionBloc>().add(ValidateCameraPermissionEvent());
       _closeMenuIfOpening();
     }, onPenTapped: () {
-      // context.gotoWriteDiaryScreen(
-      //     state.currentLocation, widget.address, widget.business);
+      final LocationState locationState = context.read<LocationBloc>().state;
+      final AddressState addressState = context.read<AddressCubit>().state;
+
+      if (locationState is LocationReadyState &&
+          addressState is AddressReadyState) {
+        context.gotoWriteDiaryScreen(locationState.currentLocation,
+            addressState.address, addressState.business);
+      }
       _closeMenuIfOpening();
     }, onSmileyTapped: () {
       _closeMenuIfOpening();
