@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
-import '../../utils/date_utils.dart';
+import 'package:interactive_diary/utils/date_utils.dart';
 
 class TextDiaryDetailScreen extends StatelessWidget {
   const TextDiaryDetailScreen({Key? key}) : super(key: key);
@@ -133,15 +132,14 @@ class TextDiaryDetailScreen extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: 0,
         title: DiaryHeaderAppbar(
-          icon: Assets.images.idMoreIcon,
-          semanticsIcon: S.current.toolbarMore,
-          avatarPath: userPhotoUrl,
-          displayName: userDisplayName,
-          dateTime: S.current.diaryDateFormatter(
-            IDDateUtils.dateFormatDDMMMYYYY(dateTime),
-            IDDateUtils.dateFormatHHMMA(dateTime),
-          )
-        ),
+            icon: Assets.images.idMoreIcon,
+            semanticsIcon: S.current.toolbarMore,
+            avatarPath: userPhotoUrl,
+            displayName: userDisplayName,
+            dateTime: S.current.diaryDateFormatter(
+              IDDateUtils.dateFormatDDMMMYYYY(dateTime),
+              IDDateUtils.dateFormatHHMMA(dateTime),
+            )),
         backgroundColor: NartusColor.background,
         leading: NartusButton.text(
           iconPath: Assets.images.back,
