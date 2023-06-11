@@ -88,8 +88,8 @@ class PictureDiaryDetailScreen extends StatelessWidget {
                               avatarPath: content.userPhotoUrl,
                               displayName: content.userDisplayName,
                               dateTime: S.current.diaryDateFormatter(
-                                IDDateUtils.formatDateTime(content.dateTime, IDDateUtils.patternDDMMYYY),
-                                IDDateUtils.formatDateTime(content.dateTime, IDDateUtils.patternHHMMA),
+                                IDDateUtils.dateFormatDDMMMYYYY(content.dateTime),
+                                IDDateUtils.dateFormatHHMMA(content.dateTime),
                               ),
                             ),
                           ),

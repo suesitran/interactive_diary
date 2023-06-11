@@ -6,6 +6,8 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
+import '../../utils/date_utils.dart';
+
 class TextDiaryDetailScreen extends StatelessWidget {
   const TextDiaryDetailScreen({Key? key}) : super(key: key);
 
@@ -127,8 +129,6 @@ class TextDiaryDetailScreen extends StatelessWidget {
     QuillController richText = QuillController(
         document: document,
         selection: const TextSelection.collapsed(offset: 0));
-    String dateFormat = 'dd MMM, yyyy';
-    String timeFormat = 'HH:mm a';
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -138,8 +138,9 @@ class TextDiaryDetailScreen extends StatelessWidget {
           avatarPath: userPhotoUrl,
           displayName: userDisplayName,
           dateTime: S.current.diaryDateFormatter(
-              DateFormat(dateFormat).format(dateTime),
-              DateFormat(timeFormat).format(dateTime)),
+            IDDateUtils.dateFormatDDMMMYYYY(dateTime),
+            IDDateUtils.dateFormatHHMMA(dateTime),
+          )
         ),
         backgroundColor: NartusColor.background,
         leading: NartusButton.text(

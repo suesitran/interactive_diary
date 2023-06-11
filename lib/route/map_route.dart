@@ -21,7 +21,7 @@ const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
 const String onboardingRoute = '/onboarding';
-const String textDiaryDetailRoute = '/diaryDetailRoute';
+const String textDiaryDetailRoute = '/textDiaryDetailRoute';
 const String pictureDiaryDetailRoute = '/pictureDiaryDetailRoute';
 
 final GoRouter appRoute = GoRouter(

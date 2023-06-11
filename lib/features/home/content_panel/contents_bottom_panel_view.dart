@@ -193,7 +193,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                                           },
                                           child: ContentCardView(
                                             displayName: e.userDisplayName,
-                                            photoUrl: e.userPhotoUrl,
+                                            userPhotoUrl: e.userPhotoUrl,
                                             dateTime: e.dateTime,
                                             text: e.plainText,
                                           ),

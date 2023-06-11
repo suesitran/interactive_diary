@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:interactive_diary/features/diary_detail/text_diary_detail_screen.dart';
 import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
+import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -218,8 +222,9 @@ void main() {
   });
 
   testWidgets(
-      'given diary list is not empty, when show content bottom panel, then do not show NoPostView',
-      (widgetTester) async {
+      'given diary list contains text diary,'
+      'when content bottom panel is shown and drag the panel,'
+      'then show item text with correct plain text,', (widgetTester) async {
     final LoadDiaryState state = LoadDiaryCompleted([
       DiaryDisplayContent(
           userDisplayName: 'userDisplayName',
@@ -253,5 +258,24 @@ void main() {
         ], contentsBottomPanelView));
 
     expect(find.byType(NoPostView), findsNothing);
+
+    // drag on Divider
+    await mockNetworkImagesFor(() => widgetTester.drag(
+        find.descendant(
+            of: find.byType(GestureDetector),
+            matching: find.ancestor(
+                of: find.byType(Divider), matching: find.byType(Container))),
+        const Offset(0.0, -200)));
+    await mockNetworkImagesFor(() => widgetTester.pumpAndSettle());
+
+    expect(find.byType(ContentCardView), findsOneWidget);
+    expect(find.byType(ListView), findsOneWidget);
+    expect(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.text('plainText'),
+          matchRoot: true,
+        ),
+        findsOneWidget);
   });
 }
