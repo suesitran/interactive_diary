@@ -6,7 +6,7 @@ import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-import '../../../../utils/date_utils.dart';
+import 'package:interactive_diary/utils/date_utils.dart';
 
 part 'diary_content.dart';
 
