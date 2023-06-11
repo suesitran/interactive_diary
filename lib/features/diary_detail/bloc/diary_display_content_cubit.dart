@@ -17,8 +17,8 @@ class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
   void fetchDiaryDisplayContent(String dateTime, String countryCode, String postalCode) async {
 
     emit(DiaryDisplayContentLoading());
-    String userDisplayName = 'Hoang Nguyen';
-    String userPhotoUrl = 'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
+    // String userDisplayName = 'Hoang Nguyen';
+    // String userPhotoUrl = 'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
 
     Diary? diary = await storageService.getDiary(
         dateTime: dateTime,
@@ -45,9 +45,9 @@ class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
         }
 
         emit(DiaryDisplayContentSuccess(DiaryDisplayContent(
-            userDisplayName: userDisplayName,
+            userDisplayName: '',
             dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
-            userPhotoUrl: userPhotoUrl,
+            userPhotoUrl: '',
             plainText: plainText.trim(),
             imageUrl: [imageUrl],
             countryCode: diary.countryCode,

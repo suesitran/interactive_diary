@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
@@ -44,9 +44,6 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/ic_map_type.svg
   String get icMapType => 'assets/images/ic_map_type.svg';
-
-  /// File path: assets/images/ic_privacy_friend.svg
-  String get icPrivacyFriend => 'assets/images/ic_privacy_friend.svg';
 
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
@@ -151,7 +148,6 @@ class $AssetsImagesGen {
         galleryIcon,
         icMapLocation,
         icMapType,
-        icPrivacyFriend,
         icTextController,
         idAppleIcon,
         idCameraIcon,

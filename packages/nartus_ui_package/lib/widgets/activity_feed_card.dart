@@ -8,15 +8,15 @@ class ActivityFeedCard extends StatelessWidget {
   final String avatarPath;
   final String displayName;
   final String dateTime;
-  final String privacyIcon;
+  final String? privacyIcon;
   final String? semanticsPrivacyIcon;
 
   const ActivityFeedCard(
       {required this.avatarPath,
       required this.displayName,
       required this.dateTime,
-      required this.privacyIcon,
-      required this.semanticsPrivacyIcon,
+      this.privacyIcon,
+      this.semanticsPrivacyIcon,
       Key? key})
       : super(key: key);
 
@@ -27,10 +27,10 @@ class ActivityFeedCard extends StatelessWidget {
           child: Row(
             children: [
               // TODO change avatar to be a thumbnail downloaded and store in cached file
-              ExcludeSemantics(
+              const ExcludeSemantics(
                 child: CircleAvatar(
                   radius: NartusDimens.radius16,
-                  backgroundImage: NetworkImage(avatarPath),
+                  backgroundImage: NetworkImage('https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c'),
                 ),
               ),
               Expanded(
@@ -43,7 +43,7 @@ class ActivityFeedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      displayName,
+                      'Hoang Nguyen',
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall
@@ -69,12 +69,13 @@ class ActivityFeedCard extends StatelessWidget {
                             color: NartusColor.grey, // Set the desired color
                           ),
                         ),
-                        SvgPicture.asset(
-                          privacyIcon,
-                          semanticsLabel: semanticsPrivacyIcon,
-                          colorFilter: const ColorFilter.mode(
-                              NartusColor.grey, BlendMode.srcIn),
-                        )
+                        if (privacyIcon != null)
+                          SvgPicture.asset(
+                            privacyIcon!,
+                            semanticsLabel: semanticsPrivacyIcon,
+                            colorFilter: const ColorFilter.mode(
+                                NartusColor.grey, BlendMode.srcIn),
+                          )
                       ],
                     ),
                   ],

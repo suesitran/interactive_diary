@@ -83,7 +83,7 @@ class PictureDiaryDetailScreen extends StatelessWidget {
                                 NartusDimens.padding16,
                                 NartusDimens.padding40),
                             child: ActivityFeedCard(
-                              privacyIcon: Assets.images.icPrivacyFriend,
+                              privacyIcon: null, // todo update in the future
                               semanticsPrivacyIcon: '',
                               avatarPath: content.userPhotoUrl,
                               displayName: content.userDisplayName,
