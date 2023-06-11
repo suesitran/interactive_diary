@@ -13,14 +13,14 @@ part 'diary_content.dart';
 class ContentCardView extends StatefulWidget {
   final String? text;
   final List<String>? images;
-  final String displayName;
-  final String userPhotoUrl;
+  final String? displayName;
+  final String? userPhotoUrl;
   final DateTime dateTime;
 
   ContentCardView(
-      {required this.displayName,
-      required this.userPhotoUrl,
-      required this.dateTime,
+      {required this.dateTime,
+      this.displayName,
+      this.userPhotoUrl,
       this.text,
       this.images,
       Key? key})
@@ -50,8 +50,8 @@ class _ContentCardViewState extends State<ContentCardView> {
             avatarPath: widget.userPhotoUrl,
             displayName: widget.displayName,
             dateTime: S.current.diaryDateFormatter(
-              IDDateUtils.dateFormatDDMMMYYYY(widget.dateTime),
-              IDDateUtils.dateFormatHHMMA(widget.dateTime)),
+                IDDateUtils.dateFormatDDMMMYYYY(widget.dateTime),
+                IDDateUtils.dateFormatHHMMA(widget.dateTime)),
           ),
           _DiaryContent(
             text: widget.text,
