@@ -16,7 +16,6 @@ class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
 
   void fetchDiaryDisplayContent(int dateTime, String countryCode, String postalCode) async {
 
-    emit(DiaryDisplayContentLoading());
     Diary? diary = await storageService.getDiary(
         dateTime: dateTime,
         countryCode: countryCode,

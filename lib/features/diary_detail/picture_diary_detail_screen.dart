@@ -26,18 +26,14 @@ class PictureDiaryDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DiaryDisplayContentCubit>(
-      create: (context) =>
-          DiaryDisplayContentCubit()..fetchDiaryDisplayContent(dateTime, countryCode, postalCode),
+      create: (context) => DiaryDisplayContentCubit()
+        ..fetchDiaryDisplayContent(dateTime, countryCode, postalCode),
       child: BlocBuilder<DiaryDisplayContentCubit, DiaryDisplayContentState>(
         builder: (context, state) {
-          if (state is DiaryDisplayContentLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is DiaryDisplayContentNotFound) {
-            return Container(); // todo update
-          } else {
-            final content = (state as DiaryDisplayContentSuccess).content;
+          if (state is DiaryDisplayContentNotFound) {
+            return Container();
+          } else if (state is DiaryDisplayContentSuccess) {
+            final content = state.content;
             return Stack(
               children: [
                 // Display the image
@@ -99,6 +95,8 @@ class PictureDiaryDetailScreen extends StatelessWidget {
               ],
             );
           }
+
+          return const CircularProgressIndicator();
         },
       ),
     );

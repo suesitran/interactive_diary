@@ -49,7 +49,6 @@ void main() {
     act: (cubit) => cubit.fetchDiaryDisplayContent(123434, 'US', '1321412'),
     expect: () =>
     [
-      isA<DiaryDisplayContentLoading>(),
       isA<DiaryDisplayContentNotFound>()
     ],
     verify: (bloc) {
@@ -83,7 +82,6 @@ void main() {
     act: (cubit) => cubit.fetchDiaryDisplayContent(123434, 'US', '1321412'),
     expect: () =>
     [
-      isA<DiaryDisplayContentLoading>(),
       isA<DiaryDisplayContentSuccess>()
     ],
     verify: (bloc) {

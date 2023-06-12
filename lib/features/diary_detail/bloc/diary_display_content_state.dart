@@ -6,8 +6,6 @@ abstract class DiaryDisplayContentState {
 
 class DiaryDisplayContentInitial extends DiaryDisplayContentState {}
 
-class DiaryDisplayContentLoading extends DiaryDisplayContentState {}
-
 class DiaryDisplayContentNotFound extends DiaryDisplayContentState {}
 
 class DiaryDisplayContentSuccess extends DiaryDisplayContentState {
