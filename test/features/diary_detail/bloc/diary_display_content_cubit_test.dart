@@ -46,7 +46,7 @@ void main() {
           .thenAnswer((realInvocation) =>
           Future.value(null));
     },
-    act: (cubit) => cubit.fetchDiaryDisplayContent('123434', 'US', '1321412'),
+    act: (cubit) => cubit.fetchDiaryDisplayContent(123434, 'US', '1321412'),
     expect: () =>
     [
       isA<DiaryDisplayContentLoading>(),
@@ -80,7 +80,7 @@ void main() {
                 TextDiary(description: '[{"insert":"description\\n"}]')
               ])));
       },
-    act: (cubit) => cubit.fetchDiaryDisplayContent('123434', 'US', '1321412'),
+    act: (cubit) => cubit.fetchDiaryDisplayContent(123434, 'US', '1321412'),
     expect: () =>
     [
       isA<DiaryDisplayContentLoading>(),

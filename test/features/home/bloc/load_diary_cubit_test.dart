@@ -87,4 +87,39 @@ void main() {
       expect(contents.plainText, 'description');
     },
   );
+
+  blocTest(
+    'given diary collection has image diary, when load diary, then verify imageUrl is not empty',
+    build: () => LoadDiaryCubit(),
+    setUp: () {
+      when(storageService.readDiaryForMonth(
+          month: anyNamed('month'),
+          countryCode: anyNamed('countryCode'),
+          postalCode: anyNamed('postalCode')))
+          .thenAnswer((realInvocation) =>
+          Future.value(DiaryCollection(month: 'month', diaries: [
+            Diary(
+                title: 'title',
+                countryCode: 'AU',
+                postalCode: '2345',
+                addressLine: '123 heaven street',
+                latLng: const LatLng(lat: 0.0, long: 0.0),
+                timestamp: 123456789,
+                update: 123456789,
+                contents: [
+                  ImageDiary(url: 'imageUrl', thumbnailUrl: 'thumbnailUrl', description: 'description')
+                ])
+          ])));
+    },
+    act: (bloc) => bloc.loadDiary(countryCode: 'AU', postalCode: '2345'),
+    expect: () => [isA<LoadDiaryCompleted>()],
+    verify: (bloc) {
+      LoadDiaryCompleted state = bloc.state as LoadDiaryCompleted;
+
+      expect(state.contents.length, 1);
+
+      DiaryDisplayContent contents = state.contents.first;
+      expect(contents.imageUrl.length, 1);
+    },
+  );
 }

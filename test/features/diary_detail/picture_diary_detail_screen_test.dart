@@ -44,7 +44,7 @@ void main() {
 
   testWidgets('Verify Picture diary details screen', (widgetTester) async {
     const Widget widget = PictureDiaryDetailScreen(
-      dateTime: '123354',
+      dateTime: 123354,
       countryCode: 'US',
       postalCode: '123456',
     );
@@ -97,7 +97,7 @@ void main() {
       'then picture diary detail screen will be back to previous screen',
       (widgetTester) async {
     const Widget widget = PictureDiaryDetailScreen(
-      dateTime: '123354',
+      dateTime: 123354,
       countryCode: 'US',
       postalCode: '123456',
     );
@@ -147,5 +147,36 @@ void main() {
     await widgetTester.tap(closeButton);
     await widgetTester.pumpAndSettle();
     expect(find.byType(PictureDiaryDetailScreen), findsNothing);
+  });
+
+  // will be updated in the future
+  testWidgets(
+      'given get diary not found,'
+      'when go to picture diary details screen , '
+      'then show blank screen', (widgetTester) async {
+    const Widget widget = PictureDiaryDetailScreen(
+      dateTime: 123354,
+      countryCode: 'US',
+      postalCode: '123456',
+    );
+
+    final DiaryDisplayContentState state = DiaryDisplayContentNotFound();
+
+    when(mockDiaryDisplayContentCubit.state).thenAnswer((_) => state);
+    when(mockDiaryDisplayContentCubit.stream)
+        .thenAnswer((_) => Stream.value(state));
+
+    when(mockStorageService.getDiary(
+      dateTime: anyNamed('dateTime'),
+      countryCode: anyNamed('countryCode'),
+      postalCode: anyNamed('postalCode'),
+      month: anyNamed('month'),
+    )).thenAnswer((_) => Future.value(null));
+
+    await mockNetworkImagesFor(() => widgetTester.wrapAndPump(
+          widget,
+        ));
+
+    expect(find.byType(Container), findsOneWidget);
   });
 }

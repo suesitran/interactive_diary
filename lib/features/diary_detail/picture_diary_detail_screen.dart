@@ -13,7 +13,7 @@ import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.d
 import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
 
 class PictureDiaryDetailScreen extends StatelessWidget {
-  final String dateTime;
+  final int dateTime;
   final String countryCode;
   final String postalCode;
 
@@ -27,7 +27,7 @@ class PictureDiaryDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<DiaryDisplayContentCubit>(
       create: (context) =>
-          DiaryDisplayContentCubit()..fetchDiaryDisplayContent('', '', ''),
+          DiaryDisplayContentCubit()..fetchDiaryDisplayContent(dateTime, countryCode, postalCode),
       child: BlocBuilder<DiaryDisplayContentCubit, DiaryDisplayContentState>(
         builder: (context, state) {
           if (state is DiaryDisplayContentLoading) {

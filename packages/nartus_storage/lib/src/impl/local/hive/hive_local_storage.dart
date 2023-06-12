@@ -86,7 +86,7 @@ class HiveLocalStorage {
     return result;
   }
 
-  Future<Diary?> getDiary({required String dateTime, required String countryCode, required String postalCode, required DateTime month}) async {
+  Future<Diary?> getDiary({required int dateTime, required String countryCode, required String postalCode, required DateTime month}) async {
     final Directory directory = await getApplicationSupportDirectory();
 
     final String monthCollectionName =
@@ -105,7 +105,7 @@ class HiveLocalStorage {
     Diary? diary;
     try {
       diary = allDiaries.values.toList()
-          .firstWhere((HiveDiary d) => d.timestamp.toString() == dateTime).toDiary();
+          .firstWhere((HiveDiary d) => d.timestamp == dateTime).toDiary();
     } catch (e) {
       diary = null;
     }

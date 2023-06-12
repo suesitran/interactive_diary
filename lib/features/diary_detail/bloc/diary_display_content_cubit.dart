@@ -14,7 +14,7 @@ class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
 
   DiaryDisplayContentCubit() : super(DiaryDisplayContentInitial());
 
-  void fetchDiaryDisplayContent(String dateTime, String countryCode, String postalCode) async {
+  void fetchDiaryDisplayContent(int dateTime, String countryCode, String postalCode) async {
 
     emit(DiaryDisplayContentLoading());
     Diary? diary = await storageService.getDiary(
@@ -37,8 +37,6 @@ class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
         } else if (content is ImageDiary) {
           imageUrl = content.thumbnailUrl;
           plainText = content.description;
-        } else if (content is VideoDiary) {
-          // todo
         }
 
         emit(DiaryDisplayContentSuccess(DiaryDisplayContent(
