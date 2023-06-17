@@ -12,38 +12,42 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
   final String path;
   final MediaType type;
 
-  SaveMediaDiaryCubit({
-    required this.latLng,
-    required this.path,
-    required this.type
-  }) : super(SaveMediaDiaryInitial());
+  SaveMediaDiaryCubit(
+      {required this.latLng, required this.path, required this.type})
+      : super(SaveMediaDiaryInitial());
 
   void save() async {
     emit(SaveMediaDiaryStart());
-    final StorageService storageService = ServiceLocator.instance.get<StorageService>();
-    final GeocoderService geocoderService = ServiceLocator.instance.get<GeocoderService>();
+    final StorageService storageService =
+        ServiceLocator.instance.get<StorageService>();
+    final GeocoderService geocoderService =
+        ServiceLocator.instance.get<GeocoderService>();
 
-    final LocationDetail locationDetail = await geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
+    final LocationDetail locationDetail =
+        await geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
 
     Content content;
 
-    switch(type) {
+    switch (type) {
       case MediaType.picture:
         // TODO generate thumbnail
-        content = ImageDiary(url: path, thumbnailUrl: path, description: ''); break;
-      case MediaType.video: content = VideoDiary(url: path, description: ''); break;
+        content = ImageDiary(url: path, thumbnailUrl: path, description: '');
+        break;
+      case MediaType.video:
+        content = VideoDiary(url: path, description: '');
+        break;
     }
 
     final int timestamp = DateTime.now().toUtc().millisecondsSinceEpoch;
-    Diary diary = Diary(timestamp: timestamp,
+    Diary diary = Diary(
+        timestamp: timestamp,
         countryCode: locationDetail.countryCode ?? 'Unknown',
         postalCode: locationDetail.postalCode ?? 'Unknown',
         addressLine: locationDetail.address,
         latLng: latLng,
         title: '',
-        contents: [
-          content
-        ], update: timestamp);
+        contents: [content],
+        update: timestamp);
     await storageService.saveDiary(diary);
 
     emit(SaveMediaDiaryComplete());

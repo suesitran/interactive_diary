@@ -58,7 +58,7 @@ extension RouterExtension on BuildContext {
   }
 
   void popToHome() {
-    while(canPop()) {
+    while (canPop()) {
       pop();
     }
   }

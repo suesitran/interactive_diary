@@ -29,7 +29,8 @@ class PreviewScreen extends StatelessWidget {
           create: (context) => PreviewInteractionCubit(),
         ),
         BlocProvider<SaveMediaDiaryCubit>(
-          create: (context) => SaveMediaDiaryCubit(latLng: latLng, path: path, type: type),
+          create: (context) =>
+              SaveMediaDiaryCubit(latLng: latLng, path: path, type: type),
         )
       ],
       child: MultiBlocListener(
@@ -97,16 +98,14 @@ class PreviewScreen extends StatelessWidget {
                 Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(NartusDimens.padding24),
-                    child: Builder(
-                      builder: (context) {
-                        return NartusButton.primary(
-                          label: S.current.save,
-                          onPressed: () {
-                            context.read<SaveMediaDiaryCubit>().save();
-                          },
-                        );
-                      }
-                    ))
+                    child: Builder(builder: (context) {
+                      return NartusButton.primary(
+                        label: S.current.save,
+                        onPressed: () {
+                          context.read<SaveMediaDiaryCubit>().save();
+                        },
+                      );
+                    }))
               ],
             ),
           ),
