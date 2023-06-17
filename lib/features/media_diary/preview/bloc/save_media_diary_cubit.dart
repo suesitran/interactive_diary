@@ -30,7 +30,6 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
 
     switch (type) {
       case MediaType.picture:
-        // TODO generate thumbnail
         content = ImageDiary(url: path, thumbnailUrl: path, description: '');
         break;
       case MediaType.video:
