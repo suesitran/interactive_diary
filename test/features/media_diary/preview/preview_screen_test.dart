@@ -5,6 +5,7 @@ import 'package:interactive_diary/features/media_diary/_shared/constant/media_ty
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:interactive_diary/features/media_diary/preview/preview_screen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:video_player_platform_interface/video_player_platform_interface.dart';
 
@@ -37,7 +38,8 @@ void main() {
       '[WHEN]  User finished capturing media (take picture, record video, choose media from library), '
       '[THEN]  User will see 2 buttons (back, save) in the screen',
       (WidgetTester widgetTester) async {
-    const PreviewScreen screen = PreviewScreen('', MediaType.picture);
+    const PreviewScreen screen =
+        PreviewScreen(LatLng(lat: 0.0, long: 0.0), '', MediaType.picture);
 
     await widgetTester.wrapAndPump(screen);
 
@@ -54,7 +56,8 @@ void main() {
     File file = File('sample.jgp');
     file.createSync();
 
-    const PreviewScreen screen = PreviewScreen('sample.jgp', MediaType.picture);
+    const PreviewScreen screen = PreviewScreen(
+        LatLng(lat: 0.0, long: 0.0), 'sample.jgp', MediaType.picture);
 
     await widgetTester.wrapAndPump(screen, useRouter: true);
     await widgetTester.pumpAndSettle();
@@ -75,7 +78,8 @@ void main() {
       'given media is type Picture, '
       'when user in Preview Screen, '
       'then Image is displayed', (widgetTester) async {
-    const Widget widget = PreviewScreen('path', MediaType.picture);
+    const Widget widget =
+        PreviewScreen(LatLng(lat: 0.0, long: 0.0), 'path', MediaType.picture);
 
     await widgetTester.wrapAndPump(widget);
 
@@ -89,7 +93,8 @@ void main() {
       'then VideoPlayer is displayed', (widgetTester) async {
     VideoPlayerPlatform.instance = MockVideoPlayerPlatform();
 
-    const Widget widget = PreviewScreen('path', MediaType.video);
+    const Widget widget =
+        PreviewScreen(LatLng(lat: 0.0, long: 0.0), 'path', MediaType.video);
 
     await widgetTester.wrapAndPump(widget);
 

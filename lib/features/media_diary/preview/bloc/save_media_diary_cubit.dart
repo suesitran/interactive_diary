@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
@@ -18,6 +18,7 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
 
   void save() async {
     emit(SaveMediaDiaryStart());
+
     final StorageService storageService =
         ServiceLocator.instance.get<StorageService>();
     final GeocoderService geocoderService =

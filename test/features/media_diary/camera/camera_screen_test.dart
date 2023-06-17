@@ -11,6 +11,7 @@ import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nartus_media/nartus_media.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../../widget_tester_extension.dart';
@@ -52,7 +53,9 @@ void main() {
           '[WHEN]  User open camera screen, '
           '[THEN]  User will see 3 buttons (close, gallery, flip camera) in the screen',
           (WidgetTester widgetTester) async {
-        const CameraScreen screen = CameraScreen();
+        const CameraScreen screen = CameraScreen(
+          latLng: LatLng(lat: 0.0, long: 0.0),
+        );
 
         await widgetTester.wrapAndPump(screen);
 
@@ -64,7 +67,9 @@ void main() {
           '[WHEN]  User tap on CLOSE button, '
           '[THEN]  User will be redirected back to previous screen (Home Screen)',
           (WidgetTester widgetTester) async {
-        const CameraScreen screen = CameraScreen();
+        const CameraScreen screen = CameraScreen(
+          latLng: LatLng(lat: 0.0, long: 0.0),
+        );
 
         await widgetTester.wrapAndPump(screen, useRouter: true);
         await widgetTester.pumpAndSettle();
@@ -120,7 +125,9 @@ void main() {
       when(nartusMediaService.checkMediaPermission()).thenAnswer(
           (realInvocation) => Future.value(MediaPermission.granted));
 
-      const CameraScreen widget = CameraScreen();
+      const CameraScreen widget = CameraScreen(
+        latLng: LatLng(lat: 0.0, long: 0.0),
+      );
 
       await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget,
           useRouter: true, targetRoute: '/addMedia/photoAlbum'));
@@ -142,7 +149,9 @@ void main() {
       when(nartusMediaService.checkMediaPermission()).thenAnswer(
           (realInvocation) => Future.value(MediaPermission.limited));
 
-      const CameraScreen widget = CameraScreen();
+      const CameraScreen widget = CameraScreen(
+        latLng: LatLng(lat: 0.0, long: 0.0),
+      );
 
       await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget,
           useRouter: true, targetRoute: '/addMedia/photoAlbum'));
@@ -166,7 +175,9 @@ void main() {
       when(nartusMediaService.requestMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
 
-      const CameraScreen widget = CameraScreen();
+      const CameraScreen widget = CameraScreen(
+        latLng: LatLng(lat: 0.0, long: 0.0),
+      );
 
       await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget,
           useRouter: true, targetRoute: '/addMedia/photoAlbum'));
@@ -190,7 +201,9 @@ void main() {
       when(nartusMediaService.requestMediaPermission())
           .thenAnswer((realInvocation) => Future.value(MediaPermission.denied));
 
-      const CameraScreen widget = CameraScreen();
+      const CameraScreen widget = CameraScreen(
+        latLng: LatLng(lat: 0.0, long: 0.0),
+      );
 
       await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget,
           useRouter: true, targetRoute: '/addMedia/photoAlbum'));
@@ -214,7 +227,9 @@ void main() {
       when(nartusMediaService.requestMediaPermission()).thenAnswer(
           (realInvocation) => Future.value(MediaPermission.granted));
 
-      const CameraScreen widget = CameraScreen();
+      const CameraScreen widget = CameraScreen(
+        latLng: LatLng(lat: 0.0, long: 0.0),
+      );
 
       await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget,
           useRouter: true, targetRoute: '/addMedia/photoAlbum'));
@@ -237,7 +252,9 @@ void main() {
       when(nartusMediaService.checkMediaPermission()).thenAnswer(
           (realInvocation) => Future.value(MediaPermission.deniedForever));
 
-      const CameraScreen widget = CameraScreen();
+      const CameraScreen widget = CameraScreen(
+        latLng: LatLng(lat: 0.0, long: 0.0),
+      );
 
       await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget,
           useRouter: true, targetRoute: '/addMedia/photoAlbum'));
