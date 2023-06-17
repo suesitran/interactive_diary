@@ -19,8 +19,6 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
   void save() async {
     emit(SaveMediaDiaryStart());
 
-    final StorageService storageService =
-        ServiceLocator.instance.get<StorageService>();
     final GeocoderService geocoderService =
         ServiceLocator.instance.get<GeocoderService>();
 
@@ -48,6 +46,10 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
         title: '',
         contents: [content],
         update: timestamp);
+
+    final StorageService storageService =
+    ServiceLocator.instance.get<StorageService>();
+
     await storageService.saveDiary(diary);
 
     emit(SaveMediaDiaryComplete());
