@@ -4,29 +4,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:interactive_diary/features/media_diary/preview/bloc/preview_interaction_cubit.dart';
+import 'package:interactive_diary/features/media_diary/preview/bloc/save_media_diary_cubit.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:interactive_diary/route/map_route.dart';
+import 'package:interactive_diary/route/route_extension.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:video_player/video_player.dart';
 
 class PreviewScreen extends StatelessWidget {
+  final LatLng latLng;
   final String path;
   final MediaType type;
-  const PreviewScreen(this.path, this.type, {super.key});
+  const PreviewScreen(this.latLng, this.path, this.type, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PreviewInteractionCubit>(
-      create: (context) => PreviewInteractionCubit(),
-      child: BlocListener<PreviewInteractionCubit, PreviewInteractionState>(
-        listener: (context, state) {
-          if (state is OnFileDeleted) {
-            context.pop();
-          }
-        },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PreviewInteractionCubit>(
+          create: (context) => PreviewInteractionCubit(),
+        ),
+        BlocProvider<SaveMediaDiaryCubit>(
+          create: (context) => SaveMediaDiaryCubit(latLng: latLng, path: path, type: type),
+        )
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<PreviewInteractionCubit, PreviewInteractionState>(
+              listener: (context, state) {
+            if (state is OnFileDeleted) {
+              context.pop();
+            }
+          }),
+          BlocListener<SaveMediaDiaryCubit, SaveMediaDiaryState>(
+            listener: (context, state) {
+              if (state is SaveMediaDiaryComplete) {
+                context.popToHome();
+              }
+            },
+          )
+        ],
         child: Scaffold(
           backgroundColor: NartusColor.white,
           body: SafeArea(
@@ -47,7 +68,7 @@ class PreviewScreen extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           child: type == MediaType.picture
                               ? Image.file(
-                            File(path),
+                                  File(path),
                                   fit: BoxFit.cover,
                                 )
                               : VideoPreview(path),
@@ -76,9 +97,15 @@ class PreviewScreen extends StatelessWidget {
                 Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(NartusDimens.padding24),
-                    child: NartusButton.primary(
-                      label: S.current.save,
-                      onPressed: () {},
+                    child: Builder(
+                      builder: (context) {
+                        return NartusButton.primary(
+                          label: S.current.save,
+                          onPressed: () {
+                            context.read<SaveMediaDiaryCubit>().save();
+                          },
+                        );
+                      }
                     ))
               ],
             ),

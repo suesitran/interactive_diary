@@ -43,16 +43,23 @@ extension RouterExtension on BuildContext {
     ));
   }
 
-  void gotoAddMediaScreen() {
-    GoRouter.of(this).push(addMediaRoute);
+  void gotoAddMediaScreen(LatLng location) {
+    GoRouter.of(this).push(addMediaRoute, extra: location);
   }
 
-  void gotoPreviewMediaScreen(String pathToPreview, MediaType type) {
-    PreviewMediaExtra extra = PreviewMediaExtra(pathToPreview, type);
+  void gotoPreviewMediaScreen(
+      LatLng latLng, String pathToPreview, MediaType type) {
+    PreviewMediaExtra extra = PreviewMediaExtra(latLng, pathToPreview, type);
     GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute', extra: extra);
   }
 
   void goToPhotoAlbum() {
     GoRouter.of(this).push('$addMediaRoute/$photoAlbum');
+  }
+
+  void popToHome() {
+    while(canPop()) {
+      pop();
+    }
   }
 }

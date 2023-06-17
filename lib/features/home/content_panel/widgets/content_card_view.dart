@@ -34,6 +34,7 @@ class ContentCardView extends StatefulWidget {
 class _ContentCardViewState extends State<ContentCardView> {
   String dateFormat = 'dd MMM, yyyy';
   String timeFormat = 'HH:mm a';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
