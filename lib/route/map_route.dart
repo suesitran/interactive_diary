@@ -11,6 +11,7 @@ import 'package:interactive_diary/features/home/home_screen.dart';
 import 'package:interactive_diary/features/media_diary/camera/camera_screen.dart';
 import 'package:interactive_diary/features/media_diary/photo_album/photo_album_screen.dart';
 import 'package:interactive_diary/features/media_diary/preview/preview_screen.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -95,21 +96,6 @@ final GoRouter appRoute = GoRouter(
       path: onboardingRoute,
       builder: (context, state) => OnboardingScreen(),
     ),
-    GoRoute(
-        path: addMediaRoute,
-        pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
-              key: state.pageKey,
-              child: const CameraScreen(),
-              transitionsBuilder: (_, animation, __, child) {
-                return SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0.0, 1.0),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child,
-                );
-              },
-            )),
     // add media shell
     addMediaShell,
   ],

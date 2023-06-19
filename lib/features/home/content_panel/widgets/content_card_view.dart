@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class ContentCardView extends StatefulWidget {
       this.text,
       this.images,
       Key? key})
-      : assert(text != null || images?.isNotEmpty == true,
+      : assert(text != null || images != null || images?.isNotEmpty == true,
             'Need either text or image list to be displayed'),
         super(key: key);
 

@@ -188,8 +188,7 @@ void main() {
     expect(find.byType(GoogleMapView), findsOneWidget);
   });
 
-  testWidgets(
-      'When state is LocationInitial, then GoogleMap is presented',
+  testWidgets('When state is LocationInitial, then GoogleMap is presented',
       (WidgetTester widgetTester) async {
     const IDHomeBody widget = IDHomeBody();
 
@@ -1071,7 +1070,7 @@ void main() {
 
   group('test camera permission reaction', () {
     testWidgets(
-        'given camera permission granted, then navigate to camera screen',
+        'given camera permission granted, when location is available, then navigate to camera screen',
         (widgetTester) async {
       const Widget widget = IDHomeBody();
 
@@ -1079,6 +1078,11 @@ void main() {
           .thenAnswer((realInvocation) => CameraPermissionGranted());
       when(cameraPermissionBloc.stream).thenAnswer(
           (realInvocation) => Stream.value(CameraPermissionGranted()));
+
+      when(mockLocationBloc.state).thenAnswer((realInvocation) =>
+          LocationReadyState(currentLocation: const LatLng(0.0, 0.0)));
+      when(mockLocationBloc.stream).thenAnswer((realInvocation) => Stream.value(
+          LocationReadyState(currentLocation: const LatLng(0.0, 0.0))));
 
       await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
               <BlocProvider<StateStreamableSource<Object?>>>[
@@ -1109,6 +1113,53 @@ void main() {
 
       // expect navigate to /addMedia
       expect(find.text('/addMedia'), findsOneWidget);
+    });
+
+    testWidgets(
+        'given camera permission granted, when location is not available, then do not navigate to camera screen',
+        (widgetTester) async {
+      const Widget widget = IDHomeBody();
+
+      when(cameraPermissionBloc.state)
+          .thenAnswer((realInvocation) => CameraPermissionGranted());
+      when(cameraPermissionBloc.stream).thenAnswer(
+          (realInvocation) => Stream.value(CameraPermissionGranted()));
+
+      when(mockLocationBloc.state).thenAnswer(
+          (realInvocation) => LocationInitial(PermissionStatusDiary.granted));
+      when(mockLocationBloc.stream).thenAnswer((realInvocation) =>
+          Stream.value(LocationInitial(PermissionStatusDiary.granted)));
+
+      await mockNetworkImagesFor(() => widgetTester.multiBlocWrapAndPump(
+              <BlocProvider<StateStreamableSource<Object?>>>[
+                BlocProvider<ConnectivityBloc>(
+                  create: (_) => mockConnectivityBloc,
+                ),
+                BlocProvider<LocationBloc>(
+                  create: (_) => mockLocationBloc,
+                ),
+                BlocProvider<AppConfigBloc>(
+                  create: (_) => appConfigBloc,
+                ),
+                BlocProvider<CameraPermissionBloc>(
+                  create: (_) => cameraPermissionBloc,
+                ),
+                BlocProvider<AddressCubit>(
+                  create: (context) => addressCubit,
+                ),
+                BlocProvider<LoadDiaryCubit>(
+                  create: (context) => loadDiaryCubit,
+                )
+              ],
+              widget,
+              infiniteAnimationWidget: true,
+              useRouter: true,
+              targetRoute: '/addMedia'));
+      await widgetTester.pump();
+
+      // do not navigate to /addMedia
+      expect(find.text('/addMedia'), findsNothing);
+      expect(find.byType(IDHomeBody), findsOneWidget);
     });
 
     testWidgets(
