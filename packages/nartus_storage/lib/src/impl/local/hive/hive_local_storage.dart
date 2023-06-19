@@ -86,6 +86,35 @@ class HiveLocalStorage {
     return result;
   }
 
+  Future<Diary?> getDiary({required int dateTime, required String countryCode, required String postalCode, required DateTime month}) async {
+    final Directory directory = await getApplicationSupportDirectory();
+
+    final String monthCollectionName =
+    _getCollectionName(month.millisecondsSinceEpoch);
+
+    final BoxCollection collection = await _hiveHelper.open(
+        _getLocationGroup(countryCode, postalCode), <String>{monthCollectionName},
+        path: directory.path);
+
+    CollectionBox<HiveDiary> diaryCollection =
+    await collection.openBox<HiveDiary>(monthCollectionName);
+
+    final Map<String, HiveDiary> allDiaries =
+    await diaryCollection.getAllValues();
+
+    Diary? diary;
+    try {
+      diary = allDiaries.values.toList()
+          .firstWhere((HiveDiary d) => d.timestamp == dateTime).toDiary();
+    } catch (e) {
+      diary = null;
+    }
+
+    collection.close();
+
+    return diary;
+  }
+
   Future<void> saveDiary(Diary diary) async {
     final Directory directory = await getApplicationSupportDirectory();
 

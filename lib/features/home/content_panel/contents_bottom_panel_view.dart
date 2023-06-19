@@ -188,11 +188,12 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                                 padding: EdgeInsets.zero,
                                 children: displayContents
                                     .map((e) => InkWell(
-                                          onTap: () =>
-                                              context.gotoDiaryDetailScreen(),
+                                          onTap: () {
+                                            _onItemClicked(e);
+                                          },
                                           child: ContentCardView(
                                             displayName: e.userDisplayName,
-                                            photoUrl: e.userPhotoUrl,
+                                            userPhotoUrl: e.userPhotoUrl,
                                             dateTime: e.dateTime,
                                             text: e.plainText,
                                             images: e.imageUrl,
@@ -210,5 +211,13 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
         ),
       ),
     );
+  }
+
+  void _onItemClicked(DiaryDisplayContent content) {
+    if (content.imageUrl.isEmpty) {
+      context.gotoDiaryDetailScreen();
+    } else {
+      context.gotoPictureDiaryDetailScreen(content.dateTime.millisecond, content.countryCode, content.postalCode);
+    }
   }
 }
