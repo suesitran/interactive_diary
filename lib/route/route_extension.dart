@@ -28,7 +28,7 @@ extension RouterExtension on BuildContext {
     GoRouter.of(this).push(textDiaryDetailRoute);
   }
 
-  void gotoPictureDiaryDetailScreen(int dateTime, String countryCode, String postalCode) {
+  void gotoPictureDiaryDetailScreen(DateTime dateTime, String countryCode, String postalCode) {
     PictureDiaryDetailExtra extra = PictureDiaryDetailExtra(dateTime, countryCode, postalCode);
     GoRouter.of(this).push(pictureDiaryDetailRoute, extra: extra);
   }

@@ -18,7 +18,7 @@ class PreviewMediaExtra {
 }
 
 class PictureDiaryDetailExtra {
-  final int dateTime;
+  final DateTime dateTime;
   final String postalCode;
   final String countryCode;
 

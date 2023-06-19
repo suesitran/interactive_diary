@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:interactive_diary/utils/date_utils.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -13,7 +12,7 @@ import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.d
 import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
 
 class PictureDiaryDetailScreen extends StatelessWidget {
-  final int dateTime;
+  final DateTime dateTime;
   final String countryCode;
   final String postalCode;
 
@@ -31,6 +30,7 @@ class PictureDiaryDetailScreen extends StatelessWidget {
       child: BlocBuilder<DiaryDisplayContentCubit, DiaryDisplayContentState>(
         builder: (context, state) {
           if (state is DiaryDisplayContentNotFound) {
+            // TODO handle error when diary is not found
             return Container();
           } else if (state is DiaryDisplayContentSuccess) {
             final content = state.content;
@@ -84,8 +84,8 @@ class PictureDiaryDetailScreen extends StatelessWidget {
                               avatarPath: content.userPhotoUrl,
                               displayName: content.userDisplayName,
                               dateTime: S.current.diaryDateFormatter(
-                                IDDateUtils.dateFormatDDMMMYYYY(content.dateTime),
-                                IDDateUtils.dateFormatHHMMA(content.dateTime),
+                                content.dateTime,
+                                content.dateTime,
                               ),
                             ),
                           ),

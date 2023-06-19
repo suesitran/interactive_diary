@@ -217,7 +217,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
     if (content.imageUrl.isEmpty) {
       context.gotoDiaryDetailScreen();
     } else {
-      context.gotoPictureDiaryDetailScreen(content.dateTime.millisecond, content.countryCode, content.postalCode);
+      context.gotoPictureDiaryDetailScreen(content.dateTime, content.countryCode, content.postalCode);
     }
   }
 }

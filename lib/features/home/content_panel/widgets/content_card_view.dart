@@ -7,8 +7,6 @@ import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
-import 'package:interactive_diary/utils/date_utils.dart';
-
 part 'diary_content.dart';
 
 class ContentCardView extends StatefulWidget {
@@ -51,8 +49,8 @@ class _ContentCardViewState extends State<ContentCardView> {
             avatarPath: widget.userPhotoUrl,
             displayName: widget.displayName,
             dateTime: S.current.diaryDateFormatter(
-                IDDateUtils.dateFormatDDMMMYYYY(widget.dateTime),
-                IDDateUtils.dateFormatHHMMA(widget.dateTime)),
+              widget.dateTime,widget.dateTime,
+                ),
           ),
           _DiaryContent(
             text: widget.text,
