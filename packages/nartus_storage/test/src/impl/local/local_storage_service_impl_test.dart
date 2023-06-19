@@ -50,26 +50,26 @@ void main() {
 
     final DateTime dateTime = DateTime(2022, 10, 20);
     when(storage.getDiary(
-            dateTime: 1666184400000,
+            dateTime: 1666198800000,
             month: dateTime,
             countryCode: 'AU',
             postalCode: '2345'))
         .thenAnswer((Invocation realInvocation) => Future<Diary?>.value(Diary(
-            timestamp: 1666184400000,
+            timestamp: 1666198800000,
             countryCode: 'AU',
             postalCode: '2345',
             addressLine: '123 heaven street',
             latLng: const LatLng(lat: 0.0, long: 0.0),
             title: 'title',
             contents: <Content>[],
-            update: 1666184400000)));
+            update: 1666198800000)));
     localStorageServiceImpl.getDiary(
         dateTime:  dateTime,
         countryCode: 'AU',
         postalCode: '2345');
 
     verify(storage.getDiary(
-            dateTime: 1666184400000,
+            dateTime: 1666198800000,
             month: dateTime,
             countryCode: 'AU',
             postalCode: '2345'))
