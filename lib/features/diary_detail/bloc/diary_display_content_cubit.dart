@@ -14,13 +14,12 @@ class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
 
   DiaryDisplayContentCubit() : super(DiaryDisplayContentInitial());
 
-  void fetchDiaryDisplayContent(int dateTime, String countryCode, String postalCode) async {
+  void fetchDiaryDisplayContent(DateTime dateTime, String countryCode, String postalCode) async {
 
     Diary? diary = await storageService.getDiary(
         dateTime: dateTime,
         countryCode: countryCode,
-        postalCode: postalCode,
-        month: DateTime.now());
+        postalCode: postalCode);
 
     if (diary == null) {
       emit(DiaryDisplayContentNotFound());

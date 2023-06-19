@@ -20,8 +20,7 @@ void main() {
         throwsA(isA<UnimplementedError>()));
     expect(
             () async => await cloudStorageServiceImpl.getDiary(
-            dateTime: 1234567,
-            month: DateTime(2022, 10, 11),
+            dateTime: DateTime(2022, 10, 11),
             countryCode: 'AU',
             postalCode: '2345'),
         throwsA(isA<UnimplementedError>()));

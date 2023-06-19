@@ -64,8 +64,7 @@ void main() {
             contents: <Content>[],
             update: 12345678)));
     localStorageServiceImpl.getDiary(
-        dateTime: 12345678,
-        month: dateTime,
+        dateTime:  dateTime,
         countryCode: 'AU',
         postalCode: '2345');
 

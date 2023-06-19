@@ -43,8 +43,8 @@ void main() {
   });
 
   testWidgets('Verify Picture diary details screen', (widgetTester) async {
-    const Widget widget = PictureDiaryDetailScreen(
-      dateTime: 123354,
+    final Widget widget = PictureDiaryDetailScreen(
+      dateTime: DateTime(2023, 10, 22, 10, 25),
       countryCode: 'US',
       postalCode: '123456',
     );
@@ -79,7 +79,6 @@ void main() {
       dateTime: anyNamed('dateTime'),
       countryCode: anyNamed('countryCode'),
       postalCode: anyNamed('postalCode'),
-      month: anyNamed('month'),
     )).thenAnswer((_) => Future.value(diary));
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(
@@ -96,8 +95,8 @@ void main() {
       'when tap on close button , '
       'then picture diary detail screen will be back to previous screen',
       (widgetTester) async {
-    const Widget widget = PictureDiaryDetailScreen(
-      dateTime: 123354,
+    final Widget widget = PictureDiaryDetailScreen(
+      dateTime: DateTime(2023, 10, 22, 10, 25),
       countryCode: 'US',
       postalCode: '123456',
     );
@@ -132,7 +131,6 @@ void main() {
       dateTime: anyNamed('dateTime'),
       countryCode: anyNamed('countryCode'),
       postalCode: anyNamed('postalCode'),
-      month: anyNamed('month'),
     )).thenAnswer((_) => Future.value(diary));
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(
@@ -154,8 +152,8 @@ void main() {
       'given get diary not found,'
       'when go to picture diary details screen , '
       'then show blank screen', (widgetTester) async {
-    const Widget widget = PictureDiaryDetailScreen(
-      dateTime: 123354,
+    final Widget widget = PictureDiaryDetailScreen(
+      dateTime: DateTime(2023, 10, 22, 10, 25),
       countryCode: 'US',
       postalCode: '123456',
     );
@@ -170,7 +168,6 @@ void main() {
       dateTime: anyNamed('dateTime'),
       countryCode: anyNamed('countryCode'),
       postalCode: anyNamed('postalCode'),
-      month: anyNamed('month'),
     )).thenAnswer((_) => Future.value(null));
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(

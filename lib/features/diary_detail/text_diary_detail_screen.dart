@@ -5,8 +5,6 @@ import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 
-import 'package:interactive_diary/utils/date_utils.dart';
-
 class TextDiaryDetailScreen extends StatelessWidget {
   const TextDiaryDetailScreen({Key? key}) : super(key: key);
 
@@ -137,8 +135,7 @@ class TextDiaryDetailScreen extends StatelessWidget {
             avatarPath: userPhotoUrl,
             displayName: userDisplayName,
             dateTime: S.current.diaryDateFormatter(
-              IDDateUtils.dateFormatDDMMMYYYY(dateTime),
-              IDDateUtils.dateFormatHHMMA(dateTime),
+              dateTime, dateTime
             )),
         backgroundColor: NartusColor.background,
         leading: NartusButton.text(

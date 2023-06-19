@@ -40,13 +40,12 @@ void main() {
     setUp: () {
       when(mockStorageService.getDiary(
           dateTime: anyNamed('dateTime'),
-          month: anyNamed('month'),
           countryCode: anyNamed('countryCode'),
           postalCode: anyNamed('postalCode')))
           .thenAnswer((realInvocation) =>
           Future.value(null));
     },
-    act: (cubit) => cubit.fetchDiaryDisplayContent(123434, 'US', '1321412'),
+    act: (cubit) => cubit.fetchDiaryDisplayContent(DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
     expect: () =>
     [
       isA<DiaryDisplayContentNotFound>()
@@ -63,7 +62,6 @@ void main() {
     setUp: () {
       when(mockStorageService.getDiary(
           dateTime: anyNamed('dateTime'),
-          month: anyNamed('month'),
           countryCode: anyNamed('countryCode'),
           postalCode: anyNamed('postalCode')))
           .thenAnswer((realInvocation) =>
@@ -79,7 +77,7 @@ void main() {
                 TextDiary(description: '[{"insert":"description\\n"}]')
               ])));
       },
-    act: (cubit) => cubit.fetchDiaryDisplayContent(123434, 'US', '1321412'),
+    act: (cubit) => cubit.fetchDiaryDisplayContent(DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
     expect: () =>
     [
       isA<DiaryDisplayContentSuccess>()
