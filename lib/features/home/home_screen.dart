@@ -12,6 +12,7 @@ import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
 import 'package:intl/intl.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -146,7 +147,14 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
           BlocListener<CameraPermissionBloc, CameraPermissionState>(
             listener: (context, state) {
               if (state is CameraPermissionGranted) {
-                context.gotoAddMediaScreen();
+                final LocationState locationState =
+                    context.read<LocationBloc>().state;
+
+                if (locationState is LocationReadyState) {
+                  context.gotoAddMediaScreen(LatLng(
+                      lat: locationState.currentLocation.latitude,
+                      long: locationState.currentLocation.longitude));
+                }
               }
 
               if (state is CameraPermissionDenied) {

@@ -29,6 +29,7 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
     for (Diary diary in collection.diaries) {
       String plainText = '';
+      final List<String> images = [];
 
       for (Content content in diary.contents) {
         if (content is TextDiary) {
@@ -39,15 +40,19 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
           plainText += '${document.toPlainText()}\n';
         }
 
+        if (content is ImageDiary) {
+          images.add(content.thumbnailUrl);
+        }
+
         // TODO handle other type
 
         // add this display content into list
         displayContents.add(DiaryDisplayContent(
-          userDisplayName: userDisplayName,
-          dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
-          userPhotoUrl: userPhotoUrl,
-          plainText: plainText.trim(),
-        ));
+            userDisplayName: userDisplayName,
+            dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
+            userPhotoUrl: userPhotoUrl,
+            plainText: plainText.trim(),
+            imageUrl: images));
       }
     }
 

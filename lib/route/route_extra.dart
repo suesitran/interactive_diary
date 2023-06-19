@@ -10,8 +10,9 @@ class WriteDiaryExtra {
 }
 
 class PreviewMediaExtra {
+  final LatLng latLng;
   final String path;
   final MediaType type;
 
-  PreviewMediaExtra(this.path, this.type);
+  PreviewMediaExtra(this.latLng, this.path, this.type);
 }

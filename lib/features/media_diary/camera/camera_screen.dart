@@ -6,9 +6,11 @@ import 'package:interactive_diary/features/media_diary/camera/widgets/camera_con
 import 'package:interactive_diary/route/route_extension.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/camera_setup_cubit.dart';
 import 'package:interactive_diary/features/media_diary/camera/bloc/media_permission_cubit.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 
 class CameraScreen extends StatelessWidget {
-  const CameraScreen({Key? key}) : super(key: key);
+  final LatLng latLng;
+  const CameraScreen({required this.latLng, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class CameraScreen extends StatelessWidget {
           BlocListener<CameraSetupCubit, CameraSetupState>(
             listener: (context, state) {
               if (state is CameraMediaReady) {
-                context.gotoPreviewMediaScreen(state.path, state.type);
+                context.gotoPreviewMediaScreen(latLng, state.path, state.type);
               }
             },
           )
