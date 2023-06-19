@@ -48,7 +48,7 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
         update: timestamp);
 
     final StorageService storageService =
-    ServiceLocator.instance.get<StorageService>();
+        ServiceLocator.instance.get<StorageService>();
 
     await storageService.saveDiary(diary);
 

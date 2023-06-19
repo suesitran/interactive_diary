@@ -14,7 +14,6 @@ import 'save_media_diary_cubit_test.mocks.dart';
 
 @GenerateMocks([StorageService, GeocoderService])
 void main() {
-  
   final MockStorageService storageService = MockStorageService();
   final MockGeocoderService geocoderService = MockGeocoderService();
 
@@ -25,11 +24,18 @@ void main() {
     ServiceLocator.instance.registerSingleton<StorageService>(storageService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
   });
-  
-  blocTest('given location detail without country code, when save diary, then save with country code Unknown',
-    build: () => SaveMediaDiaryCubit(latLng: latLng, path: path, type: MediaType.picture),
+
+  blocTest(
+    'given location detail without country code, when save diary, then save with country code Unknown',
+    build: () => SaveMediaDiaryCubit(
+        latLng: latLng, path: path, type: MediaType.picture),
     setUp: () {
-      when(geocoderService.getCurrentPlaceCoding(0.0, 0.0)).thenAnswer((realInvocation) => Future.value(LocationDetail(address: 'address', countryCode: null, postalCode: 'postalCode', business: 'business')));
+      when(geocoderService.getCurrentPlaceCoding(0.0, 0.0)).thenAnswer(
+          (realInvocation) => Future.value(LocationDetail(
+              address: 'address',
+              countryCode: null,
+              postalCode: 'postalCode',
+              business: 'business')));
     },
     act: (bloc) => bloc.save(),
     expect: () => [isA<SaveMediaDiaryStart>(), isA<SaveMediaDiaryComplete>()],
@@ -38,10 +44,17 @@ void main() {
     },
   );
 
-  blocTest('given location detail with country code, when save diary, then save with country code Unknown',
-    build: () => SaveMediaDiaryCubit(latLng: latLng, path: path, type: MediaType.picture),
+  blocTest(
+    'given location detail with country code, when save diary, then save with country code Unknown',
+    build: () => SaveMediaDiaryCubit(
+        latLng: latLng, path: path, type: MediaType.picture),
     setUp: () {
-      when(geocoderService.getCurrentPlaceCoding(0.0, 0.0)).thenAnswer((realInvocation) => Future.value(LocationDetail(address: 'address', countryCode: 'contryCode', postalCode: 'postalCode', business: 'business')));
+      when(geocoderService.getCurrentPlaceCoding(0.0, 0.0)).thenAnswer(
+          (realInvocation) => Future.value(LocationDetail(
+              address: 'address',
+              countryCode: 'contryCode',
+              postalCode: 'postalCode',
+              business: 'business')));
     },
     act: (bloc) => bloc.save(),
     expect: () => [isA<SaveMediaDiaryStart>(), isA<SaveMediaDiaryComplete>()],

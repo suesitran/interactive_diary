@@ -5,16 +5,20 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:interactive_diary/features/media_diary/preview/bloc/preview_interaction_cubit.dart';
 
 void main() {
-  blocTest('given file does not exist, when cancel preview, then do nothing', build: () => PreviewInteractionCubit(),
-  act: (bloc) => bloc.onCancelPreview('path'),
-  expect: () => [isA<OnFileDeleted>()],
+  blocTest(
+    'given file does not exist, when cancel preview, then do nothing',
+    build: () => PreviewInteractionCubit(),
+    act: (bloc) => bloc.onCancelPreview('path'),
+    expect: () => [isA<OnFileDeleted>()],
     verify: (bloc) {
       File file = File('path');
       expect(file.existsSync(), isFalse);
     },
   );
 
-  blocTest('given file exists, when cancel preview, then delete file', build: () => PreviewInteractionCubit(),
+  blocTest(
+    'given file exists, when cancel preview, then delete file',
+    build: () => PreviewInteractionCubit(),
     act: (bloc) => bloc.onCancelPreview('path'),
     setUp: () {
       File file = File('path');
