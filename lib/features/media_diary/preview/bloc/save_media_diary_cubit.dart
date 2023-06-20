@@ -1,13 +1,6 @@
-import 'dart:io';
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
-import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_media/nartus_media.dart';
@@ -47,9 +40,8 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
               path);
           content =
               VideoDiary(url: path, description: '', thumbnail: thumbnail);
-        } on ThumbnailNotCreatedException catch (e) {
+        } on ThumbnailNotCreatedException catch (_) {
           // TODO handle error when failed to create video thumbnail
-          print('thumbnail not created ${e.toString()}');
         }
         break;
     }
