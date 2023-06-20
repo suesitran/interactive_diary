@@ -105,8 +105,13 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
               children: <Widget>[
                 // handler
                 GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) => _calculateHeight(constraints, details.primaryDelta ?? details.delta.dy),
-                  onVerticalDragEnd: (details) => _calculateHeight(constraints, details.primaryVelocity ?? details.velocity.pixelsPerSecond.dy),
+                  onVerticalDragUpdate: (DragUpdateDetails details) =>
+                      _calculateHeight(constraints,
+                          details.primaryDelta ?? details.delta.dy),
+                  onVerticalDragEnd: (details) => _calculateHeight(
+                      constraints,
+                      details.primaryVelocity ??
+                          details.velocity.pixelsPerSecond.dy),
                   child: Container(
                     decoration: const BoxDecoration(
                       color: NartusColor.white,
@@ -128,10 +133,16 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 ),
                 // location view
                 GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) => _calculateHeight(constraints, details.primaryDelta ?? details.delta.dy),
+                  onVerticalDragUpdate: (DragUpdateDetails details) =>
+                      _calculateHeight(constraints,
+                          details.primaryDelta ?? details.delta.dy),
                   onVerticalDragEnd: (details) {
-                    print('details ${details.primaryVelocity ?? details.velocity.pixelsPerSecond.dy}');
-                    _calculateHeight(constraints, details.primaryVelocity ?? details.velocity.pixelsPerSecond.dy);
+                    print(
+                        'details ${details.primaryVelocity ?? details.velocity.pixelsPerSecond.dy}');
+                    _calculateHeight(
+                        constraints,
+                        details.primaryVelocity ??
+                            details.velocity.pixelsPerSecond.dy);
                   },
                   child: Padding(
                       padding: const EdgeInsets.only(
@@ -226,8 +237,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
     double height = _draggedHeight.value;
     height -= dy;
 
-    if (height <= constraints.maxHeight - minHeight &&
-        height >= 0) {
+    if (height <= constraints.maxHeight - minHeight && height >= 0) {
       _draggedHeight.value = height;
     } else if (height >= constraints.maxHeight) {
       _draggedHeight.value = constraints.maxHeight;
