@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
 import 'package:interactive_diary/features/diary_detail/diary_detail_view.dart';
-import 'package:interactive_diary/features/diary_detail/widgets/text_diary_detail_screen.dart';
-import 'package:interactive_diary/features/diary_detail/widgets/picture_diary_detail_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';

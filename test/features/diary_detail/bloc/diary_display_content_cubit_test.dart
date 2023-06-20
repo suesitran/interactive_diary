@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
