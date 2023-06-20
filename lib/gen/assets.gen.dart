@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -15,12 +15,18 @@ class $AssetsIconGen {
   /// File path: assets/icon/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/icon/icon.png');
 
+  /// File path: assets/icon/pause.svg
+  String get pause => 'assets/icon/pause.svg';
+
+  /// File path: assets/icon/play.svg
+  String get play => 'assets/icon/play.svg';
+
   /// File path: assets/icon/transparent-icon.png
   AssetGenImage get transparentIcon =>
       const AssetGenImage('assets/icon/transparent-icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [icon, transparentIcon];
+  List<dynamic> get values => [icon, pause, play, transparentIcon];
 }
 
 class $AssetsImagesGen {

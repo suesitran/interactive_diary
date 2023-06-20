@@ -33,6 +33,8 @@ class _NartusIconButton extends StatelessWidget {
 extension IconSizeExtension on SizeType {
   double? get size {
     switch (this) {
+      case SizeType.extraLarge:
+        return 60;
       case SizeType.large:
         return 52;
       case SizeType.small:

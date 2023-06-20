@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
 import 'package:interactive_diary/features/diary_detail/widgets/picture_diary_detail_screen.dart';
 import 'package:interactive_diary/features/diary_detail/widgets/text_diary_detail_screen.dart';
+import 'package:interactive_diary/features/diary_detail/widgets/video_diary_detail_screen.dart';
 
 class DiaryDetailView extends StatelessWidget {
   final DateTime dateTime;
@@ -40,11 +41,16 @@ class DiaryDetailView extends StatelessWidget {
                 );
               }
 
-              // if (state is VideoDiaryContent) {
-              //   return VideoDiaryDetailScreen();
-              // }
+              if (state is VideoDiaryContent) {
+                return VideoDiaryDetailScreen(
+                  dateTime: state.dateTime,
+                  displayName: state.displayName,
+                  photoUrl: state.photoUrl,
+                  videoPath: state.videoPath,
+                );
+              }
 
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             },
           ),
         ),

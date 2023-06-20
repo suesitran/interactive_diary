@@ -63,5 +63,7 @@
   "mapType":"Map Type",
   "mapTypeDefault":"Default",
   "mapTypeSatellite":"Satellite",
-  "mapTypeTerrain":"Terrain"
+  "mapTypeTerrain":"Terrain",
+  "play":"Play",
+  "pause":"Pause"
 }
