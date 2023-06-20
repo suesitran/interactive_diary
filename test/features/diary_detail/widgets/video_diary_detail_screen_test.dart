@@ -1,13 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/diary_detail/widgets/video_diary_detail_screen.dart';
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:mockito/annotations.dart';
 import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
-import 'package:video_player/video_player.dart';
 import 'package:video_player_platform_interface/video_player_platform_interface.dart';
 
 import '../../../widget_tester_extension.dart';
