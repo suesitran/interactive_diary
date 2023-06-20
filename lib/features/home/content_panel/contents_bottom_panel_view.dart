@@ -137,8 +137,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                       _calculateHeight(constraints,
                           details.primaryDelta ?? details.delta.dy),
                   onVerticalDragEnd: (details) {
-                    print(
-                        'details ${details.primaryVelocity ?? details.velocity.pixelsPerSecond.dy}');
                     _calculateHeight(
                         constraints,
                         details.primaryVelocity ??
