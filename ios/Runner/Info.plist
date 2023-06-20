@@ -41,6 +41,12 @@
 	<string>$(MAP_API_KEY)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need to access your location to display on a map as core feature of this app.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>InnerME would like to access your Photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>InnerME would like to access your camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>InnerME would like to access your micro phone</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
+import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/no_post_view.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/route/route_extension.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 
@@ -24,17 +26,9 @@ class ContentsBottomPanelController extends ChangeNotifier {
 }
 
 class ContentsBottomPanelView extends StatefulWidget {
-  final String? address;
-  final String? business;
-  final LatLng location;
   final ContentsBottomPanelController controller;
 
-  const ContentsBottomPanelView(
-      {required this.controller,
-      required this.location,
-      this.address,
-      this.business,
-      Key? key})
+  const ContentsBottomPanelView({required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -151,15 +145,37 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                     }
                   },
                   child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                      child: LocationView(
-                        locationIconSvg: Assets.images.idLocationIcon,
-                        address: widget.address,
-                        businessName: widget.business,
-                        latitude: widget.location.latitude,
-                        longitude: widget.location.longitude,
-                        borderRadius: BorderRadius.circular(12),
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, bottom: 24),
+                      child: BlocBuilder<AddressCubit, AddressState>(
+                        builder: (context, state) {
+                          double lat = 0.0;
+                          double lng = 0.0;
+
+                          String? address;
+                          String? business;
+
+                          if (state is AddressReadyState) {
+                            address = state.address;
+                            business = state.business;
+                          }
+
+                          LocationState locationState =
+                              context.read<LocationBloc>().state;
+
+                          if (locationState is LocationReadyState) {
+                            lat = locationState.currentLocation.latitude;
+                            lng = locationState.currentLocation.longitude;
+                          }
+                          return LocationView(
+                            locationIconSvg: Assets.images.idLocationIcon,
+                            address: address,
+                            businessName: business,
+                            latitude: lat,
+                            longitude: lng,
+                            borderRadius: BorderRadius.circular(12),
+                          );
+                        },
                       )),
                 ),
                 ValueListenableBuilder<double>(
@@ -176,18 +192,26 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                           displayContents = state.contents;
                         }
 
-                        return displayContents.isEmpty ? const NoPostView() : ListView(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          children: displayContents
-                              .map((e) => ContentCardView(
-                                    displayName: e.userDisplayName,
-                                    photoUrl: e.userPhotoUrl,
-                                    dateTime: e.dateTime,
-                                    text: e.plainText,
-                                  ))
-                              .toList(),
-                        );
+                        return displayContents.isEmpty
+                            ? const NoPostView()
+                            : ListView(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                children: displayContents
+                                    .map((e) => InkWell(
+                                          onTap: () {
+                                            _onItemClicked(e);
+                                          },
+                                          child: ContentCardView(
+                                            displayName: e.userDisplayName,
+                                            userPhotoUrl: e.userPhotoUrl,
+                                            dateTime: e.dateTime,
+                                            text: e.plainText,
+                                            images: e.imageUrl,
+                                          ),
+                                        ))
+                                    .toList(),
+                              );
                       },
                     ),
                   ),
@@ -198,5 +222,14 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
         ),
       ),
     );
+  }
+
+  void _onItemClicked(DiaryDisplayContent content) {
+    if (content.imageUrl.isEmpty) {
+      context.gotoDiaryDetailScreen();
+    } else {
+      context.gotoPictureDiaryDetailScreen(
+          content.dateTime, content.countryCode, content.postalCode);
+    }
   }
 }

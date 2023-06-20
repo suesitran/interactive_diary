@@ -12,55 +12,52 @@ class FirstOnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-            flex: 4,
-            child: SizedBox(
-              width: double.infinity,
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          AspectRatio(
+              aspectRatio: 1,
               child: SvgPicture.asset(
                 Assets.images.onboarding1,
-                fit: BoxFit.fill,
-              ),
-            )),
-        const Gap.v20(),
-        Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: NartusDimens.padding32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.current.welcomeText,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(color: NartusColor.primary),
-                  ),
-                  const Gap.v12(),
-                  Flexible(
-                      child: Text(S.current.onboardingIntroduction,
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium
-                              ?.copyWith(color: NartusColor.dark))),
-                  const Gap.v12(),
-                  const Gap.v20(),
-                  SafeArea(
-                      top: false,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: NartusButton.primary(
-                          label: S.current.getStartedText,
-                          onPressed: onNextPageRequest,
-                        ),
-                      )),
-                ],
-              ),
-            ))
-      ],
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.bottomCenter,
+              )),
+          const Gap.v20(),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: NartusDimens.padding32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  S.current.welcomeText,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: NartusColor.primary),
+                ),
+                const Gap.v12(),
+                Text(
+                  S.current.onboardingIntroduction,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium
+                      ?.copyWith(color: NartusColor.dark),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const Gap.v32(),
+                NartusButton.primary(
+                  label: S.current.getStartedText,
+                  onPressed: onNextPageRequest,
+                ),
+                const Gap.v32(),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

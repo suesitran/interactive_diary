@@ -5,9 +5,23 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
+
+class $AssetsIconGen {
+  const $AssetsIconGen();
+
+  /// File path: assets/icon/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/icon/icon.png');
+
+  /// File path: assets/icon/transparent-icon.png
+  AssetGenImage get transparentIcon =>
+      const AssetGenImage('assets/icon/transparent-icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [icon, transparentIcon];
+}
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
@@ -38,6 +52,12 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/gallery_icon.svg
   String get galleryIcon => 'assets/images/gallery_icon.svg';
+
+  /// File path: assets/images/ic_map_location.svg
+  String get icMapLocation => 'assets/images/ic_map_location.svg';
+
+  /// File path: assets/images/ic_map_type.svg
+  String get icMapType => 'assets/images/ic_map_type.svg';
 
   /// File path: assets/images/ic_text_controller.svg
   String get icTextController => 'assets/images/ic_text_controller.svg';
@@ -96,6 +116,15 @@ class $AssetsImagesGen {
   /// File path: assets/images/id_sms_icon.svg
   String get idSmsIcon => 'assets/images/id_sms_icon.svg';
 
+  /// File path: assets/images/map_type_default.svg
+  String get mapTypeDefault => 'assets/images/map_type_default.svg';
+
+  /// File path: assets/images/map_type_satellite.svg
+  String get mapTypeSatellite => 'assets/images/map_type_satellite.svg';
+
+  /// File path: assets/images/map_type_terrain.svg
+  String get mapTypeTerrain => 'assets/images/map_type_terrain.svg';
+
   /// File path: assets/images/marker_nonetap.png
   AssetGenImage get markerNonetap =>
       const AssetGenImage('assets/images/marker_nonetap.png');
@@ -131,6 +160,8 @@ class $AssetsImagesGen {
         diaryListNoPost,
         flipIcon,
         galleryIcon,
+        icMapLocation,
+        icMapType,
         icTextController,
         idAppleIcon,
         idCameraIcon,
@@ -149,6 +180,9 @@ class $AssetsImagesGen {
         idShareIconPadding,
         idSmileIcon,
         idSmsIcon,
+        mapTypeDefault,
+        mapTypeSatellite,
+        mapTypeTerrain,
         markerNonetap,
         markerOntap,
         noConnection,
@@ -162,6 +196,7 @@ class $AssetsImagesGen {
 class Assets {
   Assets._();
 
+  static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

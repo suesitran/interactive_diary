@@ -53,7 +53,9 @@ void main() {
 
   setUp(() {
     when(hiveHelper.init()).thenAnswer((_) => Future<void>.value(null));
-    when(hiveHelper.open(any, any, path: anyNamed('path'), key: anyNamed('key'))).thenAnswer((_) => Future<BoxCollection>.value(boxCollection));
+    when(hiveHelper.open(any, any,
+            path: anyNamed('path'), key: anyNamed('key')))
+        .thenAnswer((_) => Future<BoxCollection>.value(boxCollection));
   });
 
   test(
@@ -69,7 +71,8 @@ void main() {
     HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-    final bool result = await hiveLocalStorage.deleteDiary(timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
+    final bool result = await hiveLocalStorage.deleteDiary(
+        timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
 
     expect(result, false);
 
@@ -89,7 +92,8 @@ void main() {
     HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-    final bool result = await hiveLocalStorage.deleteDiary(timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
+    final bool result = await hiveLocalStorage.deleteDiary(
+        timestamp: timestamp, countryCode: 'AU', postalCode: '2345');
 
     expect(result, true);
 
@@ -114,8 +118,8 @@ void main() {
         HiveLocalStorage(hiveHelper: hiveHelper);
 
     DateTime month = DateTime(2022, 11, 11);
-    final DiaryCollection result =
-        await hiveLocalStorage.readDiaryForMonth(month: month, countryCode: 'AU', postalCode: '2345');
+    final DiaryCollection result = await hiveLocalStorage.readDiaryForMonth(
+        month: month, countryCode: 'AU', postalCode: '2345');
 
     expect(result.month, '112022');
     expect(result.diaries.length, 0);
@@ -139,11 +143,59 @@ void main() {
         HiveLocalStorage(hiveHelper: hiveHelper);
 
     DateTime month = DateTime(2022, 11, 11);
-    final DiaryCollection result =
-        await hiveLocalStorage.readDiaryForMonth(month: month, countryCode: 'AU', postalCode: '2345');
+    final DiaryCollection result = await hiveLocalStorage.readDiaryForMonth(
+        month: month, countryCode: 'AU', postalCode: '2345');
 
     expect(result.month, '112022');
     expect(result.diaries.length, 1);
+
+    // ensure to close collection
+    verify(boxCollection.close()).called(1);
+  });
+
+  test('given diary is not available, when getDiary, then return null',
+      () async {
+        when(hiveHelper.open(name, <String>{'112022'},
+            path: kApplicationSupportPath))
+            .thenAnswer((Invocation realInvocation) =>
+        Future<BoxCollection>.value(boxCollection));
+        when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
+        Future<Map<String, HiveDiary>>.value(<String, HiveDiary>{}));
+
+        HiveLocalStorage hiveLocalStorage =
+        HiveLocalStorage(hiveHelper: hiveHelper);
+
+        DateTime month = DateTime(2022, 11, 11);
+        final Diary? result = await hiveLocalStorage.getDiary(dateTime: 1234353,
+            month: month, countryCode: 'AU', postalCode: '2345');
+
+        expect(result, null);
+
+        // ensure to close collection
+        verify(boxCollection.close()).called(1);
+  });
+
+  test(
+      'given diary is available, when getDiary, then return diary',
+      () async {
+    when(hiveHelper.open(name, <String>{'112022'},
+            path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<BoxCollection>.value(boxCollection));
+    when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
+        Future<Map<String, HiveDiary>>.value(
+            <String, HiveDiary>{'1234566': hiveDiary}));
+
+    HiveLocalStorage hiveLocalStorage =
+        HiveLocalStorage(hiveHelper: hiveHelper);
+
+    DateTime month = DateTime(2022, 11, 11);
+    final Diary? result = await hiveLocalStorage.getDiary(dateTime: 12345678,
+        month: month, countryCode: 'AU', postalCode: '2345');
+
+    expect(result!.timestamp.toString(), '12345678');
+    expect(result.countryCode, 'AU');
+    expect(result.postalCode, '2345');
 
     // ensure to close collection
     verify(boxCollection.close()).called(1);

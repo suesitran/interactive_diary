@@ -55,22 +55,26 @@ dependencies:
     path: packages/nartus_remote_config
   nartus_app_settings:
     path: packages/nartus_app_settings
+  nartus_media:
+    path: packages/nartus_media
   go_router: ^5.1.1
   fvm: ^2.4.1
   google_maps_flutter_android: ^2.4.3
   google_maps_flutter_platform_interface: ^2.2.5
   firebase_core: ^2.7.0
-  flutter_quill: ^6.4.4
+  flutter_quill: ^7.2.0
   get_it: ^7.2.0
   shake: ^2.2.0
   dots_indicator: ^2.0.0
   expandable_page_view: ^1.0.17
+  camera: ^0.10.5+2
+  video_player: ^2.6.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^9.0.3
-  mockito: 5.3.2
+  mockito: ^5.4.1
   build_runner: 2.3.3
   firebase_core_platform_interface: ^4.5.1
   intl_utils: ^2.7.0
@@ -83,6 +87,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
   network_image_mock: ^2.1.1
+  video_player_platform_interface: ^6.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -97,6 +102,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icon/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:interactive_diary/features/camera/camera_screen.dart';
-import 'package:interactive_diary/features/camera/preview_screen.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/diary_detail/text_diary_detail_screen.dart';
+import 'package:interactive_diary/features/diary_detail/picture_diary_detail_screen.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
 import 'package:interactive_diary/route/route_extra.dart';
 import 'package:interactive_diary/features/home/home_screen.dart';
+import 'package:interactive_diary/features/media_diary/camera/camera_screen.dart';
+import 'package:interactive_diary/features/media_diary/photo_album/photo_album_screen.dart';
+import 'package:interactive_diary/features/media_diary/preview/preview_screen.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 
 export 'package:go_router/go_router.dart';
+
+part 'shell/media_shell.dart';
 
 const String splash = '/';
 const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
 const String onboardingRoute = '/onboarding';
-const String addMediaRoute = '/addMedia';
-const String previewMediaRoute = '/previewMedia';
+const String textDiaryDetailRoute = '/textDiaryDetailRoute';
+const String pictureDiaryDetailRoute = '/pictureDiaryDetailRoute';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
-  routes: <GoRoute>[
+  routes: <RouteBase>[
     // splash screen
     GoRoute(
         path: splash,
@@ -57,6 +63,26 @@ final GoRouter appRoute = GoRouter(
                     child: child,
                   ));
         }),
+
+    GoRoute(
+        path: textDiaryDetailRoute,
+        builder: (BuildContext context, GoRouterState state) {
+          return const TextDiaryDetailScreen();
+        }),
+
+    GoRoute(
+      path: pictureDiaryDetailRoute,
+      pageBuilder: (context, state) {
+        PictureDiaryDetailExtra extra = state.extra as PictureDiaryDetailExtra;
+        return MaterialPage(
+            child: PictureDiaryDetailScreen(
+          dateTime: extra.dateTime,
+          countryCode: extra.countryCode,
+          postalCode: extra.postalCode,
+        ));
+      },
+    ),
+
     // add other 1st level route
     //no connection screen
     GoRoute(
@@ -70,23 +96,21 @@ final GoRouter appRoute = GoRouter(
       path: onboardingRoute,
       builder: (context, state) => OnboardingScreen(),
     ),
-    GoRoute(
-      path: addMediaRoute,
-      pageBuilder: (_, GoRouterState state) => CustomTransitionPage<Offset>(
-        key: state.pageKey,
-        child: const CameraScreen(),
-        transitionsBuilder: (_, animation, __, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0.0, 1.0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-      )),
-    GoRoute(
-      path: previewMediaRoute,
-      builder: (BuildContext context, GoRouterState state) => const PreviewScreen()),
+    // add media shell
+    addMediaShell,
   ],
 );
+
+CustomTransitionPage _bottomUpTransition(Widget child) =>
+    CustomTransitionPage<Offset>(
+      child: child,
+      transitionsBuilder: (_, animation, __, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.0, 1.0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+    );

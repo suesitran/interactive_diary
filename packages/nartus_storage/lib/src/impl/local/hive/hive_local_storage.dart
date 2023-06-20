@@ -22,13 +22,17 @@ class HiveLocalStorage {
     _hiveHelper.init();
   }
 
-  Future<bool> deleteDiary({required String countryCode, required String postalCode, required int timestamp}) async {
+  Future<bool> deleteDiary(
+      {required String countryCode,
+      required String postalCode,
+      required int timestamp}) async {
     final Directory directory = await getApplicationSupportDirectory();
 
     final String monthCollectionName = _getCollectionName(timestamp);
 
     final BoxCollection collection = await _hiveHelper.open(
-        _getLocationGroup(countryCode, postalCode), <String>{monthCollectionName},
+        _getLocationGroup(countryCode, postalCode),
+        <String>{monthCollectionName},
         path: directory.path);
 
     CollectionBox<HiveDiary> diaryCollection =
@@ -51,14 +55,18 @@ class HiveLocalStorage {
     return result;
   }
 
-  Future<DiaryCollection> readDiaryForMonth({required String countryCode, required String postalCode, required DateTime month}) async {
+  Future<DiaryCollection> readDiaryForMonth(
+      {required String countryCode,
+      required String postalCode,
+      required DateTime month}) async {
     final Directory directory = await getApplicationSupportDirectory();
 
     final String monthCollectionName =
         _getCollectionName(month.millisecondsSinceEpoch);
 
     final BoxCollection collection = await _hiveHelper.open(
-        _getLocationGroup(countryCode, postalCode), <String>{monthCollectionName},
+        _getLocationGroup(countryCode, postalCode),
+        <String>{monthCollectionName},
         path: directory.path);
 
     CollectionBox<HiveDiary> diaryCollection =
@@ -78,13 +86,43 @@ class HiveLocalStorage {
     return result;
   }
 
+  Future<Diary?> getDiary({required int dateTime, required String countryCode, required String postalCode, required DateTime month}) async {
+    final Directory directory = await getApplicationSupportDirectory();
+
+    final String monthCollectionName =
+    _getCollectionName(month.millisecondsSinceEpoch);
+
+    final BoxCollection collection = await _hiveHelper.open(
+        _getLocationGroup(countryCode, postalCode), <String>{monthCollectionName},
+        path: directory.path);
+
+    CollectionBox<HiveDiary> diaryCollection =
+    await collection.openBox<HiveDiary>(monthCollectionName);
+
+    final Map<String, HiveDiary> allDiaries =
+    await diaryCollection.getAllValues();
+
+    Diary? diary;
+    try {
+      diary = allDiaries.values.toList()
+          .firstWhere((HiveDiary d) => d.timestamp == dateTime).toDiary();
+    } catch (e) {
+      diary = null;
+    }
+
+    collection.close();
+
+    return diary;
+  }
+
   Future<void> saveDiary(Diary diary) async {
     final Directory directory = await getApplicationSupportDirectory();
 
     // save diary into month collection
     final String monthCollectionName = _getCollectionName(diary.timestamp);
     final BoxCollection collection = await _hiveHelper.open(
-        _getLocationGroup(diary.countryCode, diary.postalCode), <String>{monthCollectionName},
+        _getLocationGroup(diary.countryCode, diary.postalCode),
+        <String>{monthCollectionName},
         path: directory.path);
 
     // put this diary into collection
@@ -105,7 +143,8 @@ class HiveLocalStorage {
     return dateFormat.format(dateTime);
   }
 
-  String _getLocationGroup(String countryCode, String postalCode) => '$countryCode-$postalCode';
+  String _getLocationGroup(String countryCode, String postalCode) =>
+      '$countryCode-$postalCode';
 
   Future<bool> deleteUser(String uid) async {
     final Directory directory = await getApplicationSupportDirectory();

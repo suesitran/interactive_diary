@@ -26,6 +26,8 @@ void main() {
     expect(find.bySemanticsLabel('A private space where you can be yourself.'),
         findsOneWidget);
 
+    await widgetTester.dragUntilVisible(find.text('Get Started'),
+        find.byType(SingleChildScrollView), const Offset(0, 100));
     await widgetTester.tap(find.text('Get Started'));
     await widgetTester.pump();
     expect(counter, 1);

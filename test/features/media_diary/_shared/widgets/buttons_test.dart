@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/features/camera/widgets/buttons.dart';
+import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import '../../../widget_tester_extension.dart';
+import '../../../../widget_tester_extension.dart';
 
 void main() {
   group('CircleButton widget UI validation', () {

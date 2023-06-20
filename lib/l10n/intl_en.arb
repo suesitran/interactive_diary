@@ -18,6 +18,20 @@
   "locationPermissionDeniedBottomSheetTitle": "Location Permission not granted",
   "locationPermissionDeniedBottomSheetDescription": "Location Permission is needed to use this app. Please allow Inner ME to access location in the next dialog",
   "diaryDateFormatter": "{date} at {time}",
+    "@diaryDateFormatter": {
+      "placeholders": {
+          "date": {
+            "type": "DateTime",
+            "format":"dd MMM, yyyy",
+            "isCustomDateFormat":"true"
+          },
+          "time": {
+            "type": "DateTime",
+            "format": "HH:mm a",
+            "isCustomDateFormat":"true"
+          }
+      }
+  },
   "extraImageCount": "+{count}",
   "textEditorSemantic": "{key, select, bold{Bold} italic{Italic} underline{Underline} highlight{Highlight} color{Font Color} bullet{Bullet List} numbered{Number List} strikethrough{Strikethrough} quote{Quote} alignLeft{Align Left} alignCenter{Align Center} alignRight{Align Right} alignJustify{Align Justify} other{Other}}",
   "toolbarMore": "More",
@@ -45,5 +59,9 @@
   "close": "Close",
   "captureMediaButton": "Tap to take picture, hold to record video",
   "flipCamera": "Tap to switch camera",
-  "openDeviceGallery": "Tap to open gallery album"
+  "openDeviceGallery": "Tap to open gallery album",
+  "mapType":"Map Type",
+  "mapTypeDefault":"Default",
+  "mapTypeSatellite":"Satellite",
+  "mapTypeTerrain":"Terrain"
 }

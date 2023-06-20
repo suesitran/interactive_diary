@@ -1,3 +1,4 @@
+import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
 class WriteDiaryExtra {
@@ -6,4 +7,20 @@ class WriteDiaryExtra {
   final String? business;
 
   WriteDiaryExtra(this.latLng, this.address, this.business);
+}
+
+class PreviewMediaExtra {
+  final LatLng latLng;
+  final String path;
+  final MediaType type;
+
+  PreviewMediaExtra(this.latLng, this.path, this.type);
+}
+
+class PictureDiaryDetailExtra {
+  final DateTime dateTime;
+  final String postalCode;
+  final String countryCode;
+
+  PictureDiaryDetailExtra (this.dateTime, this.countryCode, this.postalCode);
 }

@@ -2,51 +2,29 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
-import 'package:intl/intl.dart';
-import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
 
 part 'location_state.dart';
 
 const LatLng _defaultLocation =
     LatLng(10.7725, 106.6980); //location nhà thờ đức bà
-const String _dateFormat = 'dd-MMM-yyyy';
 
 class LocationBloc extends Cubit<LocationState> {
   final LocationService _locationService;
-  final GeocoderService _geocoderService;
 
   LocationBloc()
       : _locationService = ServiceLocator.instance.get<LocationService>(),
-        _geocoderService = ServiceLocator.instance.get<GeocoderService>(),
         super(LocationInitial(PermissionStatusDiary.denied));
 
+  bool useDefaultLocation = false;
+
   Future<void> requestCurrentLocation() async {
-    final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
+    emit(LocationUpdateStart());
     try {
       final LocationDetails data = await _locationService.getCurrentLocation();
 
-      String? address;
-      String? business;
-      String? postalCode;
-      String? countryCode;
-
-      try {
-        final LocationDetail gcData = await _geocoderService
-            .getCurrentPlaceCoding(data.latitude, data.longitude);
-
-        address = gcData.address;
-        business = gcData.business;
-        postalCode = gcData.postalCode;
-        countryCode = gcData.countryCode;
-      } on GetAddressFailedException catch (_) {}
-
-      emit(LocationReadyState(currentLocation: LatLng(data.latitude, data.longitude),
-          dateDisplay: dateDisplay,
-          address: address,
-          business: business,
-      postalCode: postalCode,
-      countryCode: countryCode));
+      emit(LocationReadyState(
+          currentLocation: LatLng(data.latitude, data.longitude)));
     } on LocationServiceDisableException catch (_) {
       emit(LocationServiceDisableState());
     } on LocationPermissionDeniedException catch (_) {
@@ -71,30 +49,9 @@ class LocationBloc extends Cubit<LocationState> {
   }
 
   Future<void> requestDefaultLocation() async {
-    final String dateDisplay = DateFormat(_dateFormat).format(DateTime.now());
-
-    String? address;
-    String? business;
-    String? postalCode;
-    String? countryCode;
-    try {
-      final LocationDetail gcData =
-          await _geocoderService.getCurrentPlaceCoding(
-              _defaultLocation.latitude, _defaultLocation.longitude);
-
-      address = gcData.address;
-      business = gcData.business;
-      postalCode = gcData.postalCode;
-      countryCode = gcData.countryCode;
-    } on GetAddressFailedException catch (_) {}
-
-    emit(LocationReadyState(
-      currentLocation: _defaultLocation,
-        dateDisplay: dateDisplay,
-        address: address,
-        business: business,
-        countryCode: countryCode,
-        postalCode: postalCode));
+    emit(LocationUpdateStart());
+    useDefaultLocation = true;
+    emit(LocationReadyState(currentLocation: _defaultLocation));
   }
 
   Future<void> openAppSettings() async {
@@ -110,4 +67,12 @@ class LocationBloc extends Cubit<LocationState> {
   }
 
   Future<void> onReturnFromSettings() => requestCurrentLocation();
+
+  Future<void> requestUpdateLocation() {
+    if (useDefaultLocation) {
+      return requestDefaultLocation();
+    } else {
+      return requestCurrentLocation();
+    }
+  }
 }

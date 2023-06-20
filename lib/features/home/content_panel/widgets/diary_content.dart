@@ -31,8 +31,9 @@ class _DiaryContent extends StatelessWidget {
             // first item: show either text or image
             if (type == DiaryDisplayType.thumbnailsOnly)
               ClipRRect(
-                  borderRadius: BorderRadius.circular(NartusDimens.radius12),
-                  child: Image.network(images.first))
+                borderRadius: BorderRadius.circular(NartusDimens.radius12),
+                child: _ImageView(path: images.first),
+              )
             else
               Text(
                 text!,
@@ -67,11 +68,9 @@ class _DiaryContent extends StatelessWidget {
                                 BorderRadius.circular(NartusDimens.radius12),
                             child: Stack(
                               children: [
-                                Image.network(
-                                  e.value,
-                                  fit: BoxFit.cover,
-                                  width: size,
-                                  height: size,
+                                _ImageView(
+                                  path: e.value,
+                                  size: size,
                                 ),
                                 if (e.key == 2 &&
                                     images.length > maxThumbnailDisplay)
@@ -102,4 +101,25 @@ class _DiaryContent extends StatelessWidget {
           ],
         ),
       );
+}
+
+class _ImageView extends StatelessWidget {
+  final String path;
+  final double? size;
+  const _ImageView({required this.path, this.size, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => path.startsWith('http')
+      ? Image.network(
+          path,
+          fit: BoxFit.cover,
+          width: size,
+          height: size,
+        )
+      : Image.file(
+          File(path),
+          fit: BoxFit.cover,
+          width: size,
+          height: size,
+        );
 }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interactive_diary/bloc/app_config/app_config_bloc.dart';
+import 'package:interactive_diary/bloc/camera_permission/camera_permission_bloc.dart';
 import 'package:interactive_diary/bloc/connectivity/connectivity_bloc.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
+import 'package:interactive_diary/features/home/bloc/address_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/content_panel/contents_bottom_panel_view.dart';
 import 'package:interactive_diary/features/home/widgets/date_label_view.dart';
 import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/route/route_extension.dart';
+import 'package:intl/intl.dart';
+import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/features/home/bloc/location_bloc.dart';
 import 'package:interactive_diary/generated/l10n.dart';
@@ -20,13 +24,18 @@ class IDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(providers: [
-    BlocProvider<LocationBloc>(
-      create: (context) => LocationBloc()..requestCurrentLocation(),
-    ),
-    BlocProvider<LoadDiaryCubit>(
-      create: (context) => LoadDiaryCubit(),
-    )
-  ], child: const IDHomeBody());
+        BlocProvider<LocationBloc>(
+          create: (context) => LocationBloc()..requestCurrentLocation(),
+        ),
+        BlocProvider<LoadDiaryCubit>(
+          create: (context) => LoadDiaryCubit(),
+        ),
+        BlocProvider<CameraPermissionBloc>(
+            create: (context) => CameraPermissionBloc()),
+        BlocProvider<AddressCubit>(
+          create: (context) => AddressCubit(),
+        )
+      ], child: const IDHomeBody());
 }
 
 class IDHomeBody extends StatefulWidget {
@@ -111,6 +120,10 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                       Navigator.of(context).pop();
                     });
               }
+
+              if (state is LocationReadyState) {
+                context.read<AddressCubit>().loadAddress(state.currentLocation);
+              }
             },
           ),
           BlocListener<ConnectivityBloc, ConnectivityState>(
@@ -130,59 +143,71 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
                 context.showWidgetCatalog();
               }
             },
+          ),
+          BlocListener<CameraPermissionBloc, CameraPermissionState>(
+            listener: (context, state) {
+              if (state is CameraPermissionGranted) {
+                final LocationState locationState =
+                    context.read<LocationBloc>().state;
+
+                if (locationState is LocationReadyState) {
+                  context.gotoAddMediaScreen(LatLng(
+                      lat: locationState.currentLocation.latitude,
+                      long: locationState.currentLocation.longitude));
+                }
+              }
+
+              if (state is CameraPermissionDenied) {
+                context
+                    .read<CameraPermissionBloc>()
+                    .add(RequestCameraPermissionEvent());
+              }
+
+              if (state is CameraPermissionDeniedForever) {
+                // TODO handle permanently denied scenario
+              }
+            },
           )
         ],
         child: BlocBuilder<LocationBloc, LocationState>(
           builder: (BuildContext context, LocationState state) {
             // remove previous observer, if any
             WidgetsBinding.instance.removeObserver(this);
-            if (state is LocationReadyState) {
-              return Stack(
-                children: <Widget>[
-                  GoogleMapView(
-                    currentLocation: state.currentLocation,
-                    address: state.address,
-                    business: state.business,
-                    onMenuOpened: () {
-                      handleMenuOpen(countryCode: state.countryCode, postalCode: state.postalCode);
-                    },
-                    onMenuClosed: handleMenuClose,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      SafeArea(
-                          bottom: false,
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: DateLabelView(
-                              dateLabel: state.dateDisplay,
-                              profileSemanticLabel: S.current.anonymous_profile,
-                            ),
-                          )),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ContentsBottomPanelView(
-                            controller: _contentBottomPanelController,
-                            address: state.address,
-                            business: state.business,
-                            location: state.currentLocation,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              );
-            }
 
             if (state is AwaitLocationPermissionFromAppSettingState ||
                 state is AwaitLocationServiceSettingState) {
               WidgetsBinding.instance.addObserver(this);
             }
 
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Stack(
+              children: <Widget>[
+                GoogleMapView(
+                  onMenuOpened: handleMenuOpen,
+                  onMenuClosed: handleMenuClose,
+                ),
+                Column(
+                  children: <Widget>[
+                    SafeArea(
+                        bottom: false,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: DateLabelView(
+                            dateLabel: DateFormat('dd-MMM-yyyy')
+                                .format(DateTime.now()),
+                            profileSemanticLabel: S.current.anonymous_profile,
+                          ),
+                        )),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ContentsBottomPanelView(
+                          controller: _contentBottomPanelController,
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
             );
           },
         ),
@@ -192,6 +217,7 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       final LocationState blocState = context.read<LocationBloc>().state;
+
       context.read<LocationBloc>().onReturnFromSettings();
 
       if (blocState is AwaitLocationServiceSettingState &&
@@ -208,12 +234,17 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void handleMenuOpen({required String? countryCode, required String? postalCode}) {
-    _contentBottomPanelController.show();
+  void handleMenuOpen() {
+    AddressState state = context.read<AddressCubit>().state;
 
-    // load diary when panel is open
-    // TODO filter diary by location and date
-    context.read<LoadDiaryCubit>().loadDiary(countryCode: countryCode, postalCode: postalCode);
+    if (state is AddressReadyState) {
+      _contentBottomPanelController.show();
+
+      // load diary when panel is open
+      // TODO filter diary by location and date
+      context.read<LoadDiaryCubit>().loadDiary(
+          countryCode: state.countryCode, postalCode: state.postalCode);
+    }
   }
 
   void handleMenuClose() {

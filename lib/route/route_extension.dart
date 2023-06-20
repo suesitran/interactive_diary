@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as map
     show LatLng;
+import 'package:interactive_diary/features/media_diary/_shared/constant/media_type.dart';
 import 'package:interactive_diary/route/map_route.dart';
 import 'package:interactive_diary/route/route_extra.dart';
 import 'package:nartus_storage/nartus_storage.dart';
@@ -23,6 +24,15 @@ extension RouterExtension on BuildContext {
             business));
   }
 
+  void gotoDiaryDetailScreen() {
+    GoRouter.of(this).push(textDiaryDetailRoute);
+  }
+
+  void gotoPictureDiaryDetailScreen(DateTime dateTime, String countryCode, String postalCode) {
+    PictureDiaryDetailExtra extra = PictureDiaryDetailExtra(dateTime, countryCode, postalCode);
+    GoRouter.of(this).push(pictureDiaryDetailRoute, extra: extra);
+  }
+
   void goToHome() {
     GoRouter.of(this).replace(idHomeRoute);
   }
@@ -38,11 +48,23 @@ extension RouterExtension on BuildContext {
     ));
   }
 
-  void gotoAddMediaScreen() {
-    GoRouter.of(this).push(addMediaRoute);
+  void gotoAddMediaScreen(LatLng location) {
+    GoRouter.of(this).push(addMediaRoute, extra: location);
   }
 
-  void gotoPreviewMediaScreen() {
-    GoRouter.of(this).push(previewMediaRoute);
+  void gotoPreviewMediaScreen(
+      LatLng latLng, String pathToPreview, MediaType type) {
+    PreviewMediaExtra extra = PreviewMediaExtra(latLng, pathToPreview, type);
+    GoRouter.of(this).push('$addMediaRoute/$previewMediaRoute', extra: extra);
+  }
+
+  void goToPhotoAlbum() {
+    GoRouter.of(this).push('$addMediaRoute/$photoAlbum');
+  }
+
+  void popToHome() {
+    while (canPop()) {
+      pop();
+    }
   }
 }

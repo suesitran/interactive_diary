@@ -26,9 +26,9 @@ class Diary {
 
   Diary(
       {required this.timestamp,
-        required this.countryCode,
-        required this.postalCode,
-        required this.addressLine,
+      required this.countryCode,
+      required this.postalCode,
+      required this.addressLine,
       required this.latLng,
       required this.title,
       required this.contents,
@@ -64,7 +64,8 @@ class ImageDiary extends Content {
 class VideoDiary extends Content {
   final String url;
   final String description;
+  final String thumbnail;
 
-  VideoDiary({required this.url, required this.description})
+  VideoDiary({required this.url, required this.description, required this.thumbnail})
       : super(type: ContentType.video);
 }

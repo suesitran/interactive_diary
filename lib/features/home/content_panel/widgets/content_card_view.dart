@@ -1,25 +1,29 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
-import 'package:nartus_ui_package/theme/nartus_theme.dart';
+import 'package:nartus_ui_package/nartus_ui.dart';
 
-part 'diary_header.dart';
 part 'diary_content.dart';
 
 class ContentCardView extends StatefulWidget {
   final String? text;
   final List<String>? images;
-  final String displayName;
-  final String photoUrl;
+  final String? displayName;
+  final String? userPhotoUrl;
   final DateTime dateTime;
 
-  ContentCardView({required this.displayName, required this.photoUrl, required this.dateTime, this.text, this.images, Key? key})
-      : assert(text != null || images?.isNotEmpty == true,
+  ContentCardView(
+      {required this.dateTime,
+      this.displayName,
+      this.userPhotoUrl,
+      this.text,
+      this.images,
+      Key? key})
+      : assert(text != null || images != null || images?.isNotEmpty == true,
             'Need either text or image list to be displayed'),
         super(key: key);
 
@@ -32,16 +36,21 @@ class _ContentCardViewState extends State<ContentCardView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-          left: NartusDimens.padding16,
-          right: NartusDimens.padding16,
-          bottom: NartusDimens.padding16,),
+        left: NartusDimens.padding16,
+        right: NartusDimens.padding16,
+        bottom: NartusDimens.padding16,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _DiaryHeader(
-            avatarPath: widget.photoUrl,
+          DiaryHeaderAppbar(
+            icon: Assets.images.idMoreIcon,
+            semanticsIcon: S.current.toolbarMore,
+            avatarPath: widget.userPhotoUrl,
             displayName: widget.displayName,
-            dateTime: widget.dateTime,
+            dateTime: S.current.diaryDateFormatter(
+              widget.dateTime,widget.dateTime,
+                ),
           ),
           _DiaryContent(
             text: widget.text,
