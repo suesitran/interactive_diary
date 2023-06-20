@@ -44,6 +44,38 @@ void main() {
         .called(1);
   });
 
+  test('when get diary, then call hiveStorage to query data', () {
+    LocalStorageServiceImpl localStorageServiceImpl =
+        LocalStorageServiceImpl(storage: storage);
+
+    final DateTime dateTime = DateTime(2022, 10, 20, 0, 0, 0, 0);
+    when(storage.getDiary(
+            dateTime: dateTime.millisecondsSinceEpoch,
+            month: dateTime,
+            countryCode: 'AU',
+            postalCode: '2345'))
+        .thenAnswer((Invocation realInvocation) => Future<Diary?>.value(Diary(
+            timestamp: 1666224000000,
+            countryCode: 'AU',
+            postalCode: '2345',
+            addressLine: '123 heaven street',
+            latLng: const LatLng(lat: 0.0, long: 0.0),
+            title: 'title',
+            contents: <Content>[],
+            update: 1666224000000)));
+    localStorageServiceImpl.getDiary(
+        dateTime:  dateTime,
+        countryCode: 'AU',
+        postalCode: '2345');
+
+    verify(storage.getDiary(
+            dateTime: dateTime.millisecondsSinceEpoch,
+            month: dateTime,
+            countryCode: 'AU',
+            postalCode: '2345'))
+        .called(1);
+  });
+
   test('when save diary, then call hiveStorage to save data', () {
     LocalStorageServiceImpl localStorageServiceImpl =
         LocalStorageServiceImpl(storage: storage);

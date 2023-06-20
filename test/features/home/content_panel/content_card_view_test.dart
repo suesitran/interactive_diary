@@ -11,7 +11,7 @@ void main() {
   testWidgets('verify content of ContentCardView', (widgetTester) async {
     final Widget widget = ContentCardView(
       displayName: 'displayName',
-      photoUrl: 'photoUrl',
+      userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
     );
@@ -28,7 +28,7 @@ void main() {
       (widgetTester) async {
     final Widget widget = ContentCardView(
       displayName: 'displayName',
-      photoUrl: 'photoUrl',
+      userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
     );
@@ -43,7 +43,7 @@ void main() {
       (widgetTester) async {
     final Widget widget = ContentCardView(
       displayName: 'displayName',
-      photoUrl: 'photoUrl',
+      userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
       images: const [
@@ -62,7 +62,7 @@ void main() {
       (widgetTester) async {
     final Widget widget = ContentCardView(
       displayName: 'displayName',
-      photoUrl: 'photoUrl',
+      userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
       images: const ['image1', 'image2', 'image3'],
@@ -78,7 +78,7 @@ void main() {
       (widgetTester) async {
     final Widget widget = ContentCardView(
       displayName: 'displayName',
-      photoUrl: 'photoUrl',
+      userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
       images: const ['image1', 'image2', 'image3', 'image4'],
@@ -96,7 +96,7 @@ void main() {
     final Widget widget = SingleChildScrollView(
       child: ContentCardView(
         displayName: 'displayName',
-        photoUrl: 'photoUrl',
+        userPhotoUrl: 'photoUrl',
         dateTime: DateTime(2022, 9, 20, 18, 20),
         images: const [
           'image1',
@@ -117,7 +117,7 @@ void main() {
     final Widget widget = SingleChildScrollView(
       child: ContentCardView(
         displayName: 'displayName',
-        photoUrl: 'photoUrl',
+        userPhotoUrl: 'photoUrl',
         dateTime: DateTime(2022, 9, 20, 18, 20),
         images: const ['image1', 'image2', 'image3', 'image4'],
       ),
@@ -134,7 +134,7 @@ void main() {
     final Widget widget = SingleChildScrollView(
       child: ContentCardView(
         displayName: 'displayName',
-        photoUrl: 'photoUrl',
+        userPhotoUrl: 'photoUrl',
         dateTime: DateTime(2022, 9, 20, 18, 20),
         images: const ['image1', 'image2', 'image3', 'image4', 'image5'],
       ),

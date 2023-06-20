@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
-import 'package:intl/intl.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
@@ -13,14 +12,14 @@ part 'diary_content.dart';
 class ContentCardView extends StatefulWidget {
   final String? text;
   final List<String>? images;
-  final String displayName;
-  final String photoUrl;
+  final String? displayName;
+  final String? userPhotoUrl;
   final DateTime dateTime;
 
   ContentCardView(
-      {required this.displayName,
-      required this.photoUrl,
-      required this.dateTime,
+      {required this.dateTime,
+      this.displayName,
+      this.userPhotoUrl,
       this.text,
       this.images,
       Key? key})
@@ -33,9 +32,6 @@ class ContentCardView extends StatefulWidget {
 }
 
 class _ContentCardViewState extends State<ContentCardView> {
-  String dateFormat = 'dd MMM, yyyy';
-  String timeFormat = 'HH:mm a';
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -50,11 +46,11 @@ class _ContentCardViewState extends State<ContentCardView> {
           DiaryHeaderAppbar(
             icon: Assets.images.idMoreIcon,
             semanticsIcon: S.current.toolbarMore,
-            avatarPath: widget.photoUrl,
+            avatarPath: widget.userPhotoUrl,
             displayName: widget.displayName,
             dateTime: S.current.diaryDateFormatter(
-                DateFormat(dateFormat).format(widget.dateTime),
-                DateFormat(timeFormat).format(widget.dateTime)),
+              widget.dateTime,widget.dateTime,
+                ),
           ),
           _DiaryContent(
             text: widget.text,
