@@ -134,39 +134,50 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                   ),
                 ),
                 // location view
-                Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                    child: BlocBuilder<AddressCubit, AddressState>(
-                      builder: (context, state) {
-                        double lat = 0.0;
-                        double lng = 0.0;
+                GestureDetector(
+                  onVerticalDragUpdate: (DragUpdateDetails details) {
+                    double height = _draggedHeight.value;
+                    height -= (details.primaryDelta ?? details.delta.dy);
 
-                        String? address;
-                        String? business;
+                    if (height <= constraints.maxHeight - minHeight &&
+                        height >= 0) {
+                      _draggedHeight.value = height;
+                    }
+                  },
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, bottom: 24),
+                      child: BlocBuilder<AddressCubit, AddressState>(
+                        builder: (context, state) {
+                          double lat = 0.0;
+                          double lng = 0.0;
 
-                        if (state is AddressReadyState) {
-                          address = state.address;
-                          business = state.business;
-                        }
+                          String? address;
+                          String? business;
 
-                        LocationState locationState =
-                            context.read<LocationBloc>().state;
+                          if (state is AddressReadyState) {
+                            address = state.address;
+                            business = state.business;
+                          }
 
-                        if (locationState is LocationReadyState) {
-                          lat = locationState.currentLocation.latitude;
-                          lng = locationState.currentLocation.longitude;
-                        }
-                        return LocationView(
-                          locationIconSvg: Assets.images.idLocationIcon,
-                          address: address,
-                          businessName: business,
-                          latitude: lat,
-                          longitude: lng,
-                          borderRadius: BorderRadius.circular(12),
-                        );
-                      },
-                    )),
+                          LocationState locationState =
+                              context.read<LocationBloc>().state;
+
+                          if (locationState is LocationReadyState) {
+                            lat = locationState.currentLocation.latitude;
+                            lng = locationState.currentLocation.longitude;
+                          }
+                          return LocationView(
+                            locationIconSvg: Assets.images.idLocationIcon,
+                            address: address,
+                            businessName: business,
+                            latitude: lat,
+                            longitude: lng,
+                            borderRadius: BorderRadius.circular(12),
+                          );
+                        },
+                      )),
+                ),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:
@@ -217,7 +228,8 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
     if (content.imageUrl.isEmpty) {
       context.gotoDiaryDetailScreen();
     } else {
-      context.gotoPictureDiaryDetailScreen(content.dateTime, content.countryCode, content.postalCode);
+      context.gotoPictureDiaryDetailScreen(
+          content.dateTime, content.countryCode, content.postalCode);
     }
   }
 }
