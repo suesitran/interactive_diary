@@ -50,11 +50,10 @@ void main() {
     );
 
     final DiaryDisplayContentState state = ImageDiaryContent(
-      imagePath: 'imagePath',
-      dateTime: DateTime(2022, 10, 20, 10, 18, 23),
-      displayName: 'displayName',
-      photoUrl: 'photoUrl'
-    );
+        imagePath: 'imagePath',
+        dateTime: DateTime(2022, 10, 20, 10, 18, 23),
+        displayName: 'displayName',
+        photoUrl: 'photoUrl');
 
     when(mockDiaryDisplayContentCubit.state).thenAnswer((_) => state);
     when(mockDiaryDisplayContentCubit.stream)
@@ -102,8 +101,7 @@ void main() {
         imagePath: 'imagePath',
         dateTime: DateTime(2022, 10, 20, 10, 18, 23),
         displayName: 'displayName',
-        photoUrl: 'photoUrl'
-    );
+        photoUrl: 'photoUrl');
 
     when(mockDiaryDisplayContentCubit.state).thenAnswer((_) => state);
     when(mockDiaryDisplayContentCubit.stream)

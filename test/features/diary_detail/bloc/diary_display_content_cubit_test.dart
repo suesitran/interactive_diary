@@ -14,8 +14,8 @@ void main() {
   final MockStorageService mockStorageService = MockStorageService();
 
   setUpAll(() {
-    ServiceLocator.instance.registerSingleton<StorageService>(
-        mockStorageService);
+    ServiceLocator.instance
+        .registerSingleton<StorageService>(mockStorageService);
   });
 
   setUp(() {});
@@ -40,17 +40,14 @@ void main() {
     build: () => DiaryDisplayContentCubit(),
     setUp: () {
       when(mockStorageService.getDiary(
-          dateTime: anyNamed('dateTime'),
-          countryCode: anyNamed('countryCode'),
-          postalCode: anyNamed('postalCode')))
-          .thenAnswer((realInvocation) =>
-          Future.value(null));
+              dateTime: anyNamed('dateTime'),
+              countryCode: anyNamed('countryCode'),
+              postalCode: anyNamed('postalCode')))
+          .thenAnswer((realInvocation) => Future.value(null));
     },
-    act: (cubit) => cubit.fetchDiaryDisplayContent(DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
-    expect: () =>
-    [
-      isA<DiaryDisplayContentNotFound>()
-    ],
+    act: (cubit) => cubit.fetchDiaryDisplayContent(
+        DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
+    expect: () => [isA<DiaryDisplayContentNotFound>()],
     verify: (bloc) {
       DiaryDisplayContentState state = bloc.state;
       expect(state, isA<DiaryDisplayContentNotFound>());
@@ -62,23 +59,23 @@ void main() {
     build: () => DiaryDisplayContentCubit(),
     setUp: () {
       when(mockStorageService.getDiary(
-          dateTime: anyNamed('dateTime'),
-          countryCode: anyNamed('countryCode'),
-          postalCode: anyNamed('postalCode')))
-          .thenAnswer((realInvocation) =>
-          Future.value( Diary(
-              title: 'title',
-              countryCode: 'AU',
-              postalCode: '2345',
-              addressLine: '123 heaven street',
-              latLng: const LatLng(lat: 0.0, long: 0.0),
-              timestamp: 123456789,
-              update: 123456789,
-              contents: [
-                TextDiary(description: '[{"insert":"description\\n"}]')
-              ])));
-      },
-    act: (cubit) => cubit.fetchDiaryDisplayContent(DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
+              dateTime: anyNamed('dateTime'),
+              countryCode: anyNamed('countryCode'),
+              postalCode: anyNamed('postalCode')))
+          .thenAnswer((realInvocation) => Future.value(Diary(
+                  title: 'title',
+                  countryCode: 'AU',
+                  postalCode: '2345',
+                  addressLine: '123 heaven street',
+                  latLng: const LatLng(lat: 0.0, long: 0.0),
+                  timestamp: 123456789,
+                  update: 123456789,
+                  contents: [
+                    TextDiary(description: '[{"insert":"description\\n"}]')
+                  ])));
+    },
+    act: (cubit) => cubit.fetchDiaryDisplayContent(
+        DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
     expect: () => [isA<TextDiaryContent>()],
     verify: (bloc) {
       final TextDiaryContent state = bloc.state as TextDiaryContent;
@@ -95,23 +92,26 @@ void main() {
     build: () => DiaryDisplayContentCubit(),
     setUp: () {
       when(mockStorageService.getDiary(
-          dateTime: anyNamed('dateTime'),
-          countryCode: anyNamed('countryCode'),
-          postalCode: anyNamed('postalCode')))
-          .thenAnswer((realInvocation) =>
-          Future.value( Diary(
-              title: 'title',
-              countryCode: 'AU',
-              postalCode: '2345',
-              addressLine: '123 heaven street',
-              latLng: const LatLng(lat: 0.0, long: 0.0),
-              timestamp: 123456789,
-              update: 123456789,
-              contents: [
-                ImageDiary(url: 'url', thumbnailUrl: 'thumbnailUrl', description: 'description')
-              ])));
+              dateTime: anyNamed('dateTime'),
+              countryCode: anyNamed('countryCode'),
+              postalCode: anyNamed('postalCode')))
+          .thenAnswer((realInvocation) => Future.value(Diary(
+                  title: 'title',
+                  countryCode: 'AU',
+                  postalCode: '2345',
+                  addressLine: '123 heaven street',
+                  latLng: const LatLng(lat: 0.0, long: 0.0),
+                  timestamp: 123456789,
+                  update: 123456789,
+                  contents: [
+                    ImageDiary(
+                        url: 'url',
+                        thumbnailUrl: 'thumbnailUrl',
+                        description: 'description')
+                  ])));
     },
-    act: (cubit) => cubit.fetchDiaryDisplayContent(DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
+    act: (cubit) => cubit.fetchDiaryDisplayContent(
+        DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
     expect: () => [isA<ImageDiaryContent>()],
     verify: (bloc) {
       final ImageDiaryContent state = bloc.state as ImageDiaryContent;
@@ -128,23 +128,26 @@ void main() {
     build: () => DiaryDisplayContentCubit(),
     setUp: () {
       when(mockStorageService.getDiary(
-          dateTime: anyNamed('dateTime'),
-          countryCode: anyNamed('countryCode'),
-          postalCode: anyNamed('postalCode')))
-          .thenAnswer((realInvocation) =>
-          Future.value( Diary(
-              title: 'title',
-              countryCode: 'AU',
-              postalCode: '2345',
-              addressLine: '123 heaven street',
-              latLng: const LatLng(lat: 0.0, long: 0.0),
-              timestamp: 123456789,
-              update: 123456789,
-              contents: [
-                VideoDiary(url: 'url', description: 'description', thumbnail: 'thumbnail')
-              ])));
+              dateTime: anyNamed('dateTime'),
+              countryCode: anyNamed('countryCode'),
+              postalCode: anyNamed('postalCode')))
+          .thenAnswer((realInvocation) => Future.value(Diary(
+                  title: 'title',
+                  countryCode: 'AU',
+                  postalCode: '2345',
+                  addressLine: '123 heaven street',
+                  latLng: const LatLng(lat: 0.0, long: 0.0),
+                  timestamp: 123456789,
+                  update: 123456789,
+                  contents: [
+                    VideoDiary(
+                        url: 'url',
+                        description: 'description',
+                        thumbnail: 'thumbnail')
+                  ])));
     },
-    act: (cubit) => cubit.fetchDiaryDisplayContent(DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
+    act: (cubit) => cubit.fetchDiaryDisplayContent(
+        DateTime(2023, 10, 22, 10, 25), 'US', '1321412'),
     expect: () => [isA<VideoDiaryContent>()],
     verify: (bloc) {
       final VideoDiaryContent state = bloc.state as VideoDiaryContent;

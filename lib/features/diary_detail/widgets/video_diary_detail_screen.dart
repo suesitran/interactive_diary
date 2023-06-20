@@ -17,64 +17,70 @@ class VideoDiaryDetailScreen extends StatelessWidget {
   final String? photoUrl;
   final DateTime dateTime;
 
-  const VideoDiaryDetailScreen({required this.videoPath, required this.displayName, required this.photoUrl, required this.dateTime, Key? key}) : super(key: key);
+  const VideoDiaryDetailScreen(
+      {required this.videoPath,
+      required this.displayName,
+      required this.photoUrl,
+      required this.dateTime,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Stack(
-    children: [
-      // Display the image
-      VideoPlayUI(path: videoPath),
-      Positioned(
-        top: NartusDimens.padding52,
-        left: NartusDimens.padding16,
-        child: CircleButton(
-          size: NartusDimens.padding40,
-          iconPath: Assets.images.closeIcon,
-          semantic: S.current.close,
-          onPressed: () => context.pop(),
-        ),
-      ),
-      Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.4,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white.withOpacity(0.0),
-                    Colors.black.withOpacity(1.0)
-                  ],
-                ),
-              ),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      NartusDimens.padding16,
-                      NartusDimens.padding16,
-                      NartusDimens.padding16,
-                      NartusDimens.padding40),
-                  child: ActivityFeedCard(
-                    privacyIcon: null, // todo update in the future
-                    semanticsPrivacyIcon: '',
-                    avatarPath: photoUrl,
-                    displayName: displayName,
-                    dateTime: S.current.diaryDateFormatter(
-                      dateTime,
-                      dateTime,
+        children: [
+          // Display the image
+          VideoPlayUI(path: videoPath),
+          Positioned(
+            top: NartusDimens.padding52,
+            left: NartusDimens.padding16,
+            child: CircleButton(
+              size: NartusDimens.padding40,
+              iconPath: Assets.images.closeIcon,
+              semantic: S.current.close,
+              onPressed: () => context.pop(),
+            ),
+          ),
+          Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withOpacity(0.0),
+                        Colors.black.withOpacity(1.0)
+                      ],
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          NartusDimens.padding16,
+                          NartusDimens.padding16,
+                          NartusDimens.padding16,
+                          NartusDimens.padding40),
+                      child: ActivityFeedCard(
+                        privacyIcon: null, // todo update in the future
+                        semanticsPrivacyIcon: '',
+                        avatarPath: photoUrl,
+                        displayName: displayName,
+                        dateTime: S.current.diaryDateFormatter(
+                          dateTime,
+                          dateTime,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          )),
-    ],
-  );
+              )),
+        ],
+      );
 }
 
 class VideoPlayUI extends StatefulWidget {
@@ -86,8 +92,8 @@ class VideoPlayUI extends StatefulWidget {
 }
 
 class _VideoPlayUIState extends State<VideoPlayUI> {
-
-  late final VideoPlayerController _controller = VideoPlayerController.file(File(widget.path));
+  late final VideoPlayerController _controller =
+      VideoPlayerController.file(File(widget.path));
 
   @override
   void initState() {
@@ -98,31 +104,42 @@ class _VideoPlayUIState extends State<VideoPlayUI> {
 
   @override
   Widget build(BuildContext context) => Stack(
-    children: [
-      ValueListenableBuilder<VideoPlayerValue>(valueListenable: _controller, builder: (context, value, child) => value.isInitialized ? VideoPlayer(_controller) : const Center(
-        child: CircularProgressIndicator(),
-      ),),
-      Center(
-        child: ValueListenableBuilder<VideoPlayerValue>(
-          valueListenable: _controller,
-          builder: (context, value, child) => Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(NartusDimens.radius56),
-              child: SvgPicture.asset(value.isPlaying ? Assets.icon.pause : Assets.icon.play, semanticsLabel: value.isPlaying ? S.current.pause : S.current.play, width: NartusDimens.radius56, height: NartusDimens.radius56,),
-              onTap: () {
-                if (value.isPlaying) {
-                  _controller.pause();
-                } else {
-                  _controller.play();
-                }
-              },
-            ),
+        children: [
+          ValueListenableBuilder<VideoPlayerValue>(
+            valueListenable: _controller,
+            builder: (context, value, child) => value.isInitialized
+                ? VideoPlayer(_controller)
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
           ),
-        ),
-      )
-    ],
-  );
+          Center(
+            child: ValueListenableBuilder<VideoPlayerValue>(
+              valueListenable: _controller,
+              builder: (context, value, child) => Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(NartusDimens.radius56),
+                  child: SvgPicture.asset(
+                    value.isPlaying ? Assets.icon.pause : Assets.icon.play,
+                    semanticsLabel:
+                        value.isPlaying ? S.current.pause : S.current.play,
+                    width: NartusDimens.radius56,
+                    height: NartusDimens.radius56,
+                  ),
+                  onTap: () {
+                    if (value.isPlaying) {
+                      _controller.pause();
+                    } else {
+                      _controller.play();
+                    }
+                  },
+                ),
+              ),
+            ),
+          )
+        ],
+      );
 
   @override
   void dispose() {

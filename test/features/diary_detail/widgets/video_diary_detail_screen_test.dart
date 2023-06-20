@@ -34,23 +34,36 @@ class MockVideoPlayerPlatform extends VideoPlayerPlatform {
 }
 
 void main() {
-
   initializeDateFormatting();
 
   testWidgets('verify UI component', (widgetTester) async {
     VideoPlayerPlatform.instance = MockVideoPlayerPlatform();
 
-    final Widget widget = VideoDiaryDetailScreen(videoPath: 'videoPath', displayName: null, photoUrl: null, dateTime: DateTime(2022, 10, 22, 18, 27));
+    final Widget widget = VideoDiaryDetailScreen(
+        videoPath: 'videoPath',
+        displayName: null,
+        photoUrl: null,
+        dateTime: DateTime(2022, 10, 22, 18, 27));
 
     await widgetTester.wrapAndPump(widget, infiniteAnimationWidget: true);
 
     expect(find.byType(VideoPlayUI), findsOneWidget);
     // close button
-    expect(find.descendant(of: find.byType(CircleButton), matching: find.byType(SvgPicture)), findsOneWidget);
+    expect(
+        find.descendant(
+            of: find.byType(CircleButton), matching: find.byType(SvgPicture)),
+        findsOneWidget);
     // guest icon
-    expect(find.descendant(of: find.byType(ActivityFeedCard), matching: find.byType(SvgPicture)), findsOneWidget);
+    expect(
+        find.descendant(
+            of: find.byType(ActivityFeedCard),
+            matching: find.byType(SvgPicture)),
+        findsOneWidget);
     // Play icon
-    expect(find.descendant(of: find.byType(VideoPlayUI), matching: find.byType(SvgPicture)), findsOneWidget);
+    expect(
+        find.descendant(
+            of: find.byType(VideoPlayUI), matching: find.byType(SvgPicture)),
+        findsOneWidget);
     // Default display name
     expect(find.text('Guest'), findsOneWidget);
   });
