@@ -42,6 +42,10 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
           imageUrl.add(content.thumbnailUrl);
         }
 
+        if (content is VideoDiary) {
+          imageUrl.add(content.thumbnail);
+        }
+
         // TODO handle other type
 
         // add this display content into list

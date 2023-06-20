@@ -61,7 +61,7 @@ class HiveDiary {
         videoContents = diary.contents
             .whereType<VideoDiary>()
             .map((VideoDiary e) =>
-                HiveVideoDiary(url: e.url, description: e.description))
+                HiveVideoDiary(url: e.url, description: e.description, thumbnail: e.thumbnail))
             .toList(),
         update = diary.update;
 
@@ -129,10 +129,12 @@ class HiveVideoDiary {
   final String url;
   @HiveField(1)
   final String description;
+  @HiveField(2)
+  final String thumbnail;
 
-  HiveVideoDiary({required this.url, required this.description});
+  HiveVideoDiary({required this.url, required this.description, required this.thumbnail});
 
-  VideoDiary toVideoDiary() => VideoDiary(url: url, description: description);
+  VideoDiary toVideoDiary() => VideoDiary(url: url, description: description, thumbnail: thumbnail);
 }
 
 @HiveType(typeId: 5)
