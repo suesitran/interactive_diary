@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
-import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../gen/assets.gen.dart';
-import '../../../generated/l10n.dart';
-import '../../media_diary/_shared/widgets/buttons.dart';
+import 'package:interactive_diary/gen/assets.gen.dart';
+import 'package:interactive_diary/generated/l10n.dart';
+import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 
 class VideoDiaryDetailScreen extends StatelessWidget {
   final String videoPath;
@@ -18,8 +17,7 @@ class VideoDiaryDetailScreen extends StatelessWidget {
   final String? photoUrl;
   final DateTime dateTime;
 
-  VideoDiaryDetailScreen({required this.videoPath, required this.displayName, required this.photoUrl, required this.dateTime, Key? key}) : super(key: key);
-
+  const VideoDiaryDetailScreen({required this.videoPath, required this.displayName, required this.photoUrl, required this.dateTime, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -101,7 +99,7 @@ class _VideoPlayUIState extends State<VideoPlayUI> {
   @override
   Widget build(BuildContext context) => Stack(
     children: [
-      ValueListenableBuilder<VideoPlayerValue>(valueListenable: _controller, builder: (context, value, child) => value.isInitialized ? VideoPlayer(_controller) : Center(
+      ValueListenableBuilder<VideoPlayerValue>(valueListenable: _controller, builder: (context, value, child) => value.isInitialized ? VideoPlayer(_controller) : const Center(
         child: CircularProgressIndicator(),
       ),),
       Center(
@@ -137,7 +135,7 @@ class _VideoPlayUIState extends State<VideoPlayUI> {
     await _controller.initialize();
 
     _controller.addListener(() {
-      print('is playing ${_controller.value.isPlaying}');
+      // TODO add listener to start animation on Play/Pause button
     });
   }
 }
