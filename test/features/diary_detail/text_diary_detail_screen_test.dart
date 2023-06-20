@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/features/diary_detail/text_diary_detail_screen.dart';
+import 'package:interactive_diary/features/diary_detail/widgets/text_diary_detail_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:network_image_mock/network_image_mock.dart';

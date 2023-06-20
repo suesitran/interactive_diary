@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Location at latitude ${lat} and longitude ${lng}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) =>
-      <String, Function>{"locationViewLatLngAlly": m0};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "guest": MessageLookupByLibrary.simpleMessage("Guest"),
+        "locationViewLatLngAlly": m0
+      };
 }

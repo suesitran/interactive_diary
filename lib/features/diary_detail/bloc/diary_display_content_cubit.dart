@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
@@ -9,46 +11,54 @@ import 'package:nartus_storage/nartus_storage.dart';
 part 'diary_display_content_state.dart';
 
 class DiaryDisplayContentCubit extends Cubit<DiaryDisplayContentState> {
-
-  final StorageService storageService = ServiceLocator.instance.get<StorageService>();
+  final StorageService storageService =
+      ServiceLocator.instance.get<StorageService>();
 
   DiaryDisplayContentCubit() : super(DiaryDisplayContentInitial());
 
-  void fetchDiaryDisplayContent(DateTime dateTime, String countryCode, String postalCode) async {
-
+  void fetchDiaryDisplayContent(
+      DateTime dateTime, String countryCode, String postalCode) async {
     Diary? diary = await storageService.getDiary(
-        dateTime: dateTime,
-        countryCode: countryCode,
-        postalCode: postalCode);
+        dateTime: dateTime, countryCode: countryCode, postalCode: postalCode);
 
     if (diary == null) {
       emit(DiaryDisplayContentNotFound());
     } else {
-      String plainText = '';
-      String imageUrl = '';
+      final DateTime timestamp =
+          DateTime.fromMillisecondsSinceEpoch(diary.timestamp).toLocal();
 
       for (Content content in diary.contents) {
         if (content is TextDiary) {
-          final textJson = jsonDecode(content.description);
-          Document document = Document.fromJson(textJson);
-          plainText = '${document.toPlainText()}\n';
+          emit(TextDiaryContent(
+              jsonContent: content.description,
+              displayName: null,
+              photoUrl: null,
+              dateTime: timestamp));
         } else if (content is ImageDiary) {
-          imageUrl = content.thumbnailUrl;
-          plainText = content.description;
+          emit(ImageDiaryContent(
+              imagePath: content.url,
+              displayName: null,
+              photoUrl: null,
+              dateTime: timestamp));
+        } else if (content is VideoDiary) {
+          emit(VideoDiaryContent(
+              videoPath: content.url,
+              displayName: null,
+              photoUrl: null,
+              dateTime: timestamp));
         }
 
-        emit(DiaryDisplayContentSuccess(DiaryDisplayContent(
-            userDisplayName: null,
-            dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
-            userPhotoUrl: null,
-            plainText: plainText.trim(),
-            imageUrl: [imageUrl],
-            countryCode: diary.countryCode,
-            postalCode: diary.postalCode)));
-
-        break; // currently the diary only have one content: text/image/video
+        // emit(DiaryDisplayContentSuccess(DiaryDisplayContent(
+        //     userDisplayName: null,
+        //     dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
+        //     userPhotoUrl: null,
+        //     plainText: plainText.trim(),
+        //     imageUrl: [imageUrl],
+        //     countryCode: diary.countryCode,
+        //     postalCode: diary.postalCode)));
+        //
+        // break; // currently the diary only have one content: text/image/video
       }
-
     }
   }
 }

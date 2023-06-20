@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
-import 'package:interactive_diary/features/diary_detail/picture_diary_detail_screen.dart';
+import 'package:interactive_diary/features/diary_detail/widgets/picture_diary_detail_screen.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
