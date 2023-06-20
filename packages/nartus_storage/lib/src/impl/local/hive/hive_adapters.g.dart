@@ -194,17 +194,20 @@ class HiveVideoDiaryAdapter extends TypeAdapter<HiveVideoDiary> {
     return HiveVideoDiary(
       url: fields[0] as String,
       description: fields[1] as String,
+      thumbnail: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveVideoDiary obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.url)
       ..writeByte(1)
-      ..write(obj.description);
+      ..write(obj.description)
+      ..writeByte(2)
+      ..write(obj.thumbnail);
   }
 
   @override
