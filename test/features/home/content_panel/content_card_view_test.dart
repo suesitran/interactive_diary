@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/home/content_panel/widgets/content_card_view.dart';
+import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
@@ -46,15 +47,15 @@ void main() {
       userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
-      images: const [
-        'image1',
-        'image2',
+      mediaInfo: [
+        MediaInfo('image1', false),
+        MediaInfo('image2', true),
       ],
     );
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
-    expect(find.byType(ClipRRect), findsNWidgets(2));
+    expect(find.byType(Image), findsNWidgets(2));
   });
 
   testWidgets(
@@ -65,12 +66,16 @@ void main() {
       userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
-      images: const ['image1', 'image2', 'image3'],
+      mediaInfo: [
+        MediaInfo('image1', false),
+        MediaInfo('image2', true),
+        MediaInfo('image3', true),
+      ],
     );
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
-    expect(find.byType(ClipRRect), findsNWidgets(3));
+    expect(find.byType(Image), findsNWidgets(3));
   });
 
   testWidgets(
@@ -81,12 +86,17 @@ void main() {
       userPhotoUrl: 'photoUrl',
       dateTime: DateTime(2022, 9, 20, 18, 20),
       text: 'description',
-      images: const ['image1', 'image2', 'image3', 'image4'],
+      mediaInfo: [
+        MediaInfo('image1', false),
+        MediaInfo('image2', true),
+        MediaInfo('image3', true),
+        MediaInfo('image4', true),
+      ],
     );
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
-    expect(find.byType(ClipRRect), findsNWidgets(3));
+    expect(find.byType(Image), findsNWidgets(3));
     expect(find.text('+1'), findsOneWidget);
   });
 
@@ -98,17 +108,17 @@ void main() {
         displayName: 'displayName',
         userPhotoUrl: 'photoUrl',
         dateTime: DateTime(2022, 9, 20, 18, 20),
-        images: const [
-          'image1',
-          'image2',
-          'image3',
+        mediaInfo: [
+          MediaInfo('image1', false),
+          MediaInfo('image2', true),
+          MediaInfo('image3', true),
         ],
       ),
     );
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
-    expect(find.byType(ClipRRect), findsNWidgets(3));
+    expect(find.byType(Image), findsNWidgets(3));
   });
 
   testWidgets(
@@ -119,13 +129,18 @@ void main() {
         displayName: 'displayName',
         userPhotoUrl: 'photoUrl',
         dateTime: DateTime(2022, 9, 20, 18, 20),
-        images: const ['image1', 'image2', 'image3', 'image4'],
+        mediaInfo: [
+          MediaInfo('image1', false),
+          MediaInfo('image2', true),
+          MediaInfo('image3', true),
+          MediaInfo('image4', true),
+        ],
       ),
     );
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
-    expect(find.byType(ClipRRect), findsNWidgets(4));
+    expect(find.byType(Image), findsNWidgets(4));
   });
 
   testWidgets(
@@ -136,13 +151,19 @@ void main() {
         displayName: 'displayName',
         userPhotoUrl: 'photoUrl',
         dateTime: DateTime(2022, 9, 20, 18, 20),
-        images: const ['image1', 'image2', 'image3', 'image4', 'image5'],
+        mediaInfo: [
+          MediaInfo('image1', false),
+          MediaInfo('image2', true),
+          MediaInfo('image3', true),
+          MediaInfo('image4', true),
+          MediaInfo('image5', true),
+        ],
       ),
     );
 
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
-    expect(find.byType(ClipRRect), findsNWidgets(4));
+    expect(find.byType(Image), findsNWidgets(4));
     expect(find.text('+1'), findsOneWidget);
   });
 }

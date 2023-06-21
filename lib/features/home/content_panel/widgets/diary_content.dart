@@ -4,17 +4,17 @@ enum DiaryDisplayType { textOnly, thumbnailsOnly, textWithThumbnails }
 
 class _DiaryContent extends StatelessWidget {
   final String? text;
-  final List<String> images;
+  final List<MediaInfo> mediaInfo;
   final DiaryDisplayType type;
 
   late final int maxThumbnailDisplay;
 
-  _DiaryContent({this.text, List<String>? images, Key? key})
-      : assert(text != null || images?.isNotEmpty == true),
-        images = images ?? [],
+  _DiaryContent({this.text, List<MediaInfo>? mediaInfos, Key? key})
+      : assert(text != null || mediaInfos?.isNotEmpty == true),
+        mediaInfo = mediaInfos ?? [],
         type = text == null || text.isEmpty == true
             ? DiaryDisplayType.thumbnailsOnly
-            : images == null || images.isEmpty == true
+            : mediaInfos == null || mediaInfos.isEmpty == true
                 ? DiaryDisplayType.textOnly
                 : DiaryDisplayType.textWithThumbnails,
         super(key: key) {
@@ -30,10 +30,7 @@ class _DiaryContent extends StatelessWidget {
           children: [
             // first item: show either text or image
             if (type == DiaryDisplayType.thumbnailsOnly)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(NartusDimens.radius12),
-                child: _ImageView(path: images.first),
-              )
+              _MediaView(info: mediaInfo.first)
             else
               Text(
                 text!,
@@ -48,12 +45,12 @@ class _DiaryContent extends StatelessWidget {
                 builder: (_, constraints) {
                   final double size =
                       (constraints.maxWidth - NartusDimens.padding4 * 2) / 3;
-                  int lastIndex = min(images.length, maxThumbnailDisplay);
+                  int lastIndex = min(mediaInfo.length, maxThumbnailDisplay);
 
                   return Padding(
                     padding: const EdgeInsets.only(top: NartusDimens.padding4),
                     child: Row(
-                      children: images
+                      children: mediaInfo
                           .sublist(
                               type == DiaryDisplayType.thumbnailsOnly ? 1 : 0,
                               lastIndex)
@@ -63,34 +60,30 @@ class _DiaryContent extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.only(
                               right: e.key == 2 ? 0 : NartusDimens.padding4),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(NartusDimens.radius12),
-                            child: Stack(
-                              children: [
-                                _ImageView(
-                                  path: e.value,
-                                  size: size,
-                                ),
-                                if (e.key == 2 &&
-                                    images.length > maxThumbnailDisplay)
-                                  Container(
-                                    color: NartusColor.black.withOpacity(0.6),
-                                    width: size,
-                                    height: size,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      S.current.extraImageCount(
-                                          images.length - maxThumbnailDisplay),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(color: NartusColor.white),
-                                      textAlign: TextAlign.start,
-                                    ),
+                          child: Stack(
+                            children: [
+                              _MediaView(
+                                info: e.value,
+                                size: size,
+                              ),
+                              if (e.key == 2 &&
+                                  mediaInfo.length > maxThumbnailDisplay)
+                                Container(
+                                  color: NartusColor.black.withOpacity(0.6),
+                                  width: size,
+                                  height: size,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    S.current.extraImageCount(
+                                        mediaInfo.length - maxThumbnailDisplay),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(color: NartusColor.white),
+                                    textAlign: TextAlign.start,
                                   ),
-                              ],
-                            ),
+                                ),
+                            ],
                           ),
                         );
                       }).toList(),
@@ -103,23 +96,44 @@ class _DiaryContent extends StatelessWidget {
       );
 }
 
-class _ImageView extends StatelessWidget {
+class _MediaView extends StatelessWidget {
   final String path;
+  final bool isVideo;
   final double? size;
-  const _ImageView({required this.path, this.size, Key? key}) : super(key: key);
+  _MediaView({required MediaInfo info, this.size, Key? key})
+      : path = info.imageUrl,
+        isVideo = info.isVideo,
+        super(key: key);
 
   @override
-  Widget build(BuildContext context) => path.startsWith('http')
-      ? Image.network(
-          path,
-          fit: BoxFit.cover,
-          width: size,
-          height: size,
-        )
-      : Image.file(
-          File(path),
-          fit: BoxFit.cover,
-          width: size,
-          height: size,
-        );
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(NartusDimens.radius12)),
+            clipBehavior: Clip.hardEdge,
+            constraints: const BoxConstraints(maxHeight: 240),
+            child: path.startsWith('http')
+                ? Image.network(
+                    path,
+                    fit: BoxFit.cover,
+                    width: size,
+                    height: size,
+                  )
+                : Image.file(
+                    File(path),
+                    fit: BoxFit.cover,
+                    width: size,
+                    height: size,
+                  ),
+          ),
+          if (isVideo)
+            SvgPicture.asset(
+              Assets.icon.play,
+              width: 40,
+              height: 40,
+            )
+        ],
+      );
 }
