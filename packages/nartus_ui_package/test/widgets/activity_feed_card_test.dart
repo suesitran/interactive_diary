@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -30,7 +31,7 @@ void main() {
   testWidgets(
       'given user name and user photo is null,'
       'when widget is displayed,'
-      'then show default name and user photo', (WidgetTester tester) async {
+      'then show default name and default photo', (WidgetTester tester) async {
     String dateTime = '11 Jun, 2023 at 23:52 PM';
 
     Widget widget = ActivityFeedCard(
@@ -42,6 +43,25 @@ void main() {
     await mockNetworkImagesFor(() => tester.wrapMaterialAndPump(widget));
 
     expect(find.text('Guest'), findsOneWidget);
+    expect(find.text('11 Jun, 2023 at 23:52 PM'), findsOneWidget);
+    expect(find.byType(SvgPicture), findsOneWidget);
+  });
+
+  testWidgets(
+      'given user name and user photo are not null,'
+          'when widget is displayed,'
+          'then show name and user photo', (WidgetTester tester) async {
+    String dateTime = '11 Jun, 2023 at 23:52 PM';
+
+    Widget widget = ActivityFeedCard(
+      avatarPath: 'avatarPath',
+      displayName: 'Display Name',
+      dateTime: dateTime,
+    );
+
+    await mockNetworkImagesFor(() => tester.wrapMaterialAndPump(widget));
+
+    expect(find.text('Display Name'), findsOneWidget);
     expect(find.text('11 Jun, 2023 at 23:52 PM'), findsOneWidget);
     expect(find.byType(CircleAvatar), findsOneWidget);
   });

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
-import 'package:interactive_diary/features/diary_detail/picture_diary_detail_screen.dart';
-import 'package:interactive_diary/features/home/data/diary_display_content.dart';
+import 'package:interactive_diary/features/diary_detail/widgets/picture_diary_detail_screen.dart';
 import 'package:interactive_diary/features/media_diary/_shared/widgets/buttons.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -11,7 +10,7 @@ import 'package:mockito/mockito.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import '../../widget_tester_extension.dart';
+import '../../../widget_tester_extension.dart';
 import 'picture_diary_detail_screen_test.mocks.dart';
 
 @GenerateMocks([
@@ -44,21 +43,17 @@ void main() {
 
   testWidgets('Verify Picture diary details screen', (widgetTester) async {
     final Widget widget = PictureDiaryDetailScreen(
-      dateTime: DateTime(2023, 10, 22, 10, 25),
-      countryCode: 'US',
-      postalCode: '123456',
+      imageUrl: '',
+      displayName: null,
+      photoUrl: null,
+      dateTime: DateTime(2022, 10, 20, 10, 18, 23),
     );
 
-    final DiaryDisplayContent content = DiaryDisplayContent(
-      userDisplayName: 'userDisplayName',
-      dateTime: DateTime.now(),
-      userPhotoUrl: 'userPhotoUrl',
-      plainText: 'plainText',
-      countryCode: 'countryCode',
-      postalCode: 'postalCode',
-      imageUrl: ['imageUrl'],
-    );
-    final DiaryDisplayContentState state = DiaryDisplayContentSuccess(content);
+    final DiaryDisplayContentState state = ImageDiaryContent(
+        imagePath: 'imagePath',
+        dateTime: DateTime(2022, 10, 20, 10, 18, 23),
+        displayName: 'displayName',
+        photoUrl: 'photoUrl');
 
     when(mockDiaryDisplayContentCubit.state).thenAnswer((_) => state);
     when(mockDiaryDisplayContentCubit.stream)
@@ -96,21 +91,17 @@ void main() {
       'then picture diary detail screen will be back to previous screen',
       (widgetTester) async {
     final Widget widget = PictureDiaryDetailScreen(
-      dateTime: DateTime(2023, 10, 22, 10, 25),
-      countryCode: 'US',
-      postalCode: '123456',
+      imageUrl: '',
+      displayName: null,
+      photoUrl: null,
+      dateTime: DateTime(2022, 10, 20, 10, 18, 23),
     );
 
-    final DiaryDisplayContent content = DiaryDisplayContent(
-      userDisplayName: 'userDisplayName',
-      dateTime: DateTime.now(),
-      userPhotoUrl: 'userPhotoUrl',
-      plainText: 'plainText',
-      countryCode: 'countryCode',
-      postalCode: 'postalCode',
-      imageUrl: ['imageUrl'],
-    );
-    final DiaryDisplayContentState state = DiaryDisplayContentSuccess(content);
+    final DiaryDisplayContentState state = ImageDiaryContent(
+        imagePath: 'imagePath',
+        dateTime: DateTime(2022, 10, 20, 10, 18, 23),
+        displayName: 'displayName',
+        photoUrl: 'photoUrl');
 
     when(mockDiaryDisplayContentCubit.state).thenAnswer((_) => state);
     when(mockDiaryDisplayContentCubit.stream)
@@ -145,35 +136,5 @@ void main() {
     await widgetTester.tap(closeButton);
     await widgetTester.pumpAndSettle();
     expect(find.byType(PictureDiaryDetailScreen), findsNothing);
-  });
-
-  // will be updated in the future
-  testWidgets(
-      'given get diary not found,'
-      'when go to picture diary details screen , '
-      'then show blank screen', (widgetTester) async {
-    final Widget widget = PictureDiaryDetailScreen(
-      dateTime: DateTime(2023, 10, 22, 10, 25),
-      countryCode: 'US',
-      postalCode: '123456',
-    );
-
-    final DiaryDisplayContentState state = DiaryDisplayContentNotFound();
-
-    when(mockDiaryDisplayContentCubit.state).thenAnswer((_) => state);
-    when(mockDiaryDisplayContentCubit.stream)
-        .thenAnswer((_) => Stream.value(state));
-
-    when(mockStorageService.getDiary(
-      dateTime: anyNamed('dateTime'),
-      countryCode: anyNamed('countryCode'),
-      postalCode: anyNamed('postalCode'),
-    )).thenAnswer((_) => Future.value(null));
-
-    await mockNetworkImagesFor(() => widgetTester.wrapAndPump(
-          widget,
-        ));
-
-    expect(find.byType(Container), findsOneWidget);
   });
 }

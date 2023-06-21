@@ -3,7 +3,7 @@ class DiaryDisplayContent {
   final DateTime dateTime;
   final String? userPhotoUrl;
   final String? plainText;
-  final List<String> imageUrl;
+  final List<MediaInfo> mediaInfos;
   final String countryCode;
   final String postalCode;
 
@@ -14,6 +14,13 @@ class DiaryDisplayContent {
     this.userDisplayName,
     this.userPhotoUrl,
     this.plainText,
-    this.imageUrl = const [],
+    this.mediaInfos = const [],
   });
+}
+
+class MediaInfo {
+  final String imageUrl;
+  final bool isVideo;
+
+  MediaInfo(this.imageUrl, this.isVideo);
 }

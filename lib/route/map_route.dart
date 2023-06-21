@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:interactive_diary/features/connectivity/no_connection_screen.dart';
-import 'package:interactive_diary/features/diary_detail/text_diary_detail_screen.dart';
-import 'package:interactive_diary/features/diary_detail/picture_diary_detail_screen.dart';
+import 'package:interactive_diary/features/diary_detail/diary_detail_view.dart';
 import 'package:interactive_diary/features/onboarding/onboarding_screen.dart';
 import 'package:interactive_diary/features/splash/splash_screen.dart';
 import 'package:interactive_diary/features/writediary/write_diary_screen.dart';
@@ -22,8 +21,7 @@ const String idHomeRoute = '/home';
 const String noConnectionRoute = '/noConnection';
 const String writeDiaryRoute = '/writeDiary';
 const String onboardingRoute = '/onboarding';
-const String textDiaryDetailRoute = '/textDiaryDetailRoute';
-const String pictureDiaryDetailRoute = '/pictureDiaryDetailRoute';
+const String diaryDetailRoute = '/diaryDetail';
 
 final GoRouter appRoute = GoRouter(
   // main routes that can be accessed directly at app launch
@@ -65,23 +63,16 @@ final GoRouter appRoute = GoRouter(
         }),
 
     GoRoute(
-        path: textDiaryDetailRoute,
+        path: diaryDetailRoute,
         builder: (BuildContext context, GoRouterState state) {
-          return const TextDiaryDetailScreen();
-        }),
+          final DiaryDetailExtra extra = state.extra as DiaryDetailExtra;
 
-    GoRoute(
-      path: pictureDiaryDetailRoute,
-      pageBuilder: (context, state) {
-        PictureDiaryDetailExtra extra = state.extra as PictureDiaryDetailExtra;
-        return MaterialPage(
-            child: PictureDiaryDetailScreen(
-          dateTime: extra.dateTime,
-          countryCode: extra.countryCode,
-          postalCode: extra.postalCode,
-        ));
-      },
-    ),
+          return DiaryDetailView(
+            dateTime: extra.dateTime,
+            postalCode: extra.postalCode,
+            countryCode: extra.countryCode,
+          );
+        }),
 
     // add other 1st level route
     //no connection screen
