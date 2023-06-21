@@ -67,8 +67,12 @@ void main() {
                   postalCode: '2345',
                   addressLine: '123 heaven street',
                   latLng: const LatLng(lat: 0.0, long: 0.0),
-                  timestamp: DateTime(1970, 01, 02, 20, 17, 36, 789).toUtc().millisecondsSinceEpoch,
-                  update: DateTime(1970, 01, 02, 20, 17, 36, 789).toUtc().millisecondsSinceEpoch,
+                  timestamp: DateTime(1970, 01, 02, 20, 17, 36, 789)
+                      .toUtc()
+                      .millisecondsSinceEpoch,
+                  update: DateTime(1970, 01, 02, 20, 17, 36, 789)
+                      .toUtc()
+                      .millisecondsSinceEpoch,
                   contents: [
                     TextDiary(description: '[{"insert":"description\\n"}]')
                   ])));
@@ -100,8 +104,12 @@ void main() {
                   postalCode: '2345',
                   addressLine: '123 heaven street',
                   latLng: const LatLng(lat: 0.0, long: 0.0),
-                  timestamp: 123456789,
-                  update: 123456789,
+                  timestamp: DateTime(1970, 01, 02, 20, 17, 36, 789)
+                      .toUtc()
+                      .millisecondsSinceEpoch,
+                  update: DateTime(1970, 01, 02, 20, 17, 36, 789)
+                      .toUtc()
+                      .millisecondsSinceEpoch,
                   contents: [
                     ImageDiary(
                         url: 'url',
