@@ -105,15 +105,13 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
               children: <Widget>[
                 // handler
                 GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) {
-                    double height = _draggedHeight.value;
-                    height -= (details.primaryDelta ?? details.delta.dy);
-
-                    if (height <= constraints.maxHeight - minHeight &&
-                        height >= 0) {
-                      _draggedHeight.value = height;
-                    }
-                  },
+                  onVerticalDragUpdate: (DragUpdateDetails details) =>
+                      _calculateHeight(constraints,
+                          details.primaryDelta ?? details.delta.dy),
+                  onVerticalDragEnd: (details) => _calculateHeight(
+                      constraints,
+                      details.primaryVelocity ??
+                          details.velocity.pixelsPerSecond.dy),
                   child: Container(
                     decoration: const BoxDecoration(
                       color: NartusColor.white,
@@ -135,14 +133,14 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                 ),
                 // location view
                 GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) {
-                    double height = _draggedHeight.value;
-                    height -= (details.primaryDelta ?? details.delta.dy);
-
-                    if (height <= constraints.maxHeight - minHeight &&
-                        height >= 0) {
-                      _draggedHeight.value = height;
-                    }
+                  onVerticalDragUpdate: (DragUpdateDetails details) =>
+                      _calculateHeight(constraints,
+                          details.primaryDelta ?? details.delta.dy),
+                  onVerticalDragEnd: (details) {
+                    _calculateHeight(
+                        constraints,
+                        details.primaryVelocity ??
+                            details.velocity.pixelsPerSecond.dy);
                   },
                   child: Padding(
                       padding: const EdgeInsets.only(
@@ -227,5 +225,18 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   void _onItemClicked(DiaryDisplayContent content) {
     context.gotoDiaryDetailScreen(
         content.dateTime, content.countryCode, content.postalCode);
+  }
+
+  void _calculateHeight(BoxConstraints constraints, double dy) {
+    double height = _draggedHeight.value;
+    height -= dy;
+
+    if (height <= constraints.maxHeight - minHeight && height >= 0) {
+      _draggedHeight.value = height;
+    } else if (height >= constraints.maxHeight) {
+      _draggedHeight.value = constraints.maxHeight;
+    } else if (height <= 0) {
+      _draggedHeight.value = 0;
+    }
   }
 }
