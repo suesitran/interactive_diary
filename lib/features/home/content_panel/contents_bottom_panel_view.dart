@@ -207,7 +207,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                                             userPhotoUrl: e.userPhotoUrl,
                                             dateTime: e.dateTime,
                                             text: e.plainText,
-                                            images: e.imageUrl,
+                                            mediaInfo: e.mediaInfos,
                                           ),
                                         ))
                                     .toList(),
