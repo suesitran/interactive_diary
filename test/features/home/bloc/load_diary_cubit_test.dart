@@ -119,7 +119,7 @@ void main() {
       expect(state.contents.length, 1);
 
       DiaryDisplayContent contents = state.contents.first;
-      expect(contents.imageUrl.length, 1);
+      expect(contents.mediaInfos.length, 1);
     },
   );
 }
