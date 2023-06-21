@@ -100,34 +100,40 @@ class _MediaView extends StatelessWidget {
   final String path;
   final bool isVideo;
   final double? size;
-  _MediaView({required MediaInfo info, this.size, Key? key}) : path = info.imageUrl, isVideo = info.isVideo, super(key: key);
+  _MediaView({required MediaInfo info, this.size, Key? key})
+      : path = info.imageUrl,
+        isVideo = info.isVideo,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) => Stack(
-    alignment: Alignment.center,
-    children: [
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(NartusDimens.radius12)
-        ),
-        clipBehavior: Clip.hardEdge,
-        constraints: const BoxConstraints(maxHeight: 240),
-        child: path.startsWith('http')
-            ? Image.network(
-          path,
-          fit: BoxFit.cover,
-          width: size,
-          height: size,
-        )
-            : Image.file(
-          File(path),
-          fit: BoxFit.cover,
-          width: size,
-          height: size,
-        ),
-      ),
-      if (isVideo)
-        SvgPicture.asset(Assets.icon.play, width: 40, height: 40,)
-    ],
-  );
+        alignment: Alignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(NartusDimens.radius12)),
+            clipBehavior: Clip.hardEdge,
+            constraints: const BoxConstraints(maxHeight: 240),
+            child: path.startsWith('http')
+                ? Image.network(
+                    path,
+                    fit: BoxFit.cover,
+                    width: size,
+                    height: size,
+                  )
+                : Image.file(
+                    File(path),
+                    fit: BoxFit.cover,
+                    width: size,
+                    height: size,
+                  ),
+          ),
+          if (isVideo)
+            SvgPicture.asset(
+              Assets.icon.play,
+              width: 40,
+              height: 40,
+            )
+        ],
+      );
 }

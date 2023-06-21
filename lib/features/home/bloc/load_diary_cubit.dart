@@ -29,7 +29,8 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
     for (Diary diary in collection.diaries) {
       String plainText = '';
-      List<MediaInfo> mediaInfos = []; // at the current version, only support one image, need to update if we support list image
+      List<MediaInfo> mediaInfos =
+          []; // at the current version, only support one image, need to update if we support list image
 
       for (Content content in diary.contents) {
         if (content is TextDiary) {

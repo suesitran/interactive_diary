@@ -25,7 +25,8 @@ class ContentCardView extends StatefulWidget {
       this.text,
       this.mediaInfo,
       Key? key})
-      : assert(text != null || mediaInfo != null || mediaInfo?.isNotEmpty == true,
+      : assert(
+            text != null || mediaInfo != null || mediaInfo?.isNotEmpty == true,
             'Need either text or image list to be displayed'),
         super(key: key);
 
@@ -51,8 +52,9 @@ class _ContentCardViewState extends State<ContentCardView> {
             avatarPath: widget.userPhotoUrl,
             displayName: widget.displayName,
             dateTime: S.current.diaryDateFormatter(
-              widget.dateTime,widget.dateTime,
-                ),
+              widget.dateTime,
+              widget.dateTime,
+            ),
           ),
           _DiaryContent(
             text: widget.text,
