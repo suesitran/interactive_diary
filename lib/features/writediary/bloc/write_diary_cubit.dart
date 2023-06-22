@@ -19,7 +19,7 @@ class WriteDiaryCubit extends Cubit<WriteDiaryState> {
       required LatLng latLng}) async {
     emit(WriteDiaryStart());
 
-    final int timestamp = DateTime.now().millisecondsSinceEpoch;
+    final int timestamp = DateTime.now().toUtc().millisecondsSinceEpoch;
 
     final LocationDetail detail =
         await _geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
