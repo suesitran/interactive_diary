@@ -17,10 +17,10 @@ class PreviewMediaExtra {
   PreviewMediaExtra(this.latLng, this.path, this.type);
 }
 
-class PictureDiaryDetailExtra {
+class DiaryDetailExtra {
   final DateTime dateTime;
   final String postalCode;
   final String countryCode;
 
-  PictureDiaryDetailExtra (this.dateTime, this.countryCode, this.postalCode);
+  DiaryDetailExtra(this.dateTime, this.countryCode, this.postalCode);
 }

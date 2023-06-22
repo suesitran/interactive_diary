@@ -24,13 +24,11 @@ extension RouterExtension on BuildContext {
             business));
   }
 
-  void gotoDiaryDetailScreen() {
-    GoRouter.of(this).push(textDiaryDetailRoute);
-  }
-
-  void gotoPictureDiaryDetailScreen(DateTime dateTime, String countryCode, String postalCode) {
-    PictureDiaryDetailExtra extra = PictureDiaryDetailExtra(dateTime, countryCode, postalCode);
-    GoRouter.of(this).push(pictureDiaryDetailRoute, extra: extra);
+  void gotoDiaryDetailScreen(
+      DateTime dateTime, String countryCode, String postalCode) {
+    DiaryDetailExtra extra =
+        DiaryDetailExtra(dateTime, countryCode, postalCode);
+    GoRouter.of(this).push(diaryDetailRoute, extra: extra);
   }
 
   void goToHome() {

@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:nartus_media/src/data/permissions.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+
+import 'exceptions/media_exception.dart';
 
 class NartusMediaService {
   Future<MediaPermission> checkMediaPermission() async {
@@ -47,6 +50,25 @@ class NartusMediaService {
     PermissionStatus status = await Permission.camera.request();
 
     return _toMediaPermission(status);
+  }
+
+  /// path can be local file path, or network file path to video whose format is supported by android and ios
+  /// return path to created thumbnail file
+  Future<String> createThumbnailForVideo(String path) async {
+    final fileName = await VideoThumbnail.thumbnailFile(
+      video: path,
+      imageFormat: ImageFormat.PNG,
+    );
+
+    if (fileName == null) {
+      throw ThumbnailNotCreatedException();
+    }
+
+    if (fileName.isEmpty) {
+      throw ThumbnailNotCreatedException();
+    }
+
+    return fileName;
   }
 
   MediaPermission _toMediaPermission(PermissionStatus status) {

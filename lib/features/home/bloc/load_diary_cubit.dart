@@ -29,7 +29,8 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
     for (Diary diary in collection.diaries) {
       String plainText = '';
-      List<String> imageUrl = []; // at the current version, only support one image, need to update if we support list image
+      List<MediaInfo> mediaInfos =
+          []; // at the current version, only support one image, need to update if we support list image
 
       for (Content content in diary.contents) {
         if (content is TextDiary) {
@@ -39,7 +40,11 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
           plainText += '${document.toPlainText()}\n';
         } else if (content is ImageDiary) {
-          imageUrl.add(content.thumbnailUrl);
+          mediaInfos.add(MediaInfo(content.thumbnailUrl, false));
+        }
+
+        if (content is VideoDiary) {
+          mediaInfos.add(MediaInfo(content.thumbnail, true));
         }
 
         // TODO handle other type
@@ -50,7 +55,7 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
           dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
           userPhotoUrl: userPhotoUrl,
           plainText: plainText.trim(),
-          imageUrl: imageUrl,
+          mediaInfos: mediaInfos,
           countryCode: diary.countryCode,
           postalCode: diary.postalCode,
         ));

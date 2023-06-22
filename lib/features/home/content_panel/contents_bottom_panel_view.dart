@@ -105,15 +105,13 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
               children: <Widget>[
                 // handler
                 GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) {
-                    double height = _draggedHeight.value;
-                    height -= (details.primaryDelta ?? details.delta.dy);
-
-                    if (height <= constraints.maxHeight - minHeight &&
-                        height >= 0) {
-                      _draggedHeight.value = height;
-                    }
-                  },
+                  onVerticalDragUpdate: (DragUpdateDetails details) =>
+                      _calculateHeight(constraints,
+                          details.primaryDelta ?? details.delta.dy),
+                  onVerticalDragEnd: (details) => _calculateHeight(
+                      constraints,
+                      details.primaryVelocity ??
+                          details.velocity.pixelsPerSecond.dy),
                   child: Container(
                     decoration: const BoxDecoration(
                       color: NartusColor.white,
@@ -134,39 +132,50 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                   ),
                 ),
                 // location view
-                Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                    child: BlocBuilder<AddressCubit, AddressState>(
-                      builder: (context, state) {
-                        double lat = 0.0;
-                        double lng = 0.0;
+                GestureDetector(
+                  onVerticalDragUpdate: (DragUpdateDetails details) =>
+                      _calculateHeight(constraints,
+                          details.primaryDelta ?? details.delta.dy),
+                  onVerticalDragEnd: (details) {
+                    _calculateHeight(
+                        constraints,
+                        details.primaryVelocity ??
+                            details.velocity.pixelsPerSecond.dy);
+                  },
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, bottom: 24),
+                      child: BlocBuilder<AddressCubit, AddressState>(
+                        builder: (context, state) {
+                          double lat = 0.0;
+                          double lng = 0.0;
 
-                        String? address;
-                        String? business;
+                          String? address;
+                          String? business;
 
-                        if (state is AddressReadyState) {
-                          address = state.address;
-                          business = state.business;
-                        }
+                          if (state is AddressReadyState) {
+                            address = state.address;
+                            business = state.business;
+                          }
 
-                        LocationState locationState =
-                            context.read<LocationBloc>().state;
+                          LocationState locationState =
+                              context.read<LocationBloc>().state;
 
-                        if (locationState is LocationReadyState) {
-                          lat = locationState.currentLocation.latitude;
-                          lng = locationState.currentLocation.longitude;
-                        }
-                        return LocationView(
-                          locationIconSvg: Assets.images.idLocationIcon,
-                          address: address,
-                          businessName: business,
-                          latitude: lat,
-                          longitude: lng,
-                          borderRadius: BorderRadius.circular(12),
-                        );
-                      },
-                    )),
+                          if (locationState is LocationReadyState) {
+                            lat = locationState.currentLocation.latitude;
+                            lng = locationState.currentLocation.longitude;
+                          }
+                          return LocationView(
+                            locationIconSvg: Assets.images.idLocationIcon,
+                            address: address,
+                            businessName: business,
+                            latitude: lat,
+                            longitude: lng,
+                            borderRadius: BorderRadius.circular(12),
+                          );
+                        },
+                      )),
+                ),
                 ValueListenableBuilder<double>(
                   valueListenable: _draggedHeight,
                   builder:
@@ -196,7 +205,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
                                             userPhotoUrl: e.userPhotoUrl,
                                             dateTime: e.dateTime,
                                             text: e.plainText,
-                                            images: e.imageUrl,
+                                            mediaInfo: e.mediaInfos,
                                           ),
                                         ))
                                     .toList(),
@@ -214,10 +223,20 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   }
 
   void _onItemClicked(DiaryDisplayContent content) {
-    if (content.imageUrl.isEmpty) {
-      context.gotoDiaryDetailScreen();
-    } else {
-      context.gotoPictureDiaryDetailScreen(content.dateTime, content.countryCode, content.postalCode);
+    context.gotoDiaryDetailScreen(
+        content.dateTime, content.countryCode, content.postalCode);
+  }
+
+  void _calculateHeight(BoxConstraints constraints, double dy) {
+    double height = _draggedHeight.value;
+    height -= dy;
+
+    if (height <= constraints.maxHeight - minHeight && height >= 0) {
+      _draggedHeight.value = height;
+    } else if (height >= constraints.maxHeight) {
+      _draggedHeight.value = constraints.maxHeight;
+    } else if (height <= 0) {
+      _draggedHeight.value = 0;
     }
   }
 }
