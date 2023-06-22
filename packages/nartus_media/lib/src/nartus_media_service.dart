@@ -78,6 +78,9 @@ class NartusMediaService {
       case PermissionStatus.limited:
         return MediaPermission.limited;
       case PermissionStatus.restricted:
+        return MediaPermission.denied;
+      case PermissionStatus.provisional:
+        return MediaPermission.granted;
       case PermissionStatus.denied:
         return MediaPermission.denied;
       case PermissionStatus.permanentlyDenied:

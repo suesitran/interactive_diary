@@ -526,5 +526,31 @@ void main() {
       // then
       expect(permission, MediaPermission.deniedForever);
     });
+
+    test(
+        'given permission is provisional, when requestCameraPermission, then return MediaPermission.granted',
+        () async {
+      // given
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+              const MethodChannel('flutter.baseflow.com/permissions/methods'),
+              (MethodCall methodCall) async {
+        expect(methodCall.method, 'requestPermissions');
+
+        // argument is 1 - camera
+        expect(methodCall.arguments, [1]);
+
+        // return provisional
+        return {1: 5};
+      });
+
+      // when
+      final NartusMediaService service = NartusMediaService();
+
+      MediaPermission permission = await service.requestCameraPermission();
+
+      // then
+      expect(permission, MediaPermission.granted);
+    });
   });
 }
