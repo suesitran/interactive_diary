@@ -47,9 +47,20 @@ void main() {
       contents: <Content>[],
       update: timestamp);
 
+  final Diary diary2 = Diary(
+      timestamp: timestamp + 1,
+      countryCode: 'AU',
+      postalCode: '2345',
+      addressLine: '123 heaven street',
+      latLng: const LatLng(lat: 0.0, long: 0.0),
+      title: 'title',
+      contents: <Content>[],
+      update: timestamp + 1);
+
   final MockHiveHelper hiveHelper = MockHiveHelper();
   final MockBoxCollection boxCollection = MockBoxCollection();
   final HiveDiary hiveDiary = HiveDiary.fromDiary(diary);
+  final HiveDiary hiveDiary2 = HiveDiary.fromDiary(diary2);
 
   setUp(() {
     when(hiveHelper.init()).thenAnswer((_) => Future<void>.value(null));
@@ -153,31 +164,58 @@ void main() {
     verify(boxCollection.close()).called(1);
   });
 
-  test('given diary is not available, when getDiary, then return null',
+  test(
+      'given diary for month has two entries, when readDiaryForMonth, then return the list is sorted from newest to oldest',
       () async {
-        when(hiveHelper.open(name, <String>{'112022'},
+    when(hiveHelper.open(name, <String>{'112022'},
             path: kApplicationSupportPath))
-            .thenAnswer((Invocation realInvocation) =>
-        Future<BoxCollection>.value(boxCollection));
-        when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
-        Future<Map<String, HiveDiary>>.value(<String, HiveDiary>{}));
+        .thenAnswer((Invocation realInvocation) =>
+            Future<BoxCollection>.value(boxCollection));
+    when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
+        Future<Map<String, HiveDiary>>.value(<String, HiveDiary>{
+          '12345678': hiveDiary, // timestamp
+          '12345679': hiveDiary2, // timestamp + 1
+        }));
 
-        HiveLocalStorage hiveLocalStorage =
+    HiveLocalStorage hiveLocalStorage =
         HiveLocalStorage(hiveHelper: hiveHelper);
 
-        DateTime month = DateTime(2022, 11, 11);
-        final Diary? result = await hiveLocalStorage.getDiary(dateTime: 1234353,
-            month: month, countryCode: 'AU', postalCode: '2345');
+    DateTime month = DateTime(2022, 11, 11);
+    final DiaryCollection result = await hiveLocalStorage.readDiaryForMonth(
+        month: month, countryCode: 'AU', postalCode: '2345');
 
-        expect(result, null);
+    expect(result.month, '112022');
+    expect(result.diaries.length, 2);
+    expect(result.diaries.first.timestamp, timestamp + 1);
+    expect(result.diaries.last.timestamp, timestamp);
 
-        // ensure to close collection
-        verify(boxCollection.close()).called(1);
+    // ensure to close collection
+    verify(boxCollection.close()).called(1);
   });
 
-  test(
-      'given diary is available, when getDiary, then return diary',
+  test('given diary is not available, when getDiary, then return null',
       () async {
+    when(hiveHelper.open(name, <String>{'112022'},
+            path: kApplicationSupportPath))
+        .thenAnswer((Invocation realInvocation) =>
+            Future<BoxCollection>.value(boxCollection));
+    when(collectionBox.getAllValues()).thenAnswer((Invocation realInvocation) =>
+        Future<Map<String, HiveDiary>>.value(<String, HiveDiary>{}));
+
+    HiveLocalStorage hiveLocalStorage =
+        HiveLocalStorage(hiveHelper: hiveHelper);
+
+    DateTime month = DateTime(2022, 11, 11);
+    final Diary? result = await hiveLocalStorage.getDiary(
+        dateTime: 1234353, month: month, countryCode: 'AU', postalCode: '2345');
+
+    expect(result, null);
+
+    // ensure to close collection
+    verify(boxCollection.close()).called(1);
+  });
+
+  test('given diary is available, when getDiary, then return diary', () async {
     when(hiveHelper.open(name, <String>{'112022'},
             path: kApplicationSupportPath))
         .thenAnswer((Invocation realInvocation) =>
@@ -190,8 +228,11 @@ void main() {
         HiveLocalStorage(hiveHelper: hiveHelper);
 
     DateTime month = DateTime(2022, 11, 11);
-    final Diary? result = await hiveLocalStorage.getDiary(dateTime: 12345678,
-        month: month, countryCode: 'AU', postalCode: '2345');
+    final Diary? result = await hiveLocalStorage.getDiary(
+        dateTime: 12345678,
+        month: month,
+        countryCode: 'AU',
+        postalCode: '2345');
 
     expect(result!.timestamp.toString(), '12345678');
     expect(result.countryCode, 'AU');

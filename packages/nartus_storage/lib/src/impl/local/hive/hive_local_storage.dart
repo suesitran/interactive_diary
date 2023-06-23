@@ -75,7 +75,8 @@ class HiveLocalStorage {
     final Map<String, HiveDiary> allDiaries =
         await diaryCollection.getAllValues();
 
-    final List<HiveDiary> diaries = allDiaries.values.toList();
+    final List<HiveDiary> diaries = allDiaries.values.toList()
+      ..sort((HiveDiary a, HiveDiary b) => b.timestamp.compareTo(a.timestamp));
 
     final DiaryCollection result = DiaryCollection(
         month: monthCollectionName,
