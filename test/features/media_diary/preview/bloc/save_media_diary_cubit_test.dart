@@ -21,6 +21,8 @@ void main() {
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<StorageService>(storageService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
+
+    when(storageService.saveMedia(any)).thenAnswer((realInvocation) => Future.value('newPath'));
   });
 
   blocTest(
@@ -50,7 +52,7 @@ void main() {
       when(geocoderService.getCurrentPlaceCoding(0.0, 0.0)).thenAnswer(
           (realInvocation) => Future.value(LocationDetail(
               address: 'address',
-              countryCode: 'contryCode',
+              countryCode: 'countryCode',
               postalCode: 'postalCode',
               business: 'business')));
     },
@@ -66,7 +68,6 @@ void main() {
               countryCode: null,
               postalCode: 'postalCode',
               business: 'business')));
-      when(storageService.saveMedia('path')).thenAnswer((realInvocation) => Future.value('newPath'));
     },
     act: (bloc) => bloc.save(),
     verify: (bloc) {
