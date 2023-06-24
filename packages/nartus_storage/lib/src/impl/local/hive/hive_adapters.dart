@@ -60,8 +60,8 @@ class HiveDiary {
             .toList(),
         videoContents = diary.contents
             .whereType<VideoDiary>()
-            .map((VideoDiary e) =>
-                HiveVideoDiary(url: e.url, description: e.description, thumbnail: e.thumbnail))
+            .map((VideoDiary e) => HiveVideoDiary(
+                url: e.url, description: e.description, thumbnail: e.thumbnail))
             .toList(),
         update = diary.update;
 
@@ -76,9 +76,15 @@ class HiveDiary {
         if (textContents.isNotEmpty)
           ...textContents.map((HiveTextDiary e) => e.toTextDiary()).toList(),
         if (imageContents.isNotEmpty)
-          ...imageContents.map((HiveImageDiary e) => e.toImageDiary(applicationSupportDiary)).toList(),
+          ...imageContents
+              .map(
+                  (HiveImageDiary e) => e.toImageDiary(applicationSupportDiary))
+              .toList(),
         if (videoContents.isNotEmpty)
-          ...videoContents.map((HiveVideoDiary e) => e.toVideoDiary(applicationSupportDiary)).toList()
+          ...videoContents
+              .map(
+                  (HiveVideoDiary e) => e.toVideoDiary(applicationSupportDiary))
+              .toList()
       ],
       update: update);
 }
@@ -120,7 +126,9 @@ class HiveImageDiary {
       required this.description});
 
   ImageDiary toImageDiary(String applicationSupportDiary) => ImageDiary(
-      url: '$applicationSupportDiary/$url', thumbnailUrl: '$applicationSupportDiary/$thumbnailUrl', description: description);
+      url: '$applicationSupportDiary/$url',
+      thumbnailUrl: '$applicationSupportDiary/$thumbnailUrl',
+      description: description);
 }
 
 @HiveType(typeId: 4)
@@ -132,9 +140,13 @@ class HiveVideoDiary {
   @HiveField(2)
   final String thumbnail;
 
-  HiveVideoDiary({required this.url, required this.description, required this.thumbnail});
+  HiveVideoDiary(
+      {required this.url, required this.description, required this.thumbnail});
 
-  VideoDiary toVideoDiary(String applicationSupportDiary) => VideoDiary(url: '$applicationSupportDiary/$url', description: description, thumbnail: '$applicationSupportDiary/$thumbnail');
+  VideoDiary toVideoDiary(String applicationSupportDiary) => VideoDiary(
+      url: '$applicationSupportDiary/$url',
+      description: description,
+      thumbnail: '$applicationSupportDiary/$thumbnail');
 }
 
 @HiveType(typeId: 5)

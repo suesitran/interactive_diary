@@ -21,12 +21,13 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
     emit(SaveMediaDiaryStart());
 
     final GeocoderService geocoderService =
-    ServiceLocator.instance.get<GeocoderService>();
+        ServiceLocator.instance.get<GeocoderService>();
 
     final LocationDetail locationDetail =
-    await geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
+        await geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
 
-    final StorageService storageService = ServiceLocator.instance.get<StorageService>();
+    final StorageService storageService =
+        ServiceLocator.instance.get<StorageService>();
 
     Content? content;
 
@@ -34,30 +35,25 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
       case MediaType.picture:
         final String url = await storageService.saveMedia(path);
         content = ImageDiary(url: url, thumbnailUrl: url, description: '');
-
-    break;
+        break;
       case MediaType.video:
-        final NartusMediaService mediaService = ServiceLocator.instance.get<
-            NartusMediaService>();
+        final NartusMediaService mediaService =
+            ServiceLocator.instance.get<NartusMediaService>();
         try {
-          final String thumbnail = await mediaService.createThumbnailForVideo(
-              path);
+          final String thumbnail =
+              await mediaService.createThumbnailForVideo(path);
           final String url = await storageService.saveMedia(path);
           final String appThumbnail = await storageService.saveMedia(thumbnail);
           content =
               VideoDiary(url: url, description: '', thumbnail: appThumbnail);
-
-    } on ThumbnailNotCreatedException catch (_) {
+        } on ThumbnailNotCreatedException catch (_) {
           // TODO handle error when failed to create video thumbnail
         }
         break;
     }
 
     if (content != null) {
-      final int timestamp = DateTime
-          .now()
-          .toUtc()
-          .millisecondsSinceEpoch;
+      final int timestamp = DateTime.now().toUtc().millisecondsSinceEpoch;
       Diary diary = Diary(
           timestamp: timestamp,
           countryCode: locationDetail.countryCode ?? 'Unknown',
@@ -67,7 +63,6 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
           title: '',
           contents: [content],
           update: timestamp);
-
 
       await storageService.saveDiary(diary);
       emit(SaveMediaDiaryComplete());

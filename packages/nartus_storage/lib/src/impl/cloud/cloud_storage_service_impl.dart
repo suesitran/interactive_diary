@@ -28,7 +28,10 @@ class CloudStorageServiceImpl extends StorageService {
   }
 
   @override
-  Future<Diary?> getDiary({required DateTime dateTime, required String? countryCode, required String? postalCode}) {
+  Future<Diary?> getDiary(
+      {required DateTime dateTime,
+      required String? countryCode,
+      required String? postalCode}) {
     // TODO: implement getDiary
     throw UnimplementedError();
   }

@@ -35,10 +35,14 @@ abstract class StorageService {
       {required String? countryCode,
       required String? postalCode,
       required DateTime month});
+
   /// dateTime: dateTime of the diary
   /// countryCode of the location where diary is written
   /// postalCode of the location where diary is written
-  Future<Diary?> getDiary({required DateTime dateTime, required String? countryCode, required String? postalCode});
+  Future<Diary?> getDiary(
+      {required DateTime dateTime,
+      required String? countryCode,
+      required String? postalCode});
 
   Future<bool> deleteDiary(
       {required String countryCode,

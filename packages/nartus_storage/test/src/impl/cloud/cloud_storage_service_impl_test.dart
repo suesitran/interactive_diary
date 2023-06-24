@@ -19,7 +19,7 @@ void main() {
             postalCode: '2345'),
         throwsA(isA<UnimplementedError>()));
     expect(
-            () async => await cloudStorageServiceImpl.getDiary(
+        () async => await cloudStorageServiceImpl.getDiary(
             dateTime: DateTime(2022, 10, 11),
             countryCode: 'AU',
             postalCode: '2345'),

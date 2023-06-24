@@ -28,12 +28,15 @@ class LocalStorageServiceImpl extends StorageService {
           month: month);
 
   @override
-  Future<Diary?> getDiary({required DateTime dateTime, required String? countryCode, required String? postalCode}) =>
-    _hiveLocalStorage.getDiary(
-        dateTime: dateTime.millisecondsSinceEpoch,
-        countryCode: countryCode ?? defaultCountryCode,
-        postalCode: postalCode ?? defaultPostalCode,
-        month: dateTime);
+  Future<Diary?> getDiary(
+          {required DateTime dateTime,
+          required String? countryCode,
+          required String? postalCode}) =>
+      _hiveLocalStorage.getDiary(
+          dateTime: dateTime.millisecondsSinceEpoch,
+          countryCode: countryCode ?? defaultCountryCode,
+          postalCode: postalCode ?? defaultPostalCode,
+          month: dateTime);
 
   @override
   Future<void> saveDiary(Diary diary) => _hiveLocalStorage.saveDiary(diary);
@@ -55,7 +58,8 @@ class LocalStorageServiceImpl extends StorageService {
       _hiveLocalStorage.updateUserDetail(user);
 
   @override
-  Future<String> saveMedia(String temporaryPath) => _hiveLocalStorage.saveMedia(temporaryPath);
+  Future<String> saveMedia(String temporaryPath) =>
+      _hiveLocalStorage.saveMedia(temporaryPath);
   @override
   Future<User> getUserDetail(String uid) {
     try {
