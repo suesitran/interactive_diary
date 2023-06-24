@@ -45,5 +45,7 @@ void main() {
         throwsA(isA<UnimplementedError>()));
     expect(() async => await cloudStorageServiceImpl.getUserDetail('uid'),
         throwsA(isA<UnimplementedError>()));
+    expect(() async => await cloudStorageServiceImpl.saveMedia('path'),
+        throwsA(isA<UnimplementedError>()));
   });
 }
