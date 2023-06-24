@@ -56,4 +56,10 @@ class CloudStorageServiceImpl extends StorageService {
     // TODO: implement getUserDetail
     throw UnimplementedError();
   }
+
+  @override
+  Future<String> saveMedia(String temporaryPath) {
+    // TODO: implement saveMedia
+    throw UnimplementedError();
+  }
 }

@@ -54,6 +54,8 @@ abstract class StorageService {
 
   Future<bool> updateUserDetail(User user);
 
+  Future<String> saveMedia(String temporaryPath);
+
   String get defaultCountryCode => 'Unknown';
   String get defaultPostalCode => 'Unknown';
 }

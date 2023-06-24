@@ -10,6 +10,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:hive/src/box/default_key_comparator.dart';
 import 'package:hive/src/box/default_compaction_strategy.dart';
 
+import 'package:nartus_storage/src/exceptions/storage_exception.dart';
+
 /// Actual implementation of local storage using Hive database
 class HiveLocalStorage {
   final String _monthNameFormat = 'MMyyyy';
@@ -80,7 +82,7 @@ class HiveLocalStorage {
 
     final DiaryCollection result = DiaryCollection(
         month: monthCollectionName,
-        diaries: diaries.map((HiveDiary e) => e.toDiary()).toList());
+        diaries: diaries.map((HiveDiary e) => e.toDiary(directory.path)).toList());
 
     collection.close();
 
@@ -106,7 +108,7 @@ class HiveLocalStorage {
     Diary? diary;
     try {
       diary = allDiaries.values.toList()
-          .firstWhere((HiveDiary d) => d.timestamp == dateTime).toDiary();
+          .firstWhere((HiveDiary d) => d.timestamp == dateTime).toDiary(directory.path);
     } catch (e) {
       diary = null;
     }
@@ -220,6 +222,21 @@ class HiveLocalStorage {
       throw HiveError('User with $uid is not found in database');
     }
     return hiveUser.toUser();
+  }
+
+  Future<String> saveMedia(String temporaryPath) async {
+    final Directory directory = await getApplicationSupportDirectory();
+    String fileName = temporaryPath.split('/').last;
+
+    File old = File(temporaryPath);
+
+    if (!old.existsSync()) {
+      throw FileNotFoundExcception();
+    }
+
+    old.copySync('${directory.path}/$fileName');
+
+    return fileName;
   }
 }
 

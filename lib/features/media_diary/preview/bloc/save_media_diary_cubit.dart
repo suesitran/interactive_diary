@@ -26,21 +26,28 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
     final LocationDetail locationDetail =
     await geocoderService.getCurrentPlaceCoding(latLng.lat, latLng.long);
 
+    final StorageService storageService = ServiceLocator.instance.get<StorageService>();
+
     Content? content;
 
     switch (type) {
       case MediaType.picture:
-        content = ImageDiary(url: path, thumbnailUrl: path, description: '');
-        break;
+        final String url = await storageService.saveMedia(path);
+        content = ImageDiary(url: url, thumbnailUrl: url, description: '');
+
+    break;
       case MediaType.video:
         final NartusMediaService mediaService = ServiceLocator.instance.get<
             NartusMediaService>();
         try {
           final String thumbnail = await mediaService.createThumbnailForVideo(
               path);
+          final String url = await storageService.saveMedia(path);
+          final String appThumbnail = await storageService.saveMedia(thumbnail);
           content =
-              VideoDiary(url: path, description: '', thumbnail: thumbnail);
-        } on ThumbnailNotCreatedException catch (_) {
+              VideoDiary(url: url, description: '', thumbnail: appThumbnail);
+
+    } on ThumbnailNotCreatedException catch (_) {
           // TODO handle error when failed to create video thumbnail
         }
         break;
@@ -61,8 +68,6 @@ class SaveMediaDiaryCubit extends Cubit<SaveMediaDiaryState> {
           contents: [content],
           update: timestamp);
 
-      final StorageService storageService =
-      ServiceLocator.instance.get<StorageService>();
 
       await storageService.saveDiary(diary);
       emit(SaveMediaDiaryComplete());

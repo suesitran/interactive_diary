@@ -57,4 +57,20 @@ void main() {
     act: (bloc) => bloc.save(),
     expect: () => [isA<SaveMediaDiaryStart>(), isA<SaveMediaDiaryComplete>()],
   );
+
+  blocTest('given video content, when save diary, then save media file', build: () => SaveMediaDiaryCubit(latLng: latLng, path: path, type: MediaType.picture),
+    setUp: () {
+      when(geocoderService.getCurrentPlaceCoding(0.0, 0.0)).thenAnswer(
+              (realInvocation) => Future.value(LocationDetail(
+              address: 'address',
+              countryCode: null,
+              postalCode: 'postalCode',
+              business: 'business')));
+      when(storageService.saveMedia('path')).thenAnswer((realInvocation) => Future.value('newPath'));
+    },
+    act: (bloc) => bloc.save(),
+    verify: (bloc) {
+      verify(storageService.saveMedia('path'));
+    },
+  );
 }

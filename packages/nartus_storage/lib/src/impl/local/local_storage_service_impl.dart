@@ -55,6 +55,8 @@ class LocalStorageServiceImpl extends StorageService {
       _hiveLocalStorage.updateUserDetail(user);
 
   @override
+  Future<String> saveMedia(String temporaryPath) => _hiveLocalStorage.saveMedia(temporaryPath);
+  @override
   Future<User> getUserDetail(String uid) {
     try {
       return _hiveLocalStorage.getUserDetail(uid);

@@ -65,7 +65,7 @@ class HiveDiary {
             .toList(),
         update = diary.update;
 
-  Diary toDiary() => Diary(
+  Diary toDiary(String applicationSupportDiary) => Diary(
       timestamp: timestamp,
       countryCode: countryCode,
       postalCode: postalCode,
@@ -76,9 +76,9 @@ class HiveDiary {
         if (textContents.isNotEmpty)
           ...textContents.map((HiveTextDiary e) => e.toTextDiary()).toList(),
         if (imageContents.isNotEmpty)
-          ...imageContents.map((HiveImageDiary e) => e.toImageDiary()).toList(),
+          ...imageContents.map((HiveImageDiary e) => e.toImageDiary(applicationSupportDiary)).toList(),
         if (videoContents.isNotEmpty)
-          ...videoContents.map((HiveVideoDiary e) => e.toVideoDiary()).toList()
+          ...videoContents.map((HiveVideoDiary e) => e.toVideoDiary(applicationSupportDiary)).toList()
       ],
       update: update);
 }
@@ -119,8 +119,8 @@ class HiveImageDiary {
       required this.thumbnailUrl,
       required this.description});
 
-  ImageDiary toImageDiary() => ImageDiary(
-      url: url, thumbnailUrl: thumbnailUrl, description: description);
+  ImageDiary toImageDiary(String applicationSupportDiary) => ImageDiary(
+      url: '$applicationSupportDiary/$url', thumbnailUrl: '$applicationSupportDiary/$thumbnailUrl', description: description);
 }
 
 @HiveType(typeId: 4)
@@ -134,7 +134,7 @@ class HiveVideoDiary {
 
   HiveVideoDiary({required this.url, required this.description, required this.thumbnail});
 
-  VideoDiary toVideoDiary() => VideoDiary(url: url, description: description, thumbnail: thumbnail);
+  VideoDiary toVideoDiary(String applicationSupportDiary) => VideoDiary(url: '$applicationSupportDiary/$url', description: description, thumbnail: '$applicationSupportDiary/$thumbnail');
 }
 
 @HiveType(typeId: 5)
