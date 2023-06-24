@@ -28,7 +28,7 @@ void main() {
             of: find.byType(Scaffold), matching: find.byType(QuillEditor)),
         findsOneWidget);
 
-    expect(find.text('Hoang Nguyen'), findsOneWidget);
+    expect(find.text('Guest'), findsOneWidget);
   });
 
   testWidgets(

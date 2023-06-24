@@ -177,6 +177,8 @@ class $AssetsImagesGen {
         onboarding3,
         splashScreen
       ];
+
+  get guest => null;
 }
 
 class Assets {

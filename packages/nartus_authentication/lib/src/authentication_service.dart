@@ -10,6 +10,8 @@ class AuthenticationService {
   final GoogleSignIn _googleSignIn;
   final FirebaseAuth _firebaseAuth;
 
+  static var instance;
+
   AuthenticationService(
       {GoogleSignIn? googleSignIn, FirebaseAuth? firebaseAuth})
       : _googleSignIn = googleSignIn ?? GoogleSignIn(),

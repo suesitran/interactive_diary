@@ -5,12 +5,20 @@ import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
 import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:interactive_diary/generated/l10n.dart';
+import 'package:nartus_authentication/nartus_authentication.dart';
 
 class DiaryDetailScreen extends StatelessWidget {
   const DiaryDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final authService = AuthenticationService.instance;
+    UserDetail? user = authService.currentUser;
+
+    String userDisplayName = user != null ? user.name ?? '' : 'Guest';
+    String userPhotoUrl =
+        user != null ? user.photoURL ?? '' : Assets.images.guest.svg.path;
+
     int timeStamp = 1683310211667;
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
 
@@ -120,9 +128,6 @@ class DiaryDetailScreen extends StatelessWidget {
       {'insert': '\n\n'},
     ];
 
-    String userDisplayName = 'Hoang Nguyen';
-    String userPhotoUrl =
-        'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
     Document? document = Document.fromJson(textJson);
     QuillController richText = QuillController(
         document: document,

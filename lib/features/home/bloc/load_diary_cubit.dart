@@ -6,11 +6,15 @@ import 'package:interactive_diary/features/home/data/diary_display_content.dart'
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:nartus_storage/nartus_storage.dart';
 
+import 'package:nartus_authentication/nartus_authentication.dart';
+
 part 'load_diary_state.dart';
 
 class LoadDiaryCubit extends Cubit<LoadDiaryState> {
   final StorageService storageService =
       ServiceLocator.instance.get<StorageService>();
+  final AuthenticationService authenticationService =
+      ServiceLocator.instance.get<AuthenticationService>();
 
   LoadDiaryCubit() : super(LoadDiaryInitial());
 
@@ -22,10 +26,10 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
         month: DateTime.now());
 
     List<DiaryDisplayContent> displayContents = [];
-    // TODO load user display name and display photo
-    String userDisplayName = 'Hoang Nguyen';
-    String userPhotoUrl =
-        'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
+
+    UserDetail? authUser = await authenticationService.getCurrentUser();
+    String userDisplayName = authUser.name ?? 'Guest';
+    String userPhotoUrl = authUser.photoURL ?? 'assets/images/guest.svg';
 
     for (Diary diary in collection.diaries) {
       String plainText = '';
@@ -39,9 +43,6 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
           plainText += '${document.toPlainText()}\n';
         }
 
-        // TODO handle other type
-
-        // add this display content into list
         displayContents.add(DiaryDisplayContent(
           userDisplayName: userDisplayName,
           dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp),
@@ -49,8 +50,8 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
           plainText: plainText.trim(),
         ));
       }
-    }
 
-    emit(LoadDiaryCompleted(displayContents));
+      emit(LoadDiaryCompleted(displayContents));
+    }
   }
 }
