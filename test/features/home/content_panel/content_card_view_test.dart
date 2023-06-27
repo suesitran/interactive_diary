@@ -20,7 +20,7 @@ void main() {
     await mockNetworkImagesFor(() => widgetTester.wrapAndPump(widget));
 
     expect(find.text('displayName'), findsOneWidget);
-    expect(find.text('description'), findsOneWidget);
+    expect(find.text('description', findRichText: true), findsOneWidget);
     expect(find.text('20 Sep, 2022 at 18:20 PM'), findsOneWidget);
   });
 

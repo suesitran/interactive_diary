@@ -32,12 +32,11 @@ class _DiaryContent extends StatelessWidget {
             if (type == DiaryDisplayType.thumbnailsOnly)
               _MediaView(info: mediaInfo.first)
             else
-              Text(
-                text!,
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.start,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
+              LayoutBuilder(
+                builder: (context, constraints) => Text.rich(
+                  _max5LinesSpan(context, inputText: text, maxWidth: constraints.maxWidth, style: Theme.of(context).textTheme.bodyMedium),
+                  textAlign: TextAlign.start,
+                ),
               ),
             // second item
             // if text only, do not show this second item
@@ -96,6 +95,53 @@ class _DiaryContent extends StatelessWidget {
           ],
         ),
       );
+
+  TextSpan _max5LinesSpan(BuildContext context, {String? inputText, TextStyle? style, double maxWidth = 0, int maxLine = 5}) {
+    if (inputText == null) {
+      return const TextSpan(text: '');
+    }
+
+    if (inputText.isEmpty) {
+      return const TextSpan(text: '');
+    }
+
+    final TextStyle? style = Theme.of(context).textTheme.bodyMedium;
+    final TextStyle? linkStyle = style?.copyWith(color: Theme.of(context).colorScheme.primary);
+
+    final kEllipsis = S.current.viewMore;
+    final more = TextSpan(
+      text: kEllipsis,
+      style: linkStyle,
+    );
+
+    final TextPainter textPainter = TextPainter(
+      text: more,
+      maxLines: maxLine - 1,
+      textDirection: TextDirection.ltr,
+    )..layout(minWidth: 0, maxWidth: maxWidth);
+
+    final readMoreWidth = textPainter.size.width;
+
+    textPainter.text = TextSpan(text: inputText, style: style);
+    textPainter.layout(minWidth: 0, maxWidth: maxWidth);
+    final textSize = textPainter.size;
+
+    if (!textPainter.didExceedMaxLines) {
+      return TextSpan(text: inputText, style: style);
+    }
+
+    final pos = textPainter.getPositionForOffset(Offset(
+      textSize.width - readMoreWidth,
+      textSize.height,
+    ));
+
+    final endIndex = textPainter.getOffsetBefore(pos.offset);
+
+    final spanText =
+    TextSpan(text: inputText.substring(0, endIndex), style: style);
+
+    return TextSpan(children: [spanText, more]);
+  }
 }
 
 class _MediaView extends StatelessWidget {

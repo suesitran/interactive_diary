@@ -65,5 +65,6 @@
   "mapTypeSatellite":"Satellite",
   "mapTypeTerrain":"Terrain",
   "play":"Play",
-  "pause":"Pause"
+  "pause":"Pause",
+  "viewMore":"  …View more"
 }
