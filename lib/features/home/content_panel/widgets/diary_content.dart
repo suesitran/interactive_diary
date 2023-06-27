@@ -36,6 +36,8 @@ class _DiaryContent extends StatelessWidget {
                 text!,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.start,
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
               ),
             // second item
             // if text only, do not show this second item

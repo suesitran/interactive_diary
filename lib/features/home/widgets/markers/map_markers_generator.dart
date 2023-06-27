@@ -193,9 +193,8 @@ class MapMarkerGenerator {
 
       final double plusWidth = _markerAddDrawableRoot?.size.width ?? 0.0;
       final double plusHeight = _markerAddDrawableRoot?.size.height ?? 0.0;
-      if (plusWidth > 0 &&  plusHeight > 0) {
-        canvas.scale(markerAddSize / plusWidth,
-            markerAddSize / plusHeight);
+      if (plusWidth > 0 && plusHeight > 0) {
+        canvas.scale(markerAddSize / plusWidth, markerAddSize / plusHeight);
         final Picture? plusPicture = _markerAddDrawableRoot?.picture;
         if (plusPicture != null) {
           canvas.drawPicture(plusPicture);
@@ -209,9 +208,8 @@ class MapMarkerGenerator {
       canvas.save();
       final double plusWidth = _markerAddDrawableRoot?.size.width ?? 0.0;
       final double plusHeight = _markerAddDrawableRoot?.size.height ?? 0.0;
-      if (plusWidth > 0 &&  plusHeight > 0) {
-        canvas.scale(markerAddSize / plusWidth,
-            markerAddSize / plusHeight);
+      if (plusWidth > 0 && plusHeight > 0) {
+        canvas.scale(markerAddSize / plusWidth, markerAddSize / plusHeight);
         final Picture? plusPicture = _markerAddDrawableRoot?.picture;
         if (plusPicture != null) {
           canvas.drawPicture(plusPicture);

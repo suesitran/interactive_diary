@@ -66,6 +66,7 @@ class VideoDiary extends Content {
   final String description;
   final String thumbnail;
 
-  VideoDiary({required this.url, required this.description, required this.thumbnail})
+  VideoDiary(
+      {required this.url, required this.description, required this.thumbnail})
       : super(type: ContentType.video);
 }

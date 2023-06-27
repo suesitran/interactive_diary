@@ -54,7 +54,8 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
         // add this display content into list
         displayContents.add(DiaryDisplayContent(
           userDisplayName: userDisplayName,
-          dateTime: DateTime.fromMillisecondsSinceEpoch(diary.timestamp).toLocal(),
+          dateTime:
+              DateTime.fromMillisecondsSinceEpoch(diary.timestamp).toLocal(),
           userPhotoUrl: userPhotoUrl,
           plainText: plainText.trim(),
           mediaInfos: mediaInfos,

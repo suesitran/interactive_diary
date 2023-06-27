@@ -12,7 +12,8 @@ void main() {
       'when widget is displayed,'
       'then show correct name and user photo', (WidgetTester tester) async {
     String userDisplayName = 'Hoang Nguyen';
-    String userPhotoUrl = 'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
+    String userPhotoUrl =
+        'https://lh3.googleusercontent.com/a-/AOh14GikSAp8pgWShabZgY2Pw99zzvtz5A9WpVjmqZY7=s96-c';
     String dateTime = '11 Jun, 2023 at 23:52 PM';
 
     Widget widget = ActivityFeedCard(
@@ -49,8 +50,8 @@ void main() {
 
   testWidgets(
       'given user name and user photo are not null,'
-          'when widget is displayed,'
-          'then show name and user photo', (WidgetTester tester) async {
+      'when widget is displayed,'
+      'then show name and user photo', (WidgetTester tester) async {
     String dateTime = '11 Jun, 2023 at 23:52 PM';
 
     Widget widget = ActivityFeedCard(
