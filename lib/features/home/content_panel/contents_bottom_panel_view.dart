@@ -75,7 +75,17 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
 
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       // This height value is the initial height when the list height is 0
-      minHeight = _initialHeight.currentContext?.size?.height ?? 0;
+      final RenderBox renderBox =
+          _initialHeight.currentContext?.findRenderObject() as RenderBox;
+
+      final Size size = renderBox.size;
+
+      final Offset offset = renderBox.localToGlobal(Offset.zero);
+
+      minHeight = MediaQuery.of(context).size.height -
+          offset.dy +
+          MediaQuery.of(context).padding.top +
+          size.height;
     });
   }
 
@@ -90,7 +100,6 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
     return SlideTransition(
       position: _offsetAnimation,
       child: Container(
-        key: _initialHeight,
         decoration: const BoxDecoration(
           color: NartusColor.white,
           borderRadius: BorderRadius.only(
@@ -99,122 +108,118 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
         ),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // handler
-                GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) =>
-                      _calculateHeight(constraints,
-                          details.primaryDelta ?? details.delta.dy),
-                  onVerticalDragEnd: (details) => _calculateHeight(
-                      constraints,
-                      details.primaryVelocity ??
-                          details.velocity.pixelsPerSecond.dy),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: NartusColor.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(NartusDimens.padding24),
-                          topRight: Radius.circular(NartusDimens.padding24)),
-                    ),
-                    alignment: Alignment.center,
-                    height: 8 /* padding top */ +
-                        2 /* divider height */ +
-                        16 /* padding bottom */,
-                    child: Divider(
-                      color: NartusColor.grey,
-                      indent: (MediaQuery.of(context).size.width - 48) / 2,
-                      endIndent: (MediaQuery.of(context).size.width - 48) / 2,
-                      thickness: 2,
-                    ),
-                  ),
-                ),
-                // location view
-                GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) =>
-                      _calculateHeight(constraints,
-                          details.primaryDelta ?? details.delta.dy),
-                  onVerticalDragEnd: (details) {
-                    _calculateHeight(
-                        constraints,
-                        details.primaryVelocity ??
-                            details.velocity.pixelsPerSecond.dy);
-                  },
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 16, bottom: 24),
-                      child: BlocBuilder<AddressCubit, AddressState>(
-                        builder: (context, state) {
-                          double lat = 0.0;
-                          double lng = 0.0;
+            return GestureDetector(
+              onVerticalDragUpdate: (DragUpdateDetails details) =>
+                  _calculateHeight(
+                      constraints, details.primaryDelta ?? details.delta.dy),
+              onVerticalDragEnd: (details) => _calculateHeight(
+                  constraints,
+                  details.primaryVelocity ??
+                      details.velocity.pixelsPerSecond.dy),
+              child: Column(
+                key: _initialHeight,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: NartusColor.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(NartusDimens.padding24),
+                              topRight:
+                                  Radius.circular(NartusDimens.padding24)),
+                        ),
+                        alignment: Alignment.center,
+                        height: 8 /* padding top */ +
+                            2 /* divider height */ +
+                            16 /* padding bottom */,
+                        child: Divider(
+                          color: NartusColor.grey,
+                          indent: (MediaQuery.of(context).size.width - 48) / 2,
+                          endIndent:
+                              (MediaQuery.of(context).size.width - 48) / 2,
+                          thickness: 2,
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16, right: 16, bottom: 24),
+                          child: BlocBuilder<AddressCubit, AddressState>(
+                            builder: (context, state) {
+                              double lat = 0.0;
+                              double lng = 0.0;
 
-                          String? address;
-                          String? business;
+                              String? address;
+                              String? business;
 
-                          if (state is AddressReadyState) {
-                            address = state.address;
-                            business = state.business;
-                          }
+                              if (state is AddressReadyState) {
+                                address = state.address;
+                                business = state.business;
+                              }
 
-                          LocationState locationState =
-                              context.read<LocationBloc>().state;
+                              LocationState locationState =
+                                  context.read<LocationBloc>().state;
 
-                          if (locationState is LocationReadyState) {
-                            lat = locationState.currentLocation.latitude;
-                            lng = locationState.currentLocation.longitude;
-                          }
-                          return LocationView(
-                            locationIconSvg: Assets.images.idLocationIcon,
-                            address: address,
-                            businessName: business,
-                            latitude: lat,
-                            longitude: lng,
-                            borderRadius: BorderRadius.circular(12),
-                          );
-                        },
-                      )),
-                ),
-                ValueListenableBuilder<double>(
-                  valueListenable: _draggedHeight,
-                  builder:
-                      (BuildContext context, double value, Widget? child) =>
-                          SizedBox(
-                    height: value,
-                    child: BlocBuilder<LoadDiaryCubit, LoadDiaryState>(
-                      builder: (context, state) {
-                        List<DiaryDisplayContent> displayContents = [];
-
-                        if (state is LoadDiaryCompleted) {
-                          displayContents = state.contents;
-                        }
-
-                        return displayContents.isEmpty
-                            ? const NoPostView()
-                            : ListView(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                children: displayContents
-                                    .map((e) => InkWell(
-                                          onTap: () {
-                                            _onItemClicked(e);
-                                          },
-                                          child: ContentCardView(
-                                            displayName: e.userDisplayName,
-                                            userPhotoUrl: e.userPhotoUrl,
-                                            dateTime: e.dateTime,
-                                            text: e.plainText,
-                                            mediaInfo: e.mediaInfos,
-                                          ),
-                                        ))
-                                    .toList(),
+                              if (locationState is LocationReadyState) {
+                                lat = locationState.currentLocation.latitude;
+                                lng = locationState.currentLocation.longitude;
+                              }
+                              return LocationView(
+                                locationIconSvg: Assets.images.idLocationIcon,
+                                address: address,
+                                businessName: business,
+                                latitude: lat,
+                                longitude: lng,
+                                borderRadius: BorderRadius.circular(12),
                               );
-                      },
-                    ),
+                            },
+                          )),
+                    ],
                   ),
-                )
-              ],
+                  ValueListenableBuilder<double>(
+                    valueListenable: _draggedHeight,
+                    builder:
+                        (BuildContext context, double value, Widget? child) =>
+                            SizedBox(
+                      height: value,
+                      child: BlocBuilder<LoadDiaryCubit, LoadDiaryState>(
+                        builder: (context, state) {
+                          List<DiaryDisplayContent> displayContents = [];
+
+                          if (state is LoadDiaryCompleted) {
+                            displayContents = state.contents;
+                          }
+
+                          return displayContents.isEmpty
+                              ? const NoPostView()
+                              : ListView(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  children: displayContents
+                                      .map((e) => InkWell(
+                                            onTap: () {
+                                              _onItemClicked(e);
+                                            },
+                                            child: ContentCardView(
+                                              displayName: e.userDisplayName,
+                                              userPhotoUrl: e.userPhotoUrl,
+                                              dateTime: e.dateTime,
+                                              text: e.plainText,
+                                              mediaInfo: e.mediaInfos,
+                                            ),
+                                          ))
+                                      .toList(),
+                                );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
             );
           },
         ),
@@ -228,13 +233,14 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   }
 
   void _calculateHeight(BoxConstraints constraints, double dy) {
-    double height = _draggedHeight.value;
-    height -= dy;
+    final double height = _draggedHeight.value - dy;
+    final double maxHeight = constraints.maxHeight -
+        (minHeight < constraints.maxHeight ? minHeight : 0);
 
-    if (height <= constraints.maxHeight - minHeight && height >= 0) {
+    if (height < maxHeight && height >= 0) {
       _draggedHeight.value = height;
-    } else if (height >= constraints.maxHeight) {
-      _draggedHeight.value = constraints.maxHeight;
+    } else if (height >= maxHeight) {
+      _draggedHeight.value = maxHeight;
     } else if (height <= 0) {
       _draggedHeight.value = 0;
     }

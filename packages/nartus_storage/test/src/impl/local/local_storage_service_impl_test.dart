@@ -64,9 +64,7 @@ void main() {
             contents: <Content>[],
             update: 1666224000000)));
     localStorageServiceImpl.getDiary(
-        dateTime:  dateTime,
-        countryCode: 'AU',
-        postalCode: '2345');
+        dateTime: dateTime, countryCode: 'AU', postalCode: '2345');
 
     verify(storage.getDiary(
             dateTime: dateTime.millisecondsSinceEpoch,

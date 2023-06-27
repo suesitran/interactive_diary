@@ -85,12 +85,10 @@ class MapTypeDisplay extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.circular(NartusDimens.radius12),
+                  borderRadius: BorderRadius.circular(NartusDimens.radius12),
                   border: Border.all(
-                      color: isSelected
-                          ? NartusColor.primary
-                          : NartusColor.white,
+                      color:
+                          isSelected ? NartusColor.primary : NartusColor.white,
                       width: 2,
                       style: BorderStyle.solid)),
               child: ClipRRect(

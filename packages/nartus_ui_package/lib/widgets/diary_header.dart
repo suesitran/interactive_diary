@@ -22,7 +22,8 @@ class DiaryHeaderAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const defaultAvatarPath = 'https://lh3.googleusercontent.com/d/1_aTuBIour-Fn9jgj7bh1Y1P2PJja8dbD'; // Default avatar path
+    const defaultAvatarPath =
+        'https://lh3.googleusercontent.com/d/1_aTuBIour-Fn9jgj7bh1Y1P2PJja8dbD'; // Default avatar path
     const defaultDisplayName = 'Guest'; // Default display name
 
     final userPhoto = avatarPath ?? defaultAvatarPath;
@@ -42,33 +43,32 @@ class DiaryHeaderAppbar extends StatelessWidget {
             ),
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: NartusDimens.padding10,
-                      right: NartusDimens.padding10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userDisplayName,
-                        style: Theme.of(context).textTheme.titleSmall,
-                        semanticsLabel: displayName,
-                      ),
-                      Text(
-                        dateTime,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: NartusColor.grey, height: 1.5),
-                      )
-                    ],
+              padding: const EdgeInsets.only(
+                  left: NartusDimens.padding10, right: NartusDimens.padding10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userDisplayName,
+                    style: Theme.of(context).textTheme.titleSmall,
+                    semanticsLabel: displayName,
                   ),
-                )),
+                  Text(
+                    dateTime,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: NartusColor.grey, height: 1.5),
+                  )
+                ],
+              ),
+            )),
             SvgPicture.asset(
               icon,
               semanticsLabel: semanticsIcon,
               colorFilter:
-              const ColorFilter.mode(NartusColor.grey, BlendMode.srcIn),
+                  const ColorFilter.mode(NartusColor.grey, BlendMode.srcIn),
             )
           ],
         ),
