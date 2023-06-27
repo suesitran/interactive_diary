@@ -34,7 +34,10 @@ class _DiaryContent extends StatelessWidget {
             else
               LayoutBuilder(
                 builder: (context, constraints) => Text.rich(
-                  _max5LinesSpan(context, inputText: text, maxWidth: constraints.maxWidth, style: Theme.of(context).textTheme.bodyMedium),
+                  _max5LinesSpan(context,
+                      inputText: text,
+                      maxWidth: constraints.maxWidth,
+                      style: Theme.of(context).textTheme.bodyMedium),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -96,7 +99,11 @@ class _DiaryContent extends StatelessWidget {
         ),
       );
 
-  TextSpan _max5LinesSpan(BuildContext context, {String? inputText, TextStyle? style, double maxWidth = 0, int maxLine = 5}) {
+  TextSpan _max5LinesSpan(BuildContext context,
+      {String? inputText,
+      TextStyle? style,
+      double maxWidth = 0,
+      int maxLine = 5}) {
     if (inputText == null) {
       return const TextSpan(text: '');
     }
@@ -106,7 +113,8 @@ class _DiaryContent extends StatelessWidget {
     }
 
     final TextStyle? style = Theme.of(context).textTheme.bodyMedium;
-    final TextStyle? linkStyle = style?.copyWith(color: Theme.of(context).colorScheme.primary);
+    final TextStyle? linkStyle =
+        style?.copyWith(color: Theme.of(context).colorScheme.primary);
 
     final kEllipsis = S.current.viewMore;
     final more = TextSpan(
@@ -138,7 +146,7 @@ class _DiaryContent extends StatelessWidget {
     final endIndex = textPainter.getOffsetBefore(pos.offset);
 
     final spanText =
-    TextSpan(text: inputText.substring(0, endIndex), style: style);
+        TextSpan(text: inputText.substring(0, endIndex), style: style);
 
     return TextSpan(children: [spanText, more]);
   }

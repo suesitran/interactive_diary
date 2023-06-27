@@ -235,7 +235,7 @@ class _ContentsBottomPanelViewState extends State<ContentsBottomPanelView>
   void _calculateHeight(BoxConstraints constraints, double dy) {
     final double height = _draggedHeight.value - dy;
     final double maxHeight = constraints.maxHeight -
-        minHeight; // 45 is height of handler with padding
+        (minHeight < constraints.maxHeight ? minHeight : 0);
 
     if (height < maxHeight && height >= 0) {
       _draggedHeight.value = height;

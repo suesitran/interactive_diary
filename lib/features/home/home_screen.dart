@@ -52,7 +52,6 @@ class _IDHomeState extends State<IDHomeBody> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
           body: MultiBlocListener(
-        // ignore: always_specify_types
         listeners: [
           BlocListener<LocationBloc, LocationState>(
             listener: (BuildContext context, LocationState state) {
