@@ -49,10 +49,10 @@ class MapMarkerGenerator {
     if (!initialised) {
       initialised = true;
       await _generateMarkerIcon();
-      await _computeMarker();
     }
 
     if (this.currentLocation != null) {
+      await _computeMarker();
       _generateCircularMenuIcons();
     }
   }
