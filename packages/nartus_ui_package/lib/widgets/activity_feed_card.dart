@@ -78,26 +78,24 @@ class ActivityFeedCard extends StatelessWidget {
                             .bodySmall
                             ?.copyWith(color: NartusColor.grey, height: 1.5),
                       ),
-
-                      if (privacyIcon != null)
-                        ...[
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: NartusDimens.padding4),
-                            width: NartusDimens.radius3,
-                            height: NartusDimens.radius3,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: NartusColor.grey, // Set the desired color
-                            ),
+                      if (privacyIcon != null) ...[
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: NartusDimens.padding4),
+                          width: NartusDimens.radius3,
+                          height: NartusDimens.radius3,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: NartusColor.grey, // Set the desired color
                           ),
-                          SvgPicture.asset(
-                            privacyIcon!,
-                            semanticsLabel: semanticsPrivacyIcon,
-                            colorFilter: const ColorFilter.mode(
-                                NartusColor.grey, BlendMode.srcIn),
-                          )
-                        ]
+                        ),
+                        SvgPicture.asset(
+                          privacyIcon!,
+                          semanticsLabel: semanticsPrivacyIcon,
+                          colorFilter: const ColorFilter.mode(
+                              NartusColor.grey, BlendMode.srcIn),
+                        )
+                      ]
                     ],
                   ),
                 ],

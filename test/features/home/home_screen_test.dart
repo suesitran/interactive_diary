@@ -54,14 +54,16 @@ void main() {
       MockCameraPermissionBloc();
   final MockNartusMediaService mediaService = MockNartusMediaService();
   final MockAddressCubit addressCubit = MockAddressCubit();
-  final MockAuthenticationService authenticationService = MockAuthenticationService();
+  final MockAuthenticationService authenticationService =
+      MockAuthenticationService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
     ServiceLocator.instance.registerSingleton<StorageService>(storageService);
     ServiceLocator.instance.registerSingleton<NartusMediaService>(mediaService);
-    ServiceLocator.instance.registerSingleton<AuthenticationService>(authenticationService);
+    ServiceLocator.instance
+        .registerSingleton<AuthenticationService>(authenticationService);
   });
 
   setUp(() {
@@ -102,7 +104,8 @@ void main() {
     when(addressCubit.stream)
         .thenAnswer((realInvocation) => Stream.value(AddressInitial()));
 
-    when(authenticationService.getCurrentUser()).thenThrow(AuthenticationException('not found'));
+    when(authenticationService.getCurrentUser())
+        .thenThrow(AuthenticationException('not found'));
   });
 
   tearDown(() {

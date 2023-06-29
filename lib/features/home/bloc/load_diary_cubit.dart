@@ -13,7 +13,8 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
   final StorageService storageService =
       ServiceLocator.instance.get<StorageService>();
 
-  final AuthenticationService authenticationService = ServiceLocator.instance.get<AuthenticationService>();
+  final AuthenticationService authenticationService =
+      ServiceLocator.instance.get<AuthenticationService>();
 
   LoadDiaryCubit() : super(LoadDiaryInitial());
 
@@ -26,7 +27,7 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
       displayName = userDetail.name;
       photoUrl = userDetail.avatarUrl;
-    } catch(e) {
+    } catch (e) {
       // dothing
     }
 
@@ -61,15 +62,14 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
 
         // add this display content into list
         displayContents.add(DiaryDisplayContent(
-          userDisplayName: displayName,
-          dateTime:
-              DateTime.fromMillisecondsSinceEpoch(diary.timestamp).toLocal(),
-          userPhotoUrl: photoUrl,
-          mediaInfos: mediaInfos,
-          countryCode: diary.countryCode,
-          postalCode: diary.postalCode,
-          plainText: plainText
-        ));
+            userDisplayName: displayName,
+            dateTime:
+                DateTime.fromMillisecondsSinceEpoch(diary.timestamp).toLocal(),
+            userPhotoUrl: photoUrl,
+            mediaInfos: mediaInfos,
+            countryCode: diary.countryCode,
+            postalCode: diary.postalCode,
+            plainText: plainText));
       }
     }
 

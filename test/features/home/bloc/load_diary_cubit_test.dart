@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interactive_diary/features/diary_detail/bloc/diary_display_content_cubit.dart';
 import 'package:interactive_diary/features/home/bloc/load_diary_cubit.dart';
 import 'package:interactive_diary/features/home/data/diary_display_content.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
@@ -13,15 +12,18 @@ import 'load_diary_cubit_test.mocks.dart';
 @GenerateMocks([StorageService, AuthenticationService])
 void main() {
   final MockStorageService storageService = MockStorageService();
-  final MockAuthenticationService authenticationService = MockAuthenticationService();
+  final MockAuthenticationService authenticationService =
+      MockAuthenticationService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<StorageService>(storageService);
-    ServiceLocator.instance.registerSingleton<AuthenticationService>(authenticationService);
+    ServiceLocator.instance
+        .registerSingleton<AuthenticationService>(authenticationService);
   });
 
   setUp(() {
-    when(authenticationService.getCurrentUser()).thenThrow(AuthenticationException('not found'));
+    when(authenticationService.getCurrentUser())
+        .thenThrow(AuthenticationException('not found'));
   });
 
   tearDown(() {
@@ -136,28 +138,30 @@ void main() {
     'given diary collection has image diary, when load diary, then verify imageUrl is not empty',
     build: () => LoadDiaryCubit(),
     setUp: () {
-      when(authenticationService.getCurrentUser()).thenAnswer((realInvocation) => Future.value(UserDetail(name: 'name', avatarUrl: 'avatarurl')));
+      when(authenticationService.getCurrentUser()).thenAnswer(
+          (realInvocation) =>
+              Future.value(UserDetail(name: 'name', avatarUrl: 'avatarurl')));
       when(storageService.readDiaryForMonth(
-          month: anyNamed('month'),
-          countryCode: anyNamed('countryCode'),
-          postalCode: anyNamed('postalCode')))
+              month: anyNamed('month'),
+              countryCode: anyNamed('countryCode'),
+              postalCode: anyNamed('postalCode')))
           .thenAnswer((realInvocation) =>
-          Future.value(DiaryCollection(month: 'month', diaries: [
-            Diary(
-                title: 'title',
-                countryCode: 'AU',
-                postalCode: '2345',
-                addressLine: '123 heaven street',
-                latLng: const LatLng(lat: 0.0, long: 0.0),
-                timestamp: 123456789,
-                update: 123456789,
-                contents: [
-                  ImageDiary(
-                      url: 'imageUrl',
-                      thumbnailUrl: 'thumbnailUrl',
-                      description: 'description')
-                ])
-          ])));
+              Future.value(DiaryCollection(month: 'month', diaries: [
+                Diary(
+                    title: 'title',
+                    countryCode: 'AU',
+                    postalCode: '2345',
+                    addressLine: '123 heaven street',
+                    latLng: const LatLng(lat: 0.0, long: 0.0),
+                    timestamp: 123456789,
+                    update: 123456789,
+                    contents: [
+                      ImageDiary(
+                          url: 'imageUrl',
+                          thumbnailUrl: 'thumbnailUrl',
+                          description: 'description')
+                    ])
+              ])));
     },
     act: (bloc) => bloc.loadDiary(countryCode: 'AU', postalCode: '2345'),
     expect: () => [isA<LoadDiaryCompleted>()],

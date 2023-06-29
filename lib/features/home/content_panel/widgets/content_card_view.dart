@@ -48,8 +48,11 @@ class _ContentCardViewState extends State<ContentCardView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ActivityFeedCard(
-            dateTime: S.current.diaryDateFormatter(widget.dateTime, widget.dateTime),
-            displayName: widget.displayName, avatarPath: widget.userPhotoUrl,),
+            dateTime:
+                S.current.diaryDateFormatter(widget.dateTime, widget.dateTime),
+            displayName: widget.displayName,
+            avatarPath: widget.userPhotoUrl,
+          ),
           _DiaryContent(
             text: widget.text,
             mediaInfos: widget.mediaInfo,
