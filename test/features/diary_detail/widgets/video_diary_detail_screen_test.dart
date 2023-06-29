@@ -28,6 +28,11 @@ class MockVideoPlayerPlatform extends VideoPlayerPlatform {
 
   @override
   Future<void> dispose(int textureId) async {}
+
+  @override
+  Future<Duration> getPosition(int textureId) async {
+    return const Duration(seconds: 100);
+  }
 }
 
 void main() {
