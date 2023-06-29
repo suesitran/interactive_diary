@@ -8,6 +8,7 @@ import 'package:interactive_diary/gen/assets.gen.dart';
 import 'package:nartus_ui_package/dimens/dimens.dart';
 import 'package:interactive_diary/generated/l10n.dart';
 import 'package:nartus_ui_package/nartus_ui.dart';
+import 'package:nartus_ui_package/widgets/activity_feed_card.dart';
 
 part 'diary_content.dart';
 
@@ -46,16 +47,19 @@ class _ContentCardViewState extends State<ContentCardView> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DiaryHeaderAppbar(
-            icon: Assets.images.idMoreIcon,
-            semanticsIcon: S.current.toolbarMore,
-            avatarPath: widget.userPhotoUrl,
-            displayName: widget.displayName,
-            dateTime: S.current.diaryDateFormatter(
-              widget.dateTime,
-              widget.dateTime,
-            ),
-          ),
+          ActivityFeedCard(
+            dateTime: S.current.diaryListingDateFormatter(widget.dateTime, widget.dateTime),
+            displayName: widget.displayName, avatarPath: widget.userPhotoUrl,),
+          // DiaryHeaderAppbar(
+          //   icon: Assets.images.idMoreIcon,
+          //   semanticsIcon: S.current.toolbarMore,
+          //   avatarPath: widget.userPhotoUrl,
+          //   displayName: widget.displayName,
+          //   dateTime: S.current.diaryDateFormatter(
+          //     widget.dateTime,
+          //     widget.dateTime,
+          //   ),
+          // ),
           _DiaryContent(
             text: widget.text,
             mediaInfos: widget.mediaInfo,
