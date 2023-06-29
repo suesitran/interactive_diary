@@ -68,6 +68,7 @@ class LoadDiaryCubit extends Cubit<LoadDiaryState> {
           mediaInfos: mediaInfos,
           countryCode: diary.countryCode,
           postalCode: diary.postalCode,
+          plainText: plainText
         ));
       }
     }

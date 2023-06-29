@@ -14,6 +14,7 @@ import 'package:interactive_diary/features/home/widgets/google_map.dart';
 import 'package:interactive_diary/service_locator/service_locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nartus_authentication/nartus_authentication.dart';
 import 'package:nartus_geocoder/nartus_geocoder.dart';
 import 'package:nartus_location/nartus_location.dart';
 import 'package:nartus_storage/nartus_storage.dart' hide LatLng;
@@ -35,7 +36,8 @@ import 'package:intl/date_symbol_data_local.dart';
   StorageService,
   CameraPermissionBloc,
   NartusMediaService,
-  AddressCubit
+  AddressCubit,
+  AuthenticationService
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -52,12 +54,14 @@ void main() {
       MockCameraPermissionBloc();
   final MockNartusMediaService mediaService = MockNartusMediaService();
   final MockAddressCubit addressCubit = MockAddressCubit();
+  final MockAuthenticationService authenticationService = MockAuthenticationService();
 
   setUpAll(() {
     ServiceLocator.instance.registerSingleton<LocationService>(locationService);
     ServiceLocator.instance.registerSingleton<GeocoderService>(geocoderService);
     ServiceLocator.instance.registerSingleton<StorageService>(storageService);
     ServiceLocator.instance.registerSingleton<NartusMediaService>(mediaService);
+    ServiceLocator.instance.registerSingleton<AuthenticationService>(authenticationService);
   });
 
   setUp(() {
@@ -97,6 +101,8 @@ void main() {
     when(addressCubit.state).thenReturn(AddressInitial());
     when(addressCubit.stream)
         .thenAnswer((realInvocation) => Stream.value(AddressInitial()));
+
+    when(authenticationService.getCurrentUser()).thenThrow(AuthenticationException('not found'));
   });
 
   tearDown(() {

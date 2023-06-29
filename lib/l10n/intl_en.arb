@@ -32,21 +32,6 @@
           }
       }
   },
-    "diaryListingDateFormatter": "{date} \u2022 {time}",
-      "@diaryListingDateFormatter": {
-        "placeholders": {
-            "date": {
-              "type": "DateTime",
-              "format":"dd MMM, yyyy",
-              "isCustomDateFormat":"true"
-            },
-            "time": {
-              "type": "DateTime",
-              "format": "HH:mm a",
-              "isCustomDateFormat":"true"
-            }
-        }
-    },
   "extraImageCount": "+{count}",
   "textEditorSemantic": "{key, select, bold{Bold} italic{Italic} underline{Underline} highlight{Highlight} color{Font Color} bullet{Bullet List} numbered{Number List} strikethrough{Strikethrough} quote{Quote} alignLeft{Align Left} alignCenter{Align Center} alignRight{Align Right} alignJustify{Align Justify} other{Other}}",
   "toolbarMore": "More",
